@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './styles/theme';
 import GlobalCss from './styles/global';
 
-import Login from './pages/login';
+import Routes from './routes';
 import Layout from './layout';
 
 const App: React.FC = () => {
@@ -12,7 +12,7 @@ const App: React.FC = () => {
             <GlobalCss />
             <ThemeProvider theme={theme}>
                 <Layout>
-                    <Login />
+                    <Routes />
                 </Layout>
             </ThemeProvider>
         </div>

@@ -6,8 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import ButtonBase from '@material-ui/core/ButtonBase';
-
 import { UserTie } from '@styled-icons/fa-solid';
 import { Lock } from '@styled-icons/material';
 
@@ -102,12 +100,12 @@ const Login: React.FC = () => {
                         <Typography className={classes.signUpText}>
                             Não possui uma conta?
                         </Typography>
-                        <ButtonBase
+                        <Link
+                            to="/criar-conta"
                             className={classes.signUpButton}
-                            onClick={() => console.log('New Account')}
                         >
                             Cadastre-se
-                        </ButtonBase>
+                        </Link>
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={6} className={classes.rightSide}>

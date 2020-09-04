@@ -6,6 +6,7 @@ import PrivateRoute from './privateRoute';
 
 import Login from '../pages/login';
 import ForgotPassword from '../pages/forgotPassword';
+import Test from '../pages/testCalendar/test.jsx';
 
 const Routes = () => {
     const browserHistory = createBrowserHistory();
@@ -15,7 +16,7 @@ const Routes = () => {
             <Switch>
                 <Route path="/" component={Login} exact />
                 <Route path="/esqueci-a-senha" component={ForgotPassword} />
-                {/* <Route path="/signin" component={SignIn} /> */}
+                <Route path="/teste" component={Test} />
                 {/* <PrivateRoute path="/dashboard" component={Dashboard} /> */}
                 {/* <PrivateRoute path="/user" component={User} /> */}
             </Switch>

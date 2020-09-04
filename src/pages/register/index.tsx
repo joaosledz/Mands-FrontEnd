@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 // import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';

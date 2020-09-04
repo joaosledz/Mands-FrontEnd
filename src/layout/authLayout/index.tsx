@@ -16,7 +16,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = props => {
     const classes = useStyles();
 
     return (
-        <Box className={classes.layout}>
+        <Box component="main" className={classes.layout}>
             <Box className={classes.header}>
                 <img src={logo} alt="Logo do Mands" className={classes.logo} />
                 {backButtonMessage && (

@@ -14,10 +14,9 @@ import useStyles from './styles';
  * @param {object} handleImage Função que gerencia o armazenamento da imagem.
  * @param {boolean} isOpen Boolean que indica a visibilidade do modal.
  * @param {object} setIsOpen Função que fecha o modal.
- * @param {boolean} send Boolean que define se a imagem vai ser retornada ou criada no banco.
  **/
 export default function CropImageModal(props) {
-    const { src, setImage, isOpen, setIsOpen, send, handleImage } = props;
+    const { src, isOpen, setIsOpen, handleImage } = props;
     const classes = useStyles();
     const pixelRatio = 4;
 

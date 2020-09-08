@@ -103,6 +103,8 @@ const useStyles = makeStyles<Theme>(theme =>
                     color: 'white',
                     transition: 'opacity .2s ease-in-out',
                     opacity: 0,
+                    position: 'absolute',
+                    zIndex: 5,
                 },
                 '&:hover': {
                     '& svg': {

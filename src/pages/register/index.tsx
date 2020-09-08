@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo, ChangeEvent } from 'react';
 import Box from '@material-ui/core/Box';
 // import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
@@ -10,11 +10,43 @@ import { Camera as CameraIcon } from '@styled-icons/icomoon';
 import AuthLayout from '../../layout/authLayout';
 import TextField from './components/textField';
 import RegisterButton from '../../components/authPagesButton';
+import CropImageComponent from '../../components/cropImageModal';
 
 import useStyles from './styles';
 
 const Register: React.FC = () => {
     const classes = useStyles();
+
+    //#region imageSetup
+    const [image, setImage] = useState<object | undefined>(undefined);
+    const [imagePreview, setImagePreview] = useState<string>('');
+
+    const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
+        setImage(event.currentTarget.files?.[0]);
+        setShowCropModal(true);
+    };
+
+    //#region CropImageSetup
+    const [showCropModal, setShowCropModal] = useState(false);
+
+    const handleImageReturn = (blob: object, image_url: string) => {
+        setImage(blob);
+        setImagePreview(image_url);
+    };
+
+    const CropImageModal = useMemo(() => {
+        return (
+            <CropImageComponent
+                src={image}
+                handleImage={handleImageReturn}
+                isOpen={showCropModal}
+                setIsOpen={setShowCropModal}
+            />
+        );
+    }, [showCropModal, image]);
+    //#endregion
+    //#endregion
+
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
             <FormControl component="form" fullWidth>
@@ -82,34 +114,47 @@ const Register: React.FC = () => {
                         xs={12}
                         sm={4}
                     >
-                        <Typography
-                            component="label"
-                            htmlFor="avatar-input"
-                            style={{ color: '#505050' }}
-                        >
-                            Imagem do Perfil:
-                        </Typography>
-                        <Typography
-                            component="label"
-                            htmlFor="avatar-input"
-                            className={classes.avatarInputLabel}
-                        >
-                            {/* {image ?
-                        <>Preview da imagem</> 
-                    : */}
-                            <CameraIcon size="25" color="#B03E9F" />
-                            {/* } */}
-                            <input
-                                id="avatar-input"
-                                type="file"
-                                accept="image/png, image/jpeg, image/jpg"
-                                style={{ display: 'none' }}
-                            />
-                        </Typography>
+                        <Box mt={3} className={classes.avatarContainer}>
+                            <Typography
+                                component="label"
+                                htmlFor="avatar-input"
+                                style={{ color: '#505050' }}
+                            >
+                                Imagem do Perfil:
+                            </Typography>
+                            <Typography
+                                component="label"
+                                htmlFor="avatar-input"
+                                className={
+                                    !imagePreview
+                                        ? classes.avatarInputLabel
+                                        : `${classes.avatarInputLabel} active`
+                                }
+                                style={{
+                                    backgroundImage: `url(${imagePreview})`,
+                                }}
+                            >
+                                <CameraIcon size="25" />
+                                <Box
+                                    id="avatar-blur"
+                                    className={classes.avatarBlur}
+                                />
+                                <input
+                                    id="avatar-input"
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/jpg"
+                                    style={{
+                                        display: 'none',
+                                    }}
+                                    onChange={handleChangeImage}
+                                />
+                            </Typography>
+                        </Box>
                     </Grid>
                     <RegisterButton mt={40} text="Criar conta" />
                 </Grid>
             </FormControl>
+            {CropImageModal}
         </AuthLayout>
     );
 };

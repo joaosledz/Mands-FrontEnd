@@ -8,8 +8,6 @@ const useStyles = makeStyles<Theme>(theme =>
 
         rightSide: {
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
             justifyContent: 'center',
         },
 
@@ -48,9 +46,23 @@ const useStyles = makeStyles<Theme>(theme =>
             },
         },
 
+        avatarContainer: {
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+
+            '&.active': {
+                transition: 'all .2s',
+                '&:hover': {},
+            },
+        },
+
         avatarInputLabel: {
-            width: '60%',
-            height: '120px',
+            width: '100%',
+            maxWidth: '200px',
+            height: '200px',
             marginTop: 10,
 
             border: '2px dashed #A2A2A2',
@@ -59,8 +71,48 @@ const useStyles = makeStyles<Theme>(theme =>
             alignItems: 'center',
             justifyContent: 'center',
 
+            position: 'relative',
             cursor: 'pointer',
             transition: 'all .2s',
+
+            '& $avatarBlur': {
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                backgroundColor: 'rgba(0,0,0,.2)',
+                opacity: 0,
+            },
+
+            '& #avatar-blur': {
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                backgroundColor: 'rgba(0,0,0,.2)',
+                opacity: 0,
+            },
+
+            '& svg': {
+                color: theme.palette.primary.main,
+            },
+
+            '&.active': {
+                background: 'center no-repeat',
+                backgroundSize: 'contain',
+
+                '& svg': {
+                    color: 'white',
+                    transition: 'opacity .2s ease-in-out',
+                    opacity: 0,
+                },
+                '&:hover': {
+                    '& svg': {
+                        opacity: 1,
+                    },
+                    '& #avatar-blur': {
+                        opacity: 1,
+                    },
+                },
+            },
 
             '&:hover': {
                 borderRadius: 10,

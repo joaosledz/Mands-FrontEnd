@@ -46,6 +46,7 @@ const ForgotPassword: React.FC = () => {
                                 mwt={390}
                                 text="Enviar link de reset"
                                 icon="email"
+                                onClick={handleSubmit}
                             />
                         </FormControl>
                     </Box>

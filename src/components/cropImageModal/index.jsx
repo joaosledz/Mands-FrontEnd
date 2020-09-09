@@ -16,8 +16,7 @@ import useStyles from './styles';
  * @param {object} setIsOpen Função que fecha o modal.
  **/
 export default function CropImageModal(props) {
-    const { src, isOpen, setIsOpen, handleImage } = props;
-    const classes = useStyles();
+    const { src, handleImage, isOpen, setIsOpen } = props;
     const pixelRatio = 4;
 
     const [upImg, setUpImg] = useState(null);
@@ -25,16 +24,63 @@ export default function CropImageModal(props) {
     const previewCanvasRef = useRef(null);
     const [crop, setCrop] = useState({
         unit: '%',
-        width: 100,
+        width: 50,
         aspect: 1 / 1,
     });
     const [completedCrop, setCompletedCrop] = useState(null);
+    const [modalConfig, setModalConfig] = useState({
+        maxWidth: 600,
+        position: '5%',
+    });
+
+    const classes = useStyles(modalConfig);
 
     useEffect(() => {
         function createImageURL() {
             if (src) setUpImg(URL.createObjectURL(src));
         }
+        const handleModalSize = () => {
+            if (src) {
+                let image = new Image();
+                image.src = URL.createObjectURL(src);
+                image.onload = () => {
+                    console.log(image.height, image.width);
+                    if (
+                        image.height > image.width ||
+                        image.width === image.height
+                    ) {
+                        if (image.height > 750)
+                            if (image.height > 1100)
+                                setModalConfig({
+                                    maxWidth: 300,
+                                    position: '2%',
+                                });
+                            else
+                                setModalConfig({
+                                    maxWidth: 350,
+                                    position: '3%',
+                                });
+                        else
+                            setModalConfig({
+                                maxWidth: 400,
+                                position: '3%',
+                            });
+                    } else {
+                        if (modalConfig.maxWidth === 600) return;
+                        else {
+                            if (modalConfig.maxWidth === 600) return;
+                            setModalConfig({
+                                maxWidth: 600,
+                                position: '5%',
+                            });
+                        }
+                    }
+                };
+            }
+        };
+        handleModalSize();
         createImageURL();
+        // eslint-disable-next-line
     }, [src]);
 
     const getResizedCanvas = () => {
@@ -125,7 +171,7 @@ export default function CropImageModal(props) {
         <Modal
             open={isOpen}
             onClose={handleCloseModal}
-            style={{ paddingTop: '5%' }}
+            style={{ paddingTop: modalConfig.position }}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >

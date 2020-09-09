@@ -1,18 +1,24 @@
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles<Theme>(theme =>
+interface CropModalProps {
+    maxWidth: number;
+}
+
+const useStyles = makeStyles<Theme, CropModalProps>(theme =>
     createStyles({
         paper: {
             width: '100%',
-            maxWidth: '600px',
+            maxWidth: props => props.maxWidth,
             padding: '10px 10px 10px',
+            boxShadow: theme.shadows[5],
 
-            position: 'absolute',
+            position: 'fixed',
             marginLeft: 'auto',
             marginRight: 'auto',
             left: 0,
             right: 0,
             textAlign: 'center',
+            // overflow: 'auto'
         },
 
         cropButton: {

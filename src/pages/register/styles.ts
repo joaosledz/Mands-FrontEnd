@@ -75,14 +75,6 @@ const useStyles = makeStyles<Theme>(theme =>
             cursor: 'pointer',
             transition: 'all .2s',
 
-            '& $avatarBlur': {
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                backgroundColor: 'rgba(0,0,0,.2)',
-                opacity: 0,
-            },
-
             '& #avatar-blur': {
                 width: '100%',
                 height: '100%',

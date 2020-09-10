@@ -9,14 +9,14 @@ import TextField from '@material-ui/core/TextField';
 import { UserTie } from '@styled-icons/fa-solid';
 import { Lock } from '@styled-icons/material';
 
-import AuthLayout from '../../layout/authLayout';
-import LogInButton from '../../components/authPagesButton';
+import AuthLayout from '../../../layout/authLayout';
+import LogInButton from '../../../components/authPagesButton';
 import CompanyButton from './components/companyButton';
 import useStyles, { inputStyle } from './styles';
 
-import googleIcon from '../../assets/companiesIcons/googleLogo.svg';
-import microsoftIcon from '../../assets/companiesIcons/microsoftLogo.svg';
-import appleIcon from '../../assets/companiesIcons/appleLogo.svg';
+import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
+import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
+import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 
 const Login: React.FC = () => {
     const classes = useStyles();

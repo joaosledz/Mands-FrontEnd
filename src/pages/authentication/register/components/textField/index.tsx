@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -10,13 +10,17 @@ import {
 
 interface TextFieldProps {
     label: string;
-    type?: string;
+    type?: 'text' | string;
 }
 
 const TextFieldComponent: React.FC<TextFieldProps> = props => {
     const { label, type } = props;
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    useEffect(() => {
+        console.log(showPassword);
+    }, [showPassword]);
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -26,7 +30,13 @@ const TextFieldComponent: React.FC<TextFieldProps> = props => {
         <TextField
             id="outlined-basic"
             required
-            type={showPassword ? 'password' : 'text'}
+            type={
+                type === 'password'
+                    ? showPassword
+                        ? 'text'
+                        : 'password'
+                    : type
+            }
             label={label}
             variant="outlined"
             style={{ width: '100%' }}
@@ -42,9 +52,9 @@ const TextFieldComponent: React.FC<TextFieldProps> = props => {
                                       style={{ width: 50 }}
                                   >
                                       {showPassword ? (
-                                          <EyeIcon />
-                                      ) : (
                                           <EyeSlashIcon />
+                                      ) : (
+                                          <EyeIcon />
                                       )}
                                   </IconButton>
                               </InputAdornment>

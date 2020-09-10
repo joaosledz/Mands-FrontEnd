@@ -5,7 +5,7 @@ import { ArrowBack as ArrowBackIcon } from '@styled-icons/evaicons-solid';
 
 import useStyles from './styles';
 
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/logo/logo.svg';
 
 interface AuthLayoutProps {
     backButtonMessage?: string;

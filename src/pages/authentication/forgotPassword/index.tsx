@@ -5,11 +5,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import AuthLayout from '../../layout/authLayout';
-import SendEmailButton from '../../components/authPagesButton';
+import AuthLayout from '../../../layout/authLayout';
+import SendEmailButton from '../../../components/authPagesButton';
 import useStyles, { inputStyle } from './styles';
 
-import forgotPasswordIllustration from '../../assets/forgotPasswordIllustration.svg';
+import forgotPasswordIllustration from '../../../assets/forgotPasswordIllustration.svg';
 
 const ForgotPassword: React.FC = () => {
     const classes = useStyles();

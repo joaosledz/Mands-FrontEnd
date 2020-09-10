@@ -4,9 +4,9 @@ import { createBrowserHistory } from 'history';
 
 // import PrivateRoute from './privateRoute';
 
-import Login from '../pages/login';
-import Register from '../pages/register';
-import ForgotPassword from '../pages/forgotPassword';
+import Login from '../pages/authentication/login';
+import Register from '../pages/authentication/register';
+import ForgotPassword from '../pages/authentication/forgotPassword';
 
 const Routes = () => {
     const browserHistory = createBrowserHistory();

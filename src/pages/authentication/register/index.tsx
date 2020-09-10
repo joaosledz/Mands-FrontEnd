@@ -7,10 +7,10 @@ import Typography from '@material-ui/core/Typography';
 // import TextField from '@material-ui/core/TextField';
 import { Camera as CameraIcon } from '@styled-icons/icomoon';
 
-import AuthLayout from '../../layout/authLayout';
+import AuthLayout from '../../../layout/authLayout';
 import TextField from './components/textField';
-import RegisterButton from '../../components/authPagesButton';
-import CropImageComponent from '../../components/cropImageModal';
+import RegisterButton from '../../../components/authPagesButton';
+import CropImageComponent from '../../../components/cropImageModal';
 
 import useStyles from './styles';
 

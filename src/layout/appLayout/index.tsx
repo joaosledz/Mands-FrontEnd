@@ -5,12 +5,10 @@ import Header from './components/header';
 
 import useStyles from './styles';
 
-interface AuthLayoutProps {
-    backButtonMessage?: string;
-}
+interface AppLayoutProps {}
 
-const AuthLayout: React.FC<AuthLayoutProps> = props => {
-    const { backButtonMessage, /*message*/ children } = props;
+const AuthLayout: React.FC<AppLayoutProps> = props => {
+    const { children } = props;
     const classes = useStyles();
 
     return (

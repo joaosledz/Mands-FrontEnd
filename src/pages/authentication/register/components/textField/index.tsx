@@ -18,10 +18,6 @@ const TextFieldComponent: React.FC<TextFieldProps> = props => {
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    useEffect(() => {
-        console.log(showPassword);
-    }, [showPassword]);
-
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
     };

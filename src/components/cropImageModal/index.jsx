@@ -24,61 +24,17 @@ export default function CropImageModal(props) {
     const previewCanvasRef = useRef(null);
     const [crop, setCrop] = useState({
         unit: '%',
-        width: 50,
+        width: 100,
         aspect: 1 / 1,
     });
     const [completedCrop, setCompletedCrop] = useState(null);
-    const [modalConfig, setModalConfig] = useState({
-        maxWidth: 600,
-        position: '5%',
-    });
 
-    const classes = useStyles(modalConfig);
+    const classes = useStyles();
 
     useEffect(() => {
         function createImageURL() {
             if (src) setUpImg(URL.createObjectURL(src));
         }
-        const handleModalSize = () => {
-            if (src) {
-                let image = new Image();
-                image.src = URL.createObjectURL(src);
-                image.onload = () => {
-                    console.log(image.height, image.width);
-                    if (
-                        image.height > image.width ||
-                        image.width === image.height
-                    ) {
-                        if (image.height > 750)
-                            if (image.height > 1100)
-                                setModalConfig({
-                                    maxWidth: 300,
-                                    position: '2%',
-                                });
-                            else
-                                setModalConfig({
-                                    maxWidth: 350,
-                                    position: '3%',
-                                });
-                        else
-                            setModalConfig({
-                                maxWidth: 400,
-                                position: '3%',
-                            });
-                    } else {
-                        if (modalConfig.maxWidth === 600) return;
-                        else {
-                            if (modalConfig.maxWidth === 600) return;
-                            setModalConfig({
-                                maxWidth: 600,
-                                position: '5%',
-                            });
-                        }
-                    }
-                };
-            }
-        };
-        handleModalSize();
         createImageURL();
         // eslint-disable-next-line
     }, [src]);
@@ -171,7 +127,7 @@ export default function CropImageModal(props) {
         <Modal
             open={isOpen}
             onClose={handleCloseModal}
-            style={{ paddingTop: modalConfig.position }}
+            style={{ paddingTop: '5%' }}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
@@ -182,6 +138,11 @@ export default function CropImageModal(props) {
                     crop={crop}
                     onChange={c => setCrop(c)}
                     onComplete={c => setCompletedCrop(c)}
+                    imageStyle={{ maxHeight: '50vh' }}
+                    // maxWidth={700}
+                    // maxHeight={700}
+                    // minWidth={700}
+                    // minHeight={700}
                 />
                 <Box style={{ display: 'none' }}>
                     <canvas

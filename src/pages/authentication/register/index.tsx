@@ -50,11 +50,7 @@ const Register: React.FC = () => {
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
             <FormControl component="form" fullWidth>
-                <Grid
-                    component="article"
-                    container
-                    className={classes.container}
-                >
+                <Grid component="article" container>
                     <Grid item xs={12} sm={8}>
                         <Box mt={4}>
                             <Typography
@@ -77,18 +73,18 @@ const Register: React.FC = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid container item spacing={3}>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField type="email" label="Email" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField label="CPF" />
                                     </Grid>
                                 </Grid>
                                 <Grid container item spacing={3}>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField label="Telefone" />
                                     </Grid>
-                                    <Grid item xs={6}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField
                                             type="password"
                                             label="Senha"

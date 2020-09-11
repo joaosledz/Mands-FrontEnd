@@ -21,7 +21,7 @@ const ForgotPassword: React.FC = () => {
 
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
-            <Grid container className={classes.container}>
+            <Grid container>
                 <Grid item xs={12} sm={7}>
                     <Box mt={4}>
                         <Typography className={classes.title} color="primary">

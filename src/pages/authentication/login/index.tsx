@@ -28,7 +28,7 @@ const Login: React.FC = () => {
 
     return (
         <AuthLayout>
-            <Grid container className={classes.container}>
+            <Grid container>
                 <Grid item xs={12} sm={6}>
                     <Box mt={4}>
                         <Typography

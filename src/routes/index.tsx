@@ -4,9 +4,13 @@ import { createBrowserHistory } from 'history';
 
 // import PrivateRoute from './privateRoute';
 
-import Login from '../pages/login';
-import Register from '../pages/register';
-import ForgotPassword from '../pages/forgotPassword';
+//#region Rotas de autenticação
+import Login from '../pages/authentication/login';
+import Register from '../pages/authentication/register';
+import ForgotPassword from '../pages/authentication/forgotPassword';
+//#endregion
+
+import CompanySelection from '../layout/appLayout';
 
 const Routes = () => {
     const browserHistory = createBrowserHistory();
@@ -17,7 +21,12 @@ const Routes = () => {
                 <Route path="/" component={Login} exact />
                 <Route path="/criar-conta" component={Register} />
                 <Route path="/esqueci-a-senha" component={ForgotPassword} />
-                {/* <PrivateRoute path="/dashboard" component={Dashboard} /> */}
+                {/* Transformar as rotas abaixo em PrivateRoute */}
+                <Route
+                    path="/escolha-da-empresa"
+                    component={CompanySelection}
+                />
+                {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
                 {/* <PrivateRoute path="/user" component={User} /> */}
             </Switch>
         </Router>

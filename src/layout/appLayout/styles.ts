@@ -6,10 +6,12 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100vw',
             height: '100vh',
             backgroundColor: theme.palette.background.default,
-            padding: '5% 10% 0px',
-            // [theme.breakpoints.down('sm')]: {
-            //     backgroundColor: 'blue',
-            // },
+        },
+        header: {
+            width: '100%',
+            padding: '5% 10% 0%',
+            display: 'inline-flex',
+            justifyContent: 'space-between',
         },
 
         logo: { width: '10%', minWidth: 130, height: 'auto' },

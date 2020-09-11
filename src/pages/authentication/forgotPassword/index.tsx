@@ -5,11 +5,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import AuthLayout from '../../layout/authLayout';
-import SendEmailButton from '../../components/authPagesButton';
+import AuthLayout from '../../../layout/authLayout';
+import SendEmailButton from '../../../components/authPagesButton';
 import useStyles, { inputStyle } from './styles';
 
-import forgotPasswordIllustration from '../../assets/forgotPasswordIllustration.svg';
+import forgotPasswordIllustration from '../../../assets/forgotPasswordIllustration.svg';
 
 const ForgotPassword: React.FC = () => {
     const classes = useStyles();
@@ -21,7 +21,7 @@ const ForgotPassword: React.FC = () => {
 
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
-            <Grid container className={classes.container}>
+            <Grid container>
                 <Grid item xs={12} sm={7}>
                     <Box mt={4}>
                         <Typography className={classes.title} color="primary">

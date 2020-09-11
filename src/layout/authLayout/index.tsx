@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import { ArrowBack as ArrowBackIcon } from '@styled-icons/evaicons-solid';
 
 import useStyles from './styles';
 
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/logo/logo.svg';
 
 interface AuthLayoutProps {
     backButtonMessage?: string;
@@ -17,15 +18,23 @@ const AuthLayout: React.FC<AuthLayoutProps> = props => {
 
     return (
         <Box component="main" className={classes.layout}>
-            <Box className={classes.header}>
-                <img src={logo} alt="Logo do Mands" className={classes.logo} />
+            <Grid container justify="space-between" spacing={3}>
+                <Grid item xs={12} sm="auto">
+                    <img
+                        src={logo}
+                        alt="Logo do Mands"
+                        className={classes.logo}
+                    />
+                </Grid>
                 {backButtonMessage && (
-                    <Link to={'/'} className={classes.backButton}>
-                        <ArrowBackIcon size="25" />
-                        {backButtonMessage}
-                    </Link>
+                    <Grid item>
+                        <Link to={'/'} className={classes.backButton}>
+                            <ArrowBackIcon size="25" />
+                            {backButtonMessage}
+                        </Link>
+                    </Grid>
                 )}
-            </Box>
+            </Grid>
             {children}
         </Box>
     );

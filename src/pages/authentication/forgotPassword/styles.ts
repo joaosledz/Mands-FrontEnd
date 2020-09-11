@@ -2,8 +2,6 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme>(theme =>
     createStyles({
-        container: { padding: '0% 10% 0px' },
-
         title: { fontSize: 40, fontWeight: 700 },
 
         description: {

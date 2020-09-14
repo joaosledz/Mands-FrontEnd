@@ -10,7 +10,7 @@ import Register from '../pages/authentication/register';
 import ForgotPassword from '../pages/authentication/forgotPassword';
 //#endregion
 
-import CompanySelection from '../layout/appLayout';
+import CompanySelection from '../pages/companySelection';
 
 const Routes = () => {
     const browserHistory = createBrowserHistory();

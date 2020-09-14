@@ -7,12 +7,26 @@ import Fab from '@material-ui/core/Fab';
 
 import AppLayout from '../../layout/appLayout';
 import EmptyCompanies from './components/emptyCompanies';
+import Companies from './components/companySelection';
 // import { Container } from './styles';
 
 const CompanySelection: React.FC = () => {
-    const [companies, setCompanies] = useState<object[] | null>(null);
+    const [companies] = useState<Array<{ name: string }> | null>([
+        { name: 'IT - Inteligência e Tecnologia' },
+        { name: 'Facebook' },
+        { name: 'Google' },
+        { name: 'Seu Zé' },
+    ]);
 
-    return <AppLayout>{!companies ? <EmptyCompanies /> : <></>}</AppLayout>;
+    return (
+        <AppLayout>
+            {companies ? (
+                <Companies companies={companies} />
+            ) : (
+                <EmptyCompanies />
+            )}
+        </AppLayout>
+    );
 };
 
 export default CompanySelection;

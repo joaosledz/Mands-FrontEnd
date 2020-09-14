@@ -3,9 +3,9 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         addButtonContainer: {
-            position: 'absolute',
-            right: '4%',
-            bottom: '7%',
+            position: 'fixed',
+            right: '1.3rem',
+            bottom: '2rem',
         },
 
         addButton: {

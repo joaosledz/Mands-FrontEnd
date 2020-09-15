@@ -7,7 +7,7 @@ import useStyles from './styles';
 
 interface AppLayoutProps {}
 
-const AuthLayout: React.FC<AppLayoutProps> = props => {
+const AppLayout: React.FC<AppLayoutProps> = props => {
     const { children } = props;
     const classes = useStyles();
 
@@ -19,4 +19,4 @@ const AuthLayout: React.FC<AppLayoutProps> = props => {
     );
 };
 
-export default AuthLayout;
+export default AppLayout;

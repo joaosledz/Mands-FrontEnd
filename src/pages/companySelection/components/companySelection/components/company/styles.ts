@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
         companyName: {
             marginTop: 30,
-            color: theme.palette.text.primary,
+            color: theme.palette.primary.contrastText,
             fontSize: '1.3rem',
             fontWeight: 300,
         },

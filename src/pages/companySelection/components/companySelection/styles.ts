@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         title: {
+            color: 'white',
             fontSize: '1.4rem',
             fontWeight: 'bold',
             textShadow: 'rgba(0,0,0,0.5) 2px 3px 6px',

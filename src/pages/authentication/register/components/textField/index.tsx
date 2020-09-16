@@ -35,7 +35,7 @@ const TextFieldComponent: React.FC<TextFieldProps> = props => {
             }
             label={label}
             variant="outlined"
-            style={{ width: '100%' }}
+            fullWidth
             InputProps={
                 type === 'password'
                     ? {

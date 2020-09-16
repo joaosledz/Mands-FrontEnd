@@ -11,6 +11,12 @@ const useStyles = makeStyles<Theme>(theme =>
             marginTop: 20,
         },
 
+        ErrorMessage: {
+            marginTop: 7,
+            color: theme.palette.primary.main,
+            '&:before': { content: "'⚠ '" },
+        },
+
         forgotPasswordButton: {
             color: '#515151',
             fontFamily: 'Roboto',
@@ -120,5 +126,10 @@ const useStyles = makeStyles<Theme>(theme =>
         },
     })
 );
+
+export const inputStyle = {
+    paddingLeft: 5,
+    fontFamily: 'Roboto',
+};
 
 export default useStyles;

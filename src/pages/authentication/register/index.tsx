@@ -2,17 +2,25 @@ import React, { useState, useMemo, ChangeEvent } from 'react';
 import Box from '@material-ui/core/Box';
 // import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
+// import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 // import TextField from '@material-ui/core/TextField';
 import { Camera as CameraIcon } from '@styled-icons/icomoon';
 
 import AuthLayout from '../../../layout/authLayout';
-import TextField from './components/textField';
+// import TextField from './components/textField';
 import RegisterButton from '../../../components/authPagesButton';
 import CropImageComponent from '../../../components/cropImageModal';
 
-import useStyles from './styles';
+import useStyles, { inputStyle } from './styles';
+import InputMask from 'react-input-mask';
+import TextField2 from '@material-ui/core/TextField';
+//Input Password
+import { Lock } from '@styled-icons/material';
+
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+import CpfValidator from './cpfValidator';
 
 const Register: React.FC = () => {
     const classes = useStyles();
@@ -47,9 +55,24 @@ const Register: React.FC = () => {
     //#endregion
     //#endregion
 
+    interface RegisterInput {
+        firstName: string;
+        lastName: string;
+        email: string;
+        cpf: string;
+        cel: string;
+        password: string;
+    }
+
+    const { register, errors, handleSubmit } = useForm<RegisterInput>();
+
+    const onSubmit = (data: RegisterInput) => {
+        console.log(data);
+    };
+
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
-            <FormControl component="form" fullWidth>
+            <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
                 <Grid component="article" container>
                     <Grid item xs={12} sm={8}>
                         <Box mt={4}>
@@ -66,30 +89,206 @@ const Register: React.FC = () => {
                             >
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField label="Nome" />
+                                        <TextField2
+                                            name="firstName"
+                                            label="Nome"
+                                            fullWidth
+                                            variant="outlined"
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                            })}
+                                        />
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="firstName"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField label="Sobrenome" />
+                                        <TextField2
+                                            name="lastName"
+                                            label="Sobrenome"
+                                            fullWidth
+                                            variant="outlined"
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                            })}
+                                        />
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="lastName"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
                                     </Grid>
                                 </Grid>
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField type="email" label="Email" />
+                                        <TextField2
+                                            name="email"
+                                            type="Text"
+                                            label="Email"
+                                            fullWidth
+                                            variant="outlined"
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                                pattern: {
+                                                    // eslint-disable-next-line
+                                                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                                    message:
+                                                        'Deve seguir o formato nome@email.com',
+                                                },
+                                            })}
+                                        />
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="email"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField label="CPF" />
+                                        <InputMask
+                                            mask={'999.999.999-99'}
+                                            maskChar="_"
+                                        >
+                                            {() => (
+                                                <TextField2
+                                                    name="cpf"
+                                                    label="CPF"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    inputRef={register({
+                                                        required:
+                                                            'Esse campo é obrigatório',
+                                                        validate: {
+                                                            cpfInvalido: value =>
+                                                                CpfValidator(
+                                                                    value
+                                                                ),
+                                                        },
+                                                    })}
+                                                />
+                                            )}
+                                        </InputMask>
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="cpf"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    CPF inválido
+                                                </Typography>
+                                            )}
+                                        />
                                     </Grid>
                                 </Grid>
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField label="Telefone" />
+                                        <InputMask
+                                            mask={'(99) 99999-9999'}
+                                            maskChar="_"
+                                        >
+                                            {() => (
+                                                <TextField2
+                                                    name="cel"
+                                                    fullWidth
+                                                    variant="outlined"
+                                                    label="Celular"
+                                                    inputRef={register({
+                                                        required:
+                                                            'Esse campo é obrigatório',
+                                                        minLength: {
+                                                            value: 15,
+                                                            message:
+                                                                'O número está incompleto',
+                                                        },
+                                                    })}
+                                                />
+                                            )}
+                                        </InputMask>
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="cel"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField
+                                        <TextField2
+                                            name="password"
                                             type="password"
                                             label="Senha"
+                                            fullWidth
+                                            variant="outlined"
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <Lock
+                                                        size="20"
+                                                        color="#B03E9F"
+                                                    />
+                                                ),
+                                                style: inputStyle,
+                                            }}
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                                minLength: {
+                                                    value: 6,
+                                                    message:
+                                                        'Senha muito curta (min: 6)',
+                                                },
+                                            })}
                                         />
-                                        <Typography
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="password"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
+                                        {/* <Typography
                                             component="span"
                                             style={{
                                                 fontSize: 12,
@@ -97,7 +296,7 @@ const Register: React.FC = () => {
                                             }}
                                         >
                                             Use 6 caracteres no mínimo
-                                        </Typography>
+                                        </Typography> */}
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -149,7 +348,7 @@ const Register: React.FC = () => {
                     </Grid>
                     <RegisterButton mt={40} text="Criar conta" />
                 </Grid>
-            </FormControl>
+            </form>
             {CropImageModal}
         </AuthLayout>
     );

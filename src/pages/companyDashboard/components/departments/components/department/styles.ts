@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
             borderRadius: 10,
             backgroundColor: theme.palette.primary.main,
+            boxShadow: theme.shadows[2],
 
             display: 'flex',
             flexDirection: 'column',

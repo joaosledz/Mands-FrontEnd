@@ -22,9 +22,16 @@ const Departments: React.FC<IDepartments> = ({ containerStyles }) => {
             }
         >
             <Typography className={classes.title}>Departamentos:</Typography>
-            <Grid container className={classes.departmentsContainer}>
-                <Grid item>
+            <Grid
+                container
+                spacing={3}
+                className={classes.departmentsContainer}
+            >
+                <Grid item xs={12} md={6}>
                     <Department name="Desenvolvedores" icon={DevIcon} />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Department name="Financeiro" icon={DevIcon} />
                 </Grid>
             </Grid>
         </Paper>

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
             '& p': {
                 marginTop: '0.5rem',
-                color: theme.palette.text.primary,
+                color: theme.palette.primary.contrastText,
                 fontSize: '1.2rem',
                 fontWeight: 300,
             },

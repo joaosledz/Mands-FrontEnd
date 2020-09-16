@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         name: {
-            color: theme.palette.text.primary,
+            color: theme.palette.primary.contrastText,
             fontSize: '1.3rem',
             fontWeight: 'bold',
         },
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         jobTitle: {
-            color: theme.palette.text.primary,
+            color: theme.palette.primary.contrastText,
             fontSize: '1.3rem',
             fontWeight: 500,
         },

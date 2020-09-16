@@ -5,6 +5,7 @@ import AppLayout from '../../layout/appLayout';
 import Header from './components/header';
 import ManageCompanyButton from './components/manageCompanyButton';
 import Departments from './components/departments';
+import CompanyDetails from './components/companyDetails';
 
 import useStyles from './styles';
 
@@ -17,14 +18,17 @@ const Admnistrator: React.FC = () => {
     }, []);
 
     return (
-        <AppLayout>
+        <AppLayout layoutStyles={classes.layout}>
             {/* Dinamico */}
             <Header name="Ana" jobTitle="Gerente" />
-            <Grid container className={classes.container}>
+            <Grid container spacing={3} className={classes.container}>
                 <Grid item xs={12} md={6}>
                     {/* Esconder obotão baseado no tipo de usuário */}
                     <ManageCompanyButton />
                     <Departments containerStyles={classes.departments} />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <CompanyDetails />
                 </Grid>
             </Grid>
         </AppLayout>

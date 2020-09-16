@@ -5,14 +5,23 @@ import Header from './components/header';
 
 import useStyles from './styles';
 
-interface AppLayoutProps {}
+interface AppLayoutProps {
+    layoutStyles?: string;
+}
 
 const AppLayout: React.FC<AppLayoutProps> = props => {
-    const { children } = props;
+    const { layoutStyles, children } = props;
     const classes = useStyles();
 
     return (
-        <Box component="main" className={classes.layout}>
+        <Box
+            component="main"
+            className={
+                layoutStyles
+                    ? ` ${layoutStyles} ${classes.layout}`
+                    : classes.layout
+            }
+        >
             <Header />
             {children}
         </Box>

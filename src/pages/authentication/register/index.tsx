@@ -20,6 +20,7 @@ import { Lock } from '@styled-icons/material';
 
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import CpfValidator from './cpfValidator';
 
 const Register: React.FC = () => {
     const classes = useStyles();
@@ -185,6 +186,12 @@ const Register: React.FC = () => {
                                                     inputRef={register({
                                                         required:
                                                             'Esse campo é obrigatório',
+                                                        validate: {
+                                                            cpfInvalido: value =>
+                                                                CpfValidator(
+                                                                    value
+                                                                ),
+                                                        },
                                                     })}
                                                 />
                                             )}
@@ -198,7 +205,7 @@ const Register: React.FC = () => {
                                                         classes.ErrorMessage
                                                     }
                                                 >
-                                                    {message}
+                                                    CPF inválido
                                                 </Typography>
                                             )}
                                         />

@@ -20,11 +20,7 @@ const CompanySelection: React.FC<ICompanySelection> = ({ companies }) => {
 
     return (
         <Box className={classes.container}>
-            <Typography
-                variant="h6"
-                color="textPrimary"
-                className={classes.title}
-            >
+            <Typography variant="h6" className={classes.title}>
                 Qual empresa você gostaria de acessar?
             </Typography>
             <Grid container spacing={3} className={classes.companiesContainer}>

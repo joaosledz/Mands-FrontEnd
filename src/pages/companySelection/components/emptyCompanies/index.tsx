@@ -12,8 +12,11 @@ const EmptyCompanies = () => {
         <Box className={classes.container}>
             <Box>
                 <Typography
-                    color={'textPrimary'}
-                    style={{ fontSize: '1.1rem', fontWeight: 300 }}
+                    style={{
+                        color: 'white',
+                        fontSize: '1.1rem',
+                        fontWeight: 300,
+                    }}
                 >
                     Você não possui nenhuma empresa{' '}
                     <Typography
@@ -25,8 +28,8 @@ const EmptyCompanies = () => {
                     </Typography>
                 </Typography>
                 <Typography
-                    color="textPrimary"
                     style={{
+                        color: 'white',
                         marginTop: 10,
                         fontSize: '1.1rem',
                         fontWeight: 500,

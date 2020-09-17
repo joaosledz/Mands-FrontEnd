@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { ArrowBack as ArrowBackIcon } from '@styled-icons/evaicons-solid';
 
+import BackButton from '../../components/backButton';
 import useStyles from './styles';
 
 import logo from '../../assets/logo/logo.svg';
@@ -28,10 +27,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = props => {
                 </Grid>
                 {backButtonMessage && (
                     <Grid item>
-                        <Link to={'/'} className={classes.backButton}>
-                            <ArrowBackIcon size="25" />
-                            {backButtonMessage}
-                        </Link>
+                        <BackButton message={backButtonMessage} />
                     </Grid>
                 )}
             </Grid>

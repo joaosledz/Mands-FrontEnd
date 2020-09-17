@@ -13,27 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         logo: { width: '10%', minWidth: 130, height: 'auto' },
-
-        backButton: {
-            color: '#707070',
-            fontFamily: 'Roboto slab',
-            fontWeight: 500,
-            textDecoration: 'none',
-
-            transition: 'color .1s',
-
-            '& svg': {
-                marginRight: 5,
-                transition: 'margin-right .2s',
-            },
-            '&:hover': {
-                color: theme.palette.primary.main,
-                textDecoration: 'underline',
-                '& svg': {
-                    marginRight: 9,
-                },
-            },
-        },
     })
 );
 

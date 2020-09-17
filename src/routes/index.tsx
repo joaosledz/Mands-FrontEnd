@@ -11,6 +11,7 @@ import ForgotPassword from '../pages/authentication/forgotPassword';
 //#endregion
 
 import CompanySelection from '../pages/companySelection';
+import UserProfile from '../pages/userProfile';
 
 const Routes = () => {
     const browserHistory = createBrowserHistory();
@@ -26,6 +27,7 @@ const Routes = () => {
                     path="/escolha-da-empresa"
                     component={CompanySelection}
                 />
+                <Route path="/perfil" component={UserProfile} />
                 {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
                 {/* <PrivateRoute path="/user" component={User} /> */}
             </Switch>

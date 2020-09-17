@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
@@ -12,7 +11,11 @@ const ManageCompanyButton: React.FC = () => {
 
     return (
         <Link component={RouterLink} to="/" className={classes.button}>
-            <img src={CompanyIcon} className={classes.image} />
+            <img
+                src={CompanyIcon}
+                className={classes.image}
+                alt="Ícone de uma prédio"
+            />
             <Typography>Gerenciar empresa</Typography>
         </Link>
     );

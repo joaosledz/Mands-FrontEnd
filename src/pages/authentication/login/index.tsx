@@ -1,9 +1,8 @@
-import React, { FormEvent } from 'react';
+import React /*, { FormEvent }*/ from 'react';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 // import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { UserTie } from '@styled-icons/fa-solid';
@@ -18,12 +17,25 @@ import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+
 const Login: React.FC = () => {
     const classes = useStyles();
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-        console.log('handleSubmit');
+    // const handleSubmit = (event: FormEvent) => {
+    //     event.preventDefault();
+    //     console.log('handleSubmit');
+    // };
+    interface LoginInput {
+        email: string;
+        password: string;
+    }
+
+    const { register, errors, handleSubmit } = useForm<LoginInput>();
+
+    const onSubmit = (data: LoginInput) => {
+        console.log(data);
     };
 
     return (
@@ -37,7 +49,11 @@ const Login: React.FC = () => {
                         >
                             Log in
                         </Typography>
-                        <FormControl fullWidth className={classes.form}>
+                        <form
+                            // fullWidth
+                            className={classes.form}
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
                             <Box
                                 display="flex"
                                 flexDirection="column"
@@ -46,7 +62,17 @@ const Login: React.FC = () => {
                                 <TextField
                                     id="outlined-basic"
                                     label="Email"
+                                    name="email"
                                     variant="outlined"
+                                    inputRef={register({
+                                        required: 'Esse campo é obrigatório',
+                                        pattern: {
+                                            // eslint-disable-next-line
+                                            value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                            message:
+                                                'Deve seguir o formato nome@email.com',
+                                        },
+                                    })}
                                     InputProps={{
                                         startAdornment: (
                                             <UserTie
@@ -59,12 +85,24 @@ const Login: React.FC = () => {
                                         style: inputStyle,
                                     }}
                                 />
+                                <ErrorMessage
+                                    errors={errors}
+                                    name="email"
+                                    render={({ message }) => (
+                                        <Typography
+                                            className={classes.ErrorMessage}
+                                        >
+                                            {message}
+                                        </Typography>
+                                    )}
+                                />
                                 <TextField
+                                    className={classes.input}
                                     id="outlined-basic"
                                     type="password"
+                                    name="password"
                                     label="Senha"
                                     variant="outlined"
-                                    className={classes.input}
                                     InputProps={{
                                         startAdornment: (
                                             <Lock size="20" color="#B03E9F" />
@@ -73,6 +111,24 @@ const Login: React.FC = () => {
                                     inputProps={{
                                         style: inputStyle,
                                     }}
+                                    inputRef={register({
+                                        required: 'Esse campo é obrigatório',
+                                        minLength: {
+                                            value: 6,
+                                            message: 'A senha está curta',
+                                        },
+                                    })}
+                                />
+                                <ErrorMessage
+                                    errors={errors}
+                                    name="password"
+                                    render={({ message }) => (
+                                        <Typography
+                                            className={classes.ErrorMessage}
+                                        >
+                                            {message}
+                                        </Typography>
+                                    )}
                                 />
                             </Box>
                             <Box mt={2}>
@@ -83,13 +139,13 @@ const Login: React.FC = () => {
                                     Esqueceu a senha?
                                 </Link>
                                 <LogInButton
-                                    type="submit"
+                                    // type="submit"
                                     mt={60}
                                     text="Entrar"
-                                    onClick={handleSubmit}
+                                    // onClick={handleSubmit}
                                 />
                             </Box>
-                        </FormControl>
+                        </form>
                     </Box>
                     <Box
                         display="flex"

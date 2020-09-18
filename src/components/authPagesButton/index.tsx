@@ -29,16 +29,17 @@ const ButtonIcon: React.FC<ButtonIcon> = ({ icon }) => {
 
 const ButtonComponent: React.FC<ButtonProps> = (
     props,
-    { type, onClick /*, ...rest*/ }
+    { /*type,*/ onClick /*...rest*/ }
 ) => {
     const { text, icon } = props;
     const classes = useStyles(props);
 
     return (
         <Button
-            type={type}
+            type="submit"
             className={classes.button}
-            onClick={onClick} /*{...rest}*/
+            onClick={onClick}
+            // {...rest}
         >
             <Box id="left-side">
                 <ButtonIcon icon={icon} />

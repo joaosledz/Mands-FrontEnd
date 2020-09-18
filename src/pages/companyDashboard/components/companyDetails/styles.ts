@@ -3,8 +3,14 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            padding: '1.5rem 2rem',
+            height: '100%',
+            padding: '1.5rem 5%',
             backgroundColor: theme.palette.background.default,
+            display: 'flex',
+            flexDirection: 'column',
+        },
+        divider: {
+            margin: theme.spacing(2, 0),
         },
     })
 );

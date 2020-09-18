@@ -12,7 +12,7 @@ interface CompanyDataItemProps {
 const CompanyDataItem: React.FC<CompanyDataItemProps> = ({ title, data }) => {
     const classes = useStyles();
     return (
-        <Grid container item className={classes.detailContainer}>
+        <Grid container item xs={12}>
             <Typography className={classes.detailTitle}>{title}:</Typography>
             <Typography className={classes.detailData}>{data}</Typography>
         </Grid>

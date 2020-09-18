@@ -11,6 +11,33 @@ interface IDepartments {
     containerStyles?: string;
 }
 
+const departments = [
+    {
+        name: 'Desenvolvedores',
+        icon: DevIcon,
+    },
+    {
+        name: 'Financeiro',
+        icon: DevIcon,
+    },
+    {
+        name: 'Financeiro',
+        icon: DevIcon,
+    },
+    {
+        name: 'Financeiro',
+        icon: DevIcon,
+    },
+    // {
+    //     name: 'Financeiro',
+    //     icon: DevIcon,
+    // },
+    // {
+    //     name: 'Financeiro',
+    //     icon: DevIcon,
+    // },
+];
+
 const Departments: React.FC<IDepartments> = ({ containerStyles }) => {
     const classes = useStyles();
     return (
@@ -27,12 +54,14 @@ const Departments: React.FC<IDepartments> = ({ containerStyles }) => {
                 spacing={3}
                 className={classes.departmentsContainer}
             >
-                <Grid item xs={12} md={6}>
-                    <Department name="Desenvolvedores" icon={DevIcon} />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Department name="Financeiro" icon={DevIcon} />
-                </Grid>
+                {departments.map(department => (
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Department
+                            name={department.name}
+                            icon={department.icon}
+                        />
+                    </Grid>
+                ))}
             </Grid>
         </Paper>
     );

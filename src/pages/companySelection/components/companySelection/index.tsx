@@ -1,7 +1,5 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { Link } from 'react-router-dom';
-// import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 

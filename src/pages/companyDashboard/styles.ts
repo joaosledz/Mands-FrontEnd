@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
         layout: { overflowY: 'auto', overflowX: 'hidden' },
 
         container: {
-            padding: ' 2rem',
+            padding: ' 2rem 2rem 0',
             [theme.breakpoints.down('md')]: {
                 padding: '1rem',
             },

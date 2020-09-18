@@ -18,7 +18,7 @@ const Admnistrator: React.FC = () => {
     }, []);
 
     return (
-        <AppLayout layoutStyles={classes.layout}>
+        <AppLayout /*layoutStyles={classes.layout}*/>
             {/* Dinamico */}
             <Box className={classes.container}>
                 <Header name="Ana" jobTitle="Gerente" />

@@ -3,7 +3,9 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         department: {
-            width: '17rem',
+            width: '100%',
+            maxWidth: '17rem',
+            minWidth: 130,
             padding: '1.5rem',
 
             borderRadius: 10,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
-
+import Box from '@material-ui/core/Box';
 import AppLayout from '../../layout/appLayout';
 import Header from './components/header';
 import ManageCompanyButton from './components/manageCompanyButton';
@@ -20,17 +20,23 @@ const Admnistrator: React.FC = () => {
     return (
         <AppLayout layoutStyles={classes.layout}>
             {/* Dinamico */}
-            <Header name="Ana" jobTitle="Gerente" />
-            <Grid container spacing={3} className={classes.container}>
-                <Grid item xs={12} md={6}>
-                    {/* Esconder obotão baseado no tipo de usuário */}
-                    <ManageCompanyButton />
-                    <Departments containerStyles={classes.departments} />
+            <Box className={classes.container}>
+                <Header name="Ana" jobTitle="Gerente" />
+                <Grid
+                    container
+                    spacing={3}
+                    className={classes.contentContainer}
+                >
+                    <Grid item xs={12} md={6}>
+                        {/* Esconder obotão baseado no tipo de usuário */}
+                        <ManageCompanyButton />
+                        <Departments containerStyles={classes.departments} />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <CompanyDetails />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <CompanyDetails />
-                </Grid>
-            </Grid>
+            </Box>
         </AppLayout>
     );
 };

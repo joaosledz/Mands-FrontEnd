@@ -2,10 +2,6 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {
-            padding: '2rem 2rem 0px ',
-        },
-
         name: {
             color: theme.palette.primary.contrastText,
             fontSize: '1.3rem',

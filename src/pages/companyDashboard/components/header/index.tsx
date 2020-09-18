@@ -14,7 +14,7 @@ const CompanyDashboardHeader: React.FC<ICompanyDashboardHeader> = props => {
     const classes = useStyles();
 
     return (
-        <Grid container component="section" className={classes.container}>
+        <Grid container component="section">
             <Grid item xs={6}>
                 <Typography className={classes.name}>
                     Seja bem-vindo ao Mands, {name}

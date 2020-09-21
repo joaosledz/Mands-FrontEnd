@@ -3,12 +3,12 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            paddingTop: '5%',
+            padding: '2rem 0',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             // Tirar o overflow e resolver
-            overflow: 'hidden',
+            overflowX: 'hidden',
         },
 
         title: {

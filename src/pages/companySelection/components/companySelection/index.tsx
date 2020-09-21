@@ -7,7 +7,7 @@ import Company from './components/company';
 import AddButton from '../addButton';
 import useStyles from './styles';
 
-import ITLogo from '../../../../assets/companiesImages/IT.png';
+import ITLogo from '../../../../assets/companiesImages/IT2.png';
 
 interface ICompanySelection {
     companies: Array<{ name: string }> | null;

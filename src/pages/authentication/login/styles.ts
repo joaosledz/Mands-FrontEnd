@@ -28,6 +28,7 @@ const useStyles = makeStyles<Theme>(theme =>
             fontFamily: 'Roboto',
             fontSize: 16,
             fontWeight: 300,
+            textDecoration: 'none',
 
             transition: 'all .1s',
 
@@ -45,8 +46,10 @@ const useStyles = makeStyles<Theme>(theme =>
             marginLeft: 5,
 
             color: '#555',
-            // fontSize: 16,
             font: '16px Roboto Slab',
+            textDecoration: 'none',
+
+            transition: 'all .1s',
 
             '&:hover': {
                 color: theme.palette.primary.main,

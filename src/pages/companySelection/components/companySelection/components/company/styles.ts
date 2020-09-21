@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
 
-        imageContainer: {
-            width: 80,
-            borderRadius: 50,
-            backgroundColor: '#F5F5F5',
+        companyLogo: {
+            width: theme.spacing(9),
+            height: theme.spacing(9),
+            boxShadow: theme.shadows[3],
         },
 
         companyName: {
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.primary.contrastText,
             fontSize: '1.3rem',
             fontWeight: 300,
+            textShadow: 'rgba(0,0,0,0.5) 2px 3px 6px',
         },
     })
 );

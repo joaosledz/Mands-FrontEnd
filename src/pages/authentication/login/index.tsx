@@ -1,7 +1,6 @@
 import React /*, { FormEvent }*/ from 'react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-// import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -20,7 +19,9 @@ import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
-const Login: React.FC = () => {
+interface Props extends RouteComponentProps<any> {}
+
+const Login: React.FC<Props> = ({ history }) => {
     const classes = useStyles();
 
     // const handleSubmit = (event: FormEvent) => {
@@ -36,6 +37,7 @@ const Login: React.FC = () => {
 
     const onSubmit = (data: LoginInput) => {
         console.log(data);
+        history.push('/escolha-da-empresa');
     };
 
     return (
@@ -171,7 +173,6 @@ const Login: React.FC = () => {
                         Ou acesse usando uma das suas contas:
                     </Typography>
                     <Box className={classes.divider} />
-                    {/* <Divider className={classes.divider} /> */}
                     <Grid
                         container
                         spacing={5}

@@ -12,7 +12,11 @@ import ForgotPassword from '../pages/authentication/forgotPassword';
 
 //#region Rotas da aplicação
 import CompanySelection from '../pages/companySelection';
-import Dashboard from '../pages/companyDashboard';
+import CompanyDashboard from '../pages/companyDashboard';
+//#endregion
+
+//#region AdminDashboard
+import DepartmentsAdminDashboard from '../pages/adminDashboard/departments';
 //#endregion
 
 const Routes = () => {
@@ -21,6 +25,8 @@ const Routes = () => {
     return (
         <Router history={browserHistory}>
             <Switch>
+                {/* Transformar as rotas abaixo em PublicRoutes */}
+                {/* Rotas de Autenticação */}
                 <Route path="/" component={Login} exact />
                 <Route path="/criar-conta" component={Register} />
                 <Route path="/esqueci-a-senha" component={ForgotPassword} />
@@ -29,10 +35,18 @@ const Routes = () => {
                     path="/escolha-da-empresa"
                     component={CompanySelection}
                 />
-                <Route path="/dashboard/:companyName" component={Dashboard} />
-                {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
-                {/* <PrivateRoute path="/user" component={User} /> */}
+                <Route
+                    path="/dashboard/:companyName"
+                    component={CompanyDashboard}
+                />
+                {/* Rotas do Administrador */}
+                <Route
+                    path="/administrador/departamentos"
+                    component={DepartmentsAdminDashboard}
+                />
             </Switch>
+            {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
+            {/* <PrivateRoute path="/user" component={User} /> */}
         </Router>
     );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
@@ -19,13 +19,9 @@ const EmptyCompanies = () => {
                     }}
                 >
                     Você não possui nenhuma empresa{' '}
-                    <Typography
-                        component="span"
-                        role="img"
-                        aria-label="Crying Face"
-                    >
+                    <span role="img" aria-label="Crying Face">
                         😢
-                    </Typography>
+                    </span>
                 </Typography>
                 <Typography
                     style={{

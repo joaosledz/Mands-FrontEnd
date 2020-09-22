@@ -14,9 +14,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: string;
 }
 
-interface ButtonIcon {
+type ButtonIcon = {
     icon: string | undefined;
-}
+};
 
 const ButtonIcon: React.FC<ButtonIcon> = ({ icon }) => {
     switch (icon) {
@@ -27,11 +27,8 @@ const ButtonIcon: React.FC<ButtonIcon> = ({ icon }) => {
     }
 };
 
-const ButtonComponent: React.FC<ButtonProps> = (
-    props,
-    { /*type,*/ onClick /*...rest*/ }
-) => {
-    const { text, icon } = props;
+const ButtonComponent: React.FC<ButtonProps> = (props: ButtonProps) => {
+    const { text, icon, onClick } = props;
     const classes = useStyles(props);
 
     return (

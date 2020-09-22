@@ -1,7 +1,7 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
-import { Link } from 'react-router-dom';
-// import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
+import Avatar from '@material-ui/core/Avatar';
+import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 
 import useStyles from './styles';
@@ -15,14 +15,17 @@ const Company: React.FC<ICompany> = ({ logo, name }) => {
     const classes = useStyles();
 
     return (
-        <Link to="/" className={classes.container}>
-            <Box id="image-container" className={classes.imageContainer}>
-                <img
-                    src={logo}
-                    alt={`${name} logo`}
-                    style={{ width: '100%', objectFit: 'cover' }}
-                />
-            </Box>
+        // Modificar "to" passando o nome da empresa e ID por props
+        <Link
+            component={RouterLink}
+            to="/dashboard/IT"
+            className={classes.container}
+        >
+            <Avatar
+                src={logo}
+                alt={`${name} logo`}
+                className={classes.companyLogo}
+            />
             <Typography className={classes.companyName}>{name}</Typography>
         </Link>
     );

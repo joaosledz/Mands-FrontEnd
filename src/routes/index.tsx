@@ -10,8 +10,11 @@ import Register from '../pages/authentication/register';
 import ForgotPassword from '../pages/authentication/forgotPassword';
 //#endregion
 
+//#region Rotas da aplicação
 import CompanySelection from '../pages/companySelection';
 import UserProfile from '../pages/userProfile';
+import Dashboard from '../pages/companyDashboard';
+//#endregion
 
 const Routes = () => {
     const browserHistory = createBrowserHistory();
@@ -28,6 +31,7 @@ const Routes = () => {
                     component={CompanySelection}
                 />
                 <Route path="/perfil" component={UserProfile} />
+                <Route path="/dashboard/:companyName" component={Dashboard} />
                 {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
                 {/* <PrivateRoute path="/user" component={User} /> */}
             </Switch>

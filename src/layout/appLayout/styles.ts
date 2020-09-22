@@ -5,8 +5,8 @@ const useStyles = makeStyles((theme: Theme) =>
         layout: {
             width: '100vw',
             height: '100vh',
+            maxWidth: '100%',
             backgroundColor: theme.palette.primary.light,
-            // overflow: 'hidden',
         },
     })
 );

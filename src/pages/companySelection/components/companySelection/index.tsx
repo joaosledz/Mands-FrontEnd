@@ -1,7 +1,5 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { Link } from 'react-router-dom';
-// import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
@@ -9,7 +7,7 @@ import Company from './components/company';
 import AddButton from '../addButton';
 import useStyles from './styles';
 
-import ITLogo from '../../../../assets/companiesImages/IT.png';
+import ITLogo from '../../../../assets/companiesImages/IT2.png';
 
 interface ICompanySelection {
     companies: Array<{ name: string }> | null;

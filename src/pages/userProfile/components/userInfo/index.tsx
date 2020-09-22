@@ -10,15 +10,15 @@ import avatar from '../../../../assets/avatar.png';
 const User: React.FC = () => {
     const classes = useStyles();
     return (
-        <Grid container>
+        <Grid container direction="row" justify="center">
             <Grid item>
                 <Avatar className={classes.largeAvatar} src={avatar} />
             </Grid>
-            <Grid item style={{ paddingLeft: '15px' }}>
-                <Typography className={classes.subtitle2}>
+            <Grid item>
+                <Typography variant="h6" className={classes.subtitle2}>
                     Ana Tartari Seindeçro4
                 </Typography>
-                <Typography className={classes.paragraph}>
+                <Typography variant="subtitle1" className={classes.paragraph}>
                     Cargo: Coordenadora de projetos
                 </Typography>
                 <Typography className={classes.paragraph}>

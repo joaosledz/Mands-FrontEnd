@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 
 import { ICompany } from '../../models/ICompany';
 
-import CompanyDataItem from './components/companyDataItem';
+import CompanyDataItem from '../../../../../../components/dataTextGridItem';
 // import useStyles from './styles';
 
 interface ICompanyDataContainer {

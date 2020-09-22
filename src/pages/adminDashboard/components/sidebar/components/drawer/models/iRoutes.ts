@@ -3,6 +3,7 @@ type IRoute = {
     icon: string;
     iconAlt: string;
     path: string;
+    page: string;
 };
 
 export type IRoutes = Array<IRoute>;

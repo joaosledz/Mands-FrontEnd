@@ -10,7 +10,11 @@ const ManageCompanyButton: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <Link component={RouterLink} to="/" className={classes.button}>
+        <Link
+            component={RouterLink}
+            to="/administrador/departamentos"
+            className={classes.button}
+        >
             <img
                 src={CompanyIcon}
                 className={classes.image}

@@ -9,19 +9,22 @@ const Routes: IRoutes = [
         name: 'Departamentos',
         icon: CompanyIcon,
         iconAlt: 'Ícone de uma empresa',
-        path: '/',
+        path: '/administrador/departamentos',
+        page: 'departamentos',
     },
     {
         name: 'Funcionários',
         icon: EmployeesIcon,
         iconAlt: 'Ícone de três pessoas',
-        path: '/',
+        path: '/administrador/funcionarios',
+        page: 'funcionarios',
     },
     {
         name: 'Calendário',
         icon: CalendarIcon,
         iconAlt: 'Ícone de um calendário',
-        path: '/',
+        path: '/administrador/calendario',
+        page: 'calendario',
     },
 ];
 

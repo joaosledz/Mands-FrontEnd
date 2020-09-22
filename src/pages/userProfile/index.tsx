@@ -10,6 +10,23 @@ import UserInfo from './components/userInfo';
 import SocialMedia from './components/socialMedia';
 // import { Container } from './styles';
 
+const data = {
+    id: 1,
+    name: 'Ana Tartari Seindklmral',
+    role: 'Coordenadora',
+    email: 'tarta@gmail.com',
+    telephone: '(71) 99556-8888',
+    presentation:
+        'Sou um desenvolvedor Full-Stack com foco no Front-End, graduando Ciência da Computação, com 1 ano de experiência em desenvolvimento web. Atualmente focado no aprendizado em desenvolvimento Web e Mobile com as tecnologias React, React Native e Node.Js',
+    street: 'Rua Remanso',
+    neighbourhood: 'Rio Vermelho',
+    number: '489',
+    city: 'Salvador',
+    state: 'BA',
+    cep: '41940-640',
+};
+const address = `${data.street}, ${data.neighbourhood}, ${data.number}, ${data.city}-${data.state}, ${data.cep}`;
+
 const UserProfile: React.FC = () => {
     const classes = useStyles();
     return (
@@ -40,7 +57,12 @@ const UserProfile: React.FC = () => {
                             item
                             className={classes.gridUserItems}
                         >
-                            <UserInfo />
+                            <UserInfo
+                                name={data.name}
+                                telephone={data.telephone}
+                                role={data.role}
+                                email={data.email}
+                            />
                         </Grid>
                         <Grid xs={12} md={2} item />
                         <Grid
@@ -63,12 +85,7 @@ const UserProfile: React.FC = () => {
                                 Apresentação
                             </Typography>
                             <Typography className={classes.paragraph}>
-                                Sou um desenvolvedor Full-Stack com foco no
-                                Front-End, graduando Ciência da Computação, com
-                                1 ano de experiência em desenvolvimento web.
-                                Atualmente focado no aprendizado em
-                                desenvolvimento Web e Mobile com as tecnologias
-                                React, React Native e Node.Js
+                                {data.presentation}
                             </Typography>
                         </Grid>
                         <Grid xs={12} md={2} item />
@@ -82,8 +99,7 @@ const UserProfile: React.FC = () => {
                                 Endereço
                             </Typography>
                             <Typography className={classes.paragraph}>
-                                Rua Remanso, Rio Vermelho, 489, Salvador-BA,
-                                41940-640
+                                {address}
                             </Typography>
                         </Grid>
                     </Grid>

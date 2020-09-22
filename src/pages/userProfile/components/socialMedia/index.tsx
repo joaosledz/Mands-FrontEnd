@@ -16,6 +16,8 @@ const SocialMedia: React.FC = () => {
             <a
                 className={classes.socialMediaDiv}
                 href="https://github.com/anatartari"
+                target="_blank"
+                rel="noopener noreferrer"
             >
                 <Grid container item alignItems="center">
                     <Avatar className={classes.smallAvatar} src={GithubIcon} />
@@ -27,6 +29,8 @@ const SocialMedia: React.FC = () => {
             <a
                 className={classes.socialMediaDiv}
                 href="https://www.linkedin.com/in/jo%C3%A3o-victor-sledz-de-bulh%C3%B5es-ba08b073/"
+                target="_blank"
+                rel="noopener noreferrer"
             >
                 <Grid container item alignItems="center">
                     <Avatar

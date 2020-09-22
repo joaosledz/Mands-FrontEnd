@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         paper: {
             height: '85vh',
-            width: '90%',
+            width: '93%',
             maxWidth: '1500px',
             // margin: '20px 30px',
             margin: '20px auto',
@@ -34,17 +34,20 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.primary.main,
             fontWeight: 'bold',
             paddingLeft: '15px',
-            fontSize: '32px',
-            // margin: '10px auto',
+            fontSize: '1.8rem',
+            [theme.breakpoints.up('md')]: {
+                fontSize: '2rem',
+            },
         },
         subtitle2: {
             display: 'flex',
             alignSelf: 'begin',
             color: theme.palette.primary.main,
             fontWeight: 'lighter',
-            paddingLeft: '15px',
-            fontSize: '1.5em',
-            // margin: '10px auto',
+            fontSize: '1.3rem',
+            [theme.breakpoints.up('md')]: {
+                fontSize: '1.6rem',
+            },
         },
         paragraph: {
             display: 'flex',
@@ -54,6 +57,10 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 'lighter',
             paddingLeft: '15px',
             fontSize: '22px',
+            [theme.breakpoints.down('md')]: {
+                // marginRight: 0,
+                fontSize: '1rem',
+            },
             // margin: '10px auto',
         },
         socialMedia: {
@@ -69,6 +76,13 @@ const useStyles = makeStyles((theme: Theme) =>
         socialMediaDiv: {
             textDecoration: 'none',
             paddingRight: '20px',
+        },
+        UserDescriptionDiv: {
+            paddingLeft: '0px',
+            [theme.breakpoints.up(465)]: {
+                // marginRight: 0,
+                paddingLeft: '15px',
+            },
         },
         largeAvatar: {
             alignSelf: 'center',

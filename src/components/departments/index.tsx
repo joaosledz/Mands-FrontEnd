@@ -10,6 +10,7 @@ import DevIcon from '../../assets/selectableIcons/webPrograming.svg';
 import useStyles from './styles';
 
 interface Props {
+    title?: string;
     containerStyles?: string;
     breakpoints: Breakpoints;
 }
@@ -45,7 +46,8 @@ const departments = [
     // },
 ];
 
-const Departments: React.FC<Props> = ({ containerStyles, breakpoints }) => {
+const Departments: React.FC<Props> = (props: Props) => {
+    const { title = 'Departamentos:', containerStyles, breakpoints } = props;
     const classes = useStyles();
     return (
         <Paper
@@ -55,7 +57,7 @@ const Departments: React.FC<Props> = ({ containerStyles, breakpoints }) => {
                     : classes.container
             }
         >
-            <Typography className={classes.title}>Departamentos:</Typography>
+            <Typography className={classes.title}>{title}</Typography>
             <Grid
                 container
                 spacing={3}

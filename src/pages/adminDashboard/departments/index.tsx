@@ -34,6 +34,7 @@ const Departments: React.FC = () => {
                         className={classes.departmentsContainer}
                     >
                         <DepartmentsContent
+                            title="Selecione um departamento:"
                             containerStyles={
                                 classes.departmentsContentContainer
                             }

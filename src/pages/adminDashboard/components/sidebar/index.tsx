@@ -37,7 +37,7 @@ const SideBar: React.FC<Props> = (props: Props) => {
                 <MenuIcon size="22" color="white" />
             </IconButton>
             <nav className={classes.drawer} aria-label="mailbox folders">
-                <Hidden smUp implementation="css">
+                <Hidden mdUp implementation="css">
                     <Drawer
                         variant="temporary"
                         anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -53,7 +53,7 @@ const SideBar: React.FC<Props> = (props: Props) => {
                         <DrawerComponent logo={ITLogo} />
                     </Drawer>
                 </Hidden>
-                <Hidden xsDown implementation="css">
+                <Hidden mdDown implementation="css">
                     <Drawer
                         classes={{
                             paper: classes.drawerPaperPermanent,

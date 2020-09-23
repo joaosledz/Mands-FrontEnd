@@ -39,6 +39,7 @@ const Drawer: React.FC<Props> = (props: Props) => {
                         component={Link}
                         to={route.path}
                         key={index}
+                        disabled={page === route.page}
                         className={
                             page === route.page ? classes.itemSelected : ''
                         }

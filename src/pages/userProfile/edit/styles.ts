@@ -2,9 +2,13 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        layout: {
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: theme.palette.primary.light,
+        },
         paper: {
-            position: 'relative',
-            minHeight: '90vh',
+            height: '85vh',
             width: '93%',
             maxWidth: '1500px',
             // margin: '20px 30px',
@@ -84,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
             alignSelf: 'center',
             width: theme.spacing(20),
             height: theme.spacing(20),
-            borderSpacing: '3px',
+            // borderSpacing: '3px',
             boxShadow: '2px 2px 7px black',
         },
         smallAvatar: {
@@ -92,6 +96,11 @@ const useStyles = makeStyles((theme: Theme) =>
             height: theme.spacing(6),
             borderSpacing: '3px',
             // boxShadow: '2px 2px 7px black',
+        },
+        ErrorMessage: {
+            marginTop: 7,
+            color: theme.palette.primary.main,
+            '&:before': { content: "'⚠ '" },
         },
     })
 );

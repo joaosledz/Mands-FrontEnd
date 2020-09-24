@@ -12,7 +12,7 @@ import ForgotPassword from '../pages/authentication/forgotPassword';
 
 //#region Rotas da aplicação
 import CompanySelection from '../pages/companySelection';
-import UserProfile from '../pages/userProfile';
+import UserProfile from '../pages/userProfile/main';
 import Dashboard from '../pages/companyDashboard';
 //#endregion
 

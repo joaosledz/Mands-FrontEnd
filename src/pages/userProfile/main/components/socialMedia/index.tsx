@@ -3,8 +3,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import useStyles from '../../styles';
 import Typography from '@material-ui/core/Typography';
-import GithubIcon from '../../../../assets/socialMedia/Github.png';
-import LinkedinIcon from '../../../../assets/socialMedia/Linkedin.png';
+import GithubIcon from '../../../../../assets/socialMedia/Github.png';
+import LinkedinIcon from '../../../../../assets/socialMedia/Linkedin.png';
 
 // import { Container } from './styles';
 

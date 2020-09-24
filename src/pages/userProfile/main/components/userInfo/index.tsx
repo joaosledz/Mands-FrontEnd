@@ -3,8 +3,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import useStyles from '../../styles';
 import Typography from '@material-ui/core/Typography';
-import avatar from '../../../../assets/avatar.png';
-import DataTextGridItem from '../../../../components/dataTextGridItem';
+import avatar from '../../../../../assets/avatar.png';
+import DataTextGridItem from '../../../../../components/dataTextGridItem';
 // import { Container } from './styles';
 
 type Props = {

@@ -2,13 +2,9 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        layout: {
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: theme.palette.primary.light,
-        },
         paper: {
-            height: '85vh',
+            position: 'relative',
+            minHeight: '90vh',
             width: '93%',
             maxWidth: '1500px',
             // margin: '20px 30px',

@@ -11,8 +11,9 @@ import ForgotPassword from '../pages/authentication/forgotPassword';
 
 //#region Rotas da aplicação
 import CompanySelection from '../pages/companySelection';
+import UserProfile from '../pages/userProfile/main';
+import UserProfileEdit from '../pages/userProfile/edit';
 import CompanyDashboard from '../pages/companyDashboard';
-import UserProfile from '../pages/userProfile';
 //#endregion
 
 //#region AdminDashboard
@@ -29,6 +30,7 @@ const Routes = () => (
             <Route path="/esqueci-a-senha" component={ForgotPassword} />
             {/* Transformar as rotas abaixo em PrivateRoute */}
             <Route path="/perfil" component={UserProfile} />
+            <Route path="/editar-perfil" component={UserProfileEdit} />
             <Route path="/escolha-da-empresa" component={CompanySelection} />
             <Route
                 path="/dashboard/:companyName"

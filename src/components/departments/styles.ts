@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             padding: '1.5rem 5%',
             backgroundColor: theme.palette.background.default,
+            [theme.breakpoints.down('sm')]: {
+                padding: '1.5rem 1%',
+            },
         },
 
         title: {

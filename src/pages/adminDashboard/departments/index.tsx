@@ -22,8 +22,8 @@ const Departments: React.FC = () => {
         <AppLayout>
             <Box className={classes.container}>
                 <Header name="Departamentos" />
-                <Grid container spacing={6}>
-                    <Grid item xs={1} md={1} lg={2} xl={2}>
+                <Grid container spacing={3}>
+                    <Grid item lg={2}>
                         <SideBar />
                     </Grid>
                     <Grid
@@ -38,7 +38,7 @@ const Departments: React.FC = () => {
                             containerStyles={
                                 classes.departmentsContentContainer
                             }
-                            breakpoints={{ xs: 12, md: 4 }}
+                            breakpoints={{ xs: 12, sm: 6, md: 4 }}
                         />
                     </Grid>
                 </Grid>

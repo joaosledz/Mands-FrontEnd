@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
         departmentsContentContainer: {
             height: '100%',
+            [theme.breakpoints.down('sm')]: {
+                textAlign: 'center',
+            },
         },
     })
 );

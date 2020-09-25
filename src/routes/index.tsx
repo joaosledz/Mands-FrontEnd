@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
 // import PrivateRoute from './privateRoute';
 
@@ -16,7 +16,7 @@ import UserProfile from '../pages/userProfile';
 //#endregion
 
 //#region AdminDashboard
-import DepartmentsAdminDashboard from '../pages/adminDashboard/departments';
+import AdministratorRoutes from './administrator';
 //#endregion
 
 const Routes = () => (
@@ -35,10 +35,7 @@ const Routes = () => (
                 component={CompanyDashboard}
             />
             {/* Rotas do Administrador */}
-            <Route
-                path="/administrador/departamentos"
-                component={DepartmentsAdminDashboard}
-            />
+            <Route path="/administrador" component={AdministratorRoutes} />
         </Switch>
         {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
         {/* <PrivateRoute path="/user" component={User} /> */}

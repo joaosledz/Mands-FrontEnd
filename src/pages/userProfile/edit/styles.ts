@@ -84,6 +84,9 @@ const useStyles = makeStyles((theme: Theme) =>
                 paddingLeft: '15px',
             },
         },
+        addressContainer: {
+            marginTop: '15px',
+        },
         largeAvatar: {
             alignSelf: 'center',
             width: theme.spacing(20),
@@ -96,6 +99,9 @@ const useStyles = makeStyles((theme: Theme) =>
             height: theme.spacing(6),
             borderSpacing: '3px',
             // boxShadow: '2px 2px 7px black',
+        },
+        TextField: {
+            padding: '0 8px',
         },
         ErrorMessage: {
             marginTop: 7,

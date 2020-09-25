@@ -20,7 +20,7 @@ import { Lock } from '@styled-icons/material';
 
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import CpfValidator from './cpfValidator';
+import CpfValidator from '../../../validators/cpfValidator';
 
 const Register: React.FC = () => {
     const classes = useStyles();

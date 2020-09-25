@@ -7,11 +7,15 @@ import Typography from '@material-ui/core/Typography';
 
 type Props = {
     Name: string;
-    defaultValue: string;
-    register: function;
+    defaultValue?: string;
+    register: () => void;
     errors: Object;
 };
-const User: React.FC<Props> = ({ Name, defaultValue, register, errors }) => {
+const User: React.FC<Props> = ({
+    Name,
+    defaultValue,
+    /*register,*/ errors,
+}) => {
     const classes = useStyles();
 
     return (

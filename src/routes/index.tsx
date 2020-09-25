@@ -1,6 +1,5 @@
 import React from 'react';
-import { Switch, Route, Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 // import PrivateRoute from './privateRoute';
 
@@ -16,10 +15,8 @@ import Dashboard from '../pages/companyDashboard';
 //#endregion
 
 const Routes = () => {
-    const browserHistory = createBrowserHistory();
-
     return (
-        <Router history={browserHistory}>
+        <BrowserRouter>
             <Switch>
                 <Route path="/" component={Login} exact />
                 <Route path="/criar-conta" component={Register} />
@@ -33,7 +30,7 @@ const Routes = () => {
                 {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
                 {/* <PrivateRoute path="/user" component={User} /> */}
             </Switch>
-        </Router>
+        </BrowserRouter>
     );
 };
 

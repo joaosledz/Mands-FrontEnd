@@ -1,58 +1,32 @@
-import React, { useState, useMemo, ChangeEvent } from 'react';
+import React, { useState, useMemo } from 'react';
 import Box from '@material-ui/core/Box';
-// import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
-// import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
-// import TextField from '@material-ui/core/TextField';
-import { Camera as CameraIcon } from '@styled-icons/icomoon';
-
-import AuthLayout from '../../../layout/authLayout';
-// import TextField from './components/textField';
-import RegisterButton from '../../../components/authPagesButton';
-import CropImageComponent from '../../../components/cropImageModal';
-
-import useStyles, { inputStyle } from './styles';
 import InputMask from 'react-input-mask';
-import TextField2 from '@material-ui/core/TextField';
-//Input Password
-import { Lock } from '@styled-icons/material';
-
+import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { Lock as LockIcon } from '@styled-icons/material';
+
 import CpfValidator from '../../../validators/cpfValidator';
+
+import AuthLayout from '../../../layout/authLayout';
+import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
+// import TextField from './components/textField';
+import RegisterButton from '../../../components/authPagesButton';
+import useStyles, { inputStyle } from './styles';
 
 const Register: React.FC = () => {
     const classes = useStyles();
 
-    //#region imageSetup
-    const [image, setImage] = useState<object | undefined>(undefined);
-    const [imagePreview, setImagePreview] = useState<string>('');
-
-    const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
-        setImage(event.currentTarget.files?.[0]);
-        setShowCropModal(true);
-    };
+    const [image, setImage] = useState<File | undefined>(undefined);
 
     //#region CropImageSetup
-    const [showCropModal, setShowCropModal] = useState(false);
 
-    const handleImageReturn = (blob: object, image_url: string) => {
-        setImage(blob);
-        setImagePreview(image_url);
-    };
-
-    const CropImageModal = useMemo(() => {
-        return (
-            <CropImageComponent
-                src={image}
-                handleImage={handleImageReturn}
-                isOpen={showCropModal}
-                setIsOpen={setShowCropModal}
-            />
-        );
-    }, [showCropModal, image]);
-    //#endregion
+    const CropImageInput = useMemo(
+        () => <CropImageInputComponent image={image} setImage={setImage} />,
+        [image]
+    );
     //#endregion
 
     interface RegisterInput {
@@ -89,7 +63,7 @@ const Register: React.FC = () => {
                             >
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField2
+                                        <TextField
                                             name="firstName"
                                             label="Nome"
                                             fullWidth
@@ -114,7 +88,7 @@ const Register: React.FC = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField2
+                                        <TextField
                                             name="lastName"
                                             label="Sobrenome"
                                             fullWidth
@@ -141,7 +115,7 @@ const Register: React.FC = () => {
                                 </Grid>
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField2
+                                        <TextField
                                             name="email"
                                             type="Text"
                                             label="Email"
@@ -178,7 +152,7 @@ const Register: React.FC = () => {
                                             maskChar="_"
                                         >
                                             {() => (
-                                                <TextField2
+                                                <TextField
                                                     name="cpf"
                                                     label="CPF"
                                                     fullWidth
@@ -218,7 +192,7 @@ const Register: React.FC = () => {
                                             maskChar="_"
                                         >
                                             {() => (
-                                                <TextField2
+                                                <TextField
                                                     name="cel"
                                                     fullWidth
                                                     variant="outlined"
@@ -250,7 +224,7 @@ const Register: React.FC = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <TextField2
+                                        <TextField
                                             name="password"
                                             type="password"
                                             label="Senha"
@@ -258,7 +232,7 @@ const Register: React.FC = () => {
                                             variant="outlined"
                                             InputProps={{
                                                 startAdornment: (
-                                                    <Lock
+                                                    <LockIcon
                                                         size="20"
                                                         color="#B03E9F"
                                                     />
@@ -309,47 +283,11 @@ const Register: React.FC = () => {
                         xs={12}
                         sm={4}
                     >
-                        <Box mt={3} className={classes.avatarContainer}>
-                            <Typography
-                                component="label"
-                                htmlFor="avatar-input"
-                                style={{ color: '#505050' }}
-                            >
-                                Imagem do Perfil:
-                            </Typography>
-                            <Typography
-                                component="label"
-                                htmlFor="avatar-input"
-                                className={
-                                    !imagePreview
-                                        ? classes.avatarInputLabel
-                                        : `${classes.avatarInputLabel} active`
-                                }
-                                style={{
-                                    backgroundImage: `url(${imagePreview})`,
-                                }}
-                            >
-                                <CameraIcon size="25" />
-                                <Box
-                                    id="avatar-blur"
-                                    className={classes.avatarBlur}
-                                />
-                                <input
-                                    id="avatar-input"
-                                    type="file"
-                                    accept="image/png, image/jpeg, image/jpg"
-                                    style={{
-                                        display: 'none',
-                                    }}
-                                    onChange={handleChangeImage}
-                                />
-                            </Typography>
-                        </Box>
+                        {CropImageInput}
                     </Grid>
                     <RegisterButton mt={40} text="Criar conta" />
                 </Grid>
             </form>
-            {CropImageModal}
         </AuthLayout>
     );
 };

@@ -10,10 +10,11 @@ type Props = {
     title?: string;
     icon?: 'plus';
     size?: 'small' | 'medium' | 'large';
+    onClick?: () => void | ((path: string) => void);
 };
 
 const FabButton: React.FC<Props> = (props: Props) => {
-    const { title = 'Adicionar', icon, size = 'small' } = props;
+    const { title = 'Adicionar', icon, size = 'small', onClick } = props;
 
     const classes = useStyles();
 
@@ -29,7 +30,7 @@ const FabButton: React.FC<Props> = (props: Props) => {
     return (
         <Box className={classes.fabButtonContainer}>
             <Tooltip title={title} arrow>
-                <Fab size={size} /*className={classes.FabButton}*/>
+                <Fab size={size} onClick={onClick}>
                     <Icon />
                 </Fab>
             </Tooltip>

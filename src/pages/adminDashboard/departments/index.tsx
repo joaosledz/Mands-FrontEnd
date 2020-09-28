@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
@@ -9,9 +10,7 @@ import DepartmentsContent from '../../../components/departments';
 import FabButton from '../../../components/fabButton';
 import useStyles from './styles';
 
-// import { Container } from './styles';
-
-const Departments: React.FC = () => {
+const Departments: React.FC<RouteComponentProps> = ({ history }) => {
     const classes = useStyles();
 
     useEffect(() => {
@@ -43,7 +42,9 @@ const Departments: React.FC = () => {
                     </Grid>
                 </Grid>
             </Box>
-            <FabButton />
+            <FabButton
+                onClick={() => history.push('departamentos/cadastrar')}
+            />
         </AppLayout>
     );
 };

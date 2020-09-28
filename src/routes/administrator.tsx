@@ -1,9 +1,8 @@
 import React from 'react';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 
-//#region AdminDashboard
-import DepartmentsAdminDashboard from '../pages/adminDashboard/departments';
-//#endregion
+import Departments from '../pages/adminDashboard/departments';
+import RegisterDepartment from '../pages/adminDashboard/departments/newDepartment';
 
 const AdministratorRoutes = () => {
     const { path } = useRouteMatch();
@@ -11,8 +10,13 @@ const AdministratorRoutes = () => {
     return (
         <Switch>
             <Route
+                exact
                 path={`${path}/departamentos`}
-                component={DepartmentsAdminDashboard}
+                component={Departments}
+            />
+            <Route
+                path={`${path}/departamentos/cadastrar`}
+                component={RegisterDepartment}
             />
             <Redirect exact from={`${path}`} to={`${path}/departamentos`} />
         </Switch>

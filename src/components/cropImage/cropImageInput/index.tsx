@@ -14,13 +14,15 @@ import CropImageComponent from '../cropImageModal';
 import useStyles from './styles';
 
 type Props = {
+    title?: string;
     image: File | undefined;
     setImage: Dispatch<SetStateAction<File | undefined>>;
+    styles?: string;
 };
 
 const CropImageInput: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { image, setImage } = props;
+    const { title, image, setImage, styles } = props;
 
     const [imagePreview, setImagePreview] = useState<string>('');
 
@@ -49,14 +51,23 @@ const CropImageInput: React.FC<Props> = (props: Props) => {
     }, [showCropModal]);
 
     return (
-        <Box mt={3} className={classes.avatarContainer}>
-            <Typography
-                component="label"
-                htmlFor="avatar-input"
-                style={{ color: '#505050' }}
-            >
-                Imagem do Perfil:
-            </Typography>
+        <Box
+            mt={3}
+            className={
+                styles
+                    ? [classes.avatarContainer, styles].join(' ')
+                    : classes.avatarContainer
+            }
+        >
+            {title && (
+                <Typography
+                    component="label"
+                    htmlFor="avatar-input"
+                    style={{ color: '#505050' }}
+                >
+                    {title}
+                </Typography>
+            )}
             <Typography
                 component="label"
                 htmlFor="avatar-input"

@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme) =>
             minHeight: '100vh',
             maxWidth: '100%',
             backgroundColor: theme.palette.primary.light,
+            [theme.breakpoints.only('xs')]: {
+                paddingBottom: '1rem',
+            },
         },
     })
 );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Menu from '@material-ui/core/Menu';
@@ -24,6 +25,7 @@ const Header: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    console.log(window.location.pathname);
 
     return (
         <Grid container component="header" className={classes.container}>
@@ -46,7 +48,14 @@ const Header: React.FC = () => {
                     onClose={handleClose}
                     className={classes.menu}
                 >
-                    <MenuItem onClick={handleClose}>Perfil</MenuItem>
+                    {window.location.pathname !== '/perfil' &&
+                        window.location.pathname !== '/editar-perfil' && (
+                            <Link to={'/perfil'}>
+                                <MenuItem onClick={handleClose}>
+                                    Perfil
+                                </MenuItem>
+                            </Link>
+                        )}
                     {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
                     <MenuItem onClick={handleClose}>Sair</MenuItem>
                 </Menu>

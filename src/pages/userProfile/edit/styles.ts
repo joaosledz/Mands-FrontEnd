@@ -24,14 +24,14 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             display: 'flex',
             alignSelf: 'center',
-            color: theme.palette.primary.main,
+            color: theme.palette.primary.light,
             fontWeight: 'bold',
             margin: '10px auto',
         },
         subtitle1: {
             display: 'flex',
             alignSelf: 'begin',
-            color: theme.palette.primary.main,
+            color: theme.palette.primary.light,
             fontWeight: 'bold',
             paddingLeft: '15px',
             fontSize: '1.8rem',
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         subtitle2: {
             display: 'flex',
             alignSelf: 'begin',
-            color: theme.palette.primary.main,
+            color: theme.palette.primary.light,
             fontWeight: 'lighter',
             fontSize: '1.3rem',
             [theme.breakpoints.up('md')]: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             textAlign: 'justify',
             alignSelf: 'begin',
-            color: theme.palette.text.secondary,
+            color: 'black',
             fontWeight: 'lighter',
             paddingLeft: '15px',
             fontSize: '22px',

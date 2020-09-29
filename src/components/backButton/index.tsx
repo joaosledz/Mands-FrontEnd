@@ -8,13 +8,13 @@ import useStyles from './styles';
 
 type Props = {
     message: string;
-    path?: string;
-};
+    redirect?: string;
+}
 
-const BackButton: React.FC<Props> = ({ message, path = '/' }) => {
+const BackButton: React.FC<BackButtonProps> = ({ message, redirect = '' }) => {
     const classes = useStyles();
     return (
-        <Link to={path} className={classes.backButton}>
+        <Link to={`/${redirect}`} className={classes.backButton}>
             <ArrowBackIcon size="25" />
             <Hidden mdDown>
                 <Typography id="custom-message">{message}</Typography>

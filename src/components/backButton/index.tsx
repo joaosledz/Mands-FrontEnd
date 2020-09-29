@@ -6,12 +6,13 @@ import useStyles from './styles';
 
 interface BackButtonProps {
     message: string;
+    redirect?: string;
 }
 
-const BackButton: React.FC<BackButtonProps> = ({ message }) => {
+const BackButton: React.FC<BackButtonProps> = ({ message, redirect = '' }) => {
     const classes = useStyles();
     return (
-        <Link to={'/'} className={classes.backButton}>
+        <Link to={`/${redirect}`} className={classes.backButton}>
             <ArrowBackIcon size="25" />
             {message}
         </Link>

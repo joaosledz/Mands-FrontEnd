@@ -1,6 +1,8 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 // import Fab from '@material-ui/core/Fab';
 import AppLayout from '../../../layout/appLayout';
 import Paper from '@material-ui/core/Paper';
@@ -8,6 +10,7 @@ import useStyles from './styles';
 import BackButton from '../../../components/backButton';
 import UserInfo from './components/userInfo';
 import SocialMedia from './components/socialMedia';
+// import FabButton from '../../../components/fabButton';
 // import { Container } from './styles';
 
 const data = {
@@ -27,7 +30,7 @@ const data = {
 };
 const address = `${data.street}, ${data.neighbourhood}, ${data.number}, ${data.city}-${data.state}, ${data.cep}`;
 
-const UserProfile: React.FC = () => {
+const UserProfile: React.FC<RouteComponentProps> = ({ history }) => {
     const classes = useStyles();
     return (
         <AppLayout>
@@ -49,8 +52,8 @@ const UserProfile: React.FC = () => {
                         <BackButton message="Voltar" />
                     </Grid>
                 </Grid>
-                <Grid className={classes.gridUser} container>
-                    <Grid container direction="row">
+                <Grid className={classes.gridUser} container spacing={3}>
+                    <Grid container spacing={3}>
                         <Grid
                             xs={12}
                             md={5}
@@ -64,7 +67,9 @@ const UserProfile: React.FC = () => {
                                 email={data.email}
                             />
                         </Grid>
-                        <Grid xs={12} md={2} item />
+                        <Hidden smDown>
+                            <Grid xs={12} md={2} item />
+                        </Hidden>
                         <Grid
                             xs={12}
                             md={5}
@@ -74,7 +79,7 @@ const UserProfile: React.FC = () => {
                             <SocialMedia />
                         </Grid>
                     </Grid>
-                    <Grid container direction="row">
+                    <Grid container>
                         <Grid
                             xs={12}
                             md={5}
@@ -104,6 +109,10 @@ const UserProfile: React.FC = () => {
                         </Grid>
                     </Grid>
                 </Grid>
+                {/* <FabButton
+                    icon={'edit'}
+                    onClick={() => history.push('/editar-perfil')}
+                /> */}
             </Paper>
         </AppLayout>
     );

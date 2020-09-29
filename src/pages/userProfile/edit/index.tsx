@@ -68,7 +68,7 @@ const UserProfile: React.FC = () => {
                             justify="flex-end"
                             style={{ paddingRight: '20px', paddingTop: '15px' }}
                         >
-                            <BackButton message="Voltar" />
+                            <BackButton redirect={'perfil'} message="Voltar" />
                         </Grid>
                     </Grid>
                     <Grid className={classes.gridUser} container>

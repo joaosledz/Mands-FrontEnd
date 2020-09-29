@@ -10,7 +10,7 @@ import useStyles from './styles';
 import BackButton from '../../../components/backButton';
 import UserInfo from './components/userInfo';
 import SocialMedia from './components/socialMedia';
-// import FabButton from '../../../components/fabButton';
+import FabButton from '../../../components/fabButton';
 // import { Container } from './styles';
 
 const data = {
@@ -109,10 +109,11 @@ const UserProfile: React.FC<RouteComponentProps> = ({ history }) => {
                         </Grid>
                     </Grid>
                 </Grid>
-                {/* <FabButton
-                    icon={'edit'}
+                <FabButton
+                    icon="edit"
+                    style={classes.fabButton}
                     onClick={() => history.push('/editar-perfil')}
-                /> */}
+                />
             </Paper>
         </AppLayout>
     );

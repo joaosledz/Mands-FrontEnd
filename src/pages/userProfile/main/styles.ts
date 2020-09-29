@@ -104,6 +104,12 @@ const useStyles = makeStyles((theme: Theme) =>
                 height: theme.spacing(3),
             },
         },
+
+        fabButton: {
+            [theme.breakpoints.up('md')]: {
+                right: '4rem',
+            },
+        },
     })
 );
 

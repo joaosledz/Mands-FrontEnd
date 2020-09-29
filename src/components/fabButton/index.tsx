@@ -3,32 +3,42 @@ import Box from '@material-ui/core/Box';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
+import { Edit as EditIcon } from '@styled-icons/material';
 
 import useStyles from './styles';
 
 type Props = {
     title?: string;
-    icon?: 'plus';
+    icon?: 'plus' | 'edit';
     size?: 'small' | 'medium' | 'large';
+    style?: string;
     onClick?: () => void | ((path: string) => void);
 };
 
 const FabButton: React.FC<Props> = (props: Props) => {
-    const { title = 'Adicionar', icon, size = 'small', onClick } = props;
+    const { title = 'Adicionar', icon, size = 'small', style, onClick } = props;
 
     const classes = useStyles();
 
     const Icon = () => {
         switch (icon) {
             case 'plus':
-                return <PlusIcon color="#B03E9F" style={{ width: 35 }} />;
+                return <PlusIcon color="#B03E9F" size={35} />;
+            case 'edit':
+                return <EditIcon color="#B03E9F" size={30} />;
             default:
-                return <PlusIcon color="#B03E9F" style={{ width: 35 }} />;
+                return <PlusIcon color="#B03E9F" size={35} />;
         }
     };
 
     return (
-        <Box className={classes.fabButtonContainer}>
+        <Box
+            className={
+                style
+                    ? [style, classes.fabButtonContainer].join(' ')
+                    : classes.fabButtonContainer
+            }
+        >
             <Tooltip title={title} arrow>
                 <Fab size={size} onClick={onClick}>
                     <Icon />

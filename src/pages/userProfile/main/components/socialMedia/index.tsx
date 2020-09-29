@@ -1,10 +1,9 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import useStyles from '../../styles';
 import Typography from '@material-ui/core/Typography';
-import GithubIcon from '../../../../../assets/socialMedia/Github.png';
-import LinkedinIcon from '../../../../../assets/socialMedia/Linkedin.png';
+import { Github as GithubIcon } from '@styled-icons/boxicons-logos';
+import { LinkedinSquare as LinkedinIcon } from '@styled-icons/boxicons-logos';
 
 // import { Container } from './styles';
 
@@ -19,8 +18,13 @@ const SocialMedia: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <Grid container item alignItems="center">
-                    <Avatar className={classes.smallAvatar} src={GithubIcon} />
+                <Grid
+                    className={classes.socialMediaGrid}
+                    container
+                    item
+                    alignItems="center"
+                >
+                    <GithubIcon className={classes.smallAvatar} />
                     <Typography className={classes.socialMedia}>
                         Github
                     </Typography>
@@ -32,11 +36,13 @@ const SocialMedia: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <Grid container item alignItems="center">
-                    <Avatar
-                        className={classes.smallAvatar}
-                        src={LinkedinIcon}
-                    />
+                <Grid
+                    className={classes.socialMediaGrid}
+                    container
+                    item
+                    alignItems="center"
+                >
+                    <LinkedinIcon className={classes.smallAvatar} />
                     <Typography className={classes.socialMedia}>
                         Linkedin
                     </Typography>

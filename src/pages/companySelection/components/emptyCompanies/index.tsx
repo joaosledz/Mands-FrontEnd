@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-import AddButton from '../addButton';
 import useStyles from './styles';
 
 const EmptyCompanies = () => {
@@ -34,7 +33,6 @@ const EmptyCompanies = () => {
                     Seja convidado para uma empresa ou crie a sua própria.
                 </Typography>
             </Box>
-            <AddButton />
         </Box>
     );
 };

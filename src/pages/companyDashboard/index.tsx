@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import AppLayout from '../../layout/appLayout';
 import Header from './components/header';
 import ManageCompanyButton from './components/manageCompanyButton';
-import Departments from './components/departments';
+import Departments from '../../components/departments';
 import CompanyDetails from './components/companyDetails';
 
 import useStyles from './styles';
@@ -30,7 +30,10 @@ const Admnistrator: React.FC = () => {
                     <Grid item xs={12} md={6}>
                         {/* Esconder obotão baseado no tipo de usuário */}
                         <ManageCompanyButton />
-                        <Departments containerStyles={classes.departments} />
+                        <Departments
+                            containerStyles={classes.departments}
+                            breakpoints={{ xs: 12, sm: 6, md: 6 }}
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <CompanyDetails />

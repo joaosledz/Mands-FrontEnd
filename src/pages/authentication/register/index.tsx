@@ -24,7 +24,13 @@ const Register: React.FC = () => {
     //#region CropImageSetup
 
     const CropImageInput = useMemo(
-        () => <CropImageInputComponent image={image} setImage={setImage} />,
+        () => (
+            <CropImageInputComponent
+                title="Imagem do Perfil:"
+                image={image}
+                setImage={setImage}
+            />
+        ),
         [image]
     );
     //#endregion

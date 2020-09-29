@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 import Company from './components/company';
-import AddButton from '../addButton';
 import useStyles from './styles';
 
 import ITLogo from '../../../../assets/companiesImages/IT2.png';
@@ -40,7 +39,6 @@ const CompanySelection: React.FC<ICompanySelection> = ({ companies }) => {
                     </Grid>
                 ))}
             </Grid>
-            <AddButton />
         </Box>
     );
 };

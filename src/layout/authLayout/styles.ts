@@ -4,7 +4,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         layout: {
             width: '100vw',
-            height: '100vh',
+            height: '100%',
+            minHeight: '100vh',
             maxWidth: '100%',
             backgroundColor: theme.palette.background.default,
             padding: '5% 10% 0px',

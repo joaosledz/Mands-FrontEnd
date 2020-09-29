@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontFamily: 'Roboto slab',
             fontWeight: 500,
             textDecoration: 'none',
+            display: 'flex',
 
             transition: 'color .1s',
 
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 marginRight: 5,
                 transition: 'margin-right .2s',
             },
+
             '&:hover': {
                 color: theme.palette.primary.main,
                 textDecoration: 'underline',

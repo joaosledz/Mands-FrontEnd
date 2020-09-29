@@ -2,13 +2,13 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        addButtonContainer: {
+        fabButtonContainer: {
             position: 'fixed',
-            right: '1.3rem',
+            right: '2rem',
             bottom: '2rem',
         },
 
-        addButton: {
+        fabButton: {
             width: 45,
             height: 'auto',
         },

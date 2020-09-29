@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
         menu: {
             '& li': {
                 fontFamily: 'Roboto',
+                textDecoration: 'none',
+                color: 'black',
             },
         },
     })

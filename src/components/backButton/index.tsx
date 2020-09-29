@@ -9,9 +9,9 @@ import useStyles from './styles';
 type Props = {
     message: string;
     redirect?: string;
-}
+};
 
-const BackButton: React.FC<BackButtonProps> = ({ message, redirect = '' }) => {
+const BackButton: React.FC<Props> = ({ message, redirect = '' }) => {
     const classes = useStyles();
     return (
         <Link to={`/${redirect}`} className={classes.backButton}>

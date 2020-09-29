@@ -32,7 +32,7 @@ const NewDepartment: React.FC = () => {
                     <Grid container item xs={12} md={4} justify="flex-end">
                         <BackButton
                             message="Voltar para os departamentos"
-                            path="/administrador/departamentos"
+                            redirect="administrador/departamentos"
                         />
                     </Grid>
                 </Grid>

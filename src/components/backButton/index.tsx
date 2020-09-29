@@ -1,19 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 import { ArrowBack as ArrowBackIcon } from '@styled-icons/evaicons-solid';
+
 import useStyles from './styles';
-// import { Container } from './styles';
 
-interface BackButtonProps {
+type Props = {
     message: string;
-}
+    path?: string;
+};
 
-const BackButton: React.FC<BackButtonProps> = ({ message }) => {
+const BackButton: React.FC<Props> = ({ message, path = '/' }) => {
     const classes = useStyles();
     return (
-        <Link to={'/'} className={classes.backButton}>
+        <Link to={path} className={classes.backButton}>
             <ArrowBackIcon size="25" />
-            {message}
+            <Hidden mdDown>
+                <Typography id="custom-message">{message}</Typography>
+            </Hidden>
+            <Hidden lgUp>
+                <Typography id="default-message">Voltar</Typography>
+            </Hidden>
         </Link>
     );
 };

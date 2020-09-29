@@ -16,20 +16,20 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         gridUserItems: {
             paddingBottom: '15px',
+            paddingTop: '15px',
         },
         title: {
             display: 'flex',
             alignSelf: 'center',
-            color: theme.palette.primary.main,
+            color: theme.palette.primary.light,
             fontWeight: 'bold',
             margin: '10px auto',
         },
         subtitle1: {
             display: 'flex',
             alignSelf: 'begin',
-            color: theme.palette.primary.main,
+            color: theme.palette.primary.light,
             fontWeight: 'bold',
-            paddingLeft: '15px',
             fontSize: '1.8rem',
             [theme.breakpoints.up('md')]: {
                 fontSize: '2rem',
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
         subtitle2: {
             display: 'flex',
             alignSelf: 'begin',
-            color: theme.palette.primary.main,
+            color: theme.palette.primary.light,
             fontWeight: 'lighter',
             fontSize: '1.3rem',
             [theme.breakpoints.up('md')]: {
@@ -49,9 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             textAlign: 'justify',
             alignSelf: 'begin',
-            color: theme.palette.text.secondary,
+            color: 'black',
             fontWeight: 'lighter',
-            paddingLeft: '15px',
             fontSize: '22px',
             [theme.breakpoints.down('md')]: {
                 // marginRight: 0,
@@ -62,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
         socialMedia: {
             display: 'flex',
             alignSelf: 'begin',
-            color: theme.palette.primary.main,
+            color: 'gray',
             fontWeight: 'lighter',
             paddingLeft: '5px',
             fontSize: '16px',
@@ -73,11 +72,20 @@ const useStyles = makeStyles((theme: Theme) =>
             textDecoration: 'none',
             paddingRight: '20px',
         },
+        socialMediaGrid: {
+            color: 'gray',
+            transition: 'all .3s',
+            '&:hover': {
+                '& $smallAvatar, $socialMedia': {
+                    color: theme.palette.primary.main,
+                },
+            },
+        },
         UserDescriptionDiv: {
             paddingLeft: '0px',
             [theme.breakpoints.up(465)]: {
                 // marginRight: 0,
-                paddingLeft: '15px',
+                paddingLeft: '60px',
             },
         },
         largeAvatar: {
@@ -91,7 +99,10 @@ const useStyles = makeStyles((theme: Theme) =>
             width: theme.spacing(6),
             height: theme.spacing(6),
             borderSpacing: '3px',
-            // boxShadow: '2px 2px 7px black',
+            [theme.breakpoints.down('md')]: {
+                width: theme.spacing(3),
+                height: theme.spacing(3),
+            },
         },
     })
 );

@@ -4,12 +4,10 @@ import Paper from '@material-ui/core/Paper';
 import { UserGroup as UserGroupIcon } from '@styled-icons/heroicons-solid';
 import { Documents as DocumentsIcon } from '@styled-icons/ionicons-sharp';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
-import useStyles from './styles';
 
-type Props = {
-    icon: 'team' | 'document';
-    actionIcon: 'add' | 'manage';
-};
+import Props from '../../models/assignButton';
+
+import useStyles from './styles';
 
 const AssignButton: React.FC<Props> = (props: Props) => {
     const classes = useStyles();

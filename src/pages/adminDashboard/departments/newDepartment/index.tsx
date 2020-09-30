@@ -7,8 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import AppLayout from '../../../../layout/appLayout';
 import BackButton from '../../../../components/backButton';
 import CropImageInput from '../../../../components/cropImage/cropImageInput';
-import TeamGridItem from './teamGridItem';
-import ProjectsGridItem from './projectsGridItem';
+import AssignGridItem from '../components/assignGridItem';
 import useStyles from './styles';
 
 const NewDepartment: React.FC = () => {
@@ -85,8 +84,20 @@ const NewDepartment: React.FC = () => {
                     justify="space-around"
                     spacing={3}
                 >
-                    <TeamGridItem />
-                    <ProjectsGridItem />
+                    <AssignGridItem
+                        title="Equipe:"
+                        description="Adicione funcionários a este departamento pelo botão no canto superior direito."
+                        icon="team"
+                        actionIcon="add"
+                    />
+                    <AssignGridItem
+                        title="Projetos:"
+                        description="Adicione projetos a este departamento pelo botão no
+                        canto superior direito."
+                        icon="document"
+                        actionIcon="add"
+                        styles={classes.projectAssignGridItem}
+                    />
                 </Grid>
             </Paper>
         </AppLayout>

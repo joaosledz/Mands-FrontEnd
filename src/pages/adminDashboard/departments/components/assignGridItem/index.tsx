@@ -3,11 +3,20 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-import AssignButton from '../../components/assignButton';
+import AssignButtonProps from '../../models/assignButton';
+
+import AssignButton from '../assignButton';
 import useStyles from './styles';
 
-const ProjectsGridItem: React.FC = () => {
+interface Props extends AssignButtonProps {
+    title: string;
+    description: string;
+    styles?: string;
+}
+
+const AssignGridItem: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { title, description, icon, actionIcon, styles } = props;
     return (
         <Grid
             component={Paper}
@@ -15,16 +24,20 @@ const ProjectsGridItem: React.FC = () => {
             item
             xs={12}
             md={5}
-            className={classes.container}
+            className={
+                styles
+                    ? [styles, classes.container].join(' ')
+                    : classes.container
+            }
         >
             <Grid container item justify="space-between">
                 <Grid item>
                     <Typography variant="h2" className={classes.title}>
-                        Projetos:
+                        {title}
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <AssignButton icon="document" actionIcon="add" />
+                    <AssignButton icon={icon} actionIcon={actionIcon} />
                 </Grid>
             </Grid>
             <Grid
@@ -32,17 +45,14 @@ const ProjectsGridItem: React.FC = () => {
                 item
                 xs={12}
                 justify="center"
-                className={classes.projectsContainer}
+                className={classes.assignContainer}
             >
                 <Grid item xs={9}>
-                    <Typography>
-                        Adicione projetos a este departamento pelo botão no
-                        canto superior direito.
-                    </Typography>
+                    <Typography>{description}</Typography>
                 </Grid>
             </Grid>
         </Grid>
     );
 };
 
-export default ProjectsGridItem;
+export default AssignGridItem;

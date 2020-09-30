@@ -5,10 +5,6 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             height: '21rem',
             padding: '1rem',
-
-            [theme.breakpoints.down('sm')]: {
-                marginTop: '2rem',
-            },
         },
 
         title: {
@@ -18,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'left',
         },
 
-        projectsContainer: {
+        assignContainer: {
             '& p': { textAlign: 'center', color: 'gray' },
         },
     })

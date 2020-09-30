@@ -7,6 +7,8 @@ import ManageCompanyButton from './components/manageCompanyButton';
 import Departments from '../../components/departments';
 import CompanyDetails from './components/companyDetails';
 
+import departments from '../../utils/data/departments';
+
 import useStyles from './styles';
 
 const Admnistrator: React.FC = () => {
@@ -31,6 +33,8 @@ const Admnistrator: React.FC = () => {
                         {/* Esconder obotão baseado no tipo de usuário */}
                         <ManageCompanyButton />
                         <Departments
+                            baseURL="/"
+                            departments={departments}
                             containerStyles={classes.departments}
                             breakpoints={{ xs: 12, sm: 6, md: 6 }}
                         />

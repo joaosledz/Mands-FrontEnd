@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import AppLayout from '../../layout/appLayout';
 import EmptyCompanies from './components/emptyCompanies';
 import Companies from './components/companySelection';
+import FabButton from '../../components/fabButton';
 // import { Container } from './styles';
 
 const data = [
@@ -22,6 +23,7 @@ const CompanySelection: React.FC = () => {
             ) : (
                 <EmptyCompanies />
             )}
+            <FabButton />
         </AppLayout>
     );
 };

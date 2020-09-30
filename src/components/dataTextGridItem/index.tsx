@@ -4,12 +4,12 @@ import Typography from '@material-ui/core/Typography';
 
 import useStyles from './styles';
 
-interface CompanyDataItemProps {
+type Props = {
     title: string;
     data: string;
-}
+};
 
-const CompanyDataItem: React.FC<CompanyDataItemProps> = ({ title, data }) => {
+const DataText: React.FC<Props> = ({ title, data }) => {
     const classes = useStyles();
     return (
         <Grid container item xs={12}>
@@ -19,4 +19,4 @@ const CompanyDataItem: React.FC<CompanyDataItemProps> = ({ title, data }) => {
     );
 };
 
-export default CompanyDataItem;
+export default DataText;

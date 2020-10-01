@@ -15,7 +15,17 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         assignContainer: {
-            '& p': { textAlign: 'center', color: 'gray' },
+            paddingTop: 0,
+            maxHeight: '70%',
+            overflowY: 'auto',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+
+            '& .empty-data': {
+                marginTop: '2.5rem',
+                textAlign: 'center',
+                color: 'gray',
+            },
         },
     })
 );

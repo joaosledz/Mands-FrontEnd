@@ -86,12 +86,14 @@ const NewDepartment: React.FC = () => {
                 >
                     <AssignGridItem
                         title="Equipe:"
+                        type="team"
                         description="Adicione funcionários a este departamento pelo botão no canto superior direito."
                         icon="team"
                         actionIcon="add"
                     />
                     <AssignGridItem
                         title="Projetos:"
+                        type="project"
                         description="Adicione projetos a este departamento pelo botão no
                         canto superior direito."
                         icon="document"

@@ -1,3 +1,16 @@
+export type TypeTeam = {
+    // id: number;
+    name: string;
+    image: string;
+    jobTitle: string;
+};
+
+export type TypeProjects = {
+    // id: number,
+    name: string;
+    icon: string;
+};
+
 export type ApiProps = {
     id: number;
     name: string;
@@ -5,6 +18,8 @@ export type ApiProps = {
     description: string;
     email: string;
     phone: string;
+    team: Array<TypeTeam>;
+    projects: Array<TypeProjects>;
 };
 
 interface Props {

@@ -11,6 +11,7 @@ import {
 
 import AssignButton from '../assignButton';
 import TeamCard from './teamCard';
+import ProjectsCard from './projectsCard';
 import useStyles from './styles';
 
 interface Props extends AssignButtonProps {
@@ -29,8 +30,8 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         type,
         description,
         icon,
-        teamData,
-        projectData,
+        teamData = [],
+        projectData = [],
         actionIcon,
         styles,
     } = props;
@@ -78,7 +79,9 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                         </Grid>
                     )
                 ) : projectData!.length !== 0 ? (
-                    projectData!.map((item, index) => <></>)
+                    projectData!.map((item, index) => (
+                        <ProjectsCard key={index} project={item} />
+                    ))
                 ) : (
                     <Grid item className="empty-data" xs={9}>
                         <Typography>{description}</Typography>

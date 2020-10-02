@@ -31,7 +31,7 @@ const NewDepartment: React.FC = () => {
                     <Grid container item xs={12} md={4} justify="flex-end">
                         <BackButton
                             message="Voltar para os departamentos"
-                            redirect="administrador/departamentos"
+                            redirect="admin/departamentos"
                         />
                     </Grid>
                 </Grid>

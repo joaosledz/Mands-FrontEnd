@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+import TypeParams from '../../../../../models/params';
 import DepartmentAllProps, {
     ApiProps as DepartmentProps,
 } from '../../../../../components/departments/models/department';
@@ -23,10 +24,10 @@ type LocationProps = {
 const Details: React.FC = () => {
     const classes = useStyles();
     const location = useLocation<LocationProps>();
-
-    // Verificar se existe o location, caso não, fazer chamada a API.
+    const params = useParams<TypeParams>();
 
     const [image, setImage] = useState<File | undefined>(undefined);
+    // Verificar se existe o location, caso não, fazer chamada a API.
     const [department] = useState<DepartmentProps>(
         location.state.props.department
     );
@@ -43,7 +44,7 @@ const Details: React.FC = () => {
                     <Grid container item xs={12} md={4} justify="flex-start">
                         <BackButton
                             message="Voltar para os departamentos"
-                            redirect="administrador/departamentos"
+                            redirect={`admin/${params.company}/departamentos`}
                         />
                     </Grid>
                     <Grid container item xs={12} md={4} justify="center">
@@ -126,7 +127,7 @@ const Details: React.FC = () => {
                         canto superior direito."
                         projectData={department.projects}
                         icon="document"
-                        actionIcon="add"
+                        actionIcon="manage"
                         styles={classes.projectAssignGridItem}
                     />
                 </Grid>

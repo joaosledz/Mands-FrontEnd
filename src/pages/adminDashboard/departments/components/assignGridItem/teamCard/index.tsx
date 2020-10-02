@@ -14,20 +14,21 @@ type Props = {
 
 const TeamCard: React.FC<Props> = ({ teammate }) => {
     const classes = useStyles();
-    const { name, image } = teammate;
+    const { name, image, username } = teammate;
 
     return (
         <Grid
             component={Link}
-            to="/perfil/GuilhermeSimoes"
+            to={`/perfil/${username}`}
             container
             item
             xs={12}
             sm={6}
             alignItems="center"
+            className={classes.link}
         >
             <Avatar src={image} />
-            <Typography className={classes.name}>{name}</Typography>
+            <Typography>{name}</Typography>
         </Grid>
     );
 };

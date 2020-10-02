@@ -1,6 +1,7 @@
 export type TypeTeam = {
     // id: number;
     name: string;
+    username: string;
     image: string;
     jobTitle: string;
 };

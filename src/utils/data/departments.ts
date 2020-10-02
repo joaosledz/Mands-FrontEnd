@@ -14,12 +14,14 @@ const departments = [
             {
                 // id: number;
                 name: 'Guilherme Simões',
+                username: 'GuilhermeSimoes',
                 image: guilhermeSimImage,
                 jobTitle: 'Desenvolvedor Full-Stack',
             },
             {
                 // id: number;
                 name: 'Guilherme Simões',
+                username: 'GuilhermeSimoes',
                 image: guilhermeSimImage,
                 jobTitle: 'Desenvolvedor Full-Stack',
             },

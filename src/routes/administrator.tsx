@@ -12,23 +12,32 @@ const AdministratorRoutes = () => {
         <Switch>
             <Route
                 exact
-                path={`${path}/departamentos`}
+                path={`${path}/:company/departamentos`}
                 component={Departments}
             />
             <Route
-                path={`${path}/departamentos/cadastrar`}
+                path={`${path}/:company/departamentos/cadastrar`}
                 component={RegisterDepartment}
             />
             <Route
-                path={`${path}/departamentos/detalhes/:name`}
+                path={`${path}/:company/departamentos/detalhes/:name`}
                 component={DepartmentDetails}
             />
             <Redirect
                 exact
-                from={`${path}/departamentos/detalhes`}
-                to={`${path}/departamentos`}
+                from={`${path}/:company`}
+                to={`${path}/:company/departamentos`}
             />
-            <Redirect exact from={`${path}`} to={`${path}/departamentos`} />
+            <Redirect
+                exact
+                from={`${path}/:company/departamentos/detalhes`}
+                to={`${path}/:company/departamentos`}
+            />
+            <Redirect
+                exact
+                from={`${path}`}
+                to={`${path}/:company/departamentos`}
+            />
         </Switch>
     );
 };

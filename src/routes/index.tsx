@@ -37,7 +37,7 @@ const Routes = () => (
                 component={CompanyDashboard}
             />
             {/* Rotas do Administrador */}
-            <Route path="/administrador" component={AdministratorRoutes} />
+            <Route path="/admin" component={AdministratorRoutes} />
         </Switch>
         {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
         {/* <PrivateRoute path="/user" component={User} /> */}

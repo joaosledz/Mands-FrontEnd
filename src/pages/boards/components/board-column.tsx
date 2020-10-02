@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
 // Import BoardItem component
@@ -10,6 +10,8 @@ type BoardColumnProps = {
     key: string;
     column: any;
     items: any;
+    index: any;
+    type?: string;
 };
 
 // Define types for board column content style properties
@@ -25,7 +27,7 @@ const BoardColumnWrapper = styled.div`
     background-color: #e5eff5;
     max-width: 300px;
     border-radius: 4px;
-    height: 100%;
+    min-height: 60vh;
 
     & + & {
         margin-left: 12px;
@@ -48,29 +50,38 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     return (
-        <BoardColumnWrapper>
-            {/* Title of the column */}
-            <BoardColumnTitle>{props.column.title}</BoardColumnTitle>
+        <Draggable draggableId={props.column.id} index={props.index}>
+            {provided => (
+                <BoardColumnWrapper
+                    {...provided.draggableProps}
+                    ref={provided.innerRef}
+                >
+                    {/* Title of the column */}
+                    <BoardColumnTitle {...provided.dragHandleProps}>
+                        {props.column.title}
+                    </BoardColumnTitle>
 
-            <Droppable droppableId={props.column.id}>
-                {(provided, snapshot) => (
-                    <BoardColumnContent
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        isDraggingOver={snapshot.isDraggingOver}
-                    >
-                        {/* All board items belong into specific column. */}
-                        {props.items.map((item: any, index: number) => (
-                            <BoardItem
-                                key={item.id}
-                                item={item}
-                                index={index}
-                            />
-                        ))}
-                        {provided.placeholder}
-                    </BoardColumnContent>
-                )}
-            </Droppable>
-        </BoardColumnWrapper>
+                    <Droppable droppableId={props.column.id} type="task">
+                        {(provided, snapshot) => (
+                            <BoardColumnContent
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                isDraggingOver={snapshot.isDraggingOver}
+                            >
+                                {/* All board items belong into specific column. */}
+                                {props.items.map((item: any, index: number) => (
+                                    <BoardItem
+                                        key={item.id}
+                                        item={item}
+                                        index={index}
+                                    />
+                                ))}
+                                {provided.placeholder}
+                            </BoardColumnContent>
+                        )}
+                    </Droppable>
+                </BoardColumnWrapper>
+            )}
+        </Draggable>
     );
 };

@@ -3,10 +3,10 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
 // Import data for board
-import { initialBoardData } from '../data/board-initial-data';
+import { initialBoardData } from '../../data/board-initial-data';
 
 // Import BoardColumn component
-import { BoardColumn } from './board-column';
+import { BoardColumn } from '../column/board-column';
 
 // Create styles board element properties
 const BoardEl = styled.div`
@@ -22,7 +22,8 @@ export class Board extends React.Component {
     // Handle drag & drop
     onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-
+        console.log('STATE');
+        console.log(this.state);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;

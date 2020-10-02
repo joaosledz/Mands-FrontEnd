@@ -2,7 +2,11 @@ export const initialBoardData = {
     items: {
         'item-1': { id: 'item-1', content: 'Content of item 1.' },
         'item-2': { id: 'item-2', content: 'Content of item 2.' },
-        'item-3': { id: 'item-3', content: 'Content of item 3.' },
+        'item-3': {
+            id: 'item-3',
+            content:
+                'Algo grande Algo grande Algo grande Algo grande Algo grande.',
+        },
         'item-4': { id: 'item-4', content: 'Content of item 4.' },
         'item-5': { id: 'item-5', content: 'Content of item 5.' },
         'item-6': { id: 'item-6', content: 'Content of item 6.' },

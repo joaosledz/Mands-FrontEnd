@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import { UserGroup as UserGroupIcon } from '@styled-icons/heroicons-solid';
 import { Documents as DocumentsIcon } from '@styled-icons/ionicons-sharp';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
+import { Settings as SettingsIcon } from '@styled-icons/material';
 
 import Props from '../../models/assignButton';
 
@@ -28,6 +29,8 @@ const AssignButton: React.FC<Props> = (props: Props) => {
         switch (actionIcon) {
             case 'add':
                 return <PlusIcon color="#B03E9F" size={20} />;
+            case 'manage':
+                return <SettingsIcon color="#B03E9F" size={18} />;
             default:
                 return <PlusIcon color="#B03E9F" style={{ width: 35 }} />;
         }

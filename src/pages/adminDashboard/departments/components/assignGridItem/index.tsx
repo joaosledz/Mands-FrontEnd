@@ -35,7 +35,6 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         actionIcon,
         styles,
     } = props;
-    console.log(projectData);
     return (
         <Grid
             component={Paper}

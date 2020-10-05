@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import AppLayout from '../../layout/appLayout';
 import useStyles from './styles';
 import Typography from '@material-ui/core/Typography';
-import { Board } from './components/board/board';
+import Board from './components/board/board';
 import Grid from '@material-ui/core/Grid';
 
 const UserProfile: React.FC<RouteComponentProps> = ({ history }) => {

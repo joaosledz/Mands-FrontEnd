@@ -9,14 +9,10 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 'bold',
             margin: '10px auto',
         },
-        gridBoard: {
-            position: 'relative',
-            minHeight: '90vh',
-            width: '93%',
-            maxWidth: '1500px',
-            // margin: '20px 30px',
-            margin: '20px auto',
-            borderRadius: '0px',
+        boardElements: {
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'left',
         },
     })
 );

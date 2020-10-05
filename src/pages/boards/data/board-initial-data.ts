@@ -23,13 +23,12 @@ export const initialBoardData = {
                 'item-4',
                 'item-5',
                 'item-6',
-                'item-7',
             ],
         },
         'column-2': {
             id: 'column-2',
             title: 'Em Andamento',
-            itemsIds: [],
+            itemsIds: ['item-7'],
         },
         'column-3': {
             id: 'column-3',

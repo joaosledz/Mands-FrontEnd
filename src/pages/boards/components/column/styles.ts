@@ -30,6 +30,25 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'center',
             color: 'white',
         },
+        BoardColumnWrapper: {
+            flex: '1',
+            padding: '8px',
+            backgroundColor: '#e5eff5',
+            maxWidth: '300px',
+            minWidth: '300px',
+            borderRadius: '4px',
+            minHeight: '60vh',
+
+            '& + &': {
+                marginLeft: '12px',
+            },
+        },
+        //     BoardColumnContent: {
+        //         minHeight: "20px",
+        // backgroundColor: ${props => (props.isDraggingOver ? '#aecde0' : null)},
+        // borderRadius: "4px",
+        // minHeight: "60vh",
+        //     },
     })
 );
 

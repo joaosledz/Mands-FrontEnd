@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid/EllipsisH';
 import useStyles from './styles';
+import MutableInput from '../multableInput/multableInput';
 
 // Import BoardItem component
 import { BoardItem } from '../item/board-item';
@@ -17,6 +17,7 @@ type BoardColumnProps = {
     items: any;
     index: any;
     type?: string;
+    setTitle: any;
 };
 
 // Define types for board column content style properties
@@ -24,20 +25,6 @@ type BoardColumnProps = {
 type BoardColumnContentStylesProps = {
     isDraggingOver: boolean;
 };
-
-// Create styles for BoardColumnWrapper element
-const BoardColumnWrapper = styled.div`
-    flex: 1;
-    padding: 8px;
-    background-color: #e5eff5;
-    max-width: 300px;
-    border-radius: 4px;
-    min-height: 60vh;
-
-    & + & {
-        margin-left: 12px;
-    }
-`;
 
 // Create styles for BoardColumnContent element
 const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
@@ -50,32 +37,33 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
+
     return (
         <Draggable draggableId={props.column.id} index={props.index}>
             {provided => (
-                <BoardColumnWrapper
+                <div
+                    className={classes.BoardColumnWrapper}
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                 >
                     {/* Title of the column */}
-                    <Grid container>
-                        <Grid item md={2}>
+                    <Grid container {...provided.dragHandleProps}>
+                        <Grid item xs={2}>
                             <div className={classes.circle}>
                                 {props.items.length}
                             </div>
                         </Grid>
-                        <Grid item md={8}>
-                            <Typography
-                                className={classes.title}
-                                {...provided.dragHandleProps}
-                            >
-                                {props.column.title}
-                            </Typography>
+                        <Grid item xs={8}>
+                            <MutableInput
+                                value={props.column.title}
+                                valueSet={props.setTitle}
+                                id={props.column.id}
+                            />
                         </Grid>
-                        <Grid item md={1}>
+                        <Grid item xs={1}>
                             <AddIcon className={classes.icon} />
                         </Grid>
-                        <Grid item md={1}>
+                        <Grid item xs={1}>
                             <EllipsisIcon className={classes.icon} />
                         </Grid>
                     </Grid>
@@ -98,7 +86,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                             </BoardColumnContent>
                         )}
                     </Droppable>
-                </BoardColumnWrapper>
+                </div>
             )}
         </Draggable>
     );

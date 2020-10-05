@@ -45,13 +45,17 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         assignsContainer: {
-            marginTop: '2rem',
+            marginTop: '3rem',
         },
 
         projectAssignGridItem: {
             [theme.breakpoints.down('sm')]: {
                 marginTop: '2rem',
             },
+        },
+
+        submitButtonContainer: {
+            marginTop: '6rem',
         },
     })
 );

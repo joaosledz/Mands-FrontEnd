@@ -3,45 +3,52 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import Hidden from '@material-ui/core/Hidden';
 
 import AppLayout from '../../../../layout/appLayout';
 import BackButton from '../../../../components/backButton';
-import CropImageInput from '../../../../components/cropImage/cropImageInput';
+import SubmitButton from '../../../../components/mainButton';
+import IconSelection from '../components/iconSelection/input';
 import AssignGridItem from '../components/assignGridItem';
 import useStyles from './styles';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
-    const [image, setImage] = useState<File | undefined>(undefined);
+    const [image, setImage] = useState<string | undefined>('');
 
     useEffect(() => {
         document.title = 'Cadastrar Departamento';
     }, []);
 
+    const handleSubmit = () => {
+        const department = {
+            image,
+        };
+        console.log(department);
+    };
+
     return (
         <AppLayout>
             <Paper className={classes.container}>
                 <Grid container>
-                    <Grid item xs={1} md={4} />
-                    <Grid container item xs={12} md={4} justify="center">
-                        <Typography variant="h1" className={classes.title}>
-                            Cadastrar Departamento
-                        </Typography>
-                    </Grid>
-                    <Grid container item xs={12} md={4} justify="flex-end">
+                    <Grid container item xs={12} md={4}>
                         <BackButton
                             message="Voltar para os departamentos"
                             redirect="admin/departamentos"
                         />
                     </Grid>
+                    <Grid container item xs={12} md={4} justify="center">
+                        <Typography variant="h1" className={classes.title}>
+                            Cadastrar Departamento
+                        </Typography>
+                    </Grid>
+                    <Hidden mdDown>
+                        <Grid item xs={1} md={4} />
+                    </Hidden>
                 </Grid>
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
-                        <CropImageInput
-                            image={image}
-                            setImage={setImage}
-                            styles={classes.cropImage}
-                        />
+                        <IconSelection setImage={setImage} />
                     </Grid>
                     <Grid container item xs={12} md={6} spacing={3}>
                         <Grid item xs={12} md={6}>
@@ -72,7 +79,7 @@ const NewDepartment: React.FC = () => {
                         <TextField
                             fullWidth
                             multiline
-                            rows={6}
+                            rows={5}
                             variant="outlined"
                             label="Descrição"
                         />
@@ -100,6 +107,14 @@ const NewDepartment: React.FC = () => {
                         actionIcon="add"
                         styles={classes.projectAssignGridItem}
                     />
+                </Grid>
+                <Grid
+                    container
+                    xs={12}
+                    justify="center"
+                    className={classes.submitButtonContainer}
+                >
+                    <SubmitButton text="Cadastrar" onClick={handleSubmit} />
                 </Grid>
             </Paper>
         </AppLayout>

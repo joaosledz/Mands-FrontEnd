@@ -10,10 +10,11 @@ import TypeParams from '../../../../../models/params';
 import DepartmentAllProps, {
     ApiProps as DepartmentProps,
 } from '../../../../../components/departments/models/department';
+import departments from '../../../../../utils/data/departments';
 
 import AppLayout from '../../../../../layout/appLayout';
 import BackButton from '../../../../../components/backButton';
-import CropImageInput from '../../../../../components/cropImage/cropImageInput';
+import IconSelectionInput from '../../components/iconSelection/input';
 import AssignGridItem from '../../components/assignGridItem';
 import useStyles from './styles';
 
@@ -26,14 +27,15 @@ const Details: React.FC = () => {
     const location = useLocation<LocationProps>();
     const params = useParams<TypeParams>();
 
-    const [image, setImage] = useState<File | undefined>(undefined);
-    // Verificar se existe o location, caso não, fazer chamada a API.
-    const [department] = useState<DepartmentProps>(
-        location.state.props.department
-    );
+    const handleDepartmentData = () => {
+        return location.state?.props.department
+            ? location.state.props.department
+            : departments[0];
+    };
+
+    const [department] = useState<DepartmentProps>(handleDepartmentData());
 
     useEffect(() => {
-        // Tem que trazer o nome da empresa
         document.title = `${department.name} - Mands`;
     }, [department.name]);
 
@@ -58,12 +60,7 @@ const Details: React.FC = () => {
                 </Grid>
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
-                        <CropImageInput
-                            image={image}
-                            setImage={setImage}
-                            disabled
-                            styles={classes.cropImage}
-                        />
+                        <IconSelectionInput image={department.icon} disabled />
                     </Grid>
                     <Grid container item xs={12} md={6} spacing={3}>
                         <Grid item xs={12} md={6}>

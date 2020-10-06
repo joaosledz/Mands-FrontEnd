@@ -25,7 +25,6 @@ const Header: React.FC = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    console.log(window.location.pathname);
 
     return (
         <Grid container component="header" className={classes.container}>

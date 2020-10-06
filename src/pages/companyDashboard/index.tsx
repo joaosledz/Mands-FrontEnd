@@ -7,6 +7,11 @@ import ManageCompanyButton from './components/manageCompanyButton';
 import Departments from '../../components/departments';
 import CompanyDetails from './components/companyDetails';
 
+//#region Fazer chamada a API
+import departments from '../../utils/data/departments';
+import companies, { company } from '../../utils/data/companies';
+//#endregion
+
 import useStyles from './styles';
 
 const Admnistrator: React.FC = () => {
@@ -29,14 +34,16 @@ const Admnistrator: React.FC = () => {
                 >
                     <Grid item xs={12} md={6}>
                         {/* Esconder obotão baseado no tipo de usuário */}
-                        <ManageCompanyButton />
+                        <ManageCompanyButton company={company} />
                         <Departments
+                            baseURL="/"
+                            departments={departments}
                             containerStyles={classes.departments}
                             breakpoints={{ xs: 12, sm: 6, md: 6 }}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <CompanyDetails />
+                        <CompanyDetails companies={companies} data={company} />
                     </Grid>
                 </Grid>
             </Box>

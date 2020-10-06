@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             marginBottom: '2rem',
             color: theme.palette.primary.main,
-            fontSize: '2rem',
+            fontSize: '1.6rem',
             fontWeight: 600,
             textAlign: 'center',
 
-            [theme.breakpoints.down('md')]: {
+            [theme.breakpoints.down('sm')]: {
                 fontSize: '1.75rem',
             },
         },
@@ -45,17 +45,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         assignsContainer: {
-            marginTop: '3rem',
+            marginTop: '2rem',
         },
 
         projectAssignGridItem: {
             [theme.breakpoints.down('sm')]: {
                 marginTop: '2rem',
             },
-        },
-
-        submitButtonContainer: {
-            marginTop: '6rem',
         },
     })
 );

@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, RouteComponentProps } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 
-import TypeParams from '../../../../../models/params';
 import DepartmentAllProps, {
     ApiProps as DepartmentProps,
 } from '../../../../../components/departments/models/department';
 import departments from '../../../../../utils/data/departments';
 
 import AppLayout from '../../../../../layout/appLayout';
-import BackButton from '../../../../../components/backButton';
+import FabButton from '../../../../../components/fabButton';
 import IconSelectionInput from '../../components/iconSelection/input';
+import Header from '../../components/header/header';
 import AssignGridItem from '../../components/assignGridItem';
 import useStyles from './styles';
 
@@ -22,10 +20,9 @@ type LocationProps = {
     props: DepartmentAllProps;
 };
 
-const Details: React.FC = () => {
+const Details: React.FC<RouteComponentProps> = ({ history }) => {
     const classes = useStyles();
     const location = useLocation<LocationProps>();
-    const params = useParams<TypeParams>();
 
     const handleDepartmentData = () => {
         return location.state?.props.department
@@ -33,31 +30,22 @@ const Details: React.FC = () => {
             : departments[0];
     };
 
+    const handleEditURL = () => {
+        const baseURL = location.pathname.split('/detalhes/');
+        const url = `${baseURL[0]}/edicao/${baseURL[1]}`;
+        return url;
+    };
+
     const [department] = useState<DepartmentProps>(handleDepartmentData());
 
     useEffect(() => {
-        document.title = `${department.name} - Mands`;
+        document.title = `${department.name} - Detalhes`;
     }, [department.name]);
 
     return (
         <AppLayout>
             <Paper className={classes.container}>
-                <Grid container spacing={3}>
-                    <Grid container item xs={12} md={4} justify="flex-start">
-                        <BackButton
-                            message="Voltar para os departamentos"
-                            redirect={`admin/${params.company}/departamentos`}
-                        />
-                    </Grid>
-                    <Grid container item xs={12} md={4} justify="center">
-                        <Typography variant="h1" className={classes.title}>
-                            Departamento - {department.name}
-                        </Typography>
-                    </Grid>
-                    <Hidden mdDown>
-                        <Grid item xs={1} md={4} />
-                    </Hidden>
-                </Grid>
+                <Header departmentName={department.name} redirect />
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
                         <IconSelectionInput image={department.icon} disabled />
@@ -115,7 +103,7 @@ const Details: React.FC = () => {
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
                         teamData={department.team}
                         icon="team"
-                        actionIcon="add"
+                        actionIcon="manage"
                     />
                     <AssignGridItem
                         title="Projetos:"
@@ -128,6 +116,11 @@ const Details: React.FC = () => {
                         styles={classes.projectAssignGridItem}
                     />
                 </Grid>
+                <FabButton
+                    title="Editar"
+                    icon="edit"
+                    onClick={() => history.push(handleEditURL(), department)}
+                />
             </Paper>
         </AppLayout>
     );

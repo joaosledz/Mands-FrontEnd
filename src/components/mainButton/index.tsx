@@ -13,15 +13,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const ButtonComponent: React.FC<ButtonProps> = (props: ButtonProps) => {
-    const { text, onClick } = props;
+    const { text, disabled, onClick } = props;
     const classes = useStyles(props);
 
     return (
         <Button
             type="submit"
-            className={classes.button}
             onClick={onClick}
-            // {...rest}
+            disabled={disabled}
+            className={
+                disabled
+                    ? [classes.buttonDisabled, classes.baseButton].join(' ')
+                    : [classes.button, classes.baseButton].join(' ')
+            }
         >
             <Typography className={classes.buttonText}>{text}</Typography>
         </Button>

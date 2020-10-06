@@ -4,6 +4,7 @@ import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import Departments from '../pages/adminDashboard/departments';
 import RegisterDepartment from '../pages/adminDashboard/departments/newDepartment';
 import DepartmentDetails from '../pages/adminDashboard/departments/department/details';
+import DepartmentEdit from '../pages/adminDashboard/departments/department/edit';
 
 const AdministratorRoutes = () => {
     const { path } = useRouteMatch();
@@ -22,6 +23,10 @@ const AdministratorRoutes = () => {
             <Route
                 path={`${path}/:company/departamentos/detalhes/:name`}
                 component={DepartmentDetails}
+            />
+            <Route
+                path={`${path}/:company/departamentos/edicao/:name`}
+                component={DepartmentEdit}
             />
             <Redirect
                 exact

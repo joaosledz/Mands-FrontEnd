@@ -12,7 +12,7 @@ type Props = {
     icon?: 'plus' | 'edit';
     size?: 'small' | 'medium' | 'large';
     style?: string;
-    onClick?: () => void | ((path: string) => void);
+    onClick?: () => void;
 };
 
 const FabButton: React.FC<Props> = (props: Props) => {

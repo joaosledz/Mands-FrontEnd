@@ -1,70 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, RouteComponentProps } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
-import DepartmentAllProps, {
-    ApiProps as DepartmentProps,
-} from '../../../../../components/departments/models/department';
+import { ApiProps as DepartmentProps } from '../../../../../components/departments/models/department';
 import departments from '../../../../../utils/data/departments';
 
 import AppLayout from '../../../../../layout/appLayout';
-import FabButton from '../../../../../components/fabButton';
+import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
-import Header from '../../components/header/header';
 import AssignGridItem from '../../components/assignGridItem';
+import Header from '../../components/header/header';
 import useStyles from './styles';
 
-type LocationProps = {
-    props: DepartmentAllProps;
-};
-
-const Details: React.FC<RouteComponentProps> = ({ history }) => {
+const Edit: React.FC = () => {
     const classes = useStyles();
-    const location = useLocation<LocationProps>();
+    const location = useLocation<DepartmentProps>();
 
     const handleDepartmentData = () => {
-        return location.state?.props.department
-            ? location.state.props.department
-            : departments[0];
+        return location.state ? location.state : departments[0];
     };
-
-    const handleEditURL = () => {
-        const baseURL = location.pathname.split('/detalhes/');
-        const url = `${baseURL[0]}/edicao/${baseURL[1]}`;
-        return url;
-    };
-
-    const [department] = useState<DepartmentProps>(handleDepartmentData());
+    const departmentState = handleDepartmentData();
+    const [department, setDepartment] = useState<DepartmentProps>(
+        departmentState
+    );
+    const [departmentChanged, setDepartmentChanged] = useState<boolean>(false);
 
     useEffect(() => {
-        document.title = `${department.name} - Detalhes`;
-    }, [department.name]);
+        document.title = `${departmentState.name} - Edição`;
+    }, [departmentState.name]);
+
+    useEffect(() => {
+        const checkDepartmentChanged = () => {
+            if (JSON.stringify(departmentState) === JSON.stringify(department))
+                setDepartmentChanged(false);
+            else setDepartmentChanged(true);
+        };
+        checkDepartmentChanged();
+    }, [department, departmentState]);
+
+    const handleChange = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        key: string
+    ) => {
+        setDepartment({
+            ...department,
+            [key]: event.target.value,
+        });
+    };
 
     return (
         <AppLayout>
             <Paper className={classes.container}>
-                <Header departmentName={department.name} redirect />
+                <Header
+                    departmentName={departmentState.name}
+                    message="Cancelar Edição"
+                />
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
-                        <IconSelectionInput image={department.icon} disabled />
+                        <IconSelectionInput image={department.icon} />
                     </Grid>
                     <Grid container item xs={12} md={6} spacing={3}>
                         <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
                                 variant="outlined"
-                                disabled
                                 label="Nome"
                                 value={department.name}
+                                onChange={event => handleChange(event, 'name')}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
-                                variant="outlined"
                                 disabled
+                                variant="outlined"
                                 label="Gerente"
                                 value="Ana Tartari"
                             />
@@ -73,21 +84,23 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                             <TextField
                                 fullWidth
                                 variant="outlined"
-                                disabled
                                 label="Email"
                                 value={department.email}
+                                onChange={event => handleChange(event, 'email')}
                             />
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <TextField
-                            disabled
                             fullWidth
                             multiline
                             rows={6}
                             variant="outlined"
                             label="Descrição"
                             value={department.description}
+                            onChange={event =>
+                                handleChange(event, 'description')
+                            }
                         />
                     </Grid>
                 </Grid>
@@ -116,14 +129,21 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                         styles={classes.projectAssignGridItem}
                     />
                 </Grid>
-                <FabButton
-                    title="Editar"
-                    icon="edit"
-                    onClick={() => history.push(handleEditURL(), department)}
-                />
+                <Grid
+                    container
+                    xs={12}
+                    justify="center"
+                    className={classes.submitButtonContainer}
+                >
+                    <SubmitButton
+                        text="Salvar alterações"
+                        disabled={!departmentChanged}
+                        onClick={() => console.log(!departmentChanged)}
+                    />
+                </Grid>
             </Paper>
         </AppLayout>
     );
 };
 
-export default Details;
+export default Edit;

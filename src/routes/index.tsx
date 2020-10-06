@@ -7,6 +7,7 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import Login from '../pages/authentication/login';
 import Register from '../pages/authentication/register';
 import ForgotPassword from '../pages/authentication/forgotPassword';
+import RecoveryPassword from '../pages/authentication/recoveryPassword';
 //#endregion
 
 //#region Rotas da aplicação
@@ -28,6 +29,10 @@ const Routes = () => (
             <Route path="/" component={Login} exact />
             <Route path="/criar-conta" component={Register} />
             <Route path="/esqueci-a-senha" component={ForgotPassword} />
+            <Route
+                path="/recuperar-senha/:token"
+                component={RecoveryPassword}
+            />
             {/* Transformar as rotas abaixo em PrivateRoute */}
             <Route path="/perfil" component={UserProfile} />
             <Route path="/editar-perfil" component={UserProfileEdit} />

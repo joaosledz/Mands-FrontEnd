@@ -1,6 +1,8 @@
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme: Theme) =>
+// type props = {
+//     isDraggingOver?: boolean;
+// };
+const useStyles = makeStyles<Theme>(theme =>
     createStyles({
         title: {
             fontFamily: 'Roboto Slab',
@@ -43,12 +45,12 @@ const useStyles = makeStyles((theme: Theme) =>
                 marginLeft: '12px',
             },
         },
-        //     BoardColumnContent: {
-        //         minHeight: "20px",
-        // backgroundColor: ${props => (props.isDraggingOver ? '#aecde0' : null)},
-        // borderRadius: "4px",
-        // minHeight: "60vh",
-        //     },
+        // BoardColumnContent: {
+        //     backgroundColor: props =>
+        //         props.isDraggingOver ? '#aecde0' : '#e5eff5',
+        //     borderRadius: '4px',
+        //     minHeight: '60vh',
+        // },
     })
 );
 

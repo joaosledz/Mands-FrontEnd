@@ -3,7 +3,7 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
-import Props from '../models/department';
+import Props from '../../../models/department';
 
 import useStyles from './styles';
 

@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
-import { ApiProps as DepartmentProps } from '../../../../../components/departments/models/department';
+import { ApiProps as DepartmentProps } from '../../../../../models/department';
 import departments from '../../../../../utils/data/departments';
 
 import AppLayout from '../../../../../layout/appLayout';
@@ -112,7 +112,7 @@ const Edit: React.FC = () => {
                 >
                     <AssignGridItem
                         title="Equipe:"
-                        type="team"
+                        category="team"
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
                         teamData={department.team}
                         icon="team"
@@ -120,7 +120,7 @@ const Edit: React.FC = () => {
                     />
                     <AssignGridItem
                         title="Projetos:"
-                        type="project"
+                        category="project"
                         description="Gerencie os projetos deste departamento pelo botão no
                         canto superior direito."
                         projectData={department.projects}

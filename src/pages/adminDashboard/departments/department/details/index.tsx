@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 
 import DepartmentAllProps, {
     ApiProps as DepartmentProps,
-} from '../../../../../components/departments/models/department';
+} from '../../../../../models/department';
 import departments from '../../../../../utils/data/departments';
 
 import AppLayout from '../../../../../layout/appLayout';
@@ -99,7 +99,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                 >
                     <AssignGridItem
                         title="Equipe:"
-                        type="team"
+                        category="team"
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
                         teamData={department.team}
                         icon="team"
@@ -107,7 +107,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                     />
                     <AssignGridItem
                         title="Projetos:"
-                        type="project"
+                        category="project"
                         description="Gerencie os projetos deste departamento pelo botão no
                         canto superior direito."
                         projectData={department.projects}

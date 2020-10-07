@@ -12,7 +12,7 @@ import useStyles from './styles';
 
 const AssignButton: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { icon, actionIcon } = props;
+    const { icon, actionIcon, onClick } = props;
 
     const Icon = () => {
         switch (icon) {
@@ -37,7 +37,7 @@ const AssignButton: React.FC<Props> = (props: Props) => {
     };
 
     return (
-        <Button className={classes.button}>
+        <Button className={classes.button} onClick={onClick}>
             <Icon />
             <Paper id="paper">
                 <ActionIcon />

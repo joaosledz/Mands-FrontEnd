@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import { TypeProjects } from '../../../../../../components/departments/models/department';
+import { TypeProjects } from '../../../../../../models/department';
 
 import useStyles from './styles';
 

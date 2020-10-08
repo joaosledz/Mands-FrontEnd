@@ -1,6 +1,6 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonProps } from '@material-ui/core/Button';
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface Props extends ButtonProps {
     icon: 'team' | 'document';
     actionIcon: 'add' | 'manage';
 }

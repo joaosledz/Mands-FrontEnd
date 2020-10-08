@@ -116,6 +116,7 @@ const Edit: React.FC = () => {
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
                         teamData={department.team}
                         icon="team"
+                        edit
                         actionIcon="manage"
                     />
                     <AssignGridItem
@@ -126,12 +127,12 @@ const Edit: React.FC = () => {
                         projectData={department.projects}
                         icon="document"
                         actionIcon="manage"
+                        edit
                         styles={classes.projectAssignGridItem}
                     />
                 </Grid>
                 <Grid
                     container
-                    xs={12}
                     justify="center"
                     className={classes.submitButtonContainer}
                 >

@@ -4,13 +4,14 @@ type ButtonProps = {
     mt?: number;
     mw?: number;
     mwt?: number;
+    hg?: number;
 };
 
 const useStyles = makeStyles<Theme, ButtonProps>(theme =>
     createStyles({
         baseButton: {
             width: '100%',
-            height: 50,
+            height: props => (props.hg ? props.hg : 50),
             maxWidth: props => (props.mw ? props.mw : 260),
             marginTop: props => props.mt,
             padding: '10px',

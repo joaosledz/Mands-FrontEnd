@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -22,4 +22,4 @@ const Header: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default Header;
+export default memo(Header);

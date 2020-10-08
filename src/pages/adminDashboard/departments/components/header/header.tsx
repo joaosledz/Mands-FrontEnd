@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
@@ -48,4 +48,4 @@ const Header: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default Header;
+export default memo(Header);

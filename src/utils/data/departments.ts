@@ -12,18 +12,25 @@ const departments = [
         phone: '71 999518723',
         team: [
             {
-                // id: number;
+                id: 0,
                 name: 'Guilherme Simões',
                 username: 'GuilhermeSimoes',
                 image: guilhermeSimImage,
                 jobTitle: 'Desenvolvedor Full-Stack',
             },
             {
-                // id: number;
-                name: 'Guilherme Simões',
-                username: 'GuilhermeSimoes',
+                id: 3,
+                name: 'Nicole Figueredo',
+                username: 'NicoleFigueredo',
                 image: guilhermeSimImage,
-                jobTitle: 'Desenvolvedor Full-Stack',
+                jobTitle: 'Desenvolvedor Front-End',
+            },
+            {
+                id: 2,
+                name: 'Nicole Figueredo',
+                username: 'NicoleFigueredo',
+                image: guilhermeSimImage,
+                jobTitle: 'Desenvolvedor Front-End',
             },
         ],
         projects: [

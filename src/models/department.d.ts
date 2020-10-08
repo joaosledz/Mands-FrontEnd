@@ -1,5 +1,5 @@
 export type TypeTeam = {
-    // id: number;
+    id: number;
     name: string;
     username: string;
     image: string;

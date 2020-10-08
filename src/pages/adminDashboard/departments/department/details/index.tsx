@@ -103,6 +103,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
                         teamData={department.team}
                         icon="team"
+                        disabled
                         actionIcon="manage"
                     />
                     <AssignGridItem
@@ -113,6 +114,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                         projectData={department.projects}
                         icon="document"
                         actionIcon="manage"
+                        disabled
                         styles={classes.projectAssignGridItem}
                     />
                 </Grid>

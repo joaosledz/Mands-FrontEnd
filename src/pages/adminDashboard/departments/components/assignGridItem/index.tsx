@@ -16,9 +16,10 @@ interface Props extends AssignButtonProps {
     title: string;
     category: 'team' | 'project';
     description: string;
-    styles?: string;
     teamData?: Array<TypeTeam>;
     projectData?: Array<TypeProjects>;
+    edit?: boolean;
+    styles?: string;
 }
 
 const AssignGridItem: React.FC<Props> = (props: Props) => {
@@ -31,10 +32,12 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         teamData = [],
         projectData = [],
         actionIcon,
+        disabled,
         styles,
+        edit,
     } = props;
 
-    const [showTeamModal, setShowTeamModal] = useState<boolean>(true);
+    const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
     const [showProjectsModal, setShowProjectsModal] = useState<boolean>(false);
 
     const openAssignModal = () => {
@@ -65,13 +68,16 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                             {title}
                         </Typography>
                     </Grid>
-                    <Grid item>
-                        <AssignButton
-                            icon={icon}
-                            actionIcon={actionIcon}
-                            onClick={openAssignModal}
-                        />
-                    </Grid>
+                    {!disabled && (
+                        <Grid item>
+                            <AssignButton
+                                icon={icon}
+                                actionIcon={actionIcon}
+                                disabled={disabled}
+                                onClick={openAssignModal}
+                            />
+                        </Grid>
+                    )}
                 </Grid>
                 <Grid
                     container
@@ -101,10 +107,15 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                     )}
                 </Grid>
             </Grid>
-            <AssignTeamModal
-                isOpen={showTeamModal}
-                setIsOpen={setShowTeamModal}
-            />
+            {edit && category === 'team' ? (
+                <AssignTeamModal
+                    isOpen={showTeamModal}
+                    setIsOpen={setShowTeamModal}
+                    data={teamData}
+                />
+            ) : (
+                <></>
+            )}
         </>
     );
 };

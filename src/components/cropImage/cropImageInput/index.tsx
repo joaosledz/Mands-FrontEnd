@@ -17,12 +17,13 @@ type Props = {
     title?: string;
     image: File | undefined;
     setImage: Dispatch<SetStateAction<File | undefined>>;
+    disabled?: boolean;
     styles?: string;
 };
 
 const CropImageInput: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { title, image, setImage, styles } = props;
+    const { title, image, setImage, disabled, styles } = props;
 
     const [imagePreview, setImagePreview] = useState<string>('');
 
@@ -89,6 +90,7 @@ const CropImageInput: React.FC<Props> = (props: Props) => {
                     style={{
                         display: 'none',
                     }}
+                    disabled={disabled}
                     onChange={handleChangeImage}
                 />
             </Typography>

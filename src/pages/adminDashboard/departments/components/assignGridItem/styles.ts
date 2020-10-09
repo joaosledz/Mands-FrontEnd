@@ -5,10 +5,6 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             height: '21rem',
             padding: '1rem',
-
-            [theme.breakpoints.down('sm')]: {
-                marginTop: '2rem',
-            },
         },
 
         title: {
@@ -18,8 +14,18 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'left',
         },
 
-        projectsContainer: {
-            '& p': { textAlign: 'center', color: 'gray' },
+        assignContainer: {
+            paddingTop: 0,
+            maxHeight: '70%',
+            overflowY: 'auto',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+
+            '& .empty-data': {
+                marginTop: '2.5rem',
+                textAlign: 'center',
+                color: 'gray',
+            },
         },
     })
 );

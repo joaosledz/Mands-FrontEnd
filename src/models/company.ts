@@ -1,4 +1,4 @@
-export type ICompany = {
+type TypeCompany = {
     id: number;
     name: string;
     president: string;
@@ -6,3 +6,5 @@ export type ICompany = {
     email: string;
     telephone: string;
 };
+
+export default TypeCompany;

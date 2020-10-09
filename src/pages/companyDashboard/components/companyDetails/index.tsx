@@ -1,46 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 
-import { ICompany } from './models/ICompany';
-// import DevIcon from '../../../../assets/selectableIcons/webPrograming.svg';
+import TypeCompany from '../../../../models/company';
+
 import Header from './components/header';
 import CompanyData from './components/companyDataContainer';
 import useStyles from './styles';
 
-interface DepartmentsProps {
-    containerStyles?: string;
-}
-
-const data = {
-    id: 1,
-    name: 'IT - Inteligência e Tecnologia',
-    president: 'Guto Sobrenome',
-    cnpj: '82.739.380/0001-45',
-    email: 'contato@inteligencia&tecnologia.com.br',
-    telephone: '(71) 99951-4381',
+type Props = {
+    companies: Array<TypeCompany>;
+    data: TypeCompany;
 };
 
-const companies = [
-    { ...data },
-    {
-        id: 2,
-        name: 'Facebook',
-        president: 'Mark Zuckeberg',
-        cnpj: '82.739.380/0001-45',
-        email: 'support@facebook.com',
-        telephone: '',
-    },
-];
-
-const CompanyDetails: React.FC<DepartmentsProps> = ({ containerStyles }) => {
+const CompanyDetails: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const [company] = useState<ICompany>(data);
+    const { companies, data } = props;
     return (
         <Paper className={classes.container}>
             <Header companies={companies} />
             <Divider variant="middle" className={classes.divider} />
-            <CompanyData data={company} />
+            <CompanyData data={data} />
         </Paper>
     );
 };

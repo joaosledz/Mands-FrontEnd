@@ -2,20 +2,16 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {
-            height: '21rem',
-            padding: '1rem',
-        },
-
         title: {
+            marginBottom: '2rem',
             color: theme.palette.primary.main,
             fontSize: '1.6rem',
-            fontWeight: 500,
-            textAlign: 'left',
-        },
+            fontWeight: 600,
+            textAlign: 'center',
 
-        teamContainer: {
-            '& p': { textAlign: 'center', color: 'gray' },
+            [theme.breakpoints.down('sm')]: {
+                fontSize: '1.75rem',
+            },
         },
     })
 );

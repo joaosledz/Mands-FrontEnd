@@ -12,11 +12,17 @@ const useStyles = makeStyles((theme: Theme) =>
             boxShadow: theme.shadows[2],
 
             '& #paper': {
+                width: 20,
                 height: 20,
                 borderRadius: '50%',
+
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+
                 position: 'absolute',
-                bottom: 0,
-                right: 0,
+                bottom: -1,
+                right: -4,
 
                 '& svg': {
                     verticalAlign: 'initial',

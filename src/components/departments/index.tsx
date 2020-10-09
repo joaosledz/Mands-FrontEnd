@@ -4,50 +4,27 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { Breakpoints } from './models/breakpoints';
+import { ApiProps as DepartmentProps } from '../../models/department';
 
 import Department from './department';
-import DevIcon from '../../assets/selectableIcons/webPrograming.svg';
 import useStyles from './styles';
 
 interface Props {
     title?: string;
+    baseURL: string;
+    departments: Array<DepartmentProps>;
     containerStyles?: string;
     breakpoints: Breakpoints;
 }
 
-const departments = [
-    {
-        name: 'Desenvolvedores',
-        icon: DevIcon,
-        path: '/',
-    },
-    {
-        name: 'Financeiro',
-        icon: DevIcon,
-        path: '/',
-    },
-    {
-        name: 'Financeiro',
-        icon: DevIcon,
-        path: '/',
-    },
-    {
-        name: 'Financeiro',
-        icon: DevIcon,
-        path: '/',
-    },
-    // {
-    //     name: 'Financeiro',
-    //     icon: DevIcon,
-    // },
-    // {
-    //     name: 'Financeiro',
-    //     icon: DevIcon,
-    // },
-];
-
 const Departments: React.FC<Props> = (props: Props) => {
-    const { title = 'Departamentos:', containerStyles, breakpoints } = props;
+    const {
+        title = 'Departamentos:',
+        baseURL,
+        departments,
+        containerStyles,
+        breakpoints,
+    } = props;
     const classes = useStyles();
     return (
         <Paper
@@ -63,13 +40,9 @@ const Departments: React.FC<Props> = (props: Props) => {
                 spacing={3}
                 className={classes.departmentsContainer}
             >
-                {departments.map(department => (
-                    <Grid item {...breakpoints}>
-                        <Department
-                            name={department.name}
-                            icon={department.icon}
-                            path={department.path}
-                        />
+                {departments.map((department, index) => (
+                    <Grid key={index} item {...breakpoints}>
+                        <Department department={department} baseURL={baseURL} />
                     </Grid>
                 ))}
             </Grid>

@@ -13,16 +13,16 @@ import Routes from './utils/routes';
 
 import useStyles from './styles';
 
-interface Props {
+type Props = {
     logo: string;
     divider?: boolean;
-}
+};
 
 const Drawer: React.FC<Props> = (props: Props) => {
     const { logo, divider } = props;
     const classes = useStyles();
 
-    const [page] = useState(window.location.href.split('/')[4]);
+    const [page] = useState(window.location.href.split('/')[5]);
 
     return (
         <Box className={classes.drawer}>

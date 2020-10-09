@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme: Theme) =>
                 },
             },
         },
+
+        button: {
+            marginBottom: '1.8rem',
+        },
     })
 );
 

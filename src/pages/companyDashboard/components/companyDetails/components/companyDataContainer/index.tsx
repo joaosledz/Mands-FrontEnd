@@ -1,13 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
-import { ICompany } from '../../models/ICompany';
+import TypeCompany from '../../../../../../models/company';
 
 import CompanyDataItem from '../../../../../../components/dataTextGridItem';
 // import useStyles from './styles';
 
 interface ICompanyDataContainer {
-    data: ICompany;
+    data: TypeCompany;
 }
 
 const CompanyDataContainer: React.FC<ICompanyDataContainer> = ({ data }) => {

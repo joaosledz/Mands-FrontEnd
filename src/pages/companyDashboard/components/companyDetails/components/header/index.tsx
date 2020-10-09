@@ -7,13 +7,13 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import { ICompany } from '../../models/ICompany';
+import TypeCompany from '../../../../../../models/company';
 
 import ITLogo from '../../../../../../assets/companiesImages/IT2.png';
 import useStyles from './styles';
 
 interface HeaderProps {
-    companies: Array<ICompany>;
+    companies: Array<TypeCompany>;
 }
 
 const Header: React.FC<HeaderProps> = ({ companies }) => {

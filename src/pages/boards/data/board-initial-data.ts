@@ -1,34 +1,37 @@
 export const initialBoardData = {
     items: {
-        'item-1': { id: 'item-1', content: 'Content of item 1.' },
-        'item-2': { id: 'item-2', content: 'Content of item 2.' },
+        'item-1': {
+            id: 'item-1',
+            title: 'Relatório Financeiro',
+            tag: 'Financeiro',
+            tagColor: 'green',
+            members: ['Raiane Souza', 'Josefa Oliveira'],
+        },
+        'item-2': {
+            id: 'item-2',
+            title: 'Relatório de Marketing',
+            tag: 'Marketing',
+            tagColor: 'blue',
+            members: ['Raiane Souza', 'Xandão'],
+        },
         'item-3': {
             id: 'item-3',
-            content:
-                'Algo grande Algo grande Algo grande Algo grande Algo grande.',
+            title: 'Andamento Alvenaria',
+            tag: 'Reforma',
+            tagColor: 'orange',
+            members: ['Raiane Souza', 'José Lima'],
         },
-        'item-4': { id: 'item-4', content: 'Content of item 4.' },
-        'item-5': { id: 'item-5', content: 'Content of item 5.' },
-        'item-6': { id: 'item-6', content: 'Content of item 6.' },
-        'item-7': { id: 'item-7', content: 'Content of item 7.' },
     },
     columns: {
         'column-1': {
             id: 'column-1',
             title: 'A Fazer',
-            itemsIds: [
-                'item-1',
-                'item-2',
-                'item-3',
-                'item-4',
-                'item-5',
-                'item-6',
-            ],
+            itemsIds: ['item-1', 'item-2', 'item-3'],
         },
         'column-2': {
             id: 'column-2',
             title: 'Em Andamento',
-            itemsIds: ['item-7'],
+            itemsIds: [],
         },
         'column-3': {
             id: 'column-3',

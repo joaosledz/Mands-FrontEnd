@@ -35,7 +35,7 @@ const useStyles = makeStyles<Theme>(theme =>
         BoardColumnWrapper: {
             flex: '1',
             padding: '8px',
-            backgroundColor: '#e5eff5',
+            backgroundColor: '#e8d9eb',
             maxWidth: '300px',
             minWidth: '300px',
             borderRadius: '4px',

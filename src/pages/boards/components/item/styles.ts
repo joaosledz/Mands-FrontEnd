@@ -18,6 +18,41 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '20px auto',
             borderRadius: '0px',
         },
+        icon: {
+            color: '#6E6E6E',
+        },
+        iconTask: {
+            color: '#6E6E6E',
+            width: '14px',
+        },
+        paper: {
+            width: '100%',
+            maxWidth: '50vw',
+            padding: '10px 10px 10px',
+            boxShadow: theme.shadows[5],
+
+            position: 'fixed',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            left: 0,
+            right: 0,
+            textAlign: 'center',
+            // overflow: 'auto'
+        },
+        taskTitle: {
+            color: theme.palette.primary.main,
+            fontWeight: 'lighter',
+            fontFamily: 'Arvo',
+        },
+        members: {
+            borderTop: '1px solid #cccccc',
+        },
+        memberName: {
+            paddingRight: '3px',
+            color: 'blue',
+            fontFamily: 'Roboto slab',
+            fontSize: '0.7rem',
+        },
     })
 );
 

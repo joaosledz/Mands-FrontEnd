@@ -1,9 +1,13 @@
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
+type Props = {
+    white?: boolean;
+}
+
+const useStyles = makeStyles<Theme, Props>((theme) =>
     createStyles({
         backButton: {
-            color: '#707070',
+            color: props => props.white ? theme.palette.primary.contrastText : '#707070',
             fontFamily: 'Roboto slab',
             fontWeight: 500,
             textDecoration: 'none',
@@ -17,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
 
             '&:hover': {
-                color: theme.palette.primary.main,
+                color: props => props.white ? '#D9D5D5' :theme.palette.primary.main,
                 textDecoration: 'underline',
                 '& svg': {
                     marginRight: 9,

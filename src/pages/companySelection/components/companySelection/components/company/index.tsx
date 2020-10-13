@@ -1,24 +1,35 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
+import { useHistory } from 'react-router-dom';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import Avatar from '@material-ui/core/Avatar';
-import { Link as RouterLink } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+
+import CompanyType from '../../../../../../models/company';
+import handleUrlParamName from '../../../../../../utils/functions/handleUrlParamName';
 
 import useStyles from './styles';
 
-interface ICompany {
-    logo: string;
-    name: string;
-}
+type Props = {
+    company: CompanyType;
+};
 
-const Company: React.FC<ICompany> = ({ logo, name }) => {
+const Company: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const history = useHistory();
+    const { company } = props;
+    const { logo, name } = company;
+
+    const handleCompanySelection = (companyData: CompanyType) => {
+        sessionStorage.setItem(
+            '@Mands:CompanyData',
+            JSON.stringify(companyData)
+        );
+        history.push(`/dashboard/${handleUrlParamName(name)}`);
+    };
 
     return (
-        // Modificar "to" passando o nome da empresa e ID por props
-        <Link
-            component={RouterLink}
-            to="/dashboard/IT"
+        <ButtonBase
+            onClick={() => handleCompanySelection(company)}
             className={classes.container}
         >
             <Avatar
@@ -27,7 +38,7 @@ const Company: React.FC<ICompany> = ({ logo, name }) => {
                 className={classes.companyLogo}
             />
             <Typography className={classes.companyName}>{name}</Typography>
-        </Link>
+        </ButtonBase>
     );
 };
 

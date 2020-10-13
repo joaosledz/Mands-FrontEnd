@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import useStyles from './styles';
 import BackButton from '../../../components/backButton';
 import Avatar from '@material-ui/core/Avatar';
-import ProfilePic from '../../../assets/avatar.png';
+import ProfilePic from '../../../assets/fakeDataImages/employees/anaTartari.png';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';

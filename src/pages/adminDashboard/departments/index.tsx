@@ -39,7 +39,7 @@ const Departments: React.FC<RouteComponentProps> = ({ history }) => {
                     >
                         <DepartmentsContent
                             title="Selecione um departamento:"
-                            baseURL={`admin/${params.company}/departamentos/detalhes`}
+                            baseURL={`admin/${params.companyName}/departamentos/detalhes`}
                             departments={departments}
                             breakpoints={{ xs: 12, sm: 6, md: 4 }}
                             containerStyles={

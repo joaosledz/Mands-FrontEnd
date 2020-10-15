@@ -9,12 +9,14 @@ import useStyles from './styles';
 
 type Props = {
     message: string;
+    white?: boolean;
     redirect?: string;
 };
 
-const BackButton: React.FC<Props> = ({ message, redirect }) => {
-    const classes = useStyles();
+const BackButton: React.FC<Props> = (props: Props) => {
+    const classes = useStyles(props);
     const history = useHistory();
+    const { message, redirect } = props;
     return (
         <>
             {redirect ? (

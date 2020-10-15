@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
 import AppLayout from '../../../layout/appLayout';
 import Header from '../components/header';
 import SideBar from '../components/sidebar';
-import DepartmentsContent from '../../../components/departments';
+import DepartmentsContent from './components/departments/departments';
 import FabButton from '../../../components/fabButton';
 
-import TypeParams from '../../../models/params';
+// import TypeParams from '../../../models/params';
 
-import departments from '../../../utils/data/departments';
+import departmentsData from '../../../utils/data/departments';
 import useStyles from './styles';
 
-const Departments: React.FC<RouteComponentProps> = ({ history }) => {
+const Departments: React.FC = () => {
     const classes = useStyles();
-    const params = useParams<TypeParams>();
+    const history = useHistory();
 
     useEffect(() => {
         document.title = 'Admin - Departamentos';
@@ -38,10 +38,7 @@ const Departments: React.FC<RouteComponentProps> = ({ history }) => {
                         className={classes.departmentsContainer}
                     >
                         <DepartmentsContent
-                            title="Selecione um departamento:"
-                            baseURL={`admin/${params.companyName}/departamentos/detalhes`}
-                            departments={departments}
-                            breakpoints={{ xs: 12, sm: 6, md: 4 }}
+                            departments={departmentsData}
                             containerStyles={
                                 classes.departmentsContentContainer
                             }

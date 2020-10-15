@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
 import logo from '../../../../assets/logo/logo_branca.svg';
-import avatar from '../../../../assets/avatar.png';
+import avatar from '../../../../assets/fakeDataImages/employees/anaTartari.png';
 
 import useStyles from './styles';
 

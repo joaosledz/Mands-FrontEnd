@@ -15,6 +15,7 @@ import CompanySelection from '../pages/companySelection';
 import UserProfile from '../pages/userProfile/main';
 import UserProfileEdit from '../pages/userProfile/edit';
 import CompanyDashboard from '../pages/companyDashboard';
+import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
 //#endregion
 
@@ -38,11 +39,15 @@ const Routes = () => (
             <Route path="/perfil" component={UserProfile} />
             <Route path="/editar-perfil" component={UserProfileEdit} />
             <Route path="/escolha-da-empresa" component={CompanySelection} />
-            <Route path="/quadros" component={Boards} />
             <Route
                 path="/dashboard/:companyName"
                 component={CompanyDashboard}
             />
+            <Route
+                path="/:companyName/departamento/:departmentName"
+                component={DepartmentDashboard}
+            />
+            <Route path="/quadros" component={Boards} />
             {/* Rotas do Administrador */}
             <Route path="/admin" component={AdministratorRoutes} />
         </Switch>

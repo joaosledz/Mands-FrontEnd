@@ -3,17 +3,18 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
+import CompanyType from '../../../../models/company';
+
 import Company from './components/company';
 import useStyles from './styles';
 
-import ITLogo from '../../../../assets/companiesImages/IT2.png';
+type Props = {
+    companies: Array<CompanyType>;
+};
 
-interface ICompanySelection {
-    companies: Array<{ name: string }> | null;
-}
-
-const CompanySelection: React.FC<ICompanySelection> = ({ companies }) => {
+const CompanySelection: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { companies } = props;
 
     return (
         <Box className={classes.container}>
@@ -35,7 +36,7 @@ const CompanySelection: React.FC<ICompanySelection> = ({ companies }) => {
                         }
                         style={{ justifyContent: 'center' }}
                     >
-                        <Company logo={ITLogo} name={company.name} />
+                        <Company company={company} />
                     </Grid>
                 ))}
             </Grid>

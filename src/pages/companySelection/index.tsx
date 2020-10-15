@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import AppLayout from '../../layout/appLayout';
 import EmptyCompanies from './components/emptyCompanies';
 import Companies from './components/companySelection';
 import FabButton from '../../components/fabButton';
 
-import companies from '../../utils/data/companies';
+import companiesData from '../../utils/data/companies';
 
 const CompanySelection: React.FC = () => {
+    const [companies] = useState(companiesData);
+
     return (
         <AppLayout>
             {companies ? (

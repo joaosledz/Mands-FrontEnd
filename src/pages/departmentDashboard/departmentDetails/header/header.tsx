@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import TypeCompany from '../../../../../../models/company';
+import { ApiProps as DepartmentType } from '../../../../models/department';
 
-import ITLogo from '../../../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import useStyles from './styles';
 
-interface HeaderProps {
-    companies: Array<TypeCompany>;
-}
+type Props = {
+    department: DepartmentType | undefined;
+    departments: Array<DepartmentType>;
+};
 
-const Header: React.FC<HeaderProps> = ({ companies }) => {
+const Header: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { department, departments } = props;
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -31,16 +31,12 @@ const Header: React.FC<HeaderProps> = ({ companies }) => {
 
     return (
         <Box>
-            <Button onClick={handleOpen}>
-                <Avatar
-                    src={ITLogo}
-                    alt="Logo da empresa"
-                    className={classes.avatar}
-                />
-                <Typography variant="h5" className={classes.companyName}>
-                    IT - Inteligência e Tecnologia
+            <Button onClick={handleOpen} className={classes.button}>
+                <img src={department?.icon} alt="ícone do departamento" />
+                <Typography variant="h5" /* className={classes.companyName} */>
+                    {department?.name}
                 </Typography>
-                <ChevronDownIcon size={24} color="#505050" />
+                <ChevronDownIcon color="#505050" />
             </Button>
             <Menu
                 id="simple-menu"
@@ -49,9 +45,11 @@ const Header: React.FC<HeaderProps> = ({ companies }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem disabled>Trocar de empresa:</MenuItem>
-                {companies.map(company => (
-                    <MenuItem onClick={handleClose}>{company.name}</MenuItem>
+                <MenuItem disabled>Trocar de Departamento:</MenuItem>
+                {departments.map(department => (
+                    <MenuItem onClick={handleClose}>
+                        {department?.name}
+                    </MenuItem>
                 ))}
             </Menu>
         </Box>

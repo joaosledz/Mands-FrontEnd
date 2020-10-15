@@ -39,6 +39,16 @@ const departments = [
                 name: 'Seu Zé',
                 icon: seuZeImage,
             },
+            {
+                // id: number,
+                name: 'Seu Zé',
+                icon: seuZeImage,
+            },
+            {
+                // id: number,
+                name: 'Seu Zé',
+                icon: seuZeImage,
+            },
         ],
     },
     {

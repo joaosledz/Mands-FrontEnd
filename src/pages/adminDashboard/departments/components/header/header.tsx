@@ -10,7 +10,7 @@ import BackButton from '../../../../../components/backButton';
 import useStyles from './styles';
 
 type Props = {
-    departmentName: string;
+    departmentName: string | undefined;
     message?: string;
     redirect?: boolean;
 };

@@ -126,7 +126,7 @@ const Edit: React.FC = () => {
                         canto superior direito."
                         projectData={department.projects}
                         icon="document"
-                        actionIcon="manage"
+                        actionIcon="add"
                         edit
                         styles={classes.projectAssignGridItem}
                     />

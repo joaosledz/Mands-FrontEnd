@@ -4,10 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
-import DepartmentAllProps, {
-    ApiProps as DepartmentProps,
-} from '../../../../../models/department';
-import departments from '../../../../../utils/data/departments';
+import { ApiProps as DepartmentType } from '../../../../../models/department';
 
 import AppLayout from '../../../../../layout/appLayout';
 import FabButton from '../../../../../components/fabButton';
@@ -17,38 +14,42 @@ import AssignGridItem from '../../components/assignGridItem';
 import useStyles from './styles';
 
 type LocationProps = {
-    props: DepartmentAllProps;
+    department: DepartmentType;
 };
 
 const Details: React.FC<RouteComponentProps> = ({ history }) => {
     const classes = useStyles();
     const location = useLocation<LocationProps>();
 
-    const handleDepartmentData = () => {
-        return location.state?.props.department
-            ? location.state.props.department
-            : departments[0];
-    };
-
-    const handleEditURL = () => {
-        const baseURL = location.pathname.split('/detalhes/');
-        const url = `${baseURL[0]}/edicao/${baseURL[1]}`;
-        return url;
-    };
-
-    const [department] = useState<DepartmentProps>(handleDepartmentData());
+    const [department, setDepartment] = useState<DepartmentType>();
 
     useEffect(() => {
-        document.title = `${department.name} - Detalhes`;
-    }, [department.name]);
+        const handleLocationData = () => {
+            if (!location.state || !location.state.department)
+                history.push('/escolha-da-empresa');
+            else {
+                const department = location.state.department;
+                document.title = `Departamento - ${department.name}`;
+                setDepartment(department);
+            }
+        };
+        handleLocationData();
+        // eslint-disable-next-line
+    }, []);
+
+    const handleEditURL = () => {
+        const baseURL = location.pathname.split('/detalhes');
+        const url = `${baseURL[0]}/edicao`;
+        return url;
+    };
 
     return (
         <AppLayout>
             <Paper className={classes.container}>
-                <Header departmentName={department.name} redirect />
+                <Header departmentName={department?.name} />
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
-                        <IconSelectionInput image={department.icon} disabled />
+                        <IconSelectionInput image={department?.icon} disabled />
                     </Grid>
                     <Grid container item xs={12} md={6} spacing={3}>
                         <Grid item xs={12} md={6}>
@@ -57,7 +58,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                                 variant="outlined"
                                 disabled
                                 label="Nome"
-                                value={department.name}
+                                value={department?.name}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -75,7 +76,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                                 variant="outlined"
                                 disabled
                                 label="Email"
-                                value={department.email}
+                                value={department?.email}
                             />
                         </Grid>
                     </Grid>
@@ -87,7 +88,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                             rows={6}
                             variant="outlined"
                             label="Descrição"
-                            value={department.description}
+                            value={department?.description}
                         />
                     </Grid>
                 </Grid>
@@ -101,7 +102,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                         title="Equipe:"
                         category="team"
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
-                        teamData={department.team}
+                        teamData={department?.team}
                         icon="team"
                         disabled
                         actionIcon="manage"
@@ -111,7 +112,7 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                         category="project"
                         description="Gerencie os projetos deste departamento pelo botão no
                         canto superior direito."
-                        projectData={department.projects}
+                        projectData={department?.projects}
                         icon="document"
                         actionIcon="manage"
                         disabled

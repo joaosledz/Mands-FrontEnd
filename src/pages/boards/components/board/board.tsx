@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
+import { v4 as uuidv4 } from 'uuid';
 
 // Import data for board
 import { initialBoardData } from '../../data/board-initial-data';
@@ -120,18 +121,21 @@ const Board: React.FC = () => {
     };
 
     const AddColumn = () => {
+        const newID = uuidv4();
+        console.log(typeof newID);
         const newState = {
             ...state,
             columns: {
                 ...state.columns,
-                'column-4': {
-                    id: 'column-4',
+                [newID]: {
+                    id: newID,
                     title: 'Nova Coluna',
                     itemsIds: [],
                 },
             },
-            columnsOrder: [...state.columnsOrder, 'column-4'],
+            columnsOrder: [...state.columnsOrder, newID],
         };
+        console.log(newState);
         setState(newState);
     };
 
@@ -167,7 +171,7 @@ const Board: React.FC = () => {
                             {state.columnsOrder.map((columnId, index) => {
                                 // Get id of the current column
                                 const column = (state.columns as any)[columnId];
-
+                                console.log(column);
                                 // Get item belonging to the current column
                                 const items = column.itemsIds.map(
                                     (itemId: string) =>

@@ -19,7 +19,6 @@ interface Props extends AssignButtonProps {
     description: string;
     teamData?: Array<TypeTeam>;
     projectData?: Array<TypeProjects>;
-    edit?: boolean;
     styles?: string;
 }
 
@@ -37,14 +36,13 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         actionIcon,
         disabled,
         styles,
-        edit,
     } = props;
 
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
 
     const handleAction = () => {
         const handleProjectURL = () => {
-            const baseURL = location.pathname.split('/edicao');
+            const baseURL = location.pathname.split('/detalhes');
             const url = `${baseURL[0]}/projeto/cadastrar`;
             return url;
         };
@@ -116,14 +114,12 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                     )}
                 </Grid>
             </Grid>
-            {edit && category === 'team' ? (
+            {!disabled && category === 'team' && (
                 <AssignTeamModal
                     isOpen={showTeamModal}
                     setIsOpen={setShowTeamModal}
                     data={teamData}
                 />
-            ) : (
-                <></>
             )}
         </>
     );

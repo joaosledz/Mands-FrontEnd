@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
+            minHeight: '80vh',
             margin: ' 1rem 2rem 0',
             padding: '2rem',
 

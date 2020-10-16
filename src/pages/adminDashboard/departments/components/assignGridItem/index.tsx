@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -18,12 +19,13 @@ interface Props extends AssignButtonProps {
     description: string;
     teamData?: Array<TypeTeam>;
     projectData?: Array<TypeProjects>;
-    edit?: boolean;
     styles?: string;
 }
 
 const AssignGridItem: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const history = useHistory();
+    const location = useLocation();
     const {
         title,
         category,
@@ -34,16 +36,19 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         actionIcon,
         disabled,
         styles,
-        edit,
     } = props;
 
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
-    const [showProjectsModal, setShowProjectsModal] = useState<boolean>(false);
 
-    const openAssignModal = () => {
+    const handleAction = () => {
+        const handleProjectURL = () => {
+            const baseURL = location.pathname.split('/detalhes');
+            const url = `${baseURL[0]}/projeto/cadastrar`;
+            return url;
+        };
         category === 'team'
             ? setShowTeamModal(true)
-            : setShowProjectsModal(true);
+            : history.push(handleProjectURL());
     };
 
     return (
@@ -74,7 +79,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                                 icon={icon}
                                 actionIcon={actionIcon}
                                 disabled={disabled}
-                                onClick={openAssignModal}
+                                onClick={handleAction}
                             />
                         </Grid>
                     )}
@@ -98,7 +103,9 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                         )
                     ) : projectData!.length !== 0 ? (
                         projectData!.map((item, index) => (
-                            <ProjectsCard key={index} project={item} />
+                            <Grid key={index} item xs={12} md={6}>
+                                <ProjectsCard project={item} />
+                            </Grid>
                         ))
                     ) : (
                         <Grid item className="empty-data" xs={9}>
@@ -107,14 +114,12 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                     )}
                 </Grid>
             </Grid>
-            {edit && category === 'team' ? (
+            {!disabled && category === 'team' && (
                 <AssignTeamModal
                     isOpen={showTeamModal}
                     setIsOpen={setShowTeamModal}
                     data={teamData}
                 />
-            ) : (
-                <></>
             )}
         </>
     );

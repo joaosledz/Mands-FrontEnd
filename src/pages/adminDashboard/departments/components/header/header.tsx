@@ -10,7 +10,7 @@ import BackButton from '../../../../../components/backButton';
 import useStyles from './styles';
 
 type Props = {
-    departmentName: string;
+    departmentName: string | undefined;
     message?: string;
     redirect?: boolean;
 };
@@ -38,7 +38,7 @@ const Header: React.FC<Props> = (props: Props) => {
                 {redirect ? (
                     <BackButton
                         message={message}
-                        redirect={`admin/${params.company}/departamentos`}
+                        redirect={`admin/${params.companyName}/departamentos`}
                     />
                 ) : (
                     <BackButton message={message} />

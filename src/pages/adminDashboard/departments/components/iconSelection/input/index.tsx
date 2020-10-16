@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -18,10 +18,13 @@ type Props = {
 const IconSelectionInput: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { image, setImage, disabled, styles } = props;
-
     const [imagePreview, setImagePreview] = useState<string | undefined>(image);
 
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        setImagePreview(image);
+    }, [image]);
 
     const IconModal = useMemo(() => {
         return (

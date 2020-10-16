@@ -29,7 +29,9 @@ const useStyles = makeStyles<Theme>(theme =>
         },
 
         iconGridItem: {
-            boxShadow: theme.shadows[2],
+            maxWidth: 200,
+            margin: theme.spacing(0, 1, 3),
+            boxShadow: theme.shadows[3],
             transition: 'background-color .2s',
             '&:hover': {
                 backgroundColor: theme.palette.primary.light,

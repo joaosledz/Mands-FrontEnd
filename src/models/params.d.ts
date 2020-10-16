@@ -1,5 +1,5 @@
 type TypeParams = {
-    company: string;
+    companyName: string;
 };
 
 export default TypeParams;

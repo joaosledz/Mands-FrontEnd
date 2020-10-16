@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { useTheme } from '@material-ui/core/styles';
 
 import DrawerComponent from './components/drawer';
-import ITLogo from '../../../../assets/companiesImages/IT2.png';
+import ITLogo from '../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import { Menu as MenuIcon } from '@styled-icons/entypo';
 import useStyles from './styles';
 

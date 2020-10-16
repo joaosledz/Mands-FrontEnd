@@ -6,7 +6,7 @@ import useStyles from './styles';
 
 type Props = {
     title: string;
-    data: string;
+    data: string | undefined;
 };
 
 const DataText: React.FC<Props> = ({ title, data }) => {

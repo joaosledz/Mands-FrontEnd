@@ -9,7 +9,7 @@ import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
 import TypeCompany from '../../../../../../models/company';
 
-import ITLogo from '../../../../../../assets/companiesImages/IT2.png';
+import ITLogo from '../../../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import useStyles from './styles';
 
 interface HeaderProps {

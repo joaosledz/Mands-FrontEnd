@@ -10,7 +10,6 @@ import departments from '../../../../../utils/data/departments';
 import AppLayout from '../../../../../layout/appLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
-import AssignGridItem from '../../components/assignGridItem';
 import Header from '../../components/header/header';
 import useStyles from './styles';
 
@@ -26,6 +25,7 @@ const Edit: React.FC = () => {
         departmentState
     );
     const [departmentChanged, setDepartmentChanged] = useState<boolean>(false);
+    const [image, setImage] = useState<string | undefined>(department.icon);
 
     useEffect(() => {
         document.title = `${departmentState.name} - Edição`;
@@ -33,12 +33,16 @@ const Edit: React.FC = () => {
 
     useEffect(() => {
         const checkDepartmentChanged = () => {
-            if (JSON.stringify(departmentState) === JSON.stringify(department))
-                setDepartmentChanged(false);
-            else setDepartmentChanged(true);
+            if (
+                JSON.stringify(departmentState) !==
+                    JSON.stringify(department) ||
+                departmentState.icon !== image
+            )
+                setDepartmentChanged(true);
+            else setDepartmentChanged(false);
         };
         checkDepartmentChanged();
-    }, [department, departmentState]);
+    }, [department, departmentState, image]);
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -59,7 +63,7 @@ const Edit: React.FC = () => {
                 />
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
-                        <IconSelectionInput image={department.icon} />
+                        <IconSelectionInput image={image} setImage={setImage} />
                     </Grid>
                     <Grid container item xs={12} md={6} spacing={3}>
                         <Grid item xs={12} md={6}>
@@ -103,33 +107,6 @@ const Edit: React.FC = () => {
                             }
                         />
                     </Grid>
-                </Grid>
-                <Grid
-                    container
-                    className={classes.assignsContainer}
-                    justify="space-around"
-                    spacing={3}
-                >
-                    <AssignGridItem
-                        title="Equipe:"
-                        category="team"
-                        description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
-                        teamData={department.team}
-                        icon="team"
-                        edit
-                        actionIcon="manage"
-                    />
-                    <AssignGridItem
-                        title="Projetos:"
-                        category="project"
-                        description="Gerencie os projetos deste departamento pelo botão no
-                        canto superior direito."
-                        projectData={department.projects}
-                        icon="document"
-                        actionIcon="manage"
-                        edit
-                        styles={classes.projectAssignGridItem}
-                    />
                 </Grid>
                 <Grid
                     container

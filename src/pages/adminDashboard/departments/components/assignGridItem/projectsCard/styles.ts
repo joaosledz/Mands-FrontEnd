@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
         project: {
             // width: '100%',
             maxWidth: '12rem',
-            // minWidth: '8rem',
+            padding: '1rem',
 
             textDecoration: 'none',
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: 'all .1s',
 
             '& img': {
-                maxWidth: '50%',
+                maxWidth: '80%',
             },
 
             '& p': {

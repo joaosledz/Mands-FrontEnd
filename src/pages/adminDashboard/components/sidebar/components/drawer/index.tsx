@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
@@ -13,6 +13,10 @@ import Routes from './utils/routes';
 
 import useStyles from './styles';
 
+type ParamsType = {
+    company: string;
+};
+
 type Props = {
     logo: string;
     divider?: boolean;
@@ -21,9 +25,9 @@ type Props = {
 const Drawer: React.FC<Props> = (props: Props) => {
     const { logo, divider } = props;
     const classes = useStyles();
+    const params = useParams<ParamsType>();
 
     const [page] = useState(window.location.href.split('/')[5]);
-
     return (
         <Box className={classes.drawer}>
             <Box className={classes.logoContainer}>
@@ -53,7 +57,7 @@ const Drawer: React.FC<Props> = (props: Props) => {
             </List>
             <Button
                 component={Link}
-                to="/dashboard/IT"
+                to={`/dashboard/${params.company}`}
                 className={classes.backButton}
             >
                 Voltar para o menu

@@ -31,7 +31,12 @@ const ProjectsCard: React.FC<Props> = (props: Props) => {
     return (
         <Link
             component={RouterLink}
-            to={handleDetailsURL}
+            to={{
+                pathname: handleDetailsURL(),
+                state: {
+                    project: project,
+                },
+            }}
             className={classes.project}
         >
             <img src={icon} alt="Ícone do Projeto" />

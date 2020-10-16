@@ -8,6 +8,7 @@ import DepartmentEdit from '../pages/adminDashboard/departments/department/edit'
 
 import RegisterProject from '../pages/adminDashboard/departments/projects/register/register';
 import ProjectDetails from '../pages/adminDashboard/departments/projects/details/details';
+import ProjectEdit from '../pages/adminDashboard/departments/projects/edit/edit';
 
 const AdministratorRoutes = () => {
     const { path } = useRouteMatch();
@@ -43,7 +44,7 @@ const AdministratorRoutes = () => {
             />
             <Route
                 path={`${path}/:company/departamentos/:department/projeto/:project/edicao`}
-                component={RegisterProject}
+                component={ProjectEdit}
             />
 
             {/* Redirecionamentos */}

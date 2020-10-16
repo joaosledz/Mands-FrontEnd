@@ -48,11 +48,7 @@ const IconSelection: React.FC<Props> = (props: Props) => {
                 <Typography variant="h1" id="iconModal-title">
                     Selecione um ícone:
                 </Typography>
-                <Grid
-                    container
-                    spacing={3}
-                    className={classes.iconsGridContainer}
-                >
+                <Grid container className={classes.iconsGridContainer}>
                     {icons.map(icon => (
                         <Grid
                             key={icon.id}

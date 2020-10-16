@@ -2,12 +2,11 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        project: {
-            // width: '100%',
-            maxWidth: '12rem',
-            padding: '1rem',
-
-            textDecoration: 'none',
+        department: {
+            width: '100%',
+            maxWidth: '17rem',
+            minWidth: 130,
+            padding: '1.5rem',
 
             borderRadius: 10,
             backgroundColor: theme.palette.primary.main,
@@ -15,14 +14,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
             alignItems: 'center',
-            flexWrap: 'initial',
 
             transition: 'all .1s',
 
             '& img': {
-                maxWidth: '80%',
+                width: '2.5rem',
             },
 
             '& p': {
@@ -34,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
             '&:hover': {
                 backgroundColor: theme.palette.primary.dark,
+                textDecoration: 'none',
             },
         },
     })

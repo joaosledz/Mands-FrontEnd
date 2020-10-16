@@ -5,11 +5,11 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 
-import AppLayout from '../../../../layout/appLayout';
-import BackButton from '../../../../components/backButton';
-import SubmitButton from '../../../../components/mainButton';
-import IconSelection from '../components/iconSelection/input';
-import AssignGridItem from '../components/assignGridItem';
+import AppLayout from '../../../../../layout/appLayout';
+import BackButton from '../../../../../components/backButton';
+import SubmitButton from '../../../../../components/mainButton';
+import IconSelection from '../../components/iconSelection/input';
+import AssignGridItem from '../../components/assignGridItem';
 import useStyles from './styles';
 
 const NewDepartment: React.FC = () => {
@@ -31,20 +31,20 @@ const NewDepartment: React.FC = () => {
         <AppLayout>
             <Paper className={classes.container}>
                 <Grid container>
-                    <Grid container item xs={12} md={4}>
-                        <BackButton
-                            message="Voltar para os departamentos"
-                            redirect="admin/departamentos"
-                        />
-                    </Grid>
+                    <Hidden mdDown>
+                        <Grid item xs={1} md={4} />
+                    </Hidden>
                     <Grid container item xs={12} md={4} justify="center">
                         <Typography variant="h1" className={classes.title}>
                             Cadastrar Departamento
                         </Typography>
                     </Grid>
-                    <Hidden mdDown>
-                        <Grid item xs={1} md={4} />
-                    </Hidden>
+                    <Grid container item xs={12} md={4} justify="flex-end">
+                        <BackButton
+                            message="Voltar para os departamentos"
+                            redirect="admin/departamentos"
+                        />
+                    </Grid>
                 </Grid>
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
@@ -88,8 +88,7 @@ const NewDepartment: React.FC = () => {
                 <Grid
                     container
                     className={classes.assignsContainer}
-                    justify="space-around"
-                    spacing={3}
+                    justify="flex-start"
                 >
                     <AssignGridItem
                         title="Equipe:"
@@ -97,15 +96,6 @@ const NewDepartment: React.FC = () => {
                         description="Adicione funcionários a este departamento pelo botão no canto superior direito."
                         icon="team"
                         actionIcon="add"
-                    />
-                    <AssignGridItem
-                        title="Projetos:"
-                        category="project"
-                        description="Adicione projetos a este departamento pelo botão no
-                        canto superior direito."
-                        icon="document"
-                        actionIcon="add"
-                        styles={classes.projectAssignGridItem}
                     />
                 </Grid>
                 <Grid

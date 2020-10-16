@@ -135,7 +135,7 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
         <Modal
             open={isOpen}
             onClose={handleCloseModal}
-            style={{ paddingTop: '5%' }}
+            style={{ paddingTop: '2rem' }}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >

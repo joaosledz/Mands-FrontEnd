@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
 import { ApiProps as DepartmentType } from '../../../../../models/department';
+import handleEditURL from '../../utils/handleURL';
 
 import AppLayout from '../../../../../layout/appLayout';
 import FabButton from '../../../../../components/fabButton';
@@ -36,12 +37,6 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
         handleLocationData();
         // eslint-disable-next-line
     }, []);
-
-    const handleEditURL = () => {
-        const baseURL = location.pathname.split('/detalhes');
-        const url = `${baseURL[0]}/edicao`;
-        return url;
-    };
 
     return (
         <AppLayout>
@@ -120,7 +115,16 @@ const Details: React.FC<RouteComponentProps> = ({ history }) => {
                 <FabButton
                     title="Editar"
                     icon="edit"
-                    onClick={() => history.push(handleEditURL(), department)}
+                    onClick={() =>
+                        history.push(
+                            handleEditURL(
+                                location.pathname,
+                                '/detalhes',
+                                '/edicao'
+                            ),
+                            department
+                        )
+                    }
                 />
             </Paper>
         </AppLayout>

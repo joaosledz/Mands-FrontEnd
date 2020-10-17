@@ -139,6 +139,36 @@ const Board: React.FC = () => {
         setState(newState);
     };
 
+    const AddTask = (
+        columnID: 'column-1' | 'column-2' | 'column-3',
+        title: string
+    ) => {
+        //Gerando um ID aleatório
+        const newID = uuidv4();
+        console.log(typeof newID);
+        const newState = {
+            ...state,
+        };
+        //Adicionar Item à lista de itens
+        newState.items = {
+            ...state.items,
+            [newID]: {
+                id: newID,
+                title: title,
+                tag: 'Financeiro',
+                tagColor: 'green',
+                members: ['Raiane Souza', 'Josefa Oliveira'],
+            },
+        };
+        //Adicionar ID do item à coluna correspondente
+        newState.columns[columnID].itemsIds = [
+            ...newState.columns[columnID].itemsIds,
+            newID,
+        ];
+        console.log(newState);
+        setState(newState);
+    };
+
     const setTitle = (
         title: string,
         columnID: 'column-1' | 'column-2' | 'column-3'
@@ -149,12 +179,14 @@ const Board: React.FC = () => {
 
         setState(newState);
     };
+    const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
 
     return (
         <>
             <button type="button" onClick={AddColumn}>
                 Add new group
             </button>
+
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                     droppableId="all-columns"
@@ -186,6 +218,7 @@ const Board: React.FC = () => {
                                         items={items}
                                         index={index}
                                         setTitle={setTitle}
+                                        AddTask={AddTask}
                                     />
                                 );
                             })}

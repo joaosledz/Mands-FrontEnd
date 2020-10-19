@@ -10,7 +10,7 @@ import { Lock as LockIcon } from '@styled-icons/material';
 
 import CpfValidator from '../../../validators/cpfValidator';
 
-import AuthLayout from '../../../layout/authLayout';
+import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 // import TextField from './components/textField';
 import RegisterButton from '../components/submitButton/submitButton';

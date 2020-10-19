@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { Lock } from '@styled-icons/material';
 
-import AuthLayout from '../../../layout/authLayout';
+import AuthLayout from '../../../layout/authLayout/authLayout';
 import SendEmailButton from '../components/submitButton/submitButton';
 import useStyles, { inputStyle } from './styles';
 import forgotPasswordIllustration from '../../../assets/forgotPasswordIllustration.svg';

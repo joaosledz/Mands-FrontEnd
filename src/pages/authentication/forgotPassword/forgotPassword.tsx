@@ -5,7 +5,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import AuthLayout from '../../../layout/authLayout';
+import AuthLayout from '../../../layout/authLayout/authLayout';
 import SendEmailButton from '../components/submitButton/submitButton';
 import useStyles, { inputStyle } from './styles';
 

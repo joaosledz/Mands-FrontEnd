@@ -7,12 +7,12 @@ import useStyles from './styles';
 
 import logo from '../../assets/logo/logo.svg';
 
-interface AuthLayoutProps {
+type Props = {
     backButtonMessage?: string;
-}
+};
 
-const AuthLayout: React.FC<AuthLayoutProps> = props => {
-    const { backButtonMessage, /*message*/ children } = props;
+const AuthLayout: React.FC<Props> = props => {
+    const { backButtonMessage, children } = props;
     const classes = useStyles();
 
     return (

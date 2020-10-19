@@ -2,6 +2,27 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme>(theme =>
     createStyles({
+
+        form: {
+            paddingBottom: '1rem'
+        },
+
+        titleContainer: {
+            marginTop: '2rem',
+            [theme.breakpoints.only('xs')]: {
+                marginTop: 0
+            },
+            '& p': {
+                fontSize: 40, fontWeight: 700
+            },
+        },
+
+        formContent: {
+            [theme.breakpoints.down('md')]: {
+                flexWrap: 'wrap-reverse'
+            }
+        },
+
         rightSide: {
             display: 'flex',
             justifyContent: 'center',
@@ -13,6 +34,7 @@ const useStyles = makeStyles<Theme>(theme =>
 
         ErrorMessage: {
             marginTop: 7,
+            fontSize: '.8rem',
             color: theme.palette.primary.main,
             '&:before': { content: "'⚠ '" },
         },
@@ -39,7 +61,6 @@ const useStyles = makeStyles<Theme>(theme =>
             marginLeft: 5,
 
             color: '#555',
-            // fontSize: 16,
             font: '16px Roboto Slab',
 
             '&:hover': {

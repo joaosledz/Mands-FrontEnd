@@ -1,5 +1,5 @@
 import React /*, { FormEvent }*/ from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import { UserTie } from '@styled-icons/fa-solid';
 import { Lock } from '@styled-icons/material';
 
-import AuthLayout from '../../../layout/authLayout';
-import LogInButton from '../../../components/authPagesButton';
+import AuthLayout from '../../../layout/authLayout/authLayout';
+import LogInButton from '../components/submitButton/submitButton';
 import CompanyButton from './components/companyButton';
 import useStyles, { inputStyle } from './styles';
 
@@ -19,19 +19,19 @@ import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
-interface Props extends RouteComponentProps<any> {}
+interface LoginInput {
+    email: string;
+    password: string;
+}
 
-const Login: React.FC<Props> = ({ history }) => {
+const Login: React.FC = () => {
     const classes = useStyles();
+    const history = useHistory();
 
     // const handleSubmit = (event: FormEvent) => {
     //     event.preventDefault();
     //     console.log('handleSubmit');
     // };
-    interface LoginInput {
-        email: string;
-        password: string;
-    }
 
     const { register, errors, handleSubmit } = useForm<LoginInput>();
 

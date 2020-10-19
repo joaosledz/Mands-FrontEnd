@@ -3,14 +3,14 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-
-import AuthLayout from '../../../layout/authLayout';
-import SendEmailButton from '../../../components/authPagesButton';
-import useStyles, { inputStyle } from './styles';
-import { Lock } from '@styled-icons/material';
-import forgotPasswordIllustration from '../../../assets/forgotPasswordIllustration.svg';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { Lock } from '@styled-icons/material';
+
+import AuthLayout from '../../../layout/authLayout';
+import SendEmailButton from '../components/submitButton/submitButton';
+import useStyles, { inputStyle } from './styles';
+import forgotPasswordIllustration from '../../../assets/forgotPasswordIllustration.svg';
 
 const email = 'exemplo@email.com';
 
@@ -93,7 +93,7 @@ const RecoveryPassword: React.FC = () => {
                     <img
                         src={forgotPasswordIllustration}
                         style={{ width: '80%', minWidth: 260, height: 'auto' }}
-                        alt="Ilustração de um homem com uma camisa roxa, com o dedo indicador no queixo, tentando lembrar a senha da conta"
+                        alt="Ilustração de um homem, com o dedo indicador no queixo, tentando lembrar a senha da conta"
                     />
                 </Grid>
             </Grid>

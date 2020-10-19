@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
 import AuthLayout from '../../../layout/authLayout';
-import SendEmailButton from '../../../components/authPagesButton';
+import SendEmailButton from '../components/submitButton/submitButton';
 import useStyles, { inputStyle } from './styles';
 
 import forgotPasswordIllustration from '../../../assets/forgotPasswordIllustration.svg';

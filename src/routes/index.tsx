@@ -4,10 +4,10 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 // import PrivateRoute from './privateRoute';
 
 //#region Rotas de autenticação
-import Login from '../pages/authentication/login';
-import Register from '../pages/authentication/register';
-import ForgotPassword from '../pages/authentication/forgotPassword';
-import RecoveryPassword from '../pages/authentication/recoveryPassword';
+import Login from '../pages/authentication/login/login';
+import Register from '../pages/authentication/register/register';
+import ForgotPassword from '../pages/authentication/forgotPassword/forgotPassword';
+import RecoveryPassword from '../pages/authentication/recoveryPassword/recoveryPassword';
 //#endregion
 
 //#region Rotas da aplicação

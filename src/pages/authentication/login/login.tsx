@@ -8,7 +8,7 @@ import { UserTie } from '@styled-icons/fa-solid';
 import { Lock } from '@styled-icons/material';
 
 import AuthLayout from '../../../layout/authLayout';
-import LogInButton from '../../../components/authPagesButton';
+import LogInButton from '../components/submitButton/submitButton';
 import CompanyButton from './components/companyButton';
 import useStyles, { inputStyle } from './styles';
 

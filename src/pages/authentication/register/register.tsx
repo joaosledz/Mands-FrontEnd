@@ -13,7 +13,7 @@ import CpfValidator from '../../../validators/cpfValidator';
 import AuthLayout from '../../../layout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 // import TextField from './components/textField';
-import RegisterButton from '../../../components/authPagesButton';
+import RegisterButton from '../components/submitButton/submitButton';
 import useStyles, { inputStyle } from './styles';
 
 const Register: React.FC = () => {

@@ -6,15 +6,17 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             maxWidth: 300,
             padding: '1.2rem 1rem',
+            
             textDecoration: 'none',
             borderRadius: 10,
             textAlign: 'center',
+
+            transition: 'all .1s',
+
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-around',
-
-            transition: 'all .1s',
 
             '&:hover': {
                 border: '1px solid white',
@@ -29,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         companyName: {
-            marginTop: 30,
             color: theme.palette.primary.contrastText,
             fontSize: '1.3rem',
             fontWeight: 300,

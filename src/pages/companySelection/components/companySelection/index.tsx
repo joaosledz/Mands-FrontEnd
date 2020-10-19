@@ -17,30 +17,18 @@ const CompanySelection: React.FC<Props> = (props: Props) => {
     const { companies } = props;
 
     return (
-        <Box className={classes.container}>
-            <Typography variant="h6" className={classes.title}>
-                Qual empresa você gostaria de acessar?
-            </Typography>
-            <Grid container spacing={3} className={classes.companiesContainer}>
-                {companies?.map(company => (
-                    <Grid
-                        container
-                        item
-                        xs={12}
-                        md={
-                            companies.length > 1
-                                ? companies.length > 2
-                                    ? 4
-                                    : 6
-                                : 12
-                        }
-                        style={{ justifyContent: 'center' }}
-                    >
-                        <Company company={company} />
-                    </Grid>
-                ))}
+        <Grid container className={classes.companiesContainer}>
+            <Grid container item xs={12} justify="center">
+                <Typography variant="h6" className={classes.title}>
+                    Qual empresa você gostaria de acessar?
+                </Typography>
             </Grid>
-        </Box>
+            {companies?.map(company => (
+                <Grid container item xs={12} sm={3} justify="center">
+                    <Company company={company} />
+                </Grid>
+            ))}
+        </Grid>
     );
 };
 

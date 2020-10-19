@@ -4,6 +4,9 @@ const useStyles = makeStyles<Theme>(theme =>
     createStyles({
         form: {
             paddingRight: '15%',
+            [theme.breakpoints.down('md')]: {
+                paddingRight: 0
+            }
         },
 
         rightSide: {
@@ -11,6 +14,9 @@ const useStyles = makeStyles<Theme>(theme =>
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            [theme.breakpoints.down('md')]: {
+                marginTop: '4rem'
+            }
         },
 
         input: {

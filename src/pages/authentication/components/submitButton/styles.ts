@@ -60,10 +60,11 @@ const useStyles = makeStyles<Theme, ButtonProps>(theme =>
         },
 
         logInText: {
-            // fontFamily: 'Roboto',
-            fontSize: 16,
+            fontSize: '1rem',
             letterSpacing: 2.5,
-            // fontWeight: 500,
+            [theme.breakpoints.only('xs')]: {
+                fontSize: '.9rem',
+            }, 
         },
     })
 );

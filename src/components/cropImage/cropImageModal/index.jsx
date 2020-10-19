@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
+import Slide from '@material-ui/core/Slide';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
@@ -132,49 +133,51 @@ export default function CropImageModal(props) {
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
-            <Paper className={classes.paper}>
-                <Typography>Recorte sua imagem:</Typography>
-                <ReactCrop
-                    src={upImg}
-                    onImageLoaded={onLoad}
-                    crop={crop}
-                    onChange={c => setCrop(c)}
-                    onComplete={c => setCompletedCrop(c)}
-                    imageStyle={{ maxHeight: '50vh' }}
-                    // maxWidth={700}
-                    // maxHeight={700}
-                    // minWidth={700}
-                    // minHeight={700}
-                />
-                <Box style={{ display: 'none' }}>
-                    <canvas
-                        ref={previewCanvasRef}
-                        style={{
-                            width: completedCrop?.width ?? 0,
-                            height: completedCrop?.height ?? 0,
-                        }}
+            <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
+                <Paper className={classes.paper}>
+                    <Typography>Recorte sua imagem:</Typography>
+                    <ReactCrop
+                        src={upImg}
+                        onImageLoaded={onLoad}
+                        crop={crop}
+                        onChange={c => setCrop(c)}
+                        onComplete={c => setCompletedCrop(c)}
+                        imageStyle={{ maxHeight: '50vh' }}
+                        // maxWidth={700}
+                        // maxHeight={700}
+                        // minWidth={700}
+                        // minHeight={700}
                     />
-                </Box>
-                <Box>
-                    <Button
-                        data-cy={'crop-image-button'}
-                        variant="contained"
-                        color="primary"
-                        disabled={
-                            !completedCrop?.width || !completedCrop?.height
-                        }
-                        className={classes.cropButton}
-                        onClick={() =>
-                            handleReturnImage(
-                                previewCanvasRef.current,
-                                completedCrop
-                            )
-                        }
-                    >
-                        Recortar Imagem
-                    </Button>
-                </Box>
-            </Paper>
+                    <Box style={{ display: 'none' }}>
+                        <canvas
+                            ref={previewCanvasRef}
+                            style={{
+                                width: completedCrop?.width ?? 0,
+                                height: completedCrop?.height ?? 0,
+                            }}
+                        />
+                    </Box>
+                    <Box>
+                        <Button
+                            data-cy={'crop-image-button'}
+                            variant="contained"
+                            color="primary"
+                            disabled={
+                                !completedCrop?.width || !completedCrop?.height
+                            }
+                            className={classes.cropButton}
+                            onClick={() =>
+                                handleReturnImage(
+                                    previewCanvasRef.current,
+                                    completedCrop
+                                )
+                            }
+                        >
+                            Recortar Imagem
+                        </Button>
+                    </Box>
+                </Paper>
+            </Slide>
         </Modal>
     );
 }

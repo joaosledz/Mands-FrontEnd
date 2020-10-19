@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { Lock as LockIcon } from '@styled-icons/material';
+// import { Lock as LockIcon } from '@styled-icons/material';
 
 import CpfValidator from '../../../validators/cpfValidator';
 
@@ -14,7 +13,7 @@ import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 // import TextField from './components/textField';
 import RegisterButton from '../components/submitButton/submitButton';
-import useStyles, { inputStyle } from './styles';
+import useStyles /*,  { inputStyle } */ from './styles';
 
 const Register: React.FC = () => {
     const classes = useStyles();

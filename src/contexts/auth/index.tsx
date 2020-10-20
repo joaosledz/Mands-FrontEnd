@@ -1,20 +1,20 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
-// import ApiService, { SetUserId } from '../../variables/ApiService';
-// import api from '../../services/api';
+// import ApiService, { SetUserId } from '../../services';
+import { api, auth, LoginType, LoginModel, userType } from '../../services';
 
-interface AuthContextData {
+type AuthContextData = {
     signed: boolean;
-    user: object | null;
-    // login(data: object): Promise<void>;
+    user: userType | null;
+    login(data: LoginType): Promise<LoginModel>;
     logout(): void;
     loading: boolean;
-}
+};
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<userType | null>(null);
     const [loading, setLoading] = useState(true);
     // const [firstLogin, setFirstLogin] = useState(false);
     // const [haveLogged, setHaveLogged] = useState(true);
@@ -44,34 +44,28 @@ export const AuthProvider: React.FC = ({ children }) => {
         loadStoragedData();
     }, []);
 
-    // const login = (data: object) => {
-    //     setLoading(true);
-    //     // return ApiService.Logar(data)
-    //     //     .then((res) => {
-    //     //         // console.log(res.data.company);
-    //     //         setUser(res.data);
-    //     //         SetUserId(res.data.company.id);
-    //     //         api.defaults.headers[
-    //     //             'Authorization'
-    //     //         ] = `Bearer ${res.data.Login.token}`;
+    const login = async (data: LoginType) => {
+        setLoading(true);
+        try {
+            const response = await auth.login(data);
+            console.log(response);
+            setUser(response.data.user);
+            // SetUserId(res.data.company.id);
+            api.defaults.headers[
+                'Authorization'
+            ] = `Bearer ${response.data.token}`;
+            localStorage.setItem('@SeuZe:token', response.data.token);
+            setLoading(false);
 
-    //     //         localStorage.setItem('@SeuZe:token', res.data.Login.token);
-    //     //         localStorage.setItem(
-    //     //             '@SeuZe:refreshToken',
-    //     //             res.data.Login.refreshToken
-    //     //         );
-    //     //         setLoading(false);
-    //     //     })
-    //     //     .catch((error) => {
-    //     //         console.log(error);
-    //     //         setLoading(false);
-    //     //         return Promise.reject(error);
-    //     //     });
-    //     return Promise.resolve(data);
-    // };
+            return Promise.resolve(response.data);
+        } catch (error) {
+            console.log(error);
+            setLoading(false);
+            return Promise.reject(error);
+        }
+    };
 
     const logout = () => {
-        const refreshToken = localStorage.getItem('@Mands:refreshToken');
         // return ApiService.Logout(refreshToken)
         //     .then((res) => {
         //         // console.log(res);
@@ -89,7 +83,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, logout, loading }}>
+        <AuthContext.Provider
+            value={{ signed: !!user, user, login, logout, loading }}
+        >
             {children}
         </AuthContext.Provider>
     );

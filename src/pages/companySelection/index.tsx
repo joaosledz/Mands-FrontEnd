@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import AppLayout from '../../layout/appLayout';
-import EmptyCompanies from './components/emptyCompanies';
+import EmptyCompanies from './emptyCompanies';
 import Companies from './components/companySelection';
 import FabButton from '../../components/fabButton';
 

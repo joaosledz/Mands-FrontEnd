@@ -1,6 +1,7 @@
 import React, {
     useState,
     useMemo,
+    useEffect,
     ChangeEvent,
     Dispatch,
     SetStateAction,
@@ -16,24 +17,31 @@ import useStyles from './styles';
 type Props = {
     title?: string;
     image: File | undefined;
-    setImage: Dispatch<SetStateAction<File | undefined>>;
+    setImage?: Dispatch<SetStateAction<File | undefined>>;
+    preview?: string;
     disabled?: boolean;
     styles?: string;
 };
 
 const CropImageInput: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { title, image, setImage, disabled, styles } = props;
+    const { title, image, setImage, preview, disabled, styles } = props;
 
-    const [imagePreview, setImagePreview] = useState<string>('');
+    const [imagePreview, setImagePreview] = useState<string | undefined>(
+        preview
+    );
+
+    useEffect(() => {
+        setImagePreview(preview);
+    }, [preview]);
 
     const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
-        setImage(event.currentTarget.files![0]);
+        setImage!(event.currentTarget.files![0]);
         setShowCropModal(true);
     };
 
     const handleImageReturn = (blob: File, image_url: string) => {
-        setImage(blob);
+        setImage!(blob);
         setImagePreview(image_url);
     };
 

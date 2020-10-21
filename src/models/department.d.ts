@@ -7,9 +7,13 @@ export type TypeTeam = {
 };
 
 export type TypeProjects = {
-    // id: number,
+    id: number,
     name: string;
     icon: string;
+    description: string;
+    budget: number;
+    initialDate: string;
+    finalDate: string;
 };
 
 export type ApiProps = {

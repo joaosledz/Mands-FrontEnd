@@ -1,43 +1,45 @@
 import React /*, { FormEvent }*/ from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { UserTie } from '@styled-icons/fa-solid';
-import { Lock } from '@styled-icons/material';
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+import { UserTie as UserTieIcon } from '@styled-icons/fa-solid';
+import { Lock as LockIcon } from '@styled-icons/material';
 
-import AuthLayout from '../../../layout/authLayout';
-import LogInButton from '../../../components/authPagesButton';
+import { useAuth } from '../../../contexts/auth';
+import { LoginType } from '../../../services';
+
+import AuthLayout from '../../../layout/authLayout/authLayout';
+import LogInButton from '../components/submitButton/submitButton';
 import CompanyButton from './components/companyButton';
-import useStyles, { inputStyle } from './styles';
-
 import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
+import useStyles, { inputStyle } from './styles';
 
-import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
-
-interface Props extends RouteComponentProps<any> {}
-
-const Login: React.FC<Props> = ({ history }) => {
+const Login: React.FC = () => {
+    const { login } = useAuth();
     const classes = useStyles();
+    const history = useHistory();
 
     // const handleSubmit = (event: FormEvent) => {
     //     event.preventDefault();
     //     console.log('handleSubmit');
     // };
-    interface LoginInput {
-        email: string;
-        password: string;
-    }
 
-    const { register, errors, handleSubmit } = useForm<LoginInput>();
+    const { register, errors, handleSubmit } = useForm<LoginType>();
 
-    const onSubmit = (data: LoginInput) => {
-        console.log(data);
-        history.push('/escolha-da-empresa');
+    const onSubmit = async (data: LoginType) => {
+        try {
+            /* const response = */ await login(data);
+            // Animação de sucesso
+            history.replace('/escolha-da-empresa');
+        } catch (error) {
+            // Alerta de erro
+        }
     };
 
     return (
@@ -77,7 +79,7 @@ const Login: React.FC<Props> = ({ history }) => {
                                     })}
                                     InputProps={{
                                         startAdornment: (
-                                            <UserTie
+                                            <UserTieIcon
                                                 size="20"
                                                 color="#B03E9F"
                                             />
@@ -107,7 +109,10 @@ const Login: React.FC<Props> = ({ history }) => {
                                     variant="outlined"
                                     InputProps={{
                                         startAdornment: (
-                                            <Lock size="20" color="#B03E9F" />
+                                            <LockIcon
+                                                size="20"
+                                                color="#B03E9F"
+                                            />
                                         ),
                                     }}
                                     inputProps={{

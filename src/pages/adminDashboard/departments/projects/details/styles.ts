@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
+            minHeight: '80vh',
             margin: ' 1rem 2rem 0',
             padding: '2rem',
 
@@ -14,11 +15,11 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             marginBottom: '2rem',
             color: theme.palette.primary.main,
-            fontSize: '1.6rem',
+            fontSize: '2rem',
             fontWeight: 600,
             textAlign: 'center',
 
-            [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down('md')]: {
                 fontSize: '1.75rem',
             },
         },
@@ -41,6 +42,16 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: '1rem',
             [theme.breakpoints.up('md')]: {
                 padding: '0 5.2rem 0 1rem',
+            },
+        },
+
+        assignsContainer: {
+            marginTop: '3rem',
+        },
+
+        projectAssignGridItem: {
+            [theme.breakpoints.down('sm')]: {
+                marginTop: '2rem',
             },
         },
 

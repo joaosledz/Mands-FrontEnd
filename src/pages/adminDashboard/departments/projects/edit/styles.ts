@@ -14,11 +14,11 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             marginBottom: '2rem',
             color: theme.palette.primary.main,
-            fontSize: '1.6rem',
+            fontSize: '2rem',
             fontWeight: 600,
             textAlign: 'center',
 
-            [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down('md')]: {
                 fontSize: '1.75rem',
             },
         },
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         submitButtonContainer: {
-            marginTop: '6rem',
+            marginTop: '12rem',
         },
     })
 );

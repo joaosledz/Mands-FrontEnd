@@ -13,6 +13,7 @@ import NewTaskModal from '../modal/details-task';
 // Define types for board item element properties
 type BoardItemProps = {
     index: number;
+    UpdateTask: any;
     item: {
         id: string;
         title: string;
@@ -54,9 +55,9 @@ export const BoardItem = (props: BoardItemProps) => {
         setShowNewTaskModal(true);
     };
 
-    const handleCloseNewTaskModal = () => {
-        setShowNewTaskModal(false);
-    };
+    // const handleCloseNewTaskModal = () => {
+    //     setShowNewTaskModal(false);
+    // };
 
     return (
         <>
@@ -134,6 +135,7 @@ export const BoardItem = (props: BoardItemProps) => {
                 item={props.item}
                 isOpen={showNewTaskModal}
                 setIsOpen={setShowNewTaskModal}
+                UpdateTask={props.UpdateTask}
             />
         </>
     );

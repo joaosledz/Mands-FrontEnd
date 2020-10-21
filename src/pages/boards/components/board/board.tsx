@@ -186,6 +186,16 @@ const Board: React.FC = () => {
         setState(newState);
     };
 
+    const UpdateTask = (itemID: 'item-1' | 'item-2', updatedItem: any) => {
+        const newState = {
+            ...state,
+        };
+        //Adicionar Item à lista de itens
+        newState.items[itemID] = updatedItem;
+        console.log(newState);
+        setState(newState);
+    };
+
     const setTitle = (
         title: string,
         columnID: 'column-1' | 'column-2' | 'column-3'
@@ -196,7 +206,7 @@ const Board: React.FC = () => {
 
         setState(newState);
     };
-    const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
+    // const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
 
     return (
         <>
@@ -236,6 +246,7 @@ const Board: React.FC = () => {
                                         index={index}
                                         setTitle={setTitle}
                                         AddTask={AddTask}
+                                        UpdateTask={UpdateTask}
                                     />
                                 );
                             })}

@@ -18,6 +18,7 @@ type BoardColumnProps = {
     type?: string;
     setTitle: any;
     AddTask: any;
+    UpdateTask: any;
 };
 
 // Define types for board column content style properties
@@ -97,6 +98,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                                 key={item.id}
                                                 item={item}
                                                 index={index}
+                                                UpdateTask={props.UpdateTask}
                                             />
                                         )
                                     )}

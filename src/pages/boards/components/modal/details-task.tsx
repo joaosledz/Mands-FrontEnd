@@ -15,6 +15,7 @@ import MutableInput from '../multableInput/multableInput';
 
 type Props = {
     isOpen: boolean;
+    UpdateTask: any;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     item: {
         id: string;
@@ -27,7 +28,7 @@ type Props = {
 
 const NewTaskModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen, item } = props;
+    const { isOpen, setIsOpen, item, UpdateTask } = props;
     const [title, setTitle] = useState<string>(item.title);
 
     useEffect(() => {
@@ -36,6 +37,18 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
 
     const handleCloseModal = () => {
         setIsOpen(false);
+    };
+    const handleSubmit = () => {
+        let UpdatedItem = {
+            id: item.id,
+            title: title,
+            tag: 'Financeiro',
+            tagColor: 'green',
+            members: ['Raiane Souza', 'Josefa Oliveira'],
+            tasks: [],
+        };
+        UpdateTask(item.id, UpdatedItem);
+        handleCloseModal();
     };
 
     return (
@@ -67,7 +80,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                     <SubmitButton
                         text="Salvar alterações"
                         // disabled={!itemChanged}
-                        // onClick={handleSubmit}
+                        onClick={handleSubmit}
                     />
                 </Grid>
             </Grid>

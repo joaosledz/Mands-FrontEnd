@@ -1,6 +1,6 @@
 import api from '../api';
-import { AxiosResponse } from 'axios';
-import { LoginType, LoginModel } from '../models/authentication';
+import { AxiosResponse, AxiosError } from 'axios';
+import { LoginType, LoginModel, userType } from '../models/authentication';
 import { loginURL } from '../urls/authentication';
 
 const auth = {
@@ -15,6 +15,18 @@ const auth = {
             console.log(error);
             return Promise.reject(error);
         }
+    },
+    me: () => {
+        return api
+            .get('/me')
+            .then((response: AxiosResponse<userType>) => {
+                // console.log(response);
+                return Promise.resolve(response);
+            })
+            .catch((error: AxiosError) => {
+                console.log(error);
+                return Promise.reject(error);
+            });
     },
 };
 

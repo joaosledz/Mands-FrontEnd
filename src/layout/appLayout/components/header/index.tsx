@@ -7,13 +7,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
+import { useAuth } from '../../../../contexts/auth';
+
 import logo from '../../../../assets/logo/logo_branca.svg';
 import avatar from '../../../../assets/fakeDataImages/employees/anaTartari.png';
-
 import useStyles from './styles';
 
 const Header: React.FC = () => {
     const classes = useStyles();
+    const { logout } = useAuth();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -48,14 +50,15 @@ const Header: React.FC = () => {
                 >
                     {window.location.pathname !== '/perfil' &&
                         window.location.pathname !== '/editar-perfil' && (
-                            <Link to={'/perfil'}>
-                                <MenuItem onClick={handleClose}>
-                                    Perfil
-                                </MenuItem>
-                            </Link>
+                            <MenuItem
+                                component={Link}
+                                to={'/perfil'}
+                                onClick={handleClose}
+                            >
+                                Perfil
+                            </MenuItem>
                         )}
-                    {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
-                    <MenuItem onClick={handleClose}>Sair</MenuItem>
+                    <MenuItem onClick={logout}>Sair</MenuItem>
                 </Menu>
             </Grid>
         </Grid>

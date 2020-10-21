@@ -23,7 +23,14 @@ const CompanySelection: React.FC<Props> = (props: Props) => {
                 </Typography>
             </Grid>
             {companies?.map(company => (
-                <Grid container item xs={12} sm={3} justify="center">
+                <Grid
+                    key={company.id}
+                    container
+                    item
+                    xs={12}
+                    sm={3}
+                    justify="center"
+                >
                     <Company company={company} />
                 </Grid>
             ))}

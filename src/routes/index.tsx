@@ -1,7 +1,9 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Redirect, BrowserRouter } from 'react-router-dom';
+import { useAuth } from '../contexts/auth';
 
-// import PrivateRoute from './privateRoute';
+import PublicRoute from './components/publicRoute';
+import PrivateRoute from './components/privateRoute';
 
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
@@ -20,40 +22,58 @@ import Boards from '../pages/boards';
 //#endregion
 
 //#region AdminDashboard
-import AdministratorRoutes from './administrator';
+import AdministratorRoutes from './administrator.routes';
 //#endregion
 
-const Routes = () => (
-    <BrowserRouter>
-        <Switch>
-            {/* Transformar as rotas abaixo em PublicRoutes */}
-            {/* Rotas de Autenticação */}
-            <Route path="/" component={Login} exact />
-            <Route path="/criar-conta" component={Register} />
-            <Route path="/esqueci-a-senha" component={ForgotPassword} />
-            <Route
-                path="/recuperar-senha/:token"
-                component={RecoveryPassword}
-            />
-            {/* Transformar as rotas abaixo em PrivateRoute */}
-            <Route path="/perfil" component={UserProfile} />
-            <Route path="/editar-perfil" component={UserProfileEdit} />
-            <Route path="/escolha-da-empresa" component={CompanySelection} />
-            <Route
-                path="/dashboard/:companyName"
-                component={CompanyDashboard}
-            />
-            <Route
-                path="/:companyName/departamento/:departmentName"
-                component={DepartmentDashboard}
-            />
-            <Route path="/quadros" component={Boards} />
-            {/* Rotas do Administrador */}
-            <Route path="/admin" component={AdministratorRoutes} />
-        </Switch>
-        {/* <PrivateRoute path="/escolha-empresa" component={CompanySelection} /> */}
-        {/* <PrivateRoute path="/user" component={User} /> */}
-    </BrowserRouter>
-);
+const Routes = () => {
+    const { loading, signed } = useAuth();
+
+    // console.log('loading: ', loading, 'signed: ', signed);
+    if (loading) return <h1>Carregando...</h1>;
+
+    return (
+        <BrowserRouter>
+            <Switch>
+                {/* Rotas de Autenticação */}
+                <PublicRoute path="/login" component={Login} exact />
+                <PublicRoute path="/criar-conta" component={Register} />
+                <PublicRoute
+                    path="/esqueci-a-senha"
+                    component={ForgotPassword}
+                />
+                <PublicRoute
+                    path="/recuperar-senha/:token"
+                    component={RecoveryPassword}
+                />
+                {/* Rotas da Aplicação */}
+                <PrivateRoute
+                    path="/escolha-da-empresa"
+                    component={CompanySelection}
+                />
+                <PrivateRoute path="/perfil" component={UserProfile} />
+                <PrivateRoute
+                    path="/editar-perfil"
+                    component={UserProfileEdit}
+                />
+                <PrivateRoute
+                    path="/dashboard/:companyName"
+                    component={CompanyDashboard}
+                />
+                <PrivateRoute
+                    path="/:companyName/departamento/:departmentName"
+                    component={DepartmentDashboard}
+                />
+                <PrivateRoute path="/quadros" component={Boards} />
+                {/* Rotas do Administrador */}
+                <PrivateRoute path="/admin" component={AdministratorRoutes} />
+                {signed ? (
+                    <Redirect exact from="*" to="/login" />
+                ) : (
+                    <Redirect exact from="*" to="/escolha-da-empresa" />
+                )}
+            </Switch>
+        </BrowserRouter>
+    );
+};
 
 export default Routes;

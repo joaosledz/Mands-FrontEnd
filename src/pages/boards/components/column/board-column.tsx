@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
@@ -6,7 +6,6 @@ import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid/EllipsisH';
 import useStyles from './styles';
 import MutableInput from '../multableInput/multableInput';
-import NewTaskModal from '../modal/new-task';
 // Import BoardItem component
 import { BoardItem } from '../item/board-item';
 
@@ -38,14 +37,14 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
-    const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
-    const handleOpenNewTaskModal = () => {
-        setShowNewTaskModal(true);
-    };
+    // const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
+    // const handleOpenNewTaskModal = () => {
+    //     setShowNewTaskModal(true);
+    // };
 
-    const handleCloseNewTaskModal = () => {
-        setShowNewTaskModal(false);
-    };
+    // const handleCloseNewTaskModal = () => {
+    //     setShowNewTaskModal(false);
+    // };
     return (
         <>
             <Draggable draggableId={props.column.id} index={props.index}>
@@ -108,10 +107,10 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                     </div>
                 )}
             </Draggable>
-            <NewTaskModal
+            {/* <NewTaskModal
                 isOpen={showNewTaskModal}
                 setIsOpen={setShowNewTaskModal}
-            />
+            /> */}
         </>
     );
 };

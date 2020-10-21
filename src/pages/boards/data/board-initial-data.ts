@@ -6,6 +6,24 @@ export const initialBoardData = {
             tag: 'Financeiro',
             tagColor: 'green',
             members: ['Raiane Souza', 'Josefa Oliveira'],
+            tasks: [
+                {
+                    id: 'task-1',
+                    checked: 'true',
+                    title: 'Reforma do escritório',
+                },
+                {
+                    id: 'task-2',
+                    checked: 'false',
+                    title: 'Confecção dos crachás',
+                },
+                {
+                    id: 'task-3',
+                    checked: 'true',
+                    title: 'Marcar reunião semanal',
+                },
+                { id: 'task-4', checked: 'true', title: 'Comprar suprimentos' },
+            ],
         },
         'item-2': {
             id: 'item-2',
@@ -13,6 +31,7 @@ export const initialBoardData = {
             tag: 'Marketing',
             tagColor: 'blue',
             members: ['Raiane Souza', 'Xandão'],
+            tasks: [],
         },
         'item-3': {
             id: 'item-3',
@@ -20,6 +39,7 @@ export const initialBoardData = {
             tag: 'Reforma',
             tagColor: 'orange',
             members: ['Raiane Souza', 'José Lima'],
+            tasks: [],
         },
     },
     columns: {

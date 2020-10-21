@@ -138,11 +138,27 @@ const Board: React.FC = () => {
         console.log(newState);
         setState(newState);
     };
+    // type newState = {
+    //     items:{
+    //      [key: string]:{
+    //         id: string,
+    //         title: string,
+    //         tag: string,
+    //         tagColor: string,
+    //         members: string[],
+    //     },
+    // }
+    //         columns: {
+    //             [key: string]:{
+    //                 id: string,
+    //                 title: string,
+    //                 itemsIds: string[],
+    //             },
+    //         }
+    //         columnsOrder: string[],
+    // };
 
-    const AddTask = (
-        columnID: 'column-1' | 'column-2' | 'column-3',
-        title: string
-    ) => {
+    const AddTask = (columnID: 'column-1', title: string) => {
         //Gerando um ID aleatório
         const newID = uuidv4();
         console.log(typeof newID);
@@ -158,6 +174,7 @@ const Board: React.FC = () => {
                 tag: 'Financeiro',
                 tagColor: 'green',
                 members: ['Raiane Souza', 'Josefa Oliveira'],
+                tasks: [],
             },
         };
         //Adicionar ID do item à coluna correspondente

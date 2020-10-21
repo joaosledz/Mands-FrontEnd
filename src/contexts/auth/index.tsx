@@ -5,7 +5,7 @@ import React, {
     useContext,
     useCallback,
 } from 'react';
-import { api, auth, LoginType, LoginModel, userType } from '../../services';
+import { api, authApi, LoginType, LoginModel, userType } from '../../services';
 
 type AuthContextData = {
     signed: boolean;
@@ -31,7 +31,8 @@ export const AuthProvider: React.FC = ({ children }) => {
                 api.defaults.headers[
                     'Authorization'
                 ] = `Bearer ${storagedToken}`;
-                auth.me()
+                authApi
+                    .me()
                     .then(response => {
                         // console.log(response);
                         //         SetUserId(response.data.company.id);
@@ -50,7 +51,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const login = useCallback(async (data: LoginType) => {
         setLoading(true);
         try {
-            const response = await auth.login(data);
+            const response = await authApi.login(data);
             // console.log(response);
             setUser(response.data.user);
             // SetUserId(res.data.company.id);

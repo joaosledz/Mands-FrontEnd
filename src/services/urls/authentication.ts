@@ -1,2 +1,7 @@
-export const registerURL = `Authentications​/register`;
-export const loginURL = `login`;
+const authUrls = {
+    register: `Authentications​/register`,
+    login: `login`,
+    me: '/me',
+};
+
+export default authUrls;

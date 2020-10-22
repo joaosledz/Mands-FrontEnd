@@ -195,6 +195,21 @@ const Board: React.FC = () => {
         console.log(newState);
         setState(newState);
     };
+    const DeleteTask = (
+        itemID: 'item-1' | 'item-2',
+        columnID: 'column-1' | 'column-2'
+    ) => {
+        const newState = {
+            ...state,
+        };
+        //Adicionar Item à lista de itens
+        delete newState.items[itemID];
+        newState.columns[columnID].itemsIds = newState.columns[
+            columnID
+        ].itemsIds.filter(e => e !== itemID);
+        console.log(newState);
+        setState(newState);
+    };
 
     const setTitle = (
         title: string,
@@ -247,6 +262,7 @@ const Board: React.FC = () => {
                                         setTitle={setTitle}
                                         AddTask={AddTask}
                                         UpdateTask={UpdateTask}
+                                        DeleteTask={DeleteTask}
                                     />
                                 );
                             })}

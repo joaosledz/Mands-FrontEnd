@@ -19,6 +19,7 @@ type BoardColumnProps = {
     setTitle: any;
     AddTask: any;
     UpdateTask: any;
+    DeleteTask: any;
 };
 
 // Define types for board column content style properties
@@ -38,6 +39,17 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
+    const {
+        // key,
+        column,
+        items,
+        index,
+        // type,
+        setTitle,
+        AddTask,
+        UpdateTask,
+        DeleteTask,
+    } = props;
     // const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
     // const handleOpenNewTaskModal = () => {
     //     setShowNewTaskModal(true);
@@ -48,7 +60,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
     // };
     return (
         <>
-            <Draggable draggableId={props.column.id} index={props.index}>
+            <Draggable draggableId={column.id} index={index}>
                 {provided => (
                     <div
                         className={classes.BoardColumnWrapper}
@@ -59,24 +71,21 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                         <Grid container>
                             <Grid item xs={2}>
                                 <div className={classes.circle}>
-                                    {props.items.length}
+                                    {items.length}
                                 </div>
                             </Grid>
                             <Grid item xs={8} {...provided.dragHandleProps}>
                                 <MutableInput
-                                    value={props.column.title}
-                                    valueSet={props.setTitle}
-                                    id={props.column.id}
+                                    value={column.title}
+                                    valueSet={setTitle}
+                                    id={column.id}
                                 />
                             </Grid>
                             <Grid item xs={1}>
                                 <AddIcon
                                     className={classes.icon}
                                     onClick={() =>
-                                        props.AddTask(
-                                            props.column.id,
-                                            'Texto Novo'
-                                        )
+                                        AddTask(column.id, 'Texto Novo')
                                     }
                                 />
                             </Grid>
@@ -84,7 +93,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 <EllipsisIcon className={classes.icon} />
                             </Grid>
                         </Grid>
-                        <Droppable droppableId={props.column.id} type="task">
+                        <Droppable droppableId={column.id} type="task">
                             {(provided, snapshot) => (
                                 <BoardColumnContent
                                     {...provided.droppableProps}
@@ -92,16 +101,16 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                     isDraggingOver={snapshot.isDraggingOver}
                                 >
                                     {/* All board items belong into specific column. */}
-                                    {props.items.map(
-                                        (item: any, index: number) => (
-                                            <BoardItem
-                                                key={item.id}
-                                                item={item}
-                                                index={index}
-                                                UpdateTask={props.UpdateTask}
-                                            />
-                                        )
-                                    )}
+                                    {items.map((item: any, index: number) => (
+                                        <BoardItem
+                                            key={item.id}
+                                            item={item}
+                                            index={index}
+                                            UpdateTask={UpdateTask}
+                                            DeleteTask={DeleteTask}
+                                            columnID={column.id}
+                                        />
+                                    ))}
                                     {provided.placeholder}
                                 </BoardColumnContent>
                             )}

@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid';
 import { UserAdd as UserAddIcon } from '@styled-icons/heroicons-solid';
 
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import useStyles from './styles';
-
+import Popover from '../popover/itemPopover';
 import NewTaskModal from '../modal/details-task';
 
 // Define types for board item element properties
 type BoardItemProps = {
     index: number;
     UpdateTask: any;
+    DeleteTask: any;
+    columnID: string;
     item: {
         id: string;
         title: string;
@@ -48,6 +49,7 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
 
 // Create and export the BoardItem component
 export const BoardItem = (props: BoardItemProps) => {
+    const { DeleteTask, UpdateTask, item, index, columnID } = props;
     const classes = useStyles();
     //Modal de details e edição
     const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
@@ -61,7 +63,7 @@ export const BoardItem = (props: BoardItemProps) => {
 
     return (
         <>
-            <Draggable draggableId={props.item.id} index={props.index}>
+            <Draggable draggableId={item.id} index={index}>
                 {(provided, snapshot) => (
                     <BoardItemEl
                         {...provided.draggableProps}
@@ -79,8 +81,7 @@ export const BoardItem = (props: BoardItemProps) => {
                                 <Grid item xs={11}>
                                     <span
                                         style={{
-                                            backgroundColor:
-                                                props.item.tagColor,
+                                            backgroundColor: item.tagColor,
                                             color: 'white',
                                             fontSize: '0.8rem',
                                             fontFamily: 'Roboto',
@@ -89,12 +90,17 @@ export const BoardItem = (props: BoardItemProps) => {
                                             borderRadius: '15px',
                                         }}
                                     >
-                                        {props.item.tag}
+                                        {item.tag}
                                     </span>
                                 </Grid>
                                 <Grid item xs={1}>
-                                    <EllipsisIcon
+                                    {/* <EllipsisIcon
                                         className={classes.iconTask}
+                                    /> */}
+                                    <Popover
+                                        DeleteTask={DeleteTask}
+                                        itemID={item.id}
+                                        columnID={columnID}
                                     />
                                 </Grid>
                             </Grid>
@@ -104,7 +110,7 @@ export const BoardItem = (props: BoardItemProps) => {
                                 className={classes.taskTitle}
                                 onClick={handleOpenNewTaskModal}
                             >
-                                {props.item.title}
+                                {item.title}
                             </Grid>
                             <Grid
                                 xs={12}
@@ -114,7 +120,7 @@ export const BoardItem = (props: BoardItemProps) => {
                                 alignItems="flex-end"
                             >
                                 <Grid xs={11} container item>
-                                    {props.item.members.map(member => (
+                                    {item.members.map(member => (
                                         <Link
                                             className={classes.memberName}
                                             to={'/perfil'}
@@ -132,10 +138,10 @@ export const BoardItem = (props: BoardItemProps) => {
                 )}
             </Draggable>
             <NewTaskModal
-                item={props.item}
+                item={item}
                 isOpen={showNewTaskModal}
                 setIsOpen={setShowNewTaskModal}
-                UpdateTask={props.UpdateTask}
+                UpdateTask={UpdateTask}
             />
         </>
     );

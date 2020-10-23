@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         gridUserItems: {
-            // paddingBottom: '15px',
-            // paddingTop: '15px',
+            paddingTop: '1rem',
 
             '& h6': {
+                marginBottom: '.3rem',
                 fontSize: '1.6rem',
                 fontWeight: 'bold',
             },
@@ -36,20 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
             '& p': {
                 fontSize: '1rem',
                 fontWeight: 300,
-            },
-        },
-
-        subtitle1: {
-            fontSize: '1.6rem',
-            fontWeight: 'bold',
-        },
-
-        subtitle2: {
-            color: theme.palette.primary.light,
-
-            fontSize: '1.3rem',
-            [theme.breakpoints.up('md')]: {
-                fontSize: '1.6rem',
             },
         },
 

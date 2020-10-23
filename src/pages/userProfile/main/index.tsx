@@ -56,6 +56,7 @@ const UserProfile: React.FC = () => {
                         </Grid>
                     </Hidden>
                 </Grid>
+
                 <Grid container spacing={3} className={classes.gridUser}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={5}>
@@ -78,6 +79,7 @@ const UserProfile: React.FC = () => {
                             <SocialMedia />
                         </Grid>
                     </Grid>
+
                     <Grid container>
                         <Grid
                             item
@@ -104,6 +106,7 @@ const UserProfile: React.FC = () => {
                         </Grid>
                     </Grid>
                 </Grid>
+
                 <FabButton
                     icon="edit"
                     style={classes.fabButton}

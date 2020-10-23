@@ -24,10 +24,9 @@ const User: React.FC<Props> = ({ name, /* role ,*/ email, phone }) => {
             <Grid
                 container
                 item
-                className={classes.UserDescription}
-                spacing={1}
                 xs={12}
                 sm={8}
+                className={classes.UserDescription}
             >
                 <Typography variant="h6" color="primary">
                     {name}

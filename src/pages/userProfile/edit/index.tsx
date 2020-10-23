@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 // import Fab from '@material-ui/core/Fab';
@@ -33,20 +33,25 @@ const data = {
     cpf: '946.436.290-10',
 };
 
+type FormProps = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    cpf: string;
+    cel: string;
+    password: string;
+};
+
 const UserProfile: React.FC = () => {
     const classes = useStyles();
-    interface EditProfile {
-        firstName: string;
-        lastName: string;
-        email: string;
-        cpf: string;
-        cel: string;
-        password: string;
-    }
 
-    const { register, errors, handleSubmit } = useForm<EditProfile>();
+    const { register, errors, handleSubmit } = useForm<FormProps>();
 
-    const onSubmit = (data: EditProfile) => {
+    useEffect(() => {
+        document.title = 'Editar Perfil';
+    }, []);
+
+    const onSubmit = (data: FormProps) => {
         console.log(data);
     };
     return (
@@ -68,7 +73,7 @@ const UserProfile: React.FC = () => {
                             justify="flex-end"
                             style={{ paddingRight: '20px', paddingTop: '15px' }}
                         >
-                            <BackButton redirect={'perfil'} message="Voltar" />
+                            <BackButton replace={'perfil'} message="Voltar" />
                         </Grid>
                     </Grid>
                     <Grid className={classes.gridUser} container>

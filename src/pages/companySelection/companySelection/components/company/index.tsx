@@ -4,8 +4,8 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
-import CompanyType from '../../../../../../models/company';
-import handleUrlParamName from '../../../../../../utils/functions/handleUrlParamName';
+import CompanyType from '../../../../../models/company';
+import handleUrlParamName from '../../../../../utils/functions/handleUrlParamName';
 
 import useStyles from './styles';
 

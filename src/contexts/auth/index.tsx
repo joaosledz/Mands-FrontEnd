@@ -1,10 +1,4 @@
-import React, {
-    createContext,
-    useState,
-    useEffect,
-    useContext,
-    useCallback,
-} from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import {
     api,
     AxiosError,

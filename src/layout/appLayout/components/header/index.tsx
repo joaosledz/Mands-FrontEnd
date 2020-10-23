@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
-import { useAuth } from '../../../../contexts/auth';
+import useAuth from '../../../../hooks/useAuth';
 
 import logo from '../../../../assets/logo/logo_branca.svg';
 import avatar from '../../../../assets/fakeDataImages/employees/anaTartari.png';

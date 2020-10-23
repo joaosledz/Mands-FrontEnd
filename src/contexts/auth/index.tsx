@@ -5,7 +5,14 @@ import React, {
     useContext,
     useCallback,
 } from 'react';
-import { api, authApi, LoginType, LoginModel, userType } from '../../services';
+import {
+    api,
+    AxiosError,
+    authApi,
+    LoginType,
+    LoginModel,
+    userType,
+} from '../../services';
 
 type AuthContextData = {
     signed: boolean;
@@ -18,6 +25,7 @@ type AuthContextData = {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
+    const tokenKey = '@Mands:token';
     const [user, setUser] = useState<userType | null>(null);
     const [loading, setLoading] = useState(true);
     // const [firstLogin, setFirstLogin] = useState(false);
@@ -26,7 +34,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     useEffect(() => {
         setLoading(true);
         const loadStoragedData = () => {
-            const storagedToken = localStorage.getItem('@Mands:token');
+            const storagedToken = localStorage.getItem(tokenKey);
             if (storagedToken) {
                 api.defaults.headers[
                     'Authorization'
@@ -39,8 +47,12 @@ export const AuthProvider: React.FC = ({ children }) => {
                         setUser(response.data);
                         setLoading(false);
                     })
-                    .catch(error => {
+                    .catch((error: AxiosError) => {
                         // console.log(error);
+                        if (error.response?.status === 401 && storagedToken) {
+                            localStorage.removeItem(tokenKey);
+                            setUser(null);
+                        }
                         setLoading(false);
                     });
             } else setLoading(false);
@@ -58,7 +70,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             api.defaults.headers[
                 'Authorization'
             ] = `Bearer ${response.data.token}`;
-            localStorage.setItem('@Mands:token', response.data.token);
+            localStorage.setItem(tokenKey, response.data.token);
             setLoading(false);
             return Promise.resolve(response.data);
         } catch (error) {
@@ -83,7 +95,4 @@ export const AuthProvider: React.FC = ({ children }) => {
     );
 };
 
-export function useAuth() {
-    const context = useContext(AuthContext);
-    return context;
-}
+export default AuthContext;

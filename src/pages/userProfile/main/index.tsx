@@ -108,9 +108,10 @@ const UserProfile: React.FC = () => {
                 </Grid>
 
                 <FabButton
+                    title="Editar"
                     icon="edit"
                     style={classes.fabButton}
-                    onClick={() => history.push('/editar-perfil')}
+                    onClick={() => history.replace('/editar-perfil')}
                 />
             </Paper>
         </AppLayout>

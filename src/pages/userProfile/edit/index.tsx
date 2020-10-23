@@ -1,20 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-// import Fab from '@material-ui/core/Fab';
-import AppLayout from '../../../layout/appLayout';
 import Paper from '@material-ui/core/Paper';
-import useStyles from './styles';
-import BackButton from '../../../components/backButton';
-import Avatar from '@material-ui/core/Avatar';
-import ProfilePic from '../../../assets/fakeDataImages/employees/anaTartari.png';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import RegisterButton from '../../../components/mainButton';
-// import TextFieldError from './components/textField'
+
 import CpfValidator from '../../../validators/cpfValidator';
 import InputMask from 'react-input-mask';
+
+import ProfilePic from '../../../assets/fakeDataImages/employees/anaTartari.png';
+import AppLayout from '../../../layout/appLayout';
+import BackButton from '../../../components/backButton';
+import RegisterButton from '../../../components/mainButton';
+import useStyles from './styles';
+import CropImageInput from '../../../components/cropImage/cropImageInput';
+// import TextFieldError from './components/textField'
 
 const data = {
     id: 1,
@@ -47,6 +48,8 @@ const UserProfile: React.FC = () => {
 
     const { register, errors, handleSubmit } = useForm<FormProps>();
 
+    const [image, setImage] = useState<File | undefined>(undefined);
+
     useEffect(() => {
         document.title = 'Editar Perfil';
     }, []);
@@ -56,7 +59,6 @@ const UserProfile: React.FC = () => {
     };
     return (
         <AppLayout>
-            {console.log(typeof register)}
             <Paper className={classes.paper}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid container>
@@ -79,10 +81,11 @@ const UserProfile: React.FC = () => {
                     <Grid className={classes.gridUser} container>
                         <Grid container direction="row">
                             <Grid item xs={12} md={2}>
-                                <Avatar
-                                    className={classes.largeAvatar}
-                                    variant="square"
-                                    src={ProfilePic}
+                                <CropImageInput
+                                    image={image}
+                                    setImage={setImage}
+                                    preview={ProfilePic}
+                                    styles={classes.cropImage}
                                 />
                             </Grid>
                             <Grid container item xs={12} md={10} spacing={3}>

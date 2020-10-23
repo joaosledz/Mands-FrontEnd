@@ -13,9 +13,10 @@ import RecoveryPassword from '../pages/authentication/recoveryPassword/recoveryP
 //#endregion
 
 //#region Rotas da aplicação
-import CompanySelection from '../pages/companySelection';
 import UserProfile from '../pages/userProfile/main';
 import UserProfileEdit from '../pages/userProfile/edit';
+import CompanySelection from '../pages/companySelection';
+import CompanyRegister from '../pages/companyRegister/company.register';
 import CompanyDashboard from '../pages/companyDashboard';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
@@ -46,14 +47,18 @@ const Routes = () => {
                     component={RecoveryPassword}
                 />
                 {/* Rotas da Aplicação */}
-                <PrivateRoute
-                    path="/escolha-da-empresa"
-                    component={CompanySelection}
-                />
                 <PrivateRoute path="/perfil" component={UserProfile} />
                 <PrivateRoute
                     path="/editar-perfil"
                     component={UserProfileEdit}
+                />
+                <PrivateRoute
+                    path="/escolha-da-empresa"
+                    component={CompanySelection}
+                />
+                <PrivateRoute
+                    path="/cadastrar-empresa"
+                    component={CompanyRegister}
                 />
                 <PrivateRoute
                     path="/dashboard/:companyName"

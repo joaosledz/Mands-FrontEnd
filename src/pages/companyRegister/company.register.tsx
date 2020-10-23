@@ -247,7 +247,7 @@ const CompanyRegister: React.FC = () => {
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} justify="center">
-                        <SubmitButton mt={80} text="Cadastrar empresa" />
+                        <SubmitButton mt={100} text="Cadastrar empresa" />
                     </Grid>
                 </Grid>
             </Paper>

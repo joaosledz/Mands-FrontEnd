@@ -3,61 +3,56 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         paper: {
+            margin: '2rem',
+            padding: '2rem',
+            minHeight: '80vh',
+
             position: 'relative',
-            minHeight: '90vh',
-            width: '93%',
-            maxWidth: '1500px',
-            // margin: '20px 30px',
-            margin: '20px auto',
-            borderRadius: '0px',
+
+            '& h1': {
+                fontSize: '2rem',
+                fontWeight: 600,
+            },
+
+            [theme.breakpoints.only('xs')]: {
+                margin: '1rem',
+                padding: '.5rem',
+            },
         },
+
         gridUser: {
             padding: '20px',
         },
+
         gridUserItems: {
-            paddingBottom: '15px',
-            paddingTop: '15px',
-        },
-        title: {
-            display: 'flex',
-            alignSelf: 'center',
-            color: theme.palette.primary.light,
-            fontWeight: 'bold',
-            margin: '10px auto',
-        },
-        subtitle1: {
-            display: 'flex',
-            alignSelf: 'begin',
-            color: theme.palette.primary.light,
-            fontWeight: 'bold',
-            fontSize: '1.8rem',
-            [theme.breakpoints.up('md')]: {
-                fontSize: '2rem',
+            // paddingBottom: '15px',
+            // paddingTop: '15px',
+
+            '& h6': {
+                fontSize: '1.6rem',
+                fontWeight: 'bold',
+            },
+
+            '& p': {
+                fontSize: '1rem',
+                fontWeight: 300,
             },
         },
+
+        subtitle1: {
+            fontSize: '1.6rem',
+            fontWeight: 'bold',
+        },
+
         subtitle2: {
-            display: 'flex',
-            alignSelf: 'begin',
             color: theme.palette.primary.light,
-            fontWeight: 'lighter',
+
             fontSize: '1.3rem',
             [theme.breakpoints.up('md')]: {
                 fontSize: '1.6rem',
             },
         },
-        paragraph: {
-            display: 'flex',
-            textAlign: 'justify',
-            alignSelf: 'begin',
-            color: 'black',
-            fontWeight: 'lighter',
-            fontSize: '22px',
-            [theme.breakpoints.down('md')]: {
-                // marginRight: 0,
-                fontSize: '1rem',
-            },
-            // margin: '10px auto',
-        },
+
         socialMedia: {
             display: 'flex',
             alignSelf: 'begin',
@@ -68,33 +63,30 @@ const useStyles = makeStyles((theme: Theme) =>
             textDecoration: 'none',
             // margin: '10px auto',
         },
+
         socialMediaDiv: {
             textDecoration: 'none',
             paddingRight: '20px',
         },
+
         socialMediaGrid: {
             color: 'gray',
-            transition: 'all .3s',
+            transition: 'all .2s',
             '&:hover': {
                 '& $smallAvatar, $socialMedia': {
                     color: theme.palette.primary.main,
                 },
             },
         },
-        UserDescriptionDiv: {
-            paddingLeft: '0px',
-            [theme.breakpoints.up(465)]: {
-                // marginRight: 0,
-                paddingLeft: '60px',
-            },
-        },
+
         largeAvatar: {
             alignSelf: 'center',
             width: theme.spacing(20),
             height: theme.spacing(20),
             borderSpacing: '3px',
-            boxShadow: '2px 2px 7px black',
+            boxShadow: '0px 3px 6px #00000029',
         },
+
         smallAvatar: {
             width: theme.spacing(6),
             height: theme.spacing(6),

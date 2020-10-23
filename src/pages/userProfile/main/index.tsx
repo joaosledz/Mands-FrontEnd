@@ -1,17 +1,18 @@
-import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
-// import Fab from '@material-ui/core/Fab';
+
+import useAuth from '../../../hooks/useAuth';
+
 import AppLayout from '../../../layout/appLayout';
 import Paper from '@material-ui/core/Paper';
-import useStyles from './styles';
 import BackButton from '../../../components/backButton';
 import UserInfo from './components/userInfo';
 import SocialMedia from './components/socialMedia';
 import FabButton from '../../../components/fabButton';
-// import { Container } from './styles';
+import useStyles from './styles';
 
 const data = {
     id: 1,
@@ -30,50 +31,48 @@ const data = {
 };
 const address = `${data.street}, ${data.neighbourhood}, ${data.number}, ${data.city}-${data.state}, ${data.cep}`;
 
-const UserProfile: React.FC<RouteComponentProps> = ({ history }) => {
+const UserProfile: React.FC = () => {
     const classes = useStyles();
+    const history = useHistory();
+    const { user } = useAuth();
+
+    useEffect(() => {
+        document.title = user!.name;
+    }, [user]);
+
     return (
         <AppLayout>
             <Paper className={classes.paper}>
                 <Grid container>
-                    <Grid item xs={1} md={4} />
-                    <Grid container item xs={7} md={4} justify="center">
-                        <Typography className={classes.title} variant="h4">
+                    <Grid item xs={1} sm={4} />
+                    <Grid container item xs={12} sm={4} justify="center">
+                        <Typography variant="h1" color="primary">
                             Meu Perfil
                         </Typography>
                     </Grid>
-                    <Grid
-                        container
-                        item
-                        xs={4}
-                        justify="flex-end"
-                        style={{ paddingRight: '20px', paddingTop: '15px' }}
-                    >
-                        <BackButton message="Voltar" />
-                    </Grid>
+                    <Hidden only="xs">
+                        <Grid container item sm={4} justify="flex-end">
+                            <BackButton message="Voltar" />
+                        </Grid>
+                    </Hidden>
                 </Grid>
-                <Grid className={classes.gridUser} container spacing={3}>
+                <Grid container spacing={3} className={classes.gridUser}>
                     <Grid container spacing={3}>
-                        <Grid
-                            xs={12}
-                            md={5}
-                            item
-                            className={classes.gridUserItems}
-                        >
+                        <Grid item xs={12} md={5}>
                             <UserInfo
-                                name={data.name}
-                                telephone={data.telephone}
-                                role={data.role}
+                                name={`${user?.name} ${user!.surname}`}
                                 email={data.email}
+                                phone={user!.phone}
+                                /* role={user.} */
                             />
                         </Grid>
                         <Hidden smDown>
-                            <Grid xs={12} md={2} item />
+                            <Grid item xs={12} md={2} />
                         </Hidden>
                         <Grid
+                            item
                             xs={12}
                             md={5}
-                            item
                             className={classes.gridUserItems}
                         >
                             <SocialMedia />
@@ -81,31 +80,27 @@ const UserProfile: React.FC<RouteComponentProps> = ({ history }) => {
                     </Grid>
                     <Grid container>
                         <Grid
+                            item
                             xs={12}
                             md={5}
-                            item
                             className={classes.gridUserItems}
                         >
-                            <Typography className={classes.subtitle1}>
+                            <Typography variant="h6" color="primary">
                                 Apresentação
                             </Typography>
-                            <Typography className={classes.paragraph}>
-                                {data.presentation}
-                            </Typography>
+                            <Typography>{data.presentation}</Typography>
                         </Grid>
-                        <Grid xs={12} md={2} item />
+                        <Grid item xs={12} md={2} />
                         <Grid
+                            item
                             xs={12}
                             md={5}
-                            item
                             className={classes.gridUserItems}
                         >
-                            <Typography className={classes.subtitle1}>
+                            <Typography variant="h6" color="primary">
                                 Endereço
                             </Typography>
-                            <Typography className={classes.paragraph}>
-                                {address}
-                            </Typography>
+                            <Typography>{address}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>

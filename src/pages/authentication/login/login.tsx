@@ -157,10 +157,7 @@ const Login: React.FC = () => {
                         <Typography className={classes.signUpText}>
                             Não possui uma conta?
                         </Typography>
-                        <Link
-                            to="/criar-conta"
-                            className={classes.signUpButton}
-                        >
+                        <Link to="/cadastro" className={classes.signUpButton}>
                             Cadastre-se
                         </Link>
                     </Box>

@@ -66,7 +66,7 @@ const Login: React.FC = () => {
                                 <TextField
                                     id="outlined-basic"
                                     label="Email, Nome de usuário ou CPF"
-                                    name="user"
+                                    name="email"
                                     variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
@@ -85,7 +85,7 @@ const Login: React.FC = () => {
                                 />
                                 <ErrorMessage
                                     errors={errors}
-                                    name="user"
+                                    name="email"
                                     render={({ message }) => (
                                         <Typography
                                             className={classes.ErrorMessage}

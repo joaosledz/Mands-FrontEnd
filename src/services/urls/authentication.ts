@@ -1,5 +1,5 @@
 const authUrls = {
-    register: `Authentications​/register`,
+    register: 'Authentications/register',
     login: `login`,
     me: '/me',
 };

@@ -1,6 +1,11 @@
 import api from './api';
 import { AxiosError } from 'axios';
-import { LoginType, LoginModel, userType } from './models/authentication';
+import {
+    LoginType,
+    LoginModel,
+    userType,
+    RegisterModel,
+} from './models/authentication';
 import authApi from './useCases/authentication';
 import companyApi from './useCases/company';
 
@@ -10,4 +15,4 @@ import companyApi from './useCases/company';
 // };
 
 export { api, authApi, companyApi };
-export type { AxiosError, LoginType, LoginModel, userType };
+export type { AxiosError, LoginType, LoginModel, userType, RegisterModel };

@@ -2,30 +2,25 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme>(theme =>
     createStyles({
-
         form: {
-            paddingBottom: '1rem'
+            paddingBottom: '1rem',
         },
 
         titleContainer: {
             marginTop: '2rem',
             [theme.breakpoints.only('xs')]: {
-                marginTop: 0
+                marginTop: 0,
             },
             '& p': {
-                fontSize: 40, fontWeight: 700
+                fontSize: 40,
+                fontWeight: 700,
             },
         },
 
         formContent: {
             [theme.breakpoints.down('md')]: {
-                flexWrap: 'wrap-reverse'
-            }
-        },
-
-        rightSide: {
-            display: 'flex',
-            justifyContent: 'center',
+                flexWrap: 'wrap-reverse',
+            },
         },
 
         input: {

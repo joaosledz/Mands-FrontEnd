@@ -24,6 +24,7 @@ const AuthLayout: React.FC<Props> = props => {
                         src={logo}
                         alt="Logo do Mands"
                         className={classes.logo}
+                        draggable={false}
                     />
                 </Grid>
                 {backButtonMessage && (

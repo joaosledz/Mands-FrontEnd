@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import { v4 as uuidv4 } from 'uuid';
+import FabButton from '../../../../components/fabButton';
 
 // Import data for board
 import { initialBoardData } from '../../data/board-initial-data';
@@ -244,9 +245,7 @@ const Board: React.FC = () => {
 
     return (
         <>
-            <button type="button" onClick={AddColumn}>
-                Add new group
-            </button>
+           
 
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
@@ -290,6 +289,11 @@ const Board: React.FC = () => {
                     )}
                 </Droppable>
             </DragDropContext>
+            <FabButton
+                    icon="plus"
+                    style={classes.fabButton}
+                    onClick={AddColumn}
+                />
         </>
     );
 };

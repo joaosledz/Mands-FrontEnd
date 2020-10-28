@@ -3,7 +3,6 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import { Add as AddIcon } from '@styled-icons/ionicons-outline';
-import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid/EllipsisH';
 import useStyles from './styles';
 import MutableInput from '../multableInput/multableInput';
 // Import BoardItem component
@@ -53,7 +52,7 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background: #f0beff; 
+    background: rgba(170,170,170,0.5); 
 }
 /* ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(255,0,0,0.4); 

@@ -10,10 +10,32 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '10px auto',
         },
         boardElements: {
+            overflowX: 'auto',
+            position:'relative',
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'left',
+            scrollbarWidth: 'thin',
+            '&::-webkit-scrollbar': {
+              width: '8px',
+              marginLeft: '12px',
+          },
+          /* Track */
+          '&::-webkit-scrollbar-track': {
+              WebkitBorderRadius: '10px',
+              borderRadius: '10px',
+          },
+          /* Handle */
+          '&::-webkit-scrollbar-thumb': {
+              WebkitBorderRadius: '10px',
+              borderRadius: '10px',
+              background: 'rgba(170,170,170,0.5)',
+          },
         },
+        fabButton: {
+            [theme.breakpoints.up('md')]: {
+                right: '4rem',
+            },}
     })
 );
 

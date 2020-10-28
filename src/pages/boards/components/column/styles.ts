@@ -44,9 +44,9 @@ const useStyles = makeStyles<Theme>(theme =>
             backgroundColor: '#e8d9eb',
             maxWidth: '300px',
             minWidth: '300px',
+            height: '70vh',
             borderRadius: '4px',
-            minHeight: '60vh',
-
+            
             '& + &': {
                 marginLeft: '12px',
             },

@@ -8,6 +8,7 @@ import useStyles from './styles';
 import MutableInput from '../multableInput/multableInput';
 // Import BoardItem component
 import { BoardItem } from '../item/board-item';
+import Popover from '../popover/columnPopover';
 
 // Define types for board column element properties
 type BoardColumnProps = {
@@ -20,6 +21,7 @@ type BoardColumnProps = {
     AddTask: any;
     UpdateTask: any;
     DeleteTask: any;
+    DeleteColumn: any;
 };
 
 // Define types for board column content style properties
@@ -31,9 +33,31 @@ type BoardColumnContentStylesProps = {
 // Create styles for BoardColumnContent element
 const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
     min-height: 20px;
+    padding-right: 5px;
     background-color: ${props => (props.isDraggingOver ? '#aecde0' : null)};
     border-radius: 4px;
-    min-height: 60vh;
+    /* min-height: 60vh; */
+    max-height: 61vh;
+    overflow-y: auto;
+  scrollbar-width: thin;
+  ::-webkit-scrollbar {
+    width: 8px;
+    margin-left: 12px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #f0beff; 
+}
+/* ::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(255,0,0,0.4); 
+} */
 `;
 
 // Create and export the BoardColumn component
@@ -49,6 +73,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
         AddTask,
         UpdateTask,
         DeleteTask,
+        DeleteColumn,
     } = props;
     // const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
     // const handleOpenNewTaskModal = () => {
@@ -90,7 +115,10 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 />
                             </Grid>
                             <Grid item xs={1}>
-                                <EllipsisIcon className={classes.icon} />
+                            <Popover
+                                        DeleteColumn={DeleteColumn}
+                                        columnID={column.id}
+                                    />
                             </Grid>
                         </Grid>
                         <Droppable droppableId={column.id} type="task">

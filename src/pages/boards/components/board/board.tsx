@@ -17,8 +17,7 @@ const Board: React.FC = () => {
     // Handle drag & drop
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-        console.log('STATE');
-        console.log(state);
+       
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
@@ -122,7 +121,7 @@ const Board: React.FC = () => {
 
     const AddColumn = () => {
         const newID = uuidv4();
-        console.log(typeof newID);
+       
         const newState = {
             ...state,
             columns: {
@@ -135,7 +134,7 @@ const Board: React.FC = () => {
             },
             columnsOrder: [...state.columnsOrder, newID],
         };
-        console.log(newState);
+     
         setState(newState);
     };
     // type newState = {
@@ -161,7 +160,7 @@ const Board: React.FC = () => {
     const AddTask = (columnID: 'column-1', title: string) => {
         //Gerando um ID aleatório
         const newID = uuidv4();
-        console.log(typeof newID);
+        
         const newState = {
             ...state,
         };
@@ -182,7 +181,7 @@ const Board: React.FC = () => {
             ...newState.columns[columnID].itemsIds,
             newID,
         ];
-        console.log(newState);
+       
         setState(newState);
     };
 
@@ -192,7 +191,7 @@ const Board: React.FC = () => {
         };
         //Adicionar Item à lista de itens
         newState.items[itemID] = updatedItem;
-        console.log(newState);
+      
         setState(newState);
     };
     const DeleteTask = (
@@ -207,7 +206,27 @@ const Board: React.FC = () => {
         newState.columns[columnID].itemsIds = newState.columns[
             columnID
         ].itemsIds.filter(e => e !== itemID);
-        console.log(newState);
+        
+        setState(newState);
+    };
+
+    const DeleteColumn = (
+        columnID: 'column-1' | 'column-2'
+    ) => {
+        const newState = {
+            ...state,
+        };
+        
+        //Apagar todos os itens pertencentes a coluna excluída
+        (newState.columns[columnID].itemsIds as Array<any>).map((itemID: 'item-1' | 'item-2',) => {
+           
+            delete newState.items[itemID];
+            })
+        //Apaga a coluna propriamente dita
+        delete newState.columns[columnID]
+        // Retira do array de ordem das colunas o ID da coluna apagada
+        newState.columnsOrder = newState.columnsOrder.filter(e => e !== columnID);
+        
         setState(newState);
     };
 
@@ -215,7 +234,7 @@ const Board: React.FC = () => {
         title: string,
         columnID: 'column-1' | 'column-2' | 'column-3'
     ) => {
-        // console.log(columnID);
+        
         const newState = { ...state };
         newState.columns[columnID].title = title;
 
@@ -245,7 +264,7 @@ const Board: React.FC = () => {
                             {state.columnsOrder.map((columnId, index) => {
                                 // Get id of the current column
                                 const column = (state.columns as any)[columnId];
-                                console.log(column);
+                               
                                 // Get item belonging to the current column
                                 const items = column.itemsIds.map(
                                     (itemId: string) =>
@@ -263,6 +282,7 @@ const Board: React.FC = () => {
                                         AddTask={AddTask}
                                         UpdateTask={UpdateTask}
                                         DeleteTask={DeleteTask}
+                                        DeleteColumn={DeleteColumn}
                                     />
                                 );
                             })}

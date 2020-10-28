@@ -32,7 +32,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     const [title, setTitle] = useState<string>(item.title);
 
     useEffect(() => {
-        console.log('Entrou');
+        
     }, [isOpen]);
 
     const handleCloseModal = () => {

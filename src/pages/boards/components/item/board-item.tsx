@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import useStyles from './styles';
 import Popover from '../popover/itemPopover';
-import NewTaskModal from '../modal/details-task';
+import TaskDetailsModal from '../modal/details-task';
 
 // Define types for board item element properties
 type BoardItemProps = {
@@ -18,9 +18,11 @@ type BoardItemProps = {
     item: {
         id: string;
         title: string;
+        description: string;
         tag: string;
         tagColor: string;
         members: string[];
+        tasks: any;
     };
 };
 
@@ -137,7 +139,7 @@ export const BoardItem = (props: BoardItemProps) => {
                     </BoardItemEl>
                 )}
             </Draggable>
-            <NewTaskModal
+            <TaskDetailsModal
                 item={item}
                 isOpen={showNewTaskModal}
                 setIsOpen={setShowNewTaskModal}

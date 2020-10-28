@@ -5,7 +5,7 @@ const useStyles = makeStyles<Theme>(theme =>
         paper: {
             width: '100%',
             maxWidth: '35vw',
-            minHeight: '400px',
+            maxHeight: '80vh',
             padding: '2rem 1rem',
             boxShadow: theme.shadows[5],
 
@@ -20,9 +20,49 @@ const useStyles = makeStyles<Theme>(theme =>
                 maxWidth: '90vw',
                 padding: '2rem 0.2rem',
             },
+            
         },
-
-        submitButton: {},
+        body: { 
+                maxHeight: '400px',
+                //Scroll
+                overflowY: 'auto',
+                scrollbarWidth: 'thin',
+                '&::-webkit-scrollbar': {
+                width: '8px',
+                marginLeft: '12px',
+                },
+                /* Track */
+                '&::-webkit-scrollbar-track': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+                },
+                /* Handle */
+                '&::-webkit-scrollbar-thumb': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+                background: 'rgba(170,170,170,0.5)',
+                },
+        },
+        subtitle: {
+            display: 'flex',
+            alignSelf: 'begin',
+            color: theme.palette.primary.light,
+            fontWeight: 'lighter',
+            fontSize: '0.8rem',
+            [theme.breakpoints.up('md')]: {
+                fontSize: '1rem',
+            },
+        },
+        icon: {
+            color: theme.palette.primary.light,
+            borderRadius: '20%',
+            marginRight: '4px',
+            maxWidth: '28px',
+           
+        },
+        submitButton: {
+            position: 'relative'
+        },
     })
 );
 

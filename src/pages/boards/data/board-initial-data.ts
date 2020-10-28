@@ -3,6 +3,7 @@ export const initialBoardData = {
         'item-1': {
             id: 'item-1',
             title: 'Relatório Financeiro',
+            description: 'Atividades referentes ao financeiro',
             tag: 'Financeiro',
             tagColor: 'green',
             members: ['Raiane Souza', 'Josefa Oliveira'],
@@ -28,6 +29,7 @@ export const initialBoardData = {
         'item-2': {
             id: 'item-2',
             title: 'Relatório de Marketing',
+            description: 'Atividades referentes ao admin',
             tag: 'Marketing',
             tagColor: 'blue',
             members: ['Raiane Souza', 'Xandão'],
@@ -36,6 +38,7 @@ export const initialBoardData = {
         'item-3': {
             id: 'item-3',
             title: 'Andamento Alvenaria',
+            description: 'Atividades referentes ao marketing',
             tag: 'Reforma',
             tagColor: 'orange',
             members: ['Raiane Souza', 'José Lima'],

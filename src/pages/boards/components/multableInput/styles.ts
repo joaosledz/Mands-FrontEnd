@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             fontFamily: 'Roboto Slab',
             marginBottom: '12px',
+            textAlign: 'justify',
             display: 'flex',
             alignSelf: 'begin',
             color: '#707070',

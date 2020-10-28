@@ -10,11 +10,11 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '10px auto',
         },
         boardElements: {
-            overflowX: 'auto',
             position:'relative',
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'left',
+            overflowX: 'auto',
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
               width: '8px',

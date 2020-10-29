@@ -9,8 +9,8 @@ import useAuth from '../../../hooks/useAuth';
 import AppLayout from '../../../layout/appLayout';
 import Paper from '@material-ui/core/Paper';
 import BackButton from '../../../components/backButton';
-import UserInfo from './components/userInfo';
-import SocialMedia from './components/socialMedia';
+import UserInfo from './components/userInfo/userInfo';
+import SocialMedia from './components/socialMedia/socialMedia';
 import FabButton from '../../../components/fabButton';
 import useStyles from './styles';
 

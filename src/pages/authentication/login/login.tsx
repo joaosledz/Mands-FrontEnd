@@ -65,17 +65,11 @@ const Login: React.FC = () => {
                             >
                                 <TextField
                                     id="outlined-basic"
-                                    label="Email"
-                                    name="email"
+                                    label="Email, Nome de usuário ou CPF"
+                                    name="user"
                                     variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
-                                        pattern: {
-                                            // eslint-disable-next-line
-                                            value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                            message:
-                                                'Deve seguir o formato nome@email.com',
-                                        },
                                     })}
                                     InputProps={{
                                         startAdornment: (
@@ -91,7 +85,7 @@ const Login: React.FC = () => {
                                 />
                                 <ErrorMessage
                                     errors={errors}
-                                    name="email"
+                                    name="user"
                                     render={({ message }) => (
                                         <Typography
                                             className={classes.ErrorMessage}

@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import CompanyType from '../../../../models/company';
+import CompanyType from '../../../models/company';
 
 import Company from './components/company';
 import useStyles from './styles';

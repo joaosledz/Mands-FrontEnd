@@ -1,6 +1,6 @@
 import api from '../api';
 import { AxiosResponse } from 'axios';
-import {} from '../models/company';
+// import {} from '../models/company';
 import companyUrls from '../urls/company';
 
 const companyApi = {

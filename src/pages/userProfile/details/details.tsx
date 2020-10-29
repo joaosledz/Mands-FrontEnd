@@ -22,14 +22,7 @@ const data = {
     telephone: '(71) 99556-8888',
     presentation:
         'Sou um desenvolvedor Full-Stack com foco no Front-End, graduando Ciência da Computação, com 1 ano de experiência em desenvolvimento web. Atualmente focado no aprendizado em desenvolvimento Web e Mobile com as tecnologias React, React Native e Node.Js',
-    street: 'Rua Remanso',
-    neighbourhood: 'Rio Vermelho',
-    number: '489',
-    city: 'Salvador',
-    state: 'BA',
-    cep: '41940-640',
 };
-const address = `${data.street}, ${data.neighbourhood}, ${data.number}, ${data.city}-${data.state}, ${data.cep}`;
 
 const UserProfile: React.FC = () => {
     const classes = useStyles();
@@ -91,18 +84,6 @@ const UserProfile: React.FC = () => {
                                 Apresentação
                             </Typography>
                             <Typography>{data.presentation}</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={2} />
-                        <Grid
-                            item
-                            xs={12}
-                            md={5}
-                            className={classes.gridUserItems}
-                        >
-                            <Typography variant="h6" color="primary">
-                                Endereço
-                            </Typography>
-                            <Typography>{address}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>

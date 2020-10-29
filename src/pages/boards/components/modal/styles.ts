@@ -53,6 +53,20 @@ const useStyles = makeStyles<Theme>(theme =>
                 fontSize: '1rem',
             },
         },
+        teamText: {
+            paddingLeft: '0.8rem',
+            display: 'flex',
+            color: theme.palette.primary.light,
+            fontWeight: 'lighter',
+            fontSize: '0.5rem',
+            [theme.breakpoints.up('md')]: {
+                fontSize: '0.7rem',
+            },
+        },
+        smallAvatar: {
+            width: theme.spacing(3),
+            height: theme.spacing(3),
+          },
         icon: {
             color: theme.palette.primary.light,
             borderRadius: '20%',

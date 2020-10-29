@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import AppLayout from '../../layout/appLayout';
-import EmptyCompanies from './components/emptyCompanies';
+import EmptyCompanies from './emptyCompanies';
 import Companies from './companySelection/companySelection';
 import FabButton from '../../components/fabButton';
 

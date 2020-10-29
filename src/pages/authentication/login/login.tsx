@@ -9,7 +9,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { UserTie as UserTieIcon } from '@styled-icons/fa-solid';
 import { Lock as LockIcon } from '@styled-icons/material';
 
-import { useAuth } from '../../../contexts/auth';
+import useAuth from '../../../hooks/useAuth';
 import { LoginType } from '../../../services';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';

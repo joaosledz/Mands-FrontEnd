@@ -6,11 +6,12 @@ import Typography from '@material-ui/core/Typography';
 
 import AssignButtonProps from '../../models/assignButton';
 import { TypeTeam, TypeProjects } from '../../../../../models/department';
+import employeesData from '../../../../../utils/data/employees';
 
 import AssignButton from '../assignButton';
 import TeamCard from './teamCard';
 import ProjectsCard from './projectsCard';
-import AssignTeamModal from '../assignTeamModal/assignTeamModal';
+import AssignTeamModal from '../../../../../components/assignTeamModal/assignTeamModal';
 import useStyles from './styles';
 
 interface Props extends AssignButtonProps {
@@ -41,6 +42,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
 
     const handleAction = () => {
+        console.log('teamData: ', teamData);
         const handleProjectURL = () => {
             const baseURL = location.pathname.split('/detalhes');
             const url = `${baseURL[0]}/projeto/cadastrar`;
@@ -118,7 +120,8 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                 <AssignTeamModal
                     isOpen={showTeamModal}
                     setIsOpen={setShowTeamModal}
-                    data={teamData}
+                    allEmployees={employeesData}
+                    teamData={teamData}
                 />
             )}
         </>

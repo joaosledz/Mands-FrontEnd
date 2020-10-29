@@ -14,28 +14,26 @@ import Button from '@material-ui/core/ButtonBase';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
-import { TypeTeam } from '../../../../../models/department';
-import employeesData from '../../../../../utils/data/employees';
-import arraysEquals from '../../../../../utils/functions/arraysEquals';
+import { TypeTeam } from '../../models/department';
+import arraysEquals from '../../utils/functions/arraysEquals';
 
 import SearchButtonTF from './searchButtonTF/searchButtonTF';
-import SubmitButton from '../../../../../components/mainButton';
-import guilhermeSimImage from '../../../../../assets/fakeDataImages/employees/guilhermeSimoes.png';
+import SubmitButton from '../mainButton';
 import useStyles from './styles';
 
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    data?: Array<TypeTeam>;
-    // edit?: boolean;
+    allEmployees: Array<TypeTeam>;
+    teamData: Array<TypeTeam>;
 };
 
 const AssignTeamModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen, data = [] } = props;
+    const { isOpen, setIsOpen, allEmployees = [], teamData = [] } = props;
 
-    const [employees] = useState(employeesData);
-    const [team] = useState(data);
+    const [employees] = useState(allEmployees);
+    const [team, setTeam] = useState(teamData);
     const [checkers, setCheckers] = useState<Array<boolean>>([]);
     const [teamIDsState, setTeamIDsState] = useState<Array<number>>([]);
     const [teamIDs, setTeamIDs] = useState<Array<number>>([]);
@@ -45,6 +43,10 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
     //     console.log('checkers: ', checkers);
     //     console.log('teamIDs: ', teamIDs);
     // }, [teamIDs, checkers]);
+
+    useEffect(() => {
+        setTeam(teamData);
+    }, [teamData]);
 
     useEffect(() => {
         const fillCheckersArray = () => {
@@ -195,7 +197,7 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
-                                    <Avatar src={guilhermeSimImage} />
+                                    <Avatar src={employee.image} />
                                 </Grid>
                                 <Grid item xs={5} component={Typography}>
                                     {employee.name}

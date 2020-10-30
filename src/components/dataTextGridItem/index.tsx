@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -19,4 +19,4 @@ const DataText: React.FC<Props> = ({ title, data }) => {
     );
 };
 
-export default DataText;
+export default memo(DataText);

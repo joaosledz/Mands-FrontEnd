@@ -7,7 +7,7 @@ type userType = {
     email: string;
     cpf: string;
     admission: null;
-    phone: number;
+    phone: string;
     birthday: string;
     addressId: null;
     address: null;

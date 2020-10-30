@@ -1,20 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import useStyles from '../../styles';
 import Typography from '@material-ui/core/Typography';
 import { Github as GithubIcon } from '@styled-icons/boxicons-logos';
 import { LinkedinSquare as LinkedinIcon } from '@styled-icons/boxicons-logos';
 
-// import { Container } from './styles';
+import useStyles from './styles';
 
 const SocialMedia: React.FC = () => {
     const classes = useStyles();
     return (
         <Grid container>
             {/* Usar um Map */}
-            <a
+            <Link
                 className={classes.socialMediaDiv}
-                href="https://github.com/anatartari"
+                to="https://github.com/anatartari"
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -24,15 +24,13 @@ const SocialMedia: React.FC = () => {
                     item
                     alignItems="center"
                 >
-                    <GithubIcon className={classes.smallAvatar} />
-                    <Typography className={classes.socialMedia}>
-                        Github
-                    </Typography>
+                    <GithubIcon size={50} />
+                    <Typography>Github</Typography>
                 </Grid>
-            </a>
-            <a
+            </Link>
+            <Link
                 className={classes.socialMediaDiv}
-                href="https://www.linkedin.com/in/jo%C3%A3o-victor-sledz-de-bulh%C3%B5es-ba08b073/"
+                to="https://www.linkedin.com/in/jo%C3%A3o-victor-sledz-de-bulh%C3%B5es-ba08b073/"
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -42,12 +40,12 @@ const SocialMedia: React.FC = () => {
                     item
                     alignItems="center"
                 >
-                    <LinkedinIcon className={classes.smallAvatar} />
+                    <LinkedinIcon size={50} />
                     <Typography className={classes.socialMedia}>
                         Linkedin
                     </Typography>
                 </Grid>
-            </a>
+            </Link>
         </Grid>
     );
 };

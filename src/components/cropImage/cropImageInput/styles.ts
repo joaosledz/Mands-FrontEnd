@@ -11,7 +11,6 @@ const useStyles = makeStyles<Theme>(theme =>
 
             '&.active': {
                 transition: 'all .2s',
-                '&:hover': {},
             },
         },
 

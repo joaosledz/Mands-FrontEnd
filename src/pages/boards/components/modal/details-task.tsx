@@ -13,13 +13,11 @@ import SubmitButton from '../../../../components/mainButton';
 import useStyles from './styles';
 import MutableInput from '../multableInput/multableInput';
 import { Text as TextIcon } from '@styled-icons/entypo';
-import { AddUser as AddUserIcon } from '@styled-icons/entypo';
 import { InputChecked as CheckedIcon } from '@styled-icons/typicons';
-import { Groups as TeamIcon } from '@styled-icons/material';
-import CheckBoxList from './components/CheckBoxList';
-import AssignTeamModal from '../../../adminDashboard/departments/components/assignTeamModal/assignTeamModal'
+import CheckBoxList from './components/CheckBoxList/CheckBoxList';
+import Team from './components/Chips/Chips';
+
 import employeesData from '../../../../utils/data/employees';
-import Avatar from '@material-ui/core/Avatar';
 
 type Props = {
     isOpen: boolean;
@@ -42,11 +40,9 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     const [title, setTitle] = useState<string>(item.title);
     const [description, setDescription] = useState<string>(item.description);
   
-    const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
+    
     const [teamData, setTeamData] = useState(employeesData);
-    const handleAssignTeamModal= () =>{
-        setShowTeamModal(true)
-    }
+    
     useEffect(() => {
         
     }, [isOpen]);
@@ -121,42 +117,8 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                 </Grid>
                 <CheckBoxList tasks={item.tasks}/>
                 {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
-                <Grid container item xs={12}>
-                    <Grid xs={1}>
-                        <TeamIcon className={classes.icon}/>
-                    </Grid>
-                    <Grid xs={11}>
-                        <Typography className={classes.subtitle}>
-                            Responsáveis
-                        </Typography>
-                    </Grid>
-                    <Grid xs={12} container spacing={1}>
-            {teamData.map((employee, index) => (
-                            <Grid
-                                key={index}
-                                container
-                                item
-                                alignItems="center"
-                                justify="flex-start"
-                                component="label"
-                                htmlFor={`checkbox-${index}`}
-                                xs={4}
-                            >
-                                <Grid item xs={1} >
-                                    <Avatar src={employee.image} className={classes.smallAvatar} />
-                                </Grid>
-                                <Grid item xs={11} component={Typography} className={classes.teamText} >
-                                    {employee.name}
-                                </Grid>
-                                
-                            </Grid>
-                        ))}
-                        <Grid xs={4}> 
-                            <AddUserIcon className={classes.icon} onClick={handleAssignTeamModal}/>
-                        </Grid>
-            </Grid>
-                </Grid>
-
+                
+                    <Team teamData={teamData} setTeamData={setTeamData}/>
                 </Grid>
                 <Grid
                     container
@@ -171,10 +133,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                 </Grid>
             </Grid>
            
-            <AssignTeamModal
-                    isOpen={showTeamModal}
-                    setIsOpen={setShowTeamModal}
-                />
+            
                 </>
         </Modal>
     );

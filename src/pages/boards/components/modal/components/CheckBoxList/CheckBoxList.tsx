@@ -8,7 +8,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { Delete as DeleteIcon } from '@styled-icons/material';
-import MultableInput from '../../multableInput/multableInput';
+import MultableInput from '../../../multableInput/multableInput';
 
 type Props = {
         tasks: any;

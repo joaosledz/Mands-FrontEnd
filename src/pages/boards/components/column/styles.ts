@@ -15,6 +15,12 @@ const useStyles = makeStyles<Theme>(theme =>
         },
         icon: {
             color: '#6E6E6E',
+            borderRadius: '20%',
+            marginRight: '4px',
+            '&:hover': {
+                backgroundColor: 'rgba(70, 70, 70, 0.2)',
+                cursor: 'pointer',
+            },
         },
         circle: {
             //div
@@ -38,13 +44,14 @@ const useStyles = makeStyles<Theme>(theme =>
             backgroundColor: '#e8d9eb',
             maxWidth: '300px',
             minWidth: '300px',
+            height: '70vh',
             borderRadius: '4px',
-            minHeight: '60vh',
-
+            
             '& + &': {
                 marginLeft: '12px',
             },
         },
+
         // BoardColumnContent: {
         //     backgroundColor: props =>
         //         props.isDraggingOver ? '#aecde0' : '#e5eff5',

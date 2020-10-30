@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
             position: 'fixed',
             marginLeft: 'auto',
-            marginRight: 'auto',
+            marginRight: '12px',
             left: 0,
             right: 0,
             textAlign: 'center',

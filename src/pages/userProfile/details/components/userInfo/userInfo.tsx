@@ -9,12 +9,13 @@ import useStyles from './styles';
 
 type Props = {
     name: string;
-    // role: string;
+    username: string;
     email: string;
     phone: string;
 };
-const User: React.FC<Props> = ({ name, /* role ,*/ email, phone }) => {
+const User: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { name, username, email, phone } = props;
 
     return (
         <Grid container direction="row" justify="center" spacing={2}>
@@ -31,7 +32,7 @@ const User: React.FC<Props> = ({ name, /* role ,*/ email, phone }) => {
                 <Typography variant="h6" color="primary">
                     {name}
                 </Typography>
-                {/* <DataTextGridItem title="Cargo" data={role} /> */}
+                <DataTextGridItem title="Usuário" data={`@${username}`} />
                 <DataTextGridItem title="Email" data={email} />
                 <DataTextGridItem title="Telefone" data={phone} />
             </Grid>

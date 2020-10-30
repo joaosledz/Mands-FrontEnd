@@ -9,7 +9,8 @@ import { Groups as TeamIcon } from '@styled-icons/material';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import AssignTeamModal from '../../../../../adminDashboard/departments/components/assignTeamModal/assignTeamModal'
+import AssignTeamModal from '../../../../../../components/assignTeamModal/assignTeamModal'
+import employeesData from '../../../../../../utils/data/employees';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,8 +62,9 @@ const ChipsList: React.FC<Props> = (props: Props) => {
     const {teamData} = props
     const history = useHistory();
   const classes = useStyles();
+  const [allEmployees, setAllEmpolyees] = useState(employeesData);
   const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
-  const [editable, setEditable] = useState<boolean>(false);
+//   const [editable, setEditable] = useState<boolean>(false);
   const handleAssignTeamModal= () =>{
     setShowTeamModal(true)
 }
@@ -94,6 +96,8 @@ const ChipsList: React.FC<Props> = (props: Props) => {
         </Box>   
          
             <AssignTeamModal
+                    teamData={teamData}
+                    allEmployees={allEmployees}
                     isOpen={showTeamModal}
                     setIsOpen={setShowTeamModal}
                 />

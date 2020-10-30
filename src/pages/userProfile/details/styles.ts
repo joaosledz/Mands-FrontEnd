@@ -39,50 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
 
-        socialMedia: {
-            display: 'flex',
-            alignSelf: 'begin',
-            color: 'gray',
-            fontWeight: 'lighter',
-            paddingLeft: '5px',
-            fontSize: '16px',
-            textDecoration: 'none',
-            // margin: '10px auto',
-        },
-
-        socialMediaDiv: {
-            textDecoration: 'none',
-            paddingRight: '20px',
-        },
-
-        socialMediaGrid: {
-            color: 'gray',
-            transition: 'all .2s',
-            '&:hover': {
-                '& $smallAvatar, $socialMedia': {
-                    color: theme.palette.primary.main,
-                },
-            },
-        },
-
-        largeAvatar: {
-            alignSelf: 'center',
-            width: theme.spacing(20),
-            height: theme.spacing(20),
-            borderSpacing: '3px',
-            boxShadow: '0px 3px 6px #00000029',
-        },
-
-        smallAvatar: {
-            width: theme.spacing(6),
-            height: theme.spacing(6),
-            borderSpacing: '3px',
-            [theme.breakpoints.down('md')]: {
-                width: theme.spacing(3),
-                height: theme.spacing(3),
-            },
-        },
-
         fabButton: {
             [theme.breakpoints.up('md')]: {
                 right: '4rem',

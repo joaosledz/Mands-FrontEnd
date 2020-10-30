@@ -15,11 +15,6 @@ import FabButton from '../../../components/fabButton';
 import useStyles from './styles';
 
 const data = {
-    id: 1,
-    name: 'Ana Tartari Seindklmral',
-    role: 'Coordenadora',
-    email: 'tarta@gmail.com',
-    telephone: '(71) 99556-8888',
     presentation:
         'Sou um desenvolvedor Full-Stack com foco no Front-End, graduando Ciência da Computação, com 1 ano de experiência em desenvolvimento web. Atualmente focado no aprendizado em desenvolvimento Web e Mobile com as tecnologias React, React Native e Node.Js',
 };
@@ -54,10 +49,10 @@ const UserProfile: React.FC = () => {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={5}>
                             <UserInfo
-                                name={`${user?.name} ${user!.surname}`}
-                                email={data.email}
+                                name={`${user!.name} ${user!.surname}`}
+                                username={user!.username}
+                                email={user!.email}
                                 phone={user!.phone}
-                                /* role={user.} */
                             />
                         </Grid>
                         <Hidden smDown>

@@ -6,6 +6,16 @@ export type TypeTeam = {
     jobTitle: string;
 };
 
+export type Employee = {
+    id: number;
+    name: string;
+    username: string;
+    cpf: string;
+    admission: string;
+    image: string;
+    jobTitle: string;
+};
+
 export type TypeProjects = {
     id: number,
     name: string;

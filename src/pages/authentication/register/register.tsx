@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
 import CpfValidator from '../../../validators/cpfValidator';
-import { AxiosError, authApi, RegisterModel } from '../../../services';
+import { /*AxiosError,*/ authApi, RegisterModel } from '../../../services';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';

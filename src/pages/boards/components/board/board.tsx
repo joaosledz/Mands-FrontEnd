@@ -222,6 +222,7 @@ const Board: React.FC = () => {
         (newState.columns[columnID].itemsIds as Array<any>).map((itemID: 'item-1' | 'item-2',) => {
            
             delete newState.items[itemID];
+            return itemID
             })
         //Apaga a coluna propriamente dita
         delete newState.columns[columnID]

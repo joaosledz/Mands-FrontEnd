@@ -6,12 +6,12 @@ export type TypeTeam = {
     jobTitle: string;
 };
 
-export type Employee = {
+export type TypeEmployee = {
     id: number;
     name: string;
     username: string;
     cpf: string;
-    admission: string;
+    admission: date;
     image: string;
     jobTitle: string;
 };

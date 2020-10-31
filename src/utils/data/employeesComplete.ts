@@ -1,14 +1,14 @@
-import { Employee } from '../../models/department';
+import { TypeEmployee } from '../../models/department';
 import guilhermeSimImage from '../../assets/fakeDataImages/employees/guilhermeSimoes.png';
 import anaTartariImage from '../../assets/fakeDataImages/employees/anaTartari.png';
 
-const employees: Array<Employee> = [
+const employees: Array<TypeEmployee> = [
     {
         id: 0,
         name: 'Ana Tartari',
         username: 'AnaTartari',
         cpf: '565.503.750-53',
-        admission: '11-07-2020',
+        admission: new Date ('11-07-2020'),
         image: anaTartariImage,
         jobTitle: 'Gerente',
     },
@@ -17,7 +17,7 @@ const employees: Array<Employee> = [
         name: 'Guilherme Simões',
         username: 'GuilhermeSimoes',
         cpf: '565.503.750-53',
-        admission: '01-07-2020',
+        admission: new Date ('11-09-2020'),
         image: guilhermeSimImage,
         jobTitle: 'Desenvolvedor Full-Stack',
     },
@@ -26,7 +26,7 @@ const employees: Array<Employee> = [
         name: 'Guilherme Simões',
         username: 'GuilhermeSimoes',
         cpf: '465.503.750-73',
-        admission: '11-07-2020',
+        admission: new Date ('12-07-2020'),
         image: guilhermeSimImage,
         jobTitle: 'Desenvolvedor Full-Stack',
     },
@@ -35,7 +35,7 @@ const employees: Array<Employee> = [
         name: 'Nicole Figueredo',
         username: 'NicoleFigueredo',
         cpf: '525.503.750-53',
-        admission: '11-07-2020',
+        admission: new Date ('11-09-2020'),
         image: anaTartariImage,
         jobTitle: 'Desenvolvedor Front-End',
     },
@@ -44,7 +44,7 @@ const employees: Array<Employee> = [
         name: 'Nicole Figueredo',
         username: 'NicoleFigueredo',
         cpf: '565.503.750-53',
-        admission: '15-07-2020',
+        admission: new Date ('12-08-2020'),
         image: anaTartariImage,
         jobTitle: 'Desenvolvedor Front-End',
     },
@@ -53,7 +53,7 @@ const employees: Array<Employee> = [
         name: 'Nicole Figueredo',
         username: 'NicoleFigueredo',
         cpf: '565.503.750-53',
-        admission: '10-07-2020',
+        admission: new Date ('11-07-2020'),
         image: anaTartariImage,
         jobTitle: 'Desenvolvedor Front-End',
     },
@@ -62,7 +62,7 @@ const employees: Array<Employee> = [
         name: 'Alfonso Lambert',
         username: 'AlfonsoLambert',
         cpf: '565.503.750-53',
-        admission: '10-07-2020',
+        admission: new Date ('11-07-2020'),
         image: anaTartariImage,
         jobTitle: 'Desenvolvedor Back-End',
     },
@@ -71,7 +71,7 @@ const employees: Array<Employee> = [
         name: 'João Felipe',
         username: 'JoaoFelipe',
         cpf: '565.503.750-53',
-        admission: '10-07-2020',
+        admission: new Date ('11-07-2020'),
         image: anaTartariImage,
         jobTitle: 'Desenvolvedor Back-End',
     },

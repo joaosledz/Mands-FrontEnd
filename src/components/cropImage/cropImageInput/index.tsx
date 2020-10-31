@@ -61,7 +61,6 @@ const CropImageInput: React.FC<Props> = (props: Props) => {
 
     return (
         <Box
-            mt={3}
             className={
                 styles
                     ? [classes.avatarContainer, styles].join(' ')

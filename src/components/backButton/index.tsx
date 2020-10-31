@@ -11,12 +11,13 @@ type Props = {
     message: string;
     white?: boolean;
     redirect?: string;
+    replace?: string;
 };
 
 const BackButton: React.FC<Props> = (props: Props) => {
     const classes = useStyles(props);
     const history = useHistory();
-    const { message, redirect } = props;
+    const { message, redirect, replace } = props;
     return (
         <>
             {redirect ? (
@@ -31,7 +32,11 @@ const BackButton: React.FC<Props> = (props: Props) => {
                 </Link>
             ) : (
                 <Button
-                    onClick={() => history.goBack()}
+                    onClick={
+                        replace
+                            ? () => history.replace(replace)
+                            : () => history.goBack()
+                    }
                     className={[classes.backButton, classes.button].join(' ')}
                 >
                     <ArrowBackIcon size="25" />

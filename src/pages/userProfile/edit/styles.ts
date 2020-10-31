@@ -2,25 +2,28 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        layout: {
-            width: '100vw',
-            height: '100vh',
-            backgroundColor: theme.palette.primary.light,
-        },
         paper: {
-            height: '85vh',
-            width: '93%',
-            maxWidth: '1500px',
-            // margin: '20px 30px',
-            margin: '20px auto',
-            borderRadius: '0px',
+            margin: '2rem',
+            padding: '2rem',
+            minHeight: '80vh',
+
+            [theme.breakpoints.only('xs')]: {
+                margin: '1rem',
+                padding: '.5rem',
+            },
         },
+
+        cropImage: {
+            marginTop: 0,
+        },
+
         gridUser: {
             padding: '20px',
         },
         gridUserItems: {
             paddingBottom: '15px',
         },
+
         title: {
             display: 'flex',
             alignSelf: 'center',

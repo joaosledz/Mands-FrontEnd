@@ -6,6 +6,12 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up(465)]: {
                 paddingLeft: '60px',
             },
+
+            '& h6, p': {
+                [theme.breakpoints.down('md')]: {
+                    marginBottom: '1rem',
+                },
+            },
         },
         avatar: {
             alignSelf: 'center',

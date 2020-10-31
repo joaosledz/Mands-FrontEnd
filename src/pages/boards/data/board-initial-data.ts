@@ -3,23 +3,46 @@ export const initialBoardData = {
         'item-1': {
             id: 'item-1',
             title: 'Relatório Financeiro',
+            description: 'Atividades referentes ao financeiro',
             tag: 'Financeiro',
             tagColor: 'green',
             members: ['Raiane Souza', 'Josefa Oliveira'],
+            tasks: [
+                {
+                    id: 'task-1',
+                    checked: 'true',
+                    title: 'Reforma do escritório',
+                },
+                {
+                    id: 'task-2',
+                    checked: 'false',
+                    title: 'Confecção dos crachás',
+                },
+                {
+                    id: 'task-3',
+                    checked: 'true',
+                    title: 'Marcar reunião semanal',
+                },
+                { id: 'task-4', checked: 'true', title: 'Comprar suprimentos' },
+            ],
         },
         'item-2': {
             id: 'item-2',
             title: 'Relatório de Marketing',
+            description: 'Atividades referentes ao admin',
             tag: 'Marketing',
             tagColor: 'blue',
             members: ['Raiane Souza', 'Xandão'],
+            tasks: [],
         },
         'item-3': {
             id: 'item-3',
             title: 'Andamento Alvenaria',
+            description: 'Atividades referentes ao marketing',
             tag: 'Reforma',
             tagColor: 'orange',
             members: ['Raiane Souza', 'José Lima'],
+            tasks: [],
         },
     },
     columns: {

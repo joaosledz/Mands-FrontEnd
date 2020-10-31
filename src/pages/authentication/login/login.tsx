@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { UserTie as UserTieIcon } from '@styled-icons/fa-solid';
@@ -63,29 +64,37 @@ const Login: React.FC = () => {
                                 flexDirection="column"
                                 marginTop={3}
                             >
-                                <TextField
-                                    id="outlined-basic"
-                                    label="Email, Nome de usuário ou CPF"
-                                    name="user"
-                                    variant="outlined"
-                                    inputRef={register({
-                                        required: 'Esse campo é obrigatório',
-                                    })}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <UserTieIcon
-                                                size="20"
-                                                color="#B03E9F"
-                                            />
-                                        ),
-                                    }}
-                                    inputProps={{
-                                        style: inputStyle,
-                                    }}
-                                />
+                                <Tooltip
+                                    aria-label="Email, Nome de usuário ou CPF"
+                                    title="Email, Nome de usuário ou CPF"
+                                    arrow
+                                    placement="top"
+                                >
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Acesso"
+                                        name="credential"
+                                        variant="outlined"
+                                        inputRef={register({
+                                            required:
+                                                'Esse campo é obrigatório',
+                                        })}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <UserTieIcon
+                                                    size="20"
+                                                    color="#B03E9F"
+                                                />
+                                            ),
+                                        }}
+                                        inputProps={{
+                                            style: inputStyle,
+                                        }}
+                                    />
+                                </Tooltip>
                                 <ErrorMessage
                                     errors={errors}
-                                    name="user"
+                                    name="email"
                                     render={({ message }) => (
                                         <Typography
                                             className={classes.ErrorMessage}
@@ -157,10 +166,7 @@ const Login: React.FC = () => {
                         <Typography className={classes.signUpText}>
                             Não possui uma conta?
                         </Typography>
-                        <Link
-                            to="/criar-conta"
-                            className={classes.signUpButton}
-                        >
+                        <Link to="/cadastro" className={classes.signUpButton}>
                             Cadastre-se
                         </Link>
                     </Box>

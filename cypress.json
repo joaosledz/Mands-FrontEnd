@@ -1,0 +1,7 @@
+{
+    "baseUrl": "http://localhost:3000",
+    "env": {
+        "CYPRESS_API": "https://apimandsv1.azurewebsites.net/api",
+        "CYPRESS_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjExMSwiaWF0IjoxNTk3MDc3MDc0fQ.6V9pPnZxh0kwLONf3dUwPiSoIMV7ANUayzId2LfYU6U"
+    }
+}

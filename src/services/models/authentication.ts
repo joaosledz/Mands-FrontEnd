@@ -30,4 +30,14 @@ type LoginModel = {
     token: string;
 };
 
-export type { userType, LoginType, LoginModel };
+type RegisterModel = {
+    name: string;
+    surname: string;
+    username: string;
+    cpf: string;
+    phone: string;
+    email: string;
+    password: string;
+};
+
+export type { userType, LoginType, LoginModel, RegisterModel };

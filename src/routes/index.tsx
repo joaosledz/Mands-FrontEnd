@@ -37,7 +37,7 @@ const Routes = () => {
             <Switch>
                 {/* Rotas de Autenticação */}
                 <PublicRoute path="/login" component={Login} exact />
-                <PublicRoute path="/criar-conta" component={Register} />
+                <PublicRoute path="/cadastro" component={Register} />
                 <PublicRoute
                     path="/esqueci-a-senha"
                     component={ForgotPassword}

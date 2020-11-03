@@ -4,13 +4,11 @@ import Typography from '@material-ui/core/Typography';
 
 import useStyles from './styles';
 
-interface ICompanyDashboardHeader {
+type Props = {
     name: string;
-    jobTitle: string;
-}
+};
 
-const CompanyDashboardHeader: React.FC<ICompanyDashboardHeader> = props => {
-    const { name, jobTitle } = props;
+const Header: React.FC<Props> = ({ name }) => {
     const classes = useStyles();
 
     return (
@@ -20,11 +18,8 @@ const CompanyDashboardHeader: React.FC<ICompanyDashboardHeader> = props => {
                     Seja bem-vindo ao Mands, {name}
                 </Typography>
             </Grid>
-            <Grid item xs={6} className={classes.jobTitleContainer}>
-                <Typography className={classes.jobTitle}>{jobTitle}</Typography>
-            </Grid>
         </Grid>
     );
 };
 
-export default CompanyDashboardHeader;
+export default Header;

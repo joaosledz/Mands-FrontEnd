@@ -7,17 +7,6 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '1.3rem',
             fontWeight: 'bold',
         },
-
-        jobTitleContainer: {
-            display: 'flex',
-            justifyContent: 'flex-end',
-        },
-
-        jobTitle: {
-            color: theme.palette.primary.contrastText,
-            fontSize: '1.3rem',
-            fontWeight: 500,
-        },
     })
 );
 

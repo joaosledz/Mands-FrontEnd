@@ -82,7 +82,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ signed: !!user, user, login, logout, loading }}
+            value={{ signed: true, user, login, logout, loading }}
         >
             {children}
         </AuthContext.Provider>

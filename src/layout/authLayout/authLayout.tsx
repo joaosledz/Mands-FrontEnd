@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
@@ -9,6 +9,7 @@ import logo from '../../assets/logo/logo.svg';
 
 type Props = {
     backButtonMessage?: string;
+    children: React.ReactNode;
 };
 
 const AuthLayout: React.FC<Props> = props => {
@@ -23,6 +24,7 @@ const AuthLayout: React.FC<Props> = props => {
                         src={logo}
                         alt="Logo do Mands"
                         className={classes.logo}
+                        draggable={false}
                     />
                 </Grid>
                 {backButtonMessage && (
@@ -36,4 +38,4 @@ const AuthLayout: React.FC<Props> = props => {
     );
 };
 
-export default AuthLayout;
+export default memo(AuthLayout);

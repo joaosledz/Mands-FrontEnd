@@ -62,7 +62,7 @@ const ChipsList: React.FC<Props> = (props: Props) => {
     const {teamData} = props
     const history = useHistory();
   const classes = useStyles();
-  const [allEmployees, setAllEmpolyees] = useState(employeesData);
+  const [allEmployees] = useState(employeesData);
   const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
 //   const [editable, setEditable] = useState<boolean>(false);
   const handleAssignTeamModal= () =>{

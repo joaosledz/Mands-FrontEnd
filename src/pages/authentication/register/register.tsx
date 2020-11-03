@@ -5,9 +5,9 @@ import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-// import { Lock as LockIcon } from '@styled-icons/material';
 
 import CpfValidator from '../../../validators/cpfValidator';
+import { /*AxiosError,*/ authApi, RegisterModel } from '../../../services';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
@@ -34,19 +34,19 @@ const Register: React.FC = () => {
     );
     //#endregion
 
-    interface RegisterInput {
-        firstName: string;
-        lastName: string;
-        email: string;
-        cpf: string;
-        cel: string;
-        password: string;
-    }
+    const { register, errors, handleSubmit } = useForm<RegisterModel>();
 
-    const { register, errors, handleSubmit } = useForm<RegisterInput>();
-
-    const onSubmit = (data: RegisterInput) => {
+    const onSubmit = (data: RegisterModel) => {
         console.log(data);
+        authApi
+            .register(data)
+            .then(response => {
+                console.log(response);
+                // Alert de sucesso
+            })
+            .catch(error => {
+                // Alert de erro
+            });
     };
 
     return (
@@ -72,7 +72,8 @@ const Register: React.FC = () => {
                         <Grid container item spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    name="firstName"
+                                    data-cy="user-firstName"
+                                    name="name"
                                     label="Nome"
                                     fullWidth
                                     variant="outlined"
@@ -82,7 +83,7 @@ const Register: React.FC = () => {
                                 />
                                 <ErrorMessage
                                     errors={errors}
-                                    name="firstName"
+                                    name="name"
                                     render={({ message }) => (
                                         <Typography
                                             className={classes.ErrorMessage}
@@ -94,7 +95,8 @@ const Register: React.FC = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    name="lastName"
+                                    data-cy="user-lastName"
+                                    name="surname"
                                     label="Sobrenome"
                                     fullWidth
                                     variant="outlined"
@@ -104,7 +106,7 @@ const Register: React.FC = () => {
                                 />
                                 <ErrorMessage
                                     errors={errors}
-                                    name="lastName"
+                                    name="surname"
                                     render={({ message }) => (
                                         <Typography
                                             className={classes.ErrorMessage}
@@ -118,6 +120,30 @@ const Register: React.FC = () => {
                         <Grid container item spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    data-cy="user-userName"
+                                    name="username"
+                                    label="Nome de usuário"
+                                    fullWidth
+                                    variant="outlined"
+                                    inputRef={register({
+                                        required: 'Esse campo é obrigatório',
+                                    })}
+                                />
+                                <ErrorMessage
+                                    errors={errors}
+                                    name="username"
+                                    render={({ message }) => (
+                                        <Typography
+                                            className={classes.ErrorMessage}
+                                        >
+                                            {message}
+                                        </Typography>
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    data-cy="user-email"
                                     name="email"
                                     type="Text"
                                     label="Email"
@@ -145,10 +171,13 @@ const Register: React.FC = () => {
                                     )}
                                 />
                             </Grid>
+                        </Grid>
+                        <Grid container item spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <InputMask mask={'999.999.999-99'} maskChar="_">
                                     {() => (
                                         <TextField
+                                            data-cy="user-cpf"
                                             name="cpf"
                                             label="CPF"
                                             fullWidth
@@ -176,8 +205,6 @@ const Register: React.FC = () => {
                                     )}
                                 />
                             </Grid>
-                        </Grid>
-                        <Grid container item spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <InputMask
                                     mask={'(99) 99999-9999'}
@@ -185,10 +212,11 @@ const Register: React.FC = () => {
                                 >
                                     {() => (
                                         <TextField
-                                            name="cel"
+                                            data-cy="user-phone"
+                                            name="phone"
                                             fullWidth
                                             variant="outlined"
-                                            label="Celular"
+                                            label="Telefone"
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -203,7 +231,7 @@ const Register: React.FC = () => {
                                 </InputMask>
                                 <ErrorMessage
                                     errors={errors}
-                                    name="cel"
+                                    name="phone"
                                     render={({ message }) => (
                                         <Typography
                                             className={classes.ErrorMessage}
@@ -213,8 +241,11 @@ const Register: React.FC = () => {
                                     )}
                                 />
                             </Grid>
+                        </Grid>
+                        <Grid container item spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    data-cy="user-password"
                                     name="password"
                                     type="password"
                                     label="Senha"
@@ -263,13 +294,7 @@ const Register: React.FC = () => {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid
-                        component="aside"
-                        className={classes.rightSide}
-                        item
-                        xs={12}
-                        md={3}
-                    >
+                    <Grid component="aside" item xs={12} md={3}>
                         {CropImageInput}
                     </Grid>
                 </Grid>

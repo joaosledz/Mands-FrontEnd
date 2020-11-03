@@ -1,6 +1,6 @@
 import api from '../api';
 import { AxiosResponse } from 'axios';
-// import {} from '../models/company';
+import { CompanyType } from '../models/company';
 import companyUrls from '../urls/company';
 
 const companyApi = {
@@ -8,6 +8,18 @@ const companyApi = {
         try {
             const response: AxiosResponse<any> = await api.get(
                 companyUrls.list
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
+    userCompanies: async () => {
+        try {
+            const response: AxiosResponse<Array<CompanyType>> = await api.get(
+                companyUrls.userCompanies
             );
             return Promise.resolve(response);
         } catch (error) {

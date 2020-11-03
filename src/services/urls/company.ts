@@ -1,6 +1,7 @@
 const companyUrls = {
-    create: `Companies`,
     list: `Companies`,
+    userCompanies: 'companies/findByUser',
+    create: `Companies`,
 };
 
 export default companyUrls;

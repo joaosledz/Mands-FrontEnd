@@ -5,7 +5,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
 import { CompanyType } from '../../../../services';
-import handleUrlParamName from '../../../../utils/functions/handleUrlParamName';
 
 import useStyles from './styles';
 
@@ -17,14 +16,14 @@ const Company: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const history = useHistory();
     const { company } = props;
-    const { image, name } = company;
+    const { image, name, username } = company;
 
     const handleCompanySelection = (companyData: CompanyType) => {
         sessionStorage.setItem(
             '@Mands:CompanyData',
             JSON.stringify(companyData)
         );
-        history.push(`/dashboard/${handleUrlParamName(name)}`);
+        history.push(`/dashboard/${username}}`);
     };
 
     return (

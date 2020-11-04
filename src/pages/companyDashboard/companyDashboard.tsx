@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import AppLayout from '../../layout/appLayout';
-import Header from './components/header';
-import ManageCompanyButton from './components/manageCompanyButton';
-import Departments from '../../components/departments';
-import CompanyDetails from './components/companyDetails';
+import Typography from '@material-ui/core/Typography';
 
 import { CompanyType } from '../../services';
 import useAuth from '../../hooks/useAuth';
+import useCompany from '../../hooks/useCompany';
 
+import AppLayout from '../../layout/appLayout';
+import ManageCompanyButton from './components/manageCompanyButton';
+import Departments from '../../components/departments';
+import CompanyDetails from './components/companyDetails/companyDetails';
 //#region Fazer chamada a API
 import departments from '../../utils/data/departments';
-import useCompany from '../../hooks/useCompany';
 //#endregion
 
 import useStyles from './styles';
@@ -43,7 +43,14 @@ const CompanyDashboard: React.FC = () => {
     return (
         <AppLayout>
             <Box className={classes.container}>
-                <Header name={user!.name} />
+                <Grid container component="section">
+                    <Grid item xs={6}>
+                        <Typography /* variant="h1" */ className={classes.name}>
+                            Seja bem-vindo ao Mands, {user!.name}
+                        </Typography>
+                    </Grid>
+                </Grid>
+
                 <Grid
                     container
                     spacing={3}

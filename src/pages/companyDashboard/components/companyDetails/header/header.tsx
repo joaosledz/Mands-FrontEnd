@@ -7,9 +7,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import { CompanyType, companyApi } from '../../../../../../services';
+import { CompanyType, companyApi } from '../../../../../services';
 
-import ITLogo from '../../../../../../assets/fakeDataImages/companiesImages/IT2.png';
+import ITLogo from '../../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import useStyles from './styles';
 
 type Props = {

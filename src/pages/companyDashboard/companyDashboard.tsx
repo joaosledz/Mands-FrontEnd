@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import AppLayout from '../../layout/appLayout';
@@ -8,12 +8,11 @@ import ManageCompanyButton from './components/manageCompanyButton';
 import Departments from '../../components/departments';
 import CompanyDetails from './components/companyDetails';
 
-import handleUrlParamName from '../../utils/functions/handleUrlParamName';
-import TypeParams from '../../models/params';
-import CompanyType from '../../models/company';
+import { CompanyType } from '../../services';
+import useAuth from '../../hooks/useAuth';
+
 //#region Fazer chamada a API
 import departments from '../../utils/data/departments';
-import companies from '../../utils/data/companies';
 import useCompany from '../../hooks/useCompany';
 //#endregion
 
@@ -21,19 +20,30 @@ import useStyles from './styles';
 
 const CompanyDashboard: React.FC = () => {
     const classes = useStyles();
-    const params = useParams<TypeParams>();
-    const company: CompanyType = useCompany();
+    const history = useHistory();
+    const auth = useAuth();
+    const companyData = useCompany();
+
+    const [company] = useState<CompanyType | null>(companyData);
 
     useEffect(() => {
-        // Nome da empresa dinamico
-        document.title = `Dashboard - ${company.name}`;
-    }, [company.name]);
+        const checkCompanyData = () => {
+            if (company) document.title = `Dashboard - ${company.username}`;
+            else {
+                // alerta de erro
+                history.push('/escolha-da-empresa');
+            }
+        };
+        checkCompanyData();
+    }, [company, history]);
+
+    const { user } = auth;
+    const { username } = company!;
 
     return (
-        <AppLayout /*layoutStyles={classes.layout}*/>
-            {/* Dinamico */}
+        <AppLayout>
             <Box className={classes.container}>
-                <Header name="Ana" jobTitle="Gerente" />
+                <Header name={user!.name} />
                 <Grid
                     container
                     spacing={3}
@@ -41,18 +51,16 @@ const CompanyDashboard: React.FC = () => {
                 >
                     <Grid item xs={12} md={6}>
                         {/* Esconder obotão baseado no tipo de usuário */}
-                        <ManageCompanyButton company={company} />
+                        <ManageCompanyButton company={company!} />
                         <Departments
-                            baseURL={`${handleUrlParamName(
-                                params.companyName
-                            )}/departamento`}
+                            baseURL={`${username}/departamento`}
                             departments={departments}
                             containerStyles={classes.departments}
                             breakpoints={{ xs: 12, sm: 6, md: 6 }}
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <CompanyDetails companies={companies} data={company} />
+                        <CompanyDetails data={company!} />
                     </Grid>
                 </Grid>
             </Box>

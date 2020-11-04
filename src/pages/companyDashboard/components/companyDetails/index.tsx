@@ -2,23 +2,21 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 
-import TypeCompany from '../../../../models/company';
+import { CompanyType } from '../../../../services';
 
 import Header from './components/header';
 import CompanyData from './components/companyDataContainer';
 import useStyles from './styles';
 
 type Props = {
-    companies: Array<TypeCompany>;
-    data: TypeCompany;
+    data: CompanyType;
 };
 
-const CompanyDetails: React.FC<Props> = (props: Props) => {
+const CompanyDetails: React.FC<Props> = ({ data }) => {
     const classes = useStyles();
-    const { companies, data } = props;
     return (
         <Paper className={classes.container}>
-            <Header companies={companies} />
+            <Header company={data} />
             <Divider variant="middle" className={classes.divider} />
             <CompanyData data={data} />
         </Paper>

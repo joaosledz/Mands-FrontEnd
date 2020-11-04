@@ -23,7 +23,7 @@ const Company: React.FC<Props> = (props: Props) => {
             '@Mands:CompanyData',
             JSON.stringify(companyData)
         );
-        history.push(`/dashboard/${username}}`);
+        history.push(`/dashboard/${username}`);
     };
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -7,19 +7,32 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
-import TypeCompany from '../../../../../../models/company';
+import { CompanyType, companyApi } from '../../../../../../services';
 
 import ITLogo from '../../../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import useStyles from './styles';
 
-interface HeaderProps {
-    companies: Array<TypeCompany>;
-}
+type Props = {
+    company: CompanyType;
+};
 
-const Header: React.FC<HeaderProps> = ({ companies }) => {
+const Header: React.FC<Props> = ({ company }) => {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [companies, setCompanies] = useState<Array<CompanyType> | null>(null);
+
+    useEffect(() => {
+        const getAllCompanies = async () => {
+            try {
+                const response = await companyApi.userCompanies();
+                setCompanies(response.data);
+            } catch (error) {
+                // Alerta de erro
+            }
+        };
+        getAllCompanies();
+    }, []);
 
     const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -38,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ companies }) => {
                     className={classes.avatar}
                 />
                 <Typography variant="h5" className={classes.companyName}>
-                    IT - Inteligência e Tecnologia
+                    {company.name}
                 </Typography>
                 <ChevronDownIcon size={24} color="#505050" />
             </Button>
@@ -50,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ companies }) => {
                 onClose={handleClose}
             >
                 <MenuItem disabled>Trocar de empresa:</MenuItem>
-                {companies.map(company => (
+                {companies?.map(company => (
                     <MenuItem onClick={handleClose}>{company.name}</MenuItem>
                 ))}
             </Menu>

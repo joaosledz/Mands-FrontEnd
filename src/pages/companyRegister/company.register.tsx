@@ -58,7 +58,7 @@ const CompanyRegister: React.FC = () => {
                     <Grid container className={classes.header}>
                         <Grid item xs={12} sm={9} md={6}>
                             <Typography variant="h1" color="primary">
-                                Cadastrar uma empresa:
+                                Cadastrar uma empresa
                             </Typography>
                         </Grid>
                         <Hidden only="xs">
@@ -97,7 +97,6 @@ const CompanyRegister: React.FC = () => {
                                         name="name"
                                         label="Nome"
                                         fullWidth
-                                        variant="outlined"
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
@@ -121,7 +120,6 @@ const CompanyRegister: React.FC = () => {
                                         name="username"
                                         label="Nome de Usuário"
                                         fullWidth
-                                        variant="outlined"
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
@@ -147,7 +145,6 @@ const CompanyRegister: React.FC = () => {
                                         data-cy="company-email"
                                         name="email"
                                         label="Email"
-                                        variant="outlined"
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
@@ -182,7 +179,6 @@ const CompanyRegister: React.FC = () => {
                                                 data-cy="company-phone"
                                                 name="phone"
                                                 label="Telefone"
-                                                variant="outlined"
                                                 inputRef={register({
                                                     required:
                                                         'Esse campo é obrigatório',
@@ -220,7 +216,6 @@ const CompanyRegister: React.FC = () => {
                                         name="cnpj"
                                         label="CNPJ"
                                         fullWidth
-                                        variant="outlined"
                                         // inputRef={register({
                                         //     validate: {
                                         //         cpfInvalido: value =>

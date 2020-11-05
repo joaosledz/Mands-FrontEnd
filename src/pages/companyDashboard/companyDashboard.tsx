@@ -9,7 +9,7 @@ import useAuth from '../../hooks/useAuth';
 import useCompany from '../../hooks/useCompany';
 
 import AppLayout from '../../layout/appLayout';
-import ManageCompanyButton from './components/manageCompanyButton';
+import ManageCompanyButton from './components/manageCompanyButton/manageCompanyButton';
 import Departments from '../../components/departments';
 import CompanyDetails from './components/companyDetails/companyDetails';
 //#region Fazer chamada a API
@@ -28,8 +28,10 @@ const CompanyDashboard: React.FC = () => {
 
     useEffect(() => {
         const checkCompanyData = () => {
-            if (company) document.title = `Dashboard - ${company.username}`;
-            else {
+            if (company) {
+                document.title = `Dashboard - ${company.username}`;
+                // alerta de bem-vindo
+            } else {
                 // alerta de erro
                 history.push('/escolha-da-empresa');
             }
@@ -38,14 +40,16 @@ const CompanyDashboard: React.FC = () => {
     }, [company, history]);
 
     const { user } = auth;
-    const { username } = company!;
+    const { username, companyUsers } = company!;
+    console.log(companyUsers);
+    const AdminCompanyPermission = companyUsers[0]!.compPermission.editCompany;
 
     return (
         <AppLayout>
             <Box className={classes.container}>
                 <Grid container component="section">
                     <Grid item xs={6}>
-                        <Typography /* variant="h1" */ className={classes.name}>
+                        <Typography className={classes.name}>
                             Seja bem-vindo ao Mands, {user!.name}
                         </Typography>
                     </Grid>
@@ -57,8 +61,9 @@ const CompanyDashboard: React.FC = () => {
                     className={classes.contentContainer}
                 >
                     <Grid item xs={12} md={6}>
-                        {/* Esconder obotão baseado no tipo de usuário */}
-                        <ManageCompanyButton company={company!} />
+                        {AdminCompanyPermission && (
+                            <ManageCompanyButton company={company!} />
+                        )}
                         <Departments
                             baseURL={`${username}/departamento`}
                             departments={departments}

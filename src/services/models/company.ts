@@ -1,3 +1,13 @@
+export type CompanyModel = {
+    company: {
+        name: string;
+        username: string;
+        phone: string;
+        email: string;
+        cnpj?: string;
+    };
+};
+
 type TypeCompanyPermission = {
     compPermissionId: number;
     name: string;

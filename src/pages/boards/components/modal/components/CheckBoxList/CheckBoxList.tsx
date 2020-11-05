@@ -9,7 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { Delete as DeleteIcon } from '@styled-icons/material';
 import MultableInput from '../../../multableInput/multableInput';
-
+import {TypeTask} from '../../../../models/boardTypes'
 
 type Props = {
         tasks: any;
@@ -63,7 +63,7 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
 
   return (
     <List className={classes.root} dense={true}>
-      {tasks.map((task: any) => {
+      {tasks.map((task: TypeTask, index: number) => {
         const labelId = `checkbox-list-label-${task.id}`;
 
         return (

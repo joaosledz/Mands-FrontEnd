@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
@@ -32,4 +32,4 @@ const ManageCompanyButton: React.FC<Props> = ({ company }) => {
     );
 };
 
-export default ManageCompanyButton;
+export default memo(ManageCompanyButton);

@@ -1,27 +1,25 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
-import TypeCompany from '../../../../models/company';
-import handleUrlParamName from '../../../../utils/functions/handleUrlParamName';
+import { CompanyType } from '../../../../services';
 
 import CompanyIcon from '../../../../assets/selectableIcons/company.svg';
 import useStyles from './styles';
 
 type Props = {
-    company: TypeCompany;
+    company: CompanyType;
 };
 
-const ManageCompanyButton: React.FC<Props> = (props: Props) => {
+const ManageCompanyButton: React.FC<Props> = ({ company }) => {
     const classes = useStyles();
-    const { company } = props;
-    const { name } = company;
+    const { username } = company;
 
     return (
         <Link
             component={RouterLink}
-            to={`/admin/${handleUrlParamName(name)}/departamentos`}
+            to={`/admin/${username}/departamentos`}
             className={classes.button}
         >
             <img
@@ -34,4 +32,4 @@ const ManageCompanyButton: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default ManageCompanyButton;
+export default memo(ManageCompanyButton);

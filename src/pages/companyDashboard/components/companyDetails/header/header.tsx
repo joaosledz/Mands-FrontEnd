@@ -64,7 +64,9 @@ const Header: React.FC<Props> = ({ company }) => {
             >
                 <MenuItem disabled>Trocar de empresa:</MenuItem>
                 {companies?.map(company => (
-                    <MenuItem onClick={handleClose}>{company.name}</MenuItem>
+                    <MenuItem key={company.companyId} onClick={handleClose}>
+                        {company.name}
+                    </MenuItem>
                 ))}
             </Menu>
         </Box>

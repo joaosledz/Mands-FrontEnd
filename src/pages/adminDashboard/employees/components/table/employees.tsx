@@ -86,7 +86,6 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                 {
                         title: 'Nome',
                         field: 'name',
-                        filtering: true,
                         sorting: true,
                         type: 'string',
                         cellStyle: { textAlign: 'left' },
@@ -94,7 +93,6 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                     {
                         title: 'CPF',
                         field: 'cpf',
-                        filtering: true,
                         sorting: false,
                         type: 'string',
                         cellStyle: { textAlign: 'left' },
@@ -102,7 +100,6 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                     {
                         title: 'Admissão',
                         field: 'admission',
-                        filtering: true,
                         sorting: true,
                         type: 'date',
                         dateSetting: { locale: 'pt-BR' },
@@ -111,13 +108,13 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                     {
                         title: 'Cargo',
                         field: 'jobTitle',
-                        filtering: true,
                         sorting: true,
-                        type: 'date',
+                        type: 'string',
                         cellStyle: { textAlign: 'left' },
                     },
                 {
                     title: 'Detalhes',
+                    filtering: false,
                     sorting: false,
                     field: 'url',
                     width: 20,
@@ -134,6 +131,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
             
                 {
                     title: 'Remover',
+                    filtering: false,
                     sorting: false,
                     field: 'url',
                     width: 20,
@@ -147,43 +145,10 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
 
                     ),
                 },
-                // {
-                //     title: 'Editar',
-                //     sorting: false,
-                //     field: 'url',
-                //     filtering: false,
-                //     width: 20,
-                //     render: (rowData) => (
-                //         <Button
-                //             color="danger"
-                //             style={{
-                //                 width: '10px',
-                //             }}
-                //             onClick={() => handleChangeView('edit', rowData.id)}
-                //         >
-                //             <InfoIcon style={{ marginLeft: '-12px' }} />
-                //         </Button>
-                //     ),
-                // },
-                // {
-                //     title: 'Permitido uso conjunto?',
-                //     field: 'recursive',
-                //     sorting: false,
-                //     type: 'string',
-                //     lookup: { 0: 'NÃO', 1: 'SIM' },
-                //     cellStyle: { textAlign: 'center' },
-                // },
-              
+                
             ]}
             data={data}
-            // actions={[
-            //     {
-            //         icon: 'refresh',
-            //         tooltip: 'Refresh Data',
-            //         isFreeAction: true,
-            //         onClick: () => setChangeData(!changeData),
-            //     },
-            // ]}
+    
             components={{
                 FilterRow: (props) => {
                     return (

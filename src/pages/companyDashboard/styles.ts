@@ -11,6 +11,12 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
 
+        name: {
+            color: theme.palette.primary.contrastText,
+            fontSize: '1.3rem',
+            fontWeight: 'bold',
+        },
+
         contentContainer: {
             marginTop: '1.5rem',
         },

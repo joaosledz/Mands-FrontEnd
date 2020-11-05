@@ -14,6 +14,7 @@ import useStyles from './styles';
 import MutableInput from '../multableInput/multableInput';
 import { Text as TextIcon } from '@styled-icons/entypo';
 import { InputChecked as CheckedIcon } from '@styled-icons/typicons';
+import { Close as CloseIcon } from '@styled-icons/evaicons-solid'; 
 import CheckBoxList from './components/CheckBoxList/CheckBoxList';
 import Team from './components/Chips/Chips';
 
@@ -67,7 +68,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
         <Modal
             open={isOpen}
             onClose={handleCloseModal}
-            style={{ paddingTop: '5%', minHeight: '400px' }}
+            // style={{ paddingTop: '5%', minHeight: '400px' }}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
@@ -78,20 +79,21 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                 className={classes.paper}
                 spacing={3}
             >
-                <Grid item xs={12}>
+                <CloseIcon className={classes.iconClose} onClick={handleCloseModal}/>
+                <Grid item xs={12} style={{maxHeight: '20px'}}>
                     <MutableInput
                         value={title}
                         valueSet={setTitle}
                         id={item.id}
                     />
                 </Grid>
-                <Grid container xs={12} className={classes.body}>
+                <Grid container className={classes.body}>
                 {/* DESCRIÇÃO DO ITEM */}
-                <Grid container item xs={12}>
-                    <Grid xs={1}>
+                <Grid container >
+                    <Grid item xs={1}>
                         <TextIcon className={classes.icon}/>
                     </Grid>
-                    <Grid xs={11}>
+                    <Grid item xs={11}>
                         <Typography className={classes.subtitle}>
                             Descrição
                         </Typography>
@@ -106,10 +108,10 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                 </Grid>
                 {/* LISTA DE TAREFAS */}
                 <Grid container item xs={12}>
-                    <Grid xs={1}>
+                    <Grid item xs={1}>
                         <CheckedIcon className={classes.icon}/>
                     </Grid>
-                    <Grid xs={11}>
+                    <Grid item xs={11}>
                         <Typography className={classes.subtitle}>
                             Tarefas
                         </Typography>

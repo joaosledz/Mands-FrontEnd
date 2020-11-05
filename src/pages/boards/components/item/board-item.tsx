@@ -122,8 +122,9 @@ export const BoardItem = (props: BoardItemProps) => {
                                 alignItems="flex-end"
                             >
                                 <Grid xs={11} container item>
-                                    {item.members.map(member => (
+                                    {item.members.map((member, index) => (
                                         <Link
+                                            key = {index}
                                             className={classes.memberName}
                                             to={'/perfil'}
                                         >

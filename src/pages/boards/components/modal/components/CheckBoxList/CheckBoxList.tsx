@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Delete as DeleteIcon } from '@styled-icons/material';
 import MultableInput from '../../../multableInput/multableInput';
 
+
 type Props = {
         tasks: any;
 };
@@ -20,6 +21,12 @@ const useStyles = makeStyles((theme: Theme) =>
     //   maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
     },
+    taskTitle: {
+      
+      [theme.breakpoints.down('md')]: {
+        fontSize: '0.7rem',
+    },
+  },
     icon: {
             color: 'gray',
             borderRadius: '20%',
@@ -49,12 +56,13 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
     setChecked(newChecked);
   };
   const handleChangeTitle = (title:string, id:string) => {
-    let AuxTasks = {...tasks};  
+    let AuxTasks = [...tasks];  
+    console.log(AuxTasks)
     setTasks(AuxTasks)
   }
 
   return (
-    <List className={classes.root} >
+    <List className={classes.root} dense={true}>
       {tasks.map((task: any) => {
         const labelId = `checkbox-list-label-${task.id}`;
 
@@ -73,6 +81,7 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                         value={task.title}
                         valueSet={handleChangeTitle}
                         id={task.id}
+                        inputStyle={classes.taskTitle}
                     />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">

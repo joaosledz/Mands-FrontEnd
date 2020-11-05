@@ -5,7 +5,7 @@ const useStyles = makeStyles<Theme>(theme =>
         paper: {
             width: '100%',
             maxWidth: '35vw',
-            maxHeight: '80vh',
+            maxHeight: '90vh',
             padding: '2rem 1rem',
             boxShadow: theme.shadows[5],
 
@@ -14,6 +14,7 @@ const useStyles = makeStyles<Theme>(theme =>
             marginRight: 'auto',
             left: 0,
             right: 0,
+            top: '10%',
             textAlign: 'center',
 
             [theme.breakpoints.down('md')]: {
@@ -23,7 +24,8 @@ const useStyles = makeStyles<Theme>(theme =>
             
         },
         body: { 
-                maxHeight: '400px',
+                position: 'relative',
+                maxHeight: '70vh',
                 //Scroll
                 overflowY: 'auto',
                 scrollbarWidth: 'thin',
@@ -72,7 +74,19 @@ const useStyles = makeStyles<Theme>(theme =>
             borderRadius: '20%',
             marginRight: '4px',
             maxWidth: '28px',
-           
+        },
+        iconClose: {
+            color: theme.palette.text.secondary,
+            borderRadius: '20%',
+            marginRight: '4px',
+            width: '2rem',
+            position: 'absolute',
+            right: '5px',
+            top: '5px',
+            '&:hover': {
+                backgroundColor: 'rgba(70, 70, 70, 0.2)',
+                cursor: 'pointer',
+            },
         },
         submitButton: {
             position: 'relative'

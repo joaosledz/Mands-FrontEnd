@@ -1,3 +1,28 @@
+export type CompanyModel = {
+    company: {
+        name: string;
+        username: string;
+        phone: string;
+        email: string;
+        cnpj?: string;
+    };
+};
+
+type TypeCompanyPermission = {
+    compPermissionId: number;
+    name: string;
+    acceptUser: boolean;
+    deleteUser: boolean;
+    department: boolean;
+    project: boolean;
+    editCompany: boolean;
+    resetPIN: boolean;
+    seePIN: boolean;
+    event: boolean;
+    permission: boolean;
+    companyUsers: any[];
+};
+
 export type CompanyType = {
     companyId: number;
     name: string;
@@ -14,7 +39,7 @@ export type CompanyType = {
         userId: number;
         user: null;
         compPermissionId: number;
-        compPermission: null;
+        compPermission: TypeCompanyPermission;
         companyEventUsers: null;
     }>;
     solicitations: null;

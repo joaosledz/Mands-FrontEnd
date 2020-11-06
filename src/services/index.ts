@@ -7,7 +7,7 @@ import {
     userType,
     RegisterModel,
 } from './models/authentication';
-import { CompanyType } from './models/company';
+import { UserCompanyType } from './models/company';
 
 import authApi from './useCases/authentication';
 import companyApi from './useCases/company';
@@ -19,4 +19,4 @@ import companyApi from './useCases/company';
 
 export { api, authApi, companyApi };
 export type { AxiosError, LoginType, LoginModel, userType, RegisterModel };
-export type { CompanyType };
+export type { UserCompanyType };

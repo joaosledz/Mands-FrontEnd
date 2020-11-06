@@ -23,7 +23,7 @@ type TypeCompanyPermission = {
     companyUsers: any[];
 };
 
-export type CompanyType = {
+export type UserCompanyType = {
     companyId: number;
     name: string;
     username: string;
@@ -33,16 +33,5 @@ export type CompanyType = {
     phone: string;
     imageId: number;
     image: string;
-    companyUsers: Array<{
-        companyUserId: number;
-        companyId: number;
-        userId: number;
-        user: null;
-        compPermissionId: number;
-        compPermission: TypeCompanyPermission;
-        companyEventUsers: null;
-    }>;
-    solicitations: null;
-    companyDepartmentUsers: null;
-    companyEvents: null;
+    userPermission: TypeCompanyPermission;
 };

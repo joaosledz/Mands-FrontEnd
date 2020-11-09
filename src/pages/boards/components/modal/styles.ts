@@ -2,31 +2,12 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme>(theme =>
     createStyles({
-        paper: {
-            width: '100%',
-            maxWidth: '35vw',
-            maxHeight: '90vh',
-            padding: '2rem 1rem',
-            boxShadow: theme.shadows[5],
-
-            position: 'fixed',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            left: 0,
-            right: 0,
-            top: '10%',
-            textAlign: 'center',
-
-            [theme.breakpoints.down('md')]: {
-                maxWidth: '90vw',
-                padding: '2rem 0.2rem',
-            },
-            
-        },
-        body: { 
-                position: 'relative',
-                maxHeight: '70vh',
-                //Scroll
+        modal: {
+            // Scroll
+                top: '0px',
+                position: 'fixed',
+                height: '100%',
+                maxHeight: '100vh',
                 overflowY: 'auto',
                 scrollbarWidth: 'thin',
                 '&::-webkit-scrollbar': {
@@ -44,6 +25,51 @@ const useStyles = makeStyles<Theme>(theme =>
                 borderRadius: '10px',
                 background: 'rgba(170,170,170,0.5)',
                 },
+            
+        },
+        paper: {
+            // height: '100%',
+            width: '100%',
+            maxWidth: '40vw',
+            // maxHeight: '90vh',
+            padding: '2rem 1rem',
+            boxShadow: theme.shadows[5],
+
+            position: 'relative',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            left: 0,
+            right: 0,
+            top: '10%',
+            textAlign: 'center',
+
+            [theme.breakpoints.down('md')]: {
+                maxWidth: '90vw',
+                padding: '2rem 0.2rem',
+            },
+            
+        },
+        body: { 
+                position: 'relative',
+                // maxHeight: '70vh',
+                //Scroll
+                // overflowY: 'auto',
+                // scrollbarWidth: 'thin',
+                // '&::-webkit-scrollbar': {
+                // width: '8px',
+                // marginLeft: '12px',
+                // },
+                // /* Track */
+                // '&::-webkit-scrollbar-track': {
+                // WebkitBorderRadius: '10px',
+                // borderRadius: '10px',
+                // },
+                // /* Handle */
+                // '&::-webkit-scrollbar-thumb': {
+                // WebkitBorderRadius: '10px',
+                // borderRadius: '10px',
+                // background: 'rgba(170,170,170,0.5)',
+                // },
         },
         subtitle: {
             display: 'flex',
@@ -89,7 +115,8 @@ const useStyles = makeStyles<Theme>(theme =>
             },
         },
         submitButton: {
-            position: 'relative'
+            position: 'relative',
+            paddingTop: '8px',
         },
     })
 );

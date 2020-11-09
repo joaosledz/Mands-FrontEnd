@@ -9,7 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { Delete as DeleteIcon } from '@styled-icons/material';
 import MultableInput from '../../../multableInput/multableInput';
-import {TypeTask} from '../../../../models/boardTypes'
+import {TypeTask} from '../../../../../../models/boardTypes'
 
 type Props = {
         tasks: any;
@@ -68,21 +68,22 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
 
         return (
           <ListItem key={task.id} role={undefined} button >
-            <ListItemIcon onClick={handleToggle(task.id)}>
+            <ListItemIcon onClick={handleToggle(index)}>
               <Checkbox
                 edge="start"
-                checked={checked.indexOf(task.id) !== -1}
+                checked={checked.indexOf(index) !== -1}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
-            <MultableInput
-                        value={task.title}
-                        valueSet={handleChangeTitle}
-                        id={task.id}
-                        inputStyle={classes.taskTitle}
-                    />
+              <MultableInput
+                    value={task.title}
+                    valueSet={handleChangeTitle}
+                    id={task.id}
+                    inputStyle={classes.taskTitle}
+                />
+            
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
                 <DeleteIcon className={classes.icon}/>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import BoardContext from '../../../../contexts/board';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
@@ -16,11 +17,6 @@ type BoardColumnProps = {
     items: any;
     index: any;
     type?: string;
-    setTitle: any;
-    AddTask: any;
-    UpdateTask: any;
-    DeleteTask: any;
-    DeleteColumn: any;
 };
 
 // Define types for board column content style properties
@@ -38,23 +34,23 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
     /* min-height: 60vh; */
     max-height: 61vh;
     overflow-y: auto;
-  scrollbar-width: thin;
-  ::-webkit-scrollbar {
-    width: 8px;
-    margin-left: 12px;
-}
-/* Track */
-::-webkit-scrollbar-track {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-}
-/* Handle */
-::-webkit-scrollbar-thumb {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    background: rgba(170,170,170,0.5); 
-}
-/* ::-webkit-scrollbar-thumb:window-inactive {
+    scrollbar-width: thin;
+    ::-webkit-scrollbar {
+        width: 8px;
+        margin-left: 12px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        background: rgba(170, 170, 170, 0.5);
+    }
+    /* ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(255,0,0,0.4); 
 } */
 `;
@@ -62,26 +58,9 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
-    const {
-        // key,
-        column,
-        items,
-        index,
-        // type,
-        setTitle,
-        AddTask,
-        UpdateTask,
-        DeleteTask,
-        DeleteColumn,
-    } = props;
-    // const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
-    // const handleOpenNewTaskModal = () => {
-    //     setShowNewTaskModal(true);
-    // };
+    const { AddTask, DeleteColumn, setColumnTitle } = useContext(BoardContext);
+    const { column, items, index } = props;
 
-    // const handleCloseNewTaskModal = () => {
-    //     setShowNewTaskModal(false);
-    // };
     return (
         <>
             <Draggable draggableId={column.id} index={index}>
@@ -101,7 +80,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                             <Grid item xs={8} {...provided.dragHandleProps}>
                                 <MutableInput
                                     value={column.title}
-                                    valueSet={setTitle}
+                                    valueSet={setColumnTitle}
                                     id={column.id}
                                 />
                             </Grid>
@@ -114,10 +93,10 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 />
                             </Grid>
                             <Grid item xs={1}>
-                            <Popover
-                                        DeleteColumn={DeleteColumn}
-                                        columnID={column.id}
-                                    />
+                                <Popover
+                                    DeleteColumn={DeleteColumn}
+                                    columnID={column.id}
+                                />
                             </Grid>
                         </Grid>
                         <Droppable droppableId={column.id} type="task">
@@ -133,8 +112,6 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                             key={item.id}
                                             item={item}
                                             index={index}
-                                            UpdateTask={UpdateTask}
-                                            DeleteTask={DeleteTask}
                                             columnID={column.id}
                                         />
                                     ))}
@@ -145,10 +122,6 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                     </div>
                 )}
             </Draggable>
-            {/* <NewTaskModal
-                isOpen={showNewTaskModal}
-                setIsOpen={setShowNewTaskModal}
-            /> */}
         </>
     );
 };

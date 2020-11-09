@@ -1,29 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
-import { v4 as uuidv4 } from 'uuid';
 import FabButton from '../../../../components/fabButton';
-
-// Import data for board
-import { initialBoardData } from '../../data/board-initial-data';
-
-// Import BoardColumn component
+import BoardContext from '../../../../contexts/board';
 import { BoardColumn } from '../column/board-column';
 
 const Board: React.FC = () => {
     const classes = useStyles();
     // Initialize board state with board data
-    const [state, setState] = useState(initialBoardData);
+    const { state, setState, AddColumn } = useContext(BoardContext);
 
     // Handle drag & drop
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-       
+        console.log(typeof state);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
         }
-
         // Do nothing if the item is dropped into the same place
         if (
             destination.droppableId === source.droppableId &&
@@ -76,7 +70,6 @@ const Board: React.FC = () => {
                     [newColumnStart.id]: newColumnStart,
                 },
             };
-
             // Update the board state with new data
             setState(newState);
         } else {
@@ -92,7 +85,6 @@ const Board: React.FC = () => {
                 ...columnStart,
                 itemsIds: newStartItemsIds,
             };
-
             // Get all item ids in destination list
             const newFinishItemsIds = Array.from(columnFinish.itemsIds);
 
@@ -104,7 +96,6 @@ const Board: React.FC = () => {
                 ...columnFinish,
                 itemsIds: newFinishItemsIds,
             };
-
             // Create new board state with updated data for both, source and destination columns
             const newState = {
                 ...state,
@@ -114,140 +105,13 @@ const Board: React.FC = () => {
                     [newColumnFinish.id]: newColumnFinish,
                 },
             };
-
             // Update the board state with new data
             setState(newState);
         }
     };
 
-    const AddColumn = () => {
-        const newID = uuidv4();
-       
-        const newState = {
-            ...state,
-            columns: {
-                ...state.columns,
-                [newID]: {
-                    id: newID,
-                    title: 'Nova Coluna',
-                    itemsIds: [],
-                },
-            },
-            columnsOrder: [...state.columnsOrder, newID],
-        };
-     
-        setState(newState);
-    };
-    // type newState = {
-    //     items:{
-    //      [key: string]:{
-    //         id: string,
-    //         title: string,
-    //         tag: string,
-    //         tagColor: string,
-    //         members: string[],
-    //     },
-    // }
-    //         columns: {
-    //             [key: string]:{
-    //                 id: string,
-    //                 title: string,
-    //                 itemsIds: string[],
-    //             },
-    //         }
-    //         columnsOrder: string[],
-    // };
-
-    const AddTask = (columnID: 'column-1', title: string) => {
-        //Gerando um ID aleatório
-        const newID = uuidv4();
-        
-        const newState = {
-            ...state,
-        };
-        //Adicionar Item à lista de itens
-        newState.items = {
-            ...state.items,
-            [newID]: {
-                id: newID,
-                title: title,
-                tag: 'Financeiro',
-                tagColor: 'green',
-                members: ['Raiane Souza', 'Josefa Oliveira'],
-                tasks: [],
-            },
-        };
-        //Adicionar ID do item à coluna correspondente
-        newState.columns[columnID].itemsIds = [
-            ...newState.columns[columnID].itemsIds,
-            newID,
-        ];
-       
-        setState(newState);
-    };
-
-    const UpdateTask = (itemID: 'item-1' | 'item-2', updatedItem: any) => {
-        const newState = {
-            ...state,
-        };
-        //Adicionar Item à lista de itens
-        newState.items[itemID] = updatedItem;
-      
-        setState(newState);
-    };
-    const DeleteTask = (
-        itemID: 'item-1' | 'item-2',
-        columnID: 'column-1' | 'column-2'
-    ) => {
-        const newState = {
-            ...state,
-        };
-        //Adicionar Item à lista de itens
-        delete newState.items[itemID];
-        newState.columns[columnID].itemsIds = newState.columns[
-            columnID
-        ].itemsIds.filter(e => e !== itemID);
-        
-        setState(newState);
-    };
-
-    const DeleteColumn = (
-        columnID: 'column-1' | 'column-2'
-    ) => {
-        const newState = {
-            ...state,
-        };
-        
-        //Apagar todos os itens pertencentes a coluna excluída
-        (newState.columns[columnID].itemsIds as Array<any>).map((itemID: 'item-1' | 'item-2',) => {
-           
-            delete newState.items[itemID];
-            return itemID
-            })
-        //Apaga a coluna propriamente dita
-        delete newState.columns[columnID]
-        // Retira do array de ordem das colunas o ID da coluna apagada
-        newState.columnsOrder = newState.columnsOrder.filter(e => e !== columnID);
-        
-        setState(newState);
-    };
-
-    const setTitle = (
-        title: string,
-        columnID: 'column-1' | 'column-2' | 'column-3'
-    ) => {
-        
-        const newState = { ...state };
-        newState.columns[columnID].title = title;
-
-        setState(newState);
-    };
-    // const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
-
     return (
         <>
-           
-
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                     droppableId="all-columns"
@@ -264,7 +128,7 @@ const Board: React.FC = () => {
                             {state.columnsOrder.map((columnId, index) => {
                                 // Get id of the current column
                                 const column = (state.columns as any)[columnId];
-                               
+
                                 // Get item belonging to the current column
                                 const items = column.itemsIds.map(
                                     (itemId: string) =>
@@ -278,11 +142,6 @@ const Board: React.FC = () => {
                                         column={column}
                                         items={items}
                                         index={index}
-                                        setTitle={setTitle}
-                                        AddTask={AddTask}
-                                        UpdateTask={UpdateTask}
-                                        DeleteTask={DeleteTask}
-                                        DeleteColumn={DeleteColumn}
                                     />
                                 );
                             })}
@@ -291,10 +150,10 @@ const Board: React.FC = () => {
                 </Droppable>
             </DragDropContext>
             <FabButton
-                    icon="plus"
-                    style={classes.fabButton}
-                    onClick={AddColumn}
-                />
+                icon="plus"
+                style={classes.fabButton}
+                onClick={AddColumn}
+            />
         </>
     );
 };

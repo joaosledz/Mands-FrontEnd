@@ -52,7 +52,7 @@ const MutableInput: React.FC<Props> = ({ value, valueSet, id, inputStyle }) => {
                         onChange={handleInputChange}
                     />
                 ) : (
-                    <div onClick={() => editSet(true)} id="mi-div">
+                    <div onClick={() => editSet(true)} className={classes.mainDiv} id="mi-div">
                         <Typography className={ inputStyle
                             ? [classes.title, inputStyle].join(' ')
                             : classes.title}>

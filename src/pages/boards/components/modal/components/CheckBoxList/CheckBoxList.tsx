@@ -9,6 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { Delete as DeleteIcon } from '@styled-icons/material';
 import MultableInput from '../../../multableInput/multableInput';
+import {TypeTask} from '../../../../../../models/boardTypes'
 
 type Props = {
         tasks: any;
@@ -20,6 +21,12 @@ const useStyles = makeStyles((theme: Theme) =>
     //   maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
     },
+    taskTitle: {
+      
+      [theme.breakpoints.down('md')]: {
+        fontSize: '0.7rem',
+    },
+  },
     icon: {
             color: 'gray',
             borderRadius: '20%',
@@ -49,31 +56,34 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
     setChecked(newChecked);
   };
   const handleChangeTitle = (title:string, id:string) => {
-    let AuxTasks = {...tasks};  
+    let AuxTasks = [...tasks];  
+    console.log(AuxTasks)
     setTasks(AuxTasks)
   }
 
   return (
-    <List className={classes.root} >
-      {tasks.map((task: any) => {
+    <List className={classes.root} dense={true}>
+      {tasks.map((task: TypeTask, index: number) => {
         const labelId = `checkbox-list-label-${task.id}`;
 
         return (
           <ListItem key={task.id} role={undefined} button >
-            <ListItemIcon onClick={handleToggle(task.id)}>
+            <ListItemIcon onClick={handleToggle(index)}>
               <Checkbox
                 edge="start"
-                checked={checked.indexOf(task.id) !== -1}
+                checked={checked.indexOf(index) !== -1}
                 tabIndex={-1}
                 disableRipple
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
-            <MultableInput
-                        value={task.title}
-                        valueSet={handleChangeTitle}
-                        id={task.id}
-                    />
+              <MultableInput
+                    value={task.title}
+                    valueSet={handleChangeTitle}
+                    id={task.id}
+                    inputStyle={classes.taskTitle}
+                />
+            
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
                 <DeleteIcon className={classes.icon}/>

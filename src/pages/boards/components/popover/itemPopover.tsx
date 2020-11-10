@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid';
+import BoardContext from '../../../../contexts/board';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,12 +27,12 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 type PopoverProps = {
-    DeleteTask: any;
     itemID: string;
     columnID: string;
 };
 export default function SimplePopover(props: PopoverProps) {
-    const { DeleteTask, itemID, columnID } = props;
+    const { itemID, columnID } = props;
+    const { DeleteTask } = useContext(BoardContext);
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<any | null>(null);
 

@@ -1,4 +1,6 @@
-export const initialBoardData = {
+import {TypeBoard} from '../../models/boardTypes'
+
+export const initialBoardData:TypeBoard = {
     items: {
         'item-1': {
             id: 'item-1',
@@ -10,26 +12,26 @@ export const initialBoardData = {
             tasks: [
                 {
                     id: 'task-1',
-                    checked: 'true',
+                    checked: true,
                     title: 'Reforma do escritório de baixo A51',
                 },
                 {
                     id: 'task-2',
-                    checked: 'false',
+                    checked: false,
                     title: 'Confecção dos crachás',
                 },
                 {
                     id: 'task-3',
-                    checked: 'true',
+                    checked: true,
                     title: 'Marcar reunião semanal',
                 },
-                { id: 'task-4', checked: 'true', title: 'Comprar suprimentos' },
-                { id: 'task-5', checked: 'true', title: 'Comprar suprimentos' },
-                { id: 'task-6', checked: 'true', title: 'Comprar suprimentos' },
-                { id: 'task-7', checked: 'true', title: 'Comprar suprimentos' },
-                { id: 'task-8', checked: 'true', title: 'Comprar suprimentos' },
-                { id: 'task-9', checked: 'true', title: 'Comprar suprimentos' },
-                { id: 'task-10', checked: 'true', title: 'Comprar suprimentos' },
+                { id: 'task-4', checked: true, title: 'Comprar suprimentos' },
+                { id: 'task-5', checked: true, title: 'Comprar suprimentos' },
+                { id: 'task-6', checked: true, title: 'Comprar suprimentos' },
+                { id: 'task-7', checked: true, title: 'Comprar suprimentos' },
+                { id: 'task-8', checked: true, title: 'Comprar suprimentos' },
+                { id: 'task-9', checked: true, title: 'Comprar suprimentos' },
+                { id: 'task-10', checked: true, title: 'Comprar suprimentos' },
             ],
         },
         'item-2': {

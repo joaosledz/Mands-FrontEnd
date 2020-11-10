@@ -1,7 +1,7 @@
 {
     "baseUrl": "http://localhost:3000",
     "env": {
-        "CYPRESS_API": "https://apimandsv1.azurewebsites.net/api",
-        "CYPRESS_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjExMSwiaWF0IjoxNTk3MDc3MDc0fQ.6V9pPnZxh0kwLONf3dUwPiSoIMV7ANUayzId2LfYU6U"
+        "CYPRESS_API": "https://mandswebapi.azurewebsites.net/api",
+        "CYPRESS_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJndWlsaGVybWUuYXpldmVkb0BnbWFpbC5jb20iLCJ0eXAiOiJMb2dpbiIsImp0aSI6IjhlOTM4MWZmLTc3YTktNGQ0Yi1iYzQ1LTczZmFjZTQwYWM5YSIsImV4cCI6MTYwNDYyNjk0MSwiaXNzIjoiYXBpLW1hbmRzLmNvbSIsImF1ZCI6ImFwaS1tYW5kcy5jb20ifQ.r75twtPgTQnAjhnwinmuO6AsPxXbYacVLLZNor7mgbw"
     }
 }

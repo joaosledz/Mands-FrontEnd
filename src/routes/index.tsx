@@ -13,11 +13,11 @@ import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPa
 //#endregion
 
 //#region Rotas da aplicação
-import UserProfile from '../pages/userProfile/main';
+import UserProfile from '../pages/userProfile/details/details';
 import UserProfileEdit from '../pages/userProfile/edit';
 import CompanySelection from '../pages/companySelection';
 import CompanyRegister from '../pages/companyRegister/company.register';
-import CompanyDashboard from '../pages/companyDashboard';
+import CompanyDashboard from '../pages/companyDashboard/companyDashboard';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
 //#endregion

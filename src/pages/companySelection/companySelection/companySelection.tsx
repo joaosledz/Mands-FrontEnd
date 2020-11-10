@@ -2,9 +2,9 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import CompanyType from '../../../models/company';
+import { CompanyType } from '../../../services';
 
-import Company from './components/company';
+import Company from './company';
 import useStyles from './styles';
 
 type Props = {
@@ -24,7 +24,7 @@ const CompanySelection: React.FC<Props> = (props: Props) => {
             </Grid>
             {companies?.map(company => (
                 <Grid
-                    key={company.id}
+                    key={company.companyId}
                     container
                     item
                     xs={12}

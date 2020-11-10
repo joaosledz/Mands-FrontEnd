@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
+import { v4 as uuidv4 } from 'uuid';
+import FabButton from '../../../../components/fabButton';
 
 // Import data for board
 import { initialBoardData } from '../../data/board-initial-data';
@@ -16,8 +18,7 @@ const Board: React.FC = () => {
     // Handle drag & drop
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-        console.log('STATE');
-        console.log(state);
+       
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
@@ -120,18 +121,114 @@ const Board: React.FC = () => {
     };
 
     const AddColumn = () => {
+        const newID = uuidv4();
+       
         const newState = {
             ...state,
             columns: {
                 ...state.columns,
-                'column-4': {
-                    id: 'column-4',
+                [newID]: {
+                    id: newID,
                     title: 'Nova Coluna',
                     itemsIds: [],
                 },
             },
-            columnsOrder: [...state.columnsOrder, 'column-4'],
+            columnsOrder: [...state.columnsOrder, newID],
         };
+     
+        setState(newState);
+    };
+    // type newState = {
+    //     items:{
+    //      [key: string]:{
+    //         id: string,
+    //         title: string,
+    //         tag: string,
+    //         tagColor: string,
+    //         members: string[],
+    //     },
+    // }
+    //         columns: {
+    //             [key: string]:{
+    //                 id: string,
+    //                 title: string,
+    //                 itemsIds: string[],
+    //             },
+    //         }
+    //         columnsOrder: string[],
+    // };
+
+    const AddTask = (columnID: 'column-1', title: string) => {
+        //Gerando um ID aleatório
+        const newID = uuidv4();
+        
+        const newState = {
+            ...state,
+        };
+        //Adicionar Item à lista de itens
+        newState.items = {
+            ...state.items,
+            [newID]: {
+                id: newID,
+                title: title,
+                tag: 'Financeiro',
+                tagColor: 'green',
+                members: ['Raiane Souza', 'Josefa Oliveira'],
+                tasks: [],
+            },
+        };
+        //Adicionar ID do item à coluna correspondente
+        newState.columns[columnID].itemsIds = [
+            ...newState.columns[columnID].itemsIds,
+            newID,
+        ];
+       
+        setState(newState);
+    };
+
+    const UpdateTask = (itemID: 'item-1' | 'item-2', updatedItem: any) => {
+        const newState = {
+            ...state,
+        };
+        //Adicionar Item à lista de itens
+        newState.items[itemID] = updatedItem;
+      
+        setState(newState);
+    };
+    const DeleteTask = (
+        itemID: 'item-1' | 'item-2',
+        columnID: 'column-1' | 'column-2'
+    ) => {
+        const newState = {
+            ...state,
+        };
+        //Adicionar Item à lista de itens
+        delete newState.items[itemID];
+        newState.columns[columnID].itemsIds = newState.columns[
+            columnID
+        ].itemsIds.filter(e => e !== itemID);
+        
+        setState(newState);
+    };
+
+    const DeleteColumn = (
+        columnID: 'column-1' | 'column-2'
+    ) => {
+        const newState = {
+            ...state,
+        };
+        
+        //Apagar todos os itens pertencentes a coluna excluída
+        (newState.columns[columnID].itemsIds as Array<any>).map((itemID: 'item-1' | 'item-2',) => {
+           
+            delete newState.items[itemID];
+            return itemID
+            })
+        //Apaga a coluna propriamente dita
+        delete newState.columns[columnID]
+        // Retira do array de ordem das colunas o ID da coluna apagada
+        newState.columnsOrder = newState.columnsOrder.filter(e => e !== columnID);
+        
         setState(newState);
     };
 
@@ -139,18 +236,18 @@ const Board: React.FC = () => {
         title: string,
         columnID: 'column-1' | 'column-2' | 'column-3'
     ) => {
-        // console.log(columnID);
+        
         const newState = { ...state };
         newState.columns[columnID].title = title;
 
         setState(newState);
     };
+    // const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
 
     return (
         <>
-            <button type="button" onClick={AddColumn}>
-                Add new group
-            </button>
+           
+
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                     droppableId="all-columns"
@@ -167,7 +264,7 @@ const Board: React.FC = () => {
                             {state.columnsOrder.map((columnId, index) => {
                                 // Get id of the current column
                                 const column = (state.columns as any)[columnId];
-
+                               
                                 // Get item belonging to the current column
                                 const items = column.itemsIds.map(
                                     (itemId: string) =>
@@ -182,6 +279,10 @@ const Board: React.FC = () => {
                                         items={items}
                                         index={index}
                                         setTitle={setTitle}
+                                        AddTask={AddTask}
+                                        UpdateTask={UpdateTask}
+                                        DeleteTask={DeleteTask}
+                                        DeleteColumn={DeleteColumn}
                                     />
                                 );
                             })}
@@ -189,6 +290,11 @@ const Board: React.FC = () => {
                     )}
                 </Droppable>
             </DragDropContext>
+            <FabButton
+                    icon="plus"
+                    style={classes.fabButton}
+                    onClick={AddColumn}
+                />
         </>
     );
 };

@@ -1,13 +1,22 @@
 import api from '../api';
-import { AxiosResponse } from 'axios';
-// import {} from '../models/company';
+import { CompanyType, CompanyModel } from '../models/company';
 import companyUrls from '../urls/company';
 
 const companyApi = {
     list: async () => {
         try {
-            const response: AxiosResponse<any> = await api.get(
-                companyUrls.list
+            const response = await api.get<any>(companyUrls.list);
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
+    userCompanies: async () => {
+        try {
+            const response = await api.get<Array<CompanyType>>(
+                companyUrls.userCompanies
             );
             return Promise.resolve(response);
         } catch (error) {
@@ -16,9 +25,9 @@ const companyApi = {
         }
     },
 
-    create: async () => {
+    create: async (data: CompanyModel) => {
         try {
-            const response = await api.post(companyUrls.create);
+            const response = await api.post(companyUrls.create, data);
             return Promise.resolve(response);
         } catch (error) {
             console.log(error);

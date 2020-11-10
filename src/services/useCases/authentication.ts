@@ -21,6 +21,7 @@ const authApi = {
             return Promise.reject(error);
         }
     },
+
     me: async () => {
         try {
             const response: AxiosResponse<userType> = await api.get(
@@ -32,6 +33,7 @@ const authApi = {
             return Promise.reject(error);
         }
     },
+
     register: async (data: RegisterModel) => {
         try {
             const response: AxiosResponse<any> = await api.post(

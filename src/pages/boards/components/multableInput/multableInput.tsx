@@ -39,7 +39,7 @@ const MutableInput: React.FC<Props> = ({ value, valueSet, id }) => {
             <div className={classes.mainDiv}>
                 {edit ? (
                     <TextField
-                        rowsMax={2}
+                        rowsMax={4}
                         className={classes.title}
                         name="firstName"
                         color="primary"

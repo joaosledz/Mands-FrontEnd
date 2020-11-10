@@ -22,10 +22,13 @@ const authApi = {
         }
     },
 
-    me: async () => {
+    me: async (token?: string) => {
         try {
             const response: AxiosResponse<userType> = await api.get(
-                authUrls.me
+                authUrls.me,
+                token
+                    ? { headers: { Authorization: `Bearer ${token}` } }
+                    : undefined
             );
             return Promise.resolve(response);
         } catch (error) {
@@ -39,6 +42,26 @@ const authApi = {
             const response: AxiosResponse<any> = await api.post(
                 authUrls.register,
                 data
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
+    changePassword: async (password: string, token: string) => {
+        try {
+            const response: AxiosResponse<any> = await api.put(
+                authUrls.changePassword,
+                {
+                    password,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
             return Promise.resolve(response);
         } catch (error) {

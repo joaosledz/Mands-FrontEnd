@@ -50,6 +50,21 @@ const authApi = {
         }
     },
 
+    recoverPassword: async (email: string) => {
+        try {
+            const response: AxiosResponse<any> = await api.post(
+                authUrls.changePassword,
+                {
+                    email,
+                }
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
     changePassword: async (password: string, token: string) => {
         try {
             const response: AxiosResponse<any> = await api.put(

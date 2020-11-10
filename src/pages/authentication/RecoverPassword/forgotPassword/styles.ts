@@ -6,15 +6,23 @@ const useStyles = makeStyles<Theme>(theme =>
             marginTop: '2rem',
             [theme.breakpoints.only('xs')]: {
                 marginTop: 0,
-            }, 
+            },
+
+            '& form': {
+                padding: '40px 0px',
+                paddingRight: '15%',
+                [theme.breakpoints.down('md')]: {
+                    paddingRight: 0,
+                },
+            },
         },
 
-        title: { 
-            fontSize: '2.5rem', 
-            fontWeight: 700, 
+        title: {
+            fontSize: '2.5rem',
+            fontWeight: 700,
             [theme.breakpoints.down('md')]: {
                 fontSize: '1.9rem',
-            }, 
+            },
         },
 
         description: {
@@ -24,15 +32,7 @@ const useStyles = makeStyles<Theme>(theme =>
             fontSize: '1.1rem',
             [theme.breakpoints.down('md')]: {
                 fontSize: '1rem',
-            }, 
-        },
-
-        form: {
-            padding: '40px 0px',
-            paddingRight: '15%',
-            [theme.breakpoints.down('md')]: {
-                paddingRight: 0,
-            }, 
+            },
         },
 
         rightSide: {
@@ -40,6 +40,12 @@ const useStyles = makeStyles<Theme>(theme =>
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+        },
+
+        ErrorMessage: {
+            marginTop: 7,
+            color: theme.palette.primary.main,
+            '&:before': { content: "'⚠ '" },
         },
     })
 );

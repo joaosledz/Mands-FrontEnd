@@ -1,22 +1,34 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+
+import { authApi } from '../../../../services';
 
 import AuthLayout from '../../../../layout/authLayout/authLayout';
 import SendEmailButton from '../../components/submitButton/submitButton';
+import forgotPasswordIllustration from '../../../../assets/forgotPasswordIllustration.svg';
 import useStyles, { inputStyle } from './styles';
 
-import forgotPasswordIllustration from '../../../../assets/forgotPasswordIllustration.svg';
+type FormProps = {
+    email: string;
+};
 
 const ForgotPassword: React.FC = () => {
     const classes = useStyles();
+    const { register, errors, handleSubmit } = useForm<FormProps>();
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-        console.log('handleSubmit');
+    const onSubmit = async (data: FormProps) => {
+        try {
+            await authApi.recoverPassword(data.email);
+            // toast de email enviado
+        } catch (error) {
+            // toast de erro
+        }
     };
 
     return (
@@ -30,14 +42,37 @@ const ForgotPassword: React.FC = () => {
                         Digite o seu email abaixo. Enviarmos um link para que
                         você possa resetar sua senha.
                     </Typography>
-                    <FormControl fullWidth className={classes.form}>
+                    <FormControl
+                        component="form"
+                        onSubmit={handleSubmit(onSubmit)}
+                        fullWidth
+                    >
                         <TextField
                             id="outlined-basic"
+                            name="email"
                             label="Email"
                             variant="outlined"
                             inputProps={{
                                 style: inputStyle,
                             }}
+                            inputRef={register({
+                                required: 'Esse campo é obrigatório',
+                                pattern: {
+                                    // eslint-disable-next-line
+                                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                    message:
+                                        'Deve seguir o formato nome@email.com',
+                                },
+                            })}
+                        />
+                        <ErrorMessage
+                            errors={errors}
+                            name="email"
+                            render={({ message }) => (
+                                <Typography className={classes.ErrorMessage}>
+                                    {message}
+                                </Typography>
+                            )}
                         />
                         <SendEmailButton
                             mt={60}
@@ -45,7 +80,7 @@ const ForgotPassword: React.FC = () => {
                             mwt={390}
                             text="Enviar link de reset"
                             icon="email"
-                            onClick={handleSubmit}
+                            type="submit"
                         />
                     </FormControl>
                 </Grid>

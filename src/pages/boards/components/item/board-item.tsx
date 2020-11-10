@@ -37,7 +37,8 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
     border-radius: 4px;
     box-shadow: 1px 2px 2px 2px rgba(173, 159, 173, 0.81);
     transition: background-color 0.25s ease-out;
-    margin-bottom: 14px;
+    margin-top: 7px;
+    margin-bottom: 7px;
     &:hover {
         background-color: #f7fafc;
     }

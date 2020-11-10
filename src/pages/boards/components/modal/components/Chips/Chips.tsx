@@ -73,27 +73,28 @@ const ChipsList: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <Grid container item xs={12}>
-    <Grid xs={1}>
+    <Grid container>
+    <Grid item xs={1}>
         <TeamIcon className={classes.icon}/>
     </Grid>
-    <Grid xs={11} component={Typography} className={classes.subtitle}>
+    <Grid item xs={11} component={Typography} className={classes.subtitle}>
             Responsáveis
     </Grid>
     <div className={classes.root}>
          {teamData.map((employee, index) => (              
       <Chip
+      key={index}
         avatar={<Avatar alt={employee.name} src={employee.image} />}
         label={employee.name.split(' ', 1)}
         onClick={() => history.push('/perfil')}
         onDelete={()=>handleDelete(index)}
       />
                         ))}
-    </div>
         
         <Box className={classes.addTeamIcon}>
             <AddUserIcon  onClick={handleAssignTeamModal} size={20}/>
         </Box>   
+    </div>
          
             <AssignTeamModal
                     teamData={teamData}

@@ -8,9 +8,10 @@ type Props = {
     value: string;
     valueSet: any;
     id: any;
+    inputStyle?: string; 
 };
 
-const MutableInput: React.FC<Props> = ({ value, valueSet, id }) => {
+const MutableInput: React.FC<Props> = ({ value, valueSet, id, inputStyle }) => {
     const classes = useStyles();
     const [edit, editSet] = useState(false);
 
@@ -40,7 +41,9 @@ const MutableInput: React.FC<Props> = ({ value, valueSet, id }) => {
                 {edit ? (
                     <TextField
                         rowsMax={4}
-                        className={classes.title}
+                        className={ inputStyle
+                            ? [classes.title, inputStyle].join(' ')
+                            : classes.title}
                         name="firstName"
                         color="primary"
                         onInput={auto_grow}
@@ -49,8 +52,10 @@ const MutableInput: React.FC<Props> = ({ value, valueSet, id }) => {
                         onChange={handleInputChange}
                     />
                 ) : (
-                    <div onClick={() => editSet(true)} id="mi-div">
-                        <Typography className={classes.title}>
+                    <div onClick={() => editSet(true)} className={classes.mainDiv} id="mi-div">
+                        <Typography className={ inputStyle
+                            ? [classes.title, inputStyle].join(' ')
+                            : classes.title}>
                             {value}
                         </Typography>
                     </div>

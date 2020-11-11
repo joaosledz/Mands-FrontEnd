@@ -11,12 +11,8 @@ import { UserCompanyType } from './models/company';
 
 import authApi from './useCases/authentication';
 import companyApi from './useCases/company';
+import permissionApi from './useCases/companyPermission';
 
-// let userId;
-// export const setUserId = (user_id: number) => {
-//     return (userId = user_id);
-// };
-
-export { api, authApi, companyApi };
+export { api, authApi, companyApi, permissionApi };
 export type { AxiosError, LoginType, LoginModel, userType, RegisterModel };
 export type { UserCompanyType };

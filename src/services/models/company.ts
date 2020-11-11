@@ -1,3 +1,6 @@
+import { TypeCompanyPermission } from './companyPermission';
+import { TypeDepartment } from './department';
+
 export type CompanyModel = {
     company: {
         name: string;
@@ -6,21 +9,6 @@ export type CompanyModel = {
         email: string;
         cnpj?: string;
     };
-};
-
-type TypeCompanyPermission = {
-    compPermissionId: number;
-    name: string;
-    acceptUser: boolean;
-    deleteUser: boolean;
-    department: boolean;
-    project: boolean;
-    editCompany: boolean;
-    resetPIN: boolean;
-    seePIN: boolean;
-    event: boolean;
-    permission: boolean;
-    companyUsers: any[];
 };
 
 export type UserCompanyType = {
@@ -34,4 +22,9 @@ export type UserCompanyType = {
     imageId: number;
     image: string;
     userPermission: TypeCompanyPermission;
+    companyDepartmentUsers?: Array<TypeDepartment>;
+    // dados abaixo serão retirados
+    companyUsers?: null;
+    solicitations?: null;
+    companyEvents?: null;
 };

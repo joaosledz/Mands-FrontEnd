@@ -12,8 +12,6 @@ import TaskDetailsModal from '../modal/details-task';
 // Define types for board item element properties
 type BoardItemProps = {
     index: number;
-    UpdateTask: any;
-    DeleteTask: any;
     columnID: string;
     item: {
         id: string;
@@ -39,7 +37,8 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
     border-radius: 4px;
     box-shadow: 1px 2px 2px 2px rgba(173, 159, 173, 0.81);
     transition: background-color 0.25s ease-out;
-    margin-bottom: 14px;
+    margin-top: 7px;
+    margin-bottom: 7px;
     &:hover {
         background-color: #f7fafc;
     }
@@ -51,7 +50,7 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
 
 // Create and export the BoardItem component
 export const BoardItem = (props: BoardItemProps) => {
-    const { DeleteTask, UpdateTask, item, index, columnID } = props;
+    const { item, index, columnID } = props;
     const classes = useStyles();
     //Modal de details e edição
     const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
@@ -96,11 +95,7 @@ export const BoardItem = (props: BoardItemProps) => {
                                     </span>
                                 </Grid>
                                 <Grid item xs={1}>
-                                    {/* <EllipsisIcon
-                                        className={classes.iconTask}
-                                    /> */}
                                     <Popover
-                                        DeleteTask={DeleteTask}
                                         itemID={item.id}
                                         columnID={columnID}
                                     />
@@ -122,8 +117,9 @@ export const BoardItem = (props: BoardItemProps) => {
                                 alignItems="flex-end"
                             >
                                 <Grid xs={11} container item>
-                                    {item.members.map(member => (
+                                    {item.members.map((member, index) => (
                                         <Link
+                                            key={index}
                                             className={classes.memberName}
                                             to={'/perfil'}
                                         >
@@ -143,7 +139,6 @@ export const BoardItem = (props: BoardItemProps) => {
                 item={item}
                 isOpen={showNewTaskModal}
                 setIsOpen={setShowNewTaskModal}
-                UpdateTask={UpdateTask}
             />
         </>
     );

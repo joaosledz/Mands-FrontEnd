@@ -8,8 +8,8 @@ import PrivateRoute from './components/privateRoute';
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
 import Register from '../pages/authentication/register/register';
-import ForgotPassword from '../pages/authentication/forgotPassword/forgotPassword';
-import RecoveryPassword from '../pages/authentication/recoveryPassword/recoveryPassword';
+import ForgotPassword from '../pages/authentication/RecoverPassword/forgotPassword/forgotPassword';
+import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPassword/recoveryPassword';
 //#endregion
 
 //#region Rotas da aplicação

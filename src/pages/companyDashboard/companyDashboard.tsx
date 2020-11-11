@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-import { CompanyType } from '../../services';
+import { UserCompanyType, companyApi, permissionApi } from '../../services';
 import useAuth from '../../hooks/useAuth';
 import useCompany from '../../hooks/useCompany';
 
@@ -20,62 +20,94 @@ import useStyles from './styles';
 
 const CompanyDashboard: React.FC = () => {
     const classes = useStyles();
-    const history = useHistory();
+    const params = useParams<{ companyName: string }>();
     const auth = useAuth();
     const companyData = useCompany();
 
-    const [company] = useState<CompanyType | null>(companyData);
-
+    const [loading, setLoading] = useState(true);
+    const [company, setCompany] = useState<UserCompanyType | null>(companyData);
+    console.log(companyData);
     useEffect(() => {
+        const handleCompanyParam = async () => {
+            // console.log(companyData);
+            if (!company || params.companyName !== company?.username) {
+                try {
+                    const response = await companyApi.showAllCompanyData(
+                        params.companyName
+                    );
+                    const permissionResponse = await permissionApi.userPermissions(
+                        response.data.companyId
+                    );
+                    const data: UserCompanyType = {
+                        ...response.data,
+                        userPermission: { ...permissionResponse.data },
+                    };
+                    console.log(data);
+                    setCompany(data);
+                    sessionStorage.setItem(
+                        '@Mands:CompanyData',
+                        JSON.stringify(data)
+                    );
+                    // setLoading(false);
+                    // alerta de troca de empresa bem sucedida
+                } catch (error) {
+                    // alerta de erro
+                    // setLoading(false);
+                }
+            }
+        };
+
         const checkCompanyData = () => {
             if (company) {
                 document.title = `Dashboard - ${company.username}`;
                 // alerta de bem-vindo
             } else {
                 // alerta de erro
-                history.push('/escolha-da-empresa');
+                handleCompanyParam();
             }
         };
         checkCompanyData();
-    }, [company, history]);
+        setLoading(false);
+    }, [params, company]);
 
     const { user } = auth;
-    const { username, companyUsers } = company!;
-    console.log(companyUsers);
-    const AdminCompanyPermission = companyUsers[0]!.compPermission.editCompany;
 
     return (
         <AppLayout>
-            <Box className={classes.container}>
-                <Grid container component="section">
-                    <Grid item xs={6}>
-                        <Typography className={classes.name}>
-                            Seja bem-vindo ao Mands, {user!.name}
-                        </Typography>
+            {!loading && company ? (
+                <Box className={classes.container}>
+                    <Grid container component="section">
+                        <Grid item xs={6}>
+                            <Typography className={classes.name}>
+                                Seja bem-vindo ao Mands, {user!.name}
+                            </Typography>
+                        </Grid>
                     </Grid>
-                </Grid>
 
-                <Grid
-                    container
-                    spacing={3}
-                    className={classes.contentContainer}
-                >
-                    <Grid item xs={12} md={6}>
-                        {AdminCompanyPermission && (
-                            <ManageCompanyButton company={company!} />
-                        )}
-                        <Departments
-                            baseURL={`${username}/departamento`}
-                            departments={departments}
-                            containerStyles={classes.departments}
-                            breakpoints={{ xs: 12, sm: 6, md: 6 }}
-                        />
+                    <Grid
+                        container
+                        spacing={3}
+                        className={classes.contentContainer}
+                    >
+                        <Grid item xs={12} md={6}>
+                            {company.userPermission.editCompany && (
+                                <ManageCompanyButton company={company} />
+                            )}
+                            <Departments
+                                baseURL={`${company.username}/departamento`}
+                                departments={departments}
+                                containerStyles={classes.departments}
+                                breakpoints={{ xs: 12, sm: 6, md: 6 }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <CompanyDetails data={company} />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <CompanyDetails data={company!} />
-                    </Grid>
-                </Grid>
-            </Box>
+                </Box>
+            ) : (
+                <h1>Carregando...</h1>
+            )}
         </AppLayout>
     );
 };

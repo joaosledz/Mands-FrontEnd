@@ -29,45 +29,44 @@ const CompanyDashboard: React.FC = () => {
     console.log(companyData);
     useEffect(() => {
         const handleCompanyParam = async () => {
-            // console.log(companyData);
-            if (!company || params.companyName !== company?.username) {
-                try {
-                    const response = await companyApi.showAllCompanyData(
-                        params.companyName
-                    );
-                    const permissionResponse = await permissionApi.userPermissions(
-                        response.data.companyId
-                    );
-                    const data: UserCompanyType = {
-                        ...response.data,
-                        userPermission: { ...permissionResponse.data },
-                    };
-                    console.log(data);
-                    setCompany(data);
-                    sessionStorage.setItem(
-                        '@Mands:CompanyData',
-                        JSON.stringify(data)
-                    );
-                    // setLoading(false);
-                    // alerta de troca de empresa bem sucedida
-                } catch (error) {
-                    // alerta de erro
-                    // setLoading(false);
-                }
+            setLoading(true);
+            try {
+                const response = await companyApi.showAllCompanyData(
+                    params.companyName
+                );
+                const permissionResponse = await permissionApi.userPermissions(
+                    response.data.companyId
+                );
+                const data: UserCompanyType = {
+                    ...response.data,
+                    userPermission: { ...permissionResponse.data },
+                };
+                // console.log(data);
+                setCompany(data);
+                sessionStorage.setItem(
+                    '@Mands:CompanyData',
+                    JSON.stringify(data)
+                );
+                setLoading(false);
+                // alerta de troca de empresa bem sucedida
+            } catch (error) {
+                // alerta de erro
+                setLoading(false);
             }
         };
 
         const checkCompanyData = () => {
             if (company) {
                 document.title = `Dashboard - ${company.username}`;
-                // alerta de bem-vindo
+                if (params.companyName !== company?.username)
+                    handleCompanyParam();
+                else setLoading(false);
             } else {
                 // alerta de erro
                 handleCompanyParam();
             }
         };
         checkCompanyData();
-        setLoading(false);
     }, [params, company]);
 
     const { user } = auth;

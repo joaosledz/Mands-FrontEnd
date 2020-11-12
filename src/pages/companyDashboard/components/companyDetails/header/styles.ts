@@ -26,6 +26,18 @@ const useStyles = makeStyles((theme: Theme) =>
                 fontSize: '1.1rem',
             },
         },
+
+        registerCompany: {
+            color: '#606060',
+            display: 'flex',
+            justifyContent: 'center',
+            '& svg': {
+                marginTop: 1,
+            },
+            '& p': {
+                fontSize: '0.9rem',
+            },
+        },
     })
 );
 

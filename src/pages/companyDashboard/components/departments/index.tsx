@@ -4,27 +4,20 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { Breakpoints } from './models/breakpoints';
-import { ApiProps as DepartmentProps } from '../../models/department';
+import { TypeDepartment } from '../../../../services';
 
 import Department from './department';
 import useStyles from './styles';
 
 interface Props {
     title?: string;
-    baseURL: string;
-    departments: Array<DepartmentProps>;
+    departments: Array<TypeDepartment> | undefined;
     containerStyles?: string;
     breakpoints: Breakpoints;
 }
 
 const Departments: React.FC<Props> = (props: Props) => {
-    const {
-        title = 'Departamentos:',
-        baseURL,
-        departments,
-        containerStyles,
-        breakpoints,
-    } = props;
+    const { departments, containerStyles, breakpoints } = props;
     const classes = useStyles();
     return (
         <Paper
@@ -34,17 +27,26 @@ const Departments: React.FC<Props> = (props: Props) => {
                     : classes.container
             }
         >
-            <Typography className={classes.title}>{title}</Typography>
+            <Typography className={classes.title}>Departamentos:</Typography>
             <Grid
                 container
                 spacing={3}
                 className={classes.departmentsContainer}
             >
-                {departments.map((department, index) => (
-                    <Grid key={index} item {...breakpoints}>
-                        <Department department={department} baseURL={baseURL} />
+                {departments?.length !== 0 ? (
+                    departments?.map((department, index) => (
+                        <Grid key={index} item {...breakpoints}>
+                            <Department department={department} />
+                        </Grid>
+                    ))
+                ) : (
+                    <Grid item xs={12} component={Typography} variant="h6">
+                        Você não está em nenhum departamento{' '}
+                        <span role="img" aria-label="Crying Face">
+                            😢
+                        </span>
                     </Grid>
-                ))}
+                )}
             </Grid>
         </Paper>
     );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { companyApi, CompanyType } from '../../services';
+import { companyApi, UserCompanyType } from '../../services';
 
 import AppLayout from '../../layout/appLayout';
 import EmptyCompanies from './emptyCompanies';
@@ -9,14 +9,15 @@ import Companies from './companySelection/companySelection';
 import FabButton from '../../components/fabButton';
 
 const CompanySelection: React.FC = () => {
-    const [companies, setCompanies] = useState<Array<CompanyType>>();
-    const [loading, setLoading] = useState(true);
+    const [companies, setCompanies] = useState<Array<UserCompanyType>>([]);
+    const [loading, setLoading] = useState(false);
     const history = useHistory();
 
     useEffect(() => {
         document.title = 'Seleção de Empresa';
         const getUserCompanies = async () => {
             try {
+                setLoading(true);
                 const response = await companyApi.userCompanies();
                 setCompanies(response.data);
                 setLoading(false);
@@ -25,14 +26,14 @@ const CompanySelection: React.FC = () => {
                 setLoading(false);
             }
         };
-        getUserCompanies();
-    }, []);
+        if (companies.length === 0) getUserCompanies();
+    }, [companies.length]);
 
     return (
         <AppLayout>
             {loading ? (
-                <h1>Carregando</h1>
-            ) : companies ? (
+                <h1>Carregando...</h1>
+            ) : companies.length !== 0 ? (
                 <Companies companies={companies} />
             ) : (
                 <EmptyCompanies />

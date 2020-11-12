@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: 'all .1s',
 
             '& img': {
-                width: '2.5rem',
+                width: '3rem',
+                height: 'auto',
             },
 
             '& p': {

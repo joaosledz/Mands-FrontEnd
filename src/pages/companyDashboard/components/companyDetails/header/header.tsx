@@ -1,34 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { useHistory, useParams, Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Hidden from '@material-ui/core/Hidden';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
+import { Plus as PlusIcon } from '@styled-icons/entypo';
 
-import { CompanyType, companyApi } from '../../../../../services';
+import TypeParams from '../../../../../models/params';
+import { UserCompanyType, companyApi } from '../../../../../services';
 
 import ITLogo from '../../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import useStyles from './styles';
 
 type Props = {
-    company: CompanyType;
+    company: UserCompanyType;
 };
 
 const Header: React.FC<Props> = ({ company }) => {
     const classes = useStyles();
+    const history = useHistory();
+    const params = useParams<TypeParams>();
 
+    const [loading, setLoading] = useState(true);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [companies, setCompanies] = useState<Array<CompanyType> | null>(null);
+    const [companies, setCompanies] = useState<Array<UserCompanyType> | null>(
+        null
+    );
 
     useEffect(() => {
         const getAllCompanies = async () => {
             try {
                 const response = await companyApi.userCompanies();
                 setCompanies(response.data);
+                setLoading(false);
             } catch (error) {
-                // Alerta de erro
+                // toast de erro
+                setLoading(false);
             }
         };
         getAllCompanies();
@@ -36,6 +48,10 @@ const Header: React.FC<Props> = ({ company }) => {
 
     const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
+    };
+
+    const handleChangeCompany = (company_username: string) => {
+        history.replace(`/dashboard/${company_username}`);
     };
 
     const handleClose = () => {
@@ -62,12 +78,44 @@ const Header: React.FC<Props> = ({ company }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem disabled>Trocar de empresa:</MenuItem>
-                {companies?.map(company => (
-                    <MenuItem key={company.companyId} onClick={handleClose}>
-                        {company.name}
+                {!loading ? (
+                    <Fragment>
+                        <MenuItem disabled>Trocar de empresa:</MenuItem>
+                        {companies?.map(company => (
+                            <MenuItem
+                                key={company.companyId}
+                                disabled={
+                                    params.companyName === company.username
+                                }
+                                selected={
+                                    params.companyName === company.username
+                                }
+                                onClick={() =>
+                                    handleChangeCompany(company.username)
+                                }
+                            >
+                                {company.name}
+                            </MenuItem>
+                        ))}
+                        <Hidden only="xs">
+                            <MenuItem disabled>
+                                <Divider variant="middle" />
+                            </MenuItem>
+                        </Hidden>
+                        <MenuItem
+                            component={Link}
+                            to="/cadastrar-empresa"
+                            className={classes.registerCompany}
+                        >
+                            <PlusIcon size={16} />{' '}
+                            <Typography>Criar nova empresa</Typography>
+                        </MenuItem>
+                    </Fragment>
+                ) : (
+                    <MenuItem disabled>
+                        <Typography variant="h5">Carregando...</Typography>
                     </MenuItem>
-                ))}
+                )}
             </Menu>
         </Box>
     );

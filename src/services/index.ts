@@ -7,16 +7,18 @@ import {
     userType,
     RegisterModel,
 } from './models/authentication';
-import { CompanyType } from './models/company';
+import { UserCompanyType } from './models/company';
+import { TypeDepartment } from './models/department';
 
 import authApi from './useCases/authentication';
 import companyApi from './useCases/company';
+import permissionApi from './useCases/companyPermission';
+import departmentApi from './useCases/department';
 
-// let userId;
-// export const setUserId = (user_id: number) => {
-//     return (userId = user_id);
-// };
-
-export { api, authApi, companyApi };
+export { api, authApi, companyApi, permissionApi, departmentApi };
+// Exportação das models de autenticação
 export type { AxiosError, LoginType, LoginModel, userType, RegisterModel };
-export type { CompanyType };
+// Exportação das models de empresa
+export type { UserCompanyType };
+// Exportação das models de departamento
+export type { TypeDepartment };

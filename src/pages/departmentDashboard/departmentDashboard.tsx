@@ -21,7 +21,7 @@ const DepartmentDashboard: React.FC = () => {
     const classes = useStyles();
     const location = useLocation<LocationProps>();
     const history = useHistory();
-    // const [company] = useState<CompanyType>(useCompany());
+    // const [company] = useState<UserCompanyType>(useCompany());
     const [department, setDepartment] = useState<DepartmentType>();
 
     useEffect(() => {

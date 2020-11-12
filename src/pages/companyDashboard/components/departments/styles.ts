@@ -5,9 +5,9 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             padding: '1.5rem 5%',
             backgroundColor: theme.palette.background.default,
-            [theme.breakpoints.down('sm')]: {
-                padding: '1.5rem 1%',
-            },
+            // [theme.breakpoints.down('sm')]: {
+            //     padding: '1.5rem 2%',
+            // },
         },
 
         title: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
         departmentsContainer: {
             margin: '2rem auto 1rem',
-            maxHeight: 300,
+            maxHeight: '90vh',
             overflow: 'auto',
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
@@ -35,6 +35,20 @@ const useStyles = makeStyles((theme: Theme) =>
                 WebkitBorderRadius: '10px',
                 borderRadius: '10px',
                 background: 'rgba(170,170,170,0.5)',
+            },
+            [theme.breakpoints.down('sm')]: {
+                margin: 0,
+                fontSize: '0.8rem',
+            },
+
+            '& h6': {
+                color: theme.palette.text.secondary,
+                display: 'flex',
+                justifyContent: 'center',
+
+                [theme.breakpoints.down('sm')]: {
+                    fontSize: '0.8rem',
+                },
             },
         },
     })

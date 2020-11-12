@@ -2,13 +2,13 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import { CompanyType } from '../../../services';
+import { UserCompanyType } from '../../../services';
 
 import Company from './company';
 import useStyles from './styles';
 
 type Props = {
-    companies: Array<CompanyType>;
+    companies: Array<UserCompanyType>;
 };
 
 const CompanySelection: React.FC<Props> = (props: Props) => {

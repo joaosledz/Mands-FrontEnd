@@ -4,16 +4,19 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-import { UserCompanyType, companyApi, permissionApi } from '../../services';
+import {
+    UserCompanyType,
+    companyApi,
+    permissionApi,
+    departmentApi,
+} from '../../services';
 import useAuth from '../../hooks/useAuth';
 import useCompany from '../../hooks/useCompany';
 
 import AppLayout from '../../layout/appLayout';
 import ManageCompanyButton from './components/manageCompanyButton/manageCompanyButton';
-import Departments from '../../components/departments';
+import Departments from './components/departments';
 import CompanyDetails from './components/companyDetails/companyDetails';
-//#region Fazer chamada a API
-import departments from '../../utils/data/departments';
 //#endregion
 
 import useStyles from './styles';
@@ -26,8 +29,30 @@ const CompanyDashboard: React.FC = () => {
 
     const [loading, setLoading] = useState(true);
     const [company, setCompany] = useState<UserCompanyType | null>(companyData);
-    console.log(companyData);
+    // console.log(companyData);
     useEffect(() => {
+        const getDepartmentData = async (company: UserCompanyType) => {
+            try {
+                const response = await departmentApi.listByCompany(
+                    company.companyId
+                );
+                const data: UserCompanyType = {
+                    ...company,
+                    departments: [...response.data],
+                };
+                setCompany(data);
+                sessionStorage.setItem(
+                    '@Mands:CompanyData',
+                    JSON.stringify(data)
+                );
+                setLoading(false);
+                return data;
+            } catch (error) {
+                setLoading(false);
+                // toast
+            }
+        };
+
         const handleCompanyParam = async () => {
             setLoading(true);
             try {
@@ -58,9 +83,14 @@ const CompanyDashboard: React.FC = () => {
         const checkCompanyData = () => {
             if (company) {
                 document.title = `Dashboard - ${company.username}`;
-                if (params.companyName !== company?.username)
+                // Caso o usuário troque de empresa
+                if (params.companyName !== company.username)
                     handleCompanyParam();
-                else setLoading(false);
+                // Caso o usuário venha da tela de escolha da empresa
+                else if (!company.departments) {
+                    getDepartmentData(company);
+                } else setLoading(false);
+                // Caso o usuário entre pela URL
             } else {
                 // alerta de erro
                 handleCompanyParam();
@@ -76,7 +106,7 @@ const CompanyDashboard: React.FC = () => {
             {!loading && company ? (
                 <Box className={classes.container}>
                     <Grid container component="section">
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <Typography className={classes.name}>
                                 Seja bem-vindo ao Mands, {user!.name}
                             </Typography>
@@ -93,8 +123,7 @@ const CompanyDashboard: React.FC = () => {
                                 <ManageCompanyButton company={company} />
                             )}
                             <Departments
-                                baseURL={`${company.username}/departamento`}
-                                departments={departments}
+                                departments={company.departments}
                                 containerStyles={classes.departments}
                                 breakpoints={{ xs: 12, sm: 6, md: 6 }}
                             />

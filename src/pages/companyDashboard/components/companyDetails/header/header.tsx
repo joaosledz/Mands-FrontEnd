@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Hidden from '@material-ui/core/Hidden';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
 
@@ -81,9 +82,11 @@ const Header: React.FC<Props> = ({ company }) => {
                         {company.name}
                     </MenuItem>
                 ))}
-                <MenuItem disabled>
-                    <Divider variant="middle" />
-                </MenuItem>
+                <Hidden only="xs">
+                    <MenuItem disabled>
+                        <Divider variant="middle" />
+                    </MenuItem>
+                </Hidden>
                 <MenuItem
                     component={Link}
                     to="/cadastrar-empresa"

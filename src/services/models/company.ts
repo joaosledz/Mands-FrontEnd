@@ -22,7 +22,7 @@ export type UserCompanyType = {
     imageId: number;
     image: string;
     userPermission: TypeCompanyPermission;
-    companyDepartmentUsers?: Array<TypeDepartment>;
+    departments?: Array<TypeDepartment>;
     // dados abaixo serão retirados
     companyUsers?: null;
     solicitations?: null;

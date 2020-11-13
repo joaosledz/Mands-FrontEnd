@@ -18,6 +18,22 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingTop: 0,
             maxHeight: '70%',
             overflowY: 'auto',
+            scrollbarWidth: 'thin',
+            '&::-webkit-scrollbar': {
+                width: '8px',
+                marginLeft: '12px',
+            },
+            /* Track */
+            '&::-webkit-scrollbar-track': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+            },
+            /* Handle */
+            '&::-webkit-scrollbar-thumb': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+                background: 'rgba(170,170,170,0.5)',
+            },
             justifyContent: 'center',
             alignItems: 'flex-start',
 

@@ -9,6 +9,7 @@ import {
     FormLabel,
     Divider,
 } from '@material-ui/core';
+import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 import useStyles from './styles';
 
 // Inspired by blueprintjs
@@ -81,6 +82,20 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
                         className={clsx(classes.subtitle)}
                     >
                         Permite a edição de departamentos
+                    </Grid>
+                </Grid>
+                <Divider variant="fullWidth" className={classes.divider} />
+                <Grid container item className={classes.addRole}>
+                    <Grid item xs={1}>
+                        <AddIcon size={20} />
+                    </Grid>
+                    <Grid
+                        item
+                        xs={11}
+                        component={Typography}
+                        style={{ textAlign: 'left' }}
+                    >
+                        Adicionar cargo personalizado
                     </Grid>
                 </Grid>
                 <Divider variant="fullWidth" className={classes.divider} />

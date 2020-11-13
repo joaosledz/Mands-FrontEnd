@@ -22,6 +22,7 @@ import employeesData from '../../../../../utils/data/employees';
 import { TypeTeam } from '../../../../../models/department';
 import Autocomplete from '../autocomplete';
 import ChooseRole from '../role/radio';
+import Grow from '@material-ui/core/Grow';
 
 type Props = {
     isOpen: boolean;
@@ -96,69 +97,101 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                         value={value}
                         setValue={setValue}
                     />
-
-                    {value.map((person, index) => (
-                        <Grid
-                            container
-                            item
-                            className={classes.personContainer}
-                        >
-                            <Grid item xs={2}>
-                                <Avatar src={person.image} />
-                            </Grid>
-                            <Grid
-                                container
-                                item
-                                xs={9}
-                                direction="column"
-                                justify="flex-start"
-                            >
-                                <Grid item xs={12}>
-                                    <Typography className={classes.subtitle}>
-                                        {person.name}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Tooltip
-                                        title="visitar perfil"
-                                        placement="bottom-start"
-                                    >
-                                        <Typography
-                                            className={classes.subtitle2}
-                                            onClick={() =>
-                                                history.push('/perfil')
-                                            }
+                    {value.length !== 0 && (
+                        <Grow in={value.length !== 0} timeout={600}>
+                            <>
+                                <Grid
+                                    container
+                                    className={classes.scrollPerson}
+                                    spacing={3}
+                                >
+                                    {/* {console.log(value.length)} */}
+                                    {value.map((person, index) => (
+                                        <Grid
+                                            container
+                                            item
+                                            className={classes.personContainer}
                                         >
-                                            @{person.username}
-                                        </Typography>
-                                    </Tooltip>
+                                            <Grid item xs={2}>
+                                                <Avatar src={person.image} />
+                                            </Grid>
+                                            <Grid
+                                                container
+                                                item
+                                                xs={9}
+                                                direction="column"
+                                                justify="flex-start"
+                                            >
+                                                <Grid item xs={12}>
+                                                    <Typography
+                                                        className={
+                                                            classes.subtitle
+                                                        }
+                                                    >
+                                                        {person.name}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <Tooltip
+                                                        title="visitar perfil"
+                                                        placement="bottom-start"
+                                                    >
+                                                        <Typography
+                                                            className={
+                                                                classes.subtitle2
+                                                            }
+                                                            onClick={() =>
+                                                                history.push(
+                                                                    '/perfil'
+                                                                )
+                                                            }
+                                                        >
+                                                            @{person.username}
+                                                        </Typography>
+                                                    </Tooltip>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid
+                                                item
+                                                xs={1}
+                                                style={{ alignSelf: 'center' }}
+                                            >
+                                                <CloseIcon
+                                                    className={classes.icon}
+                                                    onClick={() =>
+                                                        handleDeletePerson(
+                                                            index
+                                                        )
+                                                    }
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    ))}
                                 </Grid>
-                            </Grid>
-                            <Grid item xs={1} style={{ alignSelf: 'center' }}>
-                                <CloseIcon
-                                    className={classes.icon}
-                                    onClick={() => handleDeletePerson(index)}
-                                />
-                            </Grid>
-                        </Grid>
-                    ))}
-                    <Grid item xs={12} style={{ textAlign: 'left' }}>
-                        <ChooseRole
-                            roleValue={roleValue}
-                            handleChangeRole={handleChangeRole}
-                        />
-                    </Grid>
-                    <Grid
-                        container
-                        justify="center"
-                        className={classes.submitButton}
-                    >
-                        <SubmitButton
-                            text="Enviar convite"
-                            // disabled={!itemChanged}
-                            onClick={handleSubmit}
-                        />
-                    </Grid>
+                                <Grid
+                                    item
+                                    xs={12}
+                                    style={{ textAlign: 'left' }}
+                                >
+                                    <ChooseRole
+                                        roleValue={roleValue}
+                                        handleChangeRole={handleChangeRole}
+                                    />
+                                </Grid>
+                                <Grid
+                                    container
+                                    justify="center"
+                                    className={classes.submitButton}
+                                >
+                                    <SubmitButton
+                                        text="Enviar convite"
+                                        // disabled={!itemChanged}
+                                        onClick={handleSubmit}
+                                    />
+                                </Grid>
+                            </>
+                        </Grow>
+                    )}
                 </Grid>
             </>
         </Modal>

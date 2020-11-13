@@ -57,6 +57,12 @@ const useStyles = makeStyles<Theme>(theme =>
         divider: {
             margin: theme.spacing(2, 0),
         },
+        addRole: {
+            '&:hover': {
+                backgroundColor: 'rgba(70, 70, 70, 0.2)',
+                cursor: 'pointer',
+            },
+        },
     })
 );
 

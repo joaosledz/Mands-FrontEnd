@@ -131,6 +131,29 @@ const useStyles = makeStyles<Theme>(theme =>
                 cursor: 'pointer',
             },
         },
+        scrollPerson: {
+            // display: 'flex',
+            width: '100%',
+            padding: '15px 0 15px 15px',
+            maxHeight: '250px',
+            overflowY: 'auto',
+            scrollbarWidth: 'thin',
+            '&::-webkit-scrollbar': {
+                width: '8px',
+                marginLeft: '12px',
+            },
+            /* Track */
+            '&::-webkit-scrollbar-track': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+            },
+            /* Handle */
+            '&::-webkit-scrollbar-thumb': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+                background: 'rgba(170,170,170,0.5)',
+            },
+        },
         submitButton: {
             position: 'relative',
             paddingTop: '8px',

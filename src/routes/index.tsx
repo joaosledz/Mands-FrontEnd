@@ -65,7 +65,7 @@ const Routes = () => {
                     component={CompanyDashboard}
                 />
                 <PrivateRoute
-                    path="/:companyName/departamento/:departmentName"
+                    path="/:companyName/:departmentName"
                     component={DepartmentDashboard}
                 />
                 <PrivateRoute path="/quadros" component={Boards} />

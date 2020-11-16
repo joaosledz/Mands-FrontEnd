@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
-import DepartmentAllProps, {
-    ApiProps as DepartmentType,
-} from '../../models/department';
-import DepartmentsData from '../../utils/data/departments';
+import {
+    UserCompanyType,
+    TypeDepartment,
+    companyApi,
+    departmentApi,
+} from '../../services';
+import TypeParams from '../../models/params';
+import useCompany from '../../hooks/useCompany';
+import useDepartment from '../../hooks/useDepartment';
 
 import AppLayout from '../../layout/appLayout';
 import Header from './header/header';
@@ -14,50 +20,91 @@ import DepartmentDetails from './departmentDetails/departmentDetails';
 import Projects from './projects/projects';
 import useStyles from './styles';
 
-type LocationProps = {
-    props: DepartmentAllProps;
-};
 const DepartmentDashboard: React.FC = () => {
     const classes = useStyles();
-    const location = useLocation<LocationProps>();
-    const history = useHistory();
-    // const [company] = useState<UserCompanyType>(useCompany());
-    const [department, setDepartment] = useState<DepartmentType>();
+    const params = useParams<TypeParams>();
+    const companyData = useCompany();
+    const departmentData = useDepartment();
+
+    const [loading, setLoading] = useState(true);
+    const [company, setCompany] = useState<UserCompanyType | null>(companyData);
+    const [department, setDepartment] = useState<TypeDepartment | null>(
+        departmentData
+    );
 
     useEffect(() => {
-        const handleLocationData = () => {
-            if (location.state) {
-                const department = location.state.props.department;
-                document.title = `Departamento - ${department.name}`;
-                setDepartment(department);
-            } else {
-                history.push('/escolha-da-empresa');
+        const getCompanyData = async (company_username: string) => {
+            try {
+                // Trocar para rota de permissão da empresa
+                const response = await companyApi.show(company_username);
+                setCompany(response.data);
+                setLoading(false);
+            } catch (error) {
+                //toast de erro
+                setLoading(false);
             }
         };
-        handleLocationData();
-    }, [history, location.state]);
+
+        const getDepartmentData = async (department_name: string) => {
+            try {
+                // Trocar para rota de permissão da empresa
+                const response = await departmentApi.show(department_name);
+                setDepartment(response.data);
+                setLoading(false);
+            } catch (error) {
+                //toast de erro
+                setLoading(false);
+            }
+        };
+
+        const handleDepartmentParam = async () => {
+            setLoading(true);
+            if (department) {
+                document.title = `Departamento - ${department.name}`;
+                // console.log(
+                //     params.departmentName!.toLowerCase(),
+                //     department.name.toLowerCase()
+                // );
+                if (
+                    params.departmentName!.toLowerCase() !==
+                    department.name.toLowerCase()
+                )
+                    getDepartmentData(params.departmentName!);
+                // Fix: verificar bug na troca de departamento, pelas rotas
+                else setLoading(false);
+            } else {
+                if (company) {
+                    getDepartmentData(params.departmentName!);
+                } else {
+                    getCompanyData(params.companyName);
+                    getDepartmentData(params.departmentName!);
+                }
+            }
+        };
+        handleDepartmentParam();
+    }, [company, department, params]);
 
     return (
-        <AppLayout /*layoutStyles={classes.layout}*/>
-            {/* Dinamico */}
-            <Box className={classes.container}>
-                <Header jobTitle="Gerente" />
-                <Grid
-                    container
-                    spacing={3}
-                    className={classes.contentContainer}
-                >
-                    <Grid item xs={12} md={6}>
-                        <Projects projects={department?.projects} />
+        <AppLayout>
+            {!loading && company && department ? (
+                <Box className={classes.container}>
+                    <Header jobTitle={company.userPermission.name} />
+                    <Grid
+                        container
+                        spacing={3}
+                        className={classes.contentContainer}
+                    >
+                        <Grid item xs={12} md={6}>
+                            <Projects />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <DepartmentDetails department={department} />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <DepartmentDetails
-                            department={department}
-                            departments={DepartmentsData}
-                        />
-                    </Grid>
-                </Grid>
-            </Box>
+                </Box>
+            ) : (
+                <Typography variant="h5">Carregando...</Typography>
+            )}
         </AppLayout>
     );
 };

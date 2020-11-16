@@ -13,10 +13,14 @@ const companyApi = {
         }
     },
 
-    show: async (company_id: number) => {
+    show: async (company_username: string) => {
         try {
             const response = await api.get<UserCompanyType>(
-                `${companyUrls.base}/${company_id}`
+                `${companyUrls.base}/${company_username}`
+            );
+            sessionStorage.setItem(
+                '@Mands:CompanyData',
+                JSON.stringify(response.data)
             );
             return Promise.resolve(response);
         } catch (error) {

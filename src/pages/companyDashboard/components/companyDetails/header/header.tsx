@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useParams, Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -78,10 +78,10 @@ const Header: React.FC<Props> = ({ company }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                {!loading ? (
-                    <Fragment>
+                {!loading && companies ? (
+                    <Box>
                         <MenuItem disabled>Trocar de empresa:</MenuItem>
-                        {companies?.map(company => (
+                        {companies.map(company => (
                             <MenuItem
                                 key={company.companyId}
                                 disabled={
@@ -110,7 +110,7 @@ const Header: React.FC<Props> = ({ company }) => {
                             <PlusIcon size={16} />{' '}
                             <Typography>Criar nova empresa</Typography>
                         </MenuItem>
-                    </Fragment>
+                    </Box>
                 ) : (
                     <MenuItem disabled>
                         <Typography variant="h5">Carregando...</Typography>

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         contentContainer: {
-            marginTop: '1.5rem',
+            marginTop: '1rem',
         },
 
         departments: {

@@ -15,14 +15,21 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '1.3rem',
             fontWeight: 300,
             [theme.breakpoints.only('xs')]: {
-                marginLeft: '1rem'
+                marginLeft: '1rem',
             },
         },
 
         projectsContainer: {
             marginTop: '1rem',
-            maxHeight: 300,
-            overflow: 'auto',
+            minHeight: '55vh',
+            maxHeight: '65vh',
+            overflowY: 'auto',
+
+            '& h6': {
+                display: 'flex',
+                alignItems: 'center',
+                color: theme.palette.text.secondary,
+            },
         },
     })
 );

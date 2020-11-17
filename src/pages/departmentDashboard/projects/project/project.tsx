@@ -3,12 +3,13 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { TypeProjects } from '../../../../models/department';
+import { TypeProject } from '../../../../services';
 
+import DefaultDepartmentIcon from '../../../../assets/selectableIcons/defaultProject.svg';
 import useStyles from './styles';
 
 type Props = {
-    project: TypeProjects;
+    project: TypeProject;
 };
 
 const Project: React.FC<Props> = (props: Props) => {
@@ -26,8 +27,11 @@ const Project: React.FC<Props> = (props: Props) => {
             }}
             className={classes.project}
         >
-            <img src={project?.icon} alt="Ícone do projeto" />
-            <Typography>{project?.name}</Typography>
+            <img
+                src={project.image || DefaultDepartmentIcon}
+                alt="Ícone do projeto"
+            />
+            <Typography>{project.name}</Typography>
         </Link>
     );
 };

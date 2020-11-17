@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         project: {
-            maxWidth: '12rem',
+            width: '100%',
             padding: '1rem',
 
             textDecoration: 'none',
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: 'all .1s',
 
             '& img': {
-                maxWidth: '80%',
+                maxWidth: '30%',
             },
 
             '& p': {

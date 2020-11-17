@@ -1,30 +1,36 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 
-import { ApiProps as DepartmentType } from '../../../models/department';
-// import useCompany from '../../../hooks/useCompany';
+import { TypeDepartment } from '../../../services';
+import DepartmentDataItem from '../../../components/dataTextGridItem';
 
 import Header from './header/header';
-import DepartmentData from './departmentDataContainer/departmentDataContainer';
 import useStyles from './styles';
 
 type Props = {
-    department: DepartmentType | undefined;
-    departments: Array<DepartmentType>;
+    department: TypeDepartment;
 };
 
 const CompanyDetails: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { department, departments } = props;
+    const { department } = props;
 
     // const company: UserCompanyType = useCompany();
 
     return (
         <Paper className={classes.container}>
-            <Header department={department} departments={departments} />
+            <Header department={department} />
             <Divider variant="middle" className={classes.divider} />
-            <DepartmentData department={department} />
+            <Grid container spacing={2}>
+                <DepartmentDataItem
+                    title="Descrição"
+                    data={department.objective}
+                />
+                <DepartmentDataItem title="Email" data={department.email} />
+                <DepartmentDataItem title="Telefone" data={department.phone} />
+            </Grid>
         </Paper>
     );
 };

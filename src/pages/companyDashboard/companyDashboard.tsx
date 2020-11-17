@@ -87,7 +87,10 @@ const CompanyDashboard: React.FC = () => {
             if (company) {
                 document.title = `Dashboard - ${company.username}`;
                 // Caso o usuário troque de empresa
-                if (params.companyName !== company.username)
+                if (
+                    params.companyName.toLowerCase() !==
+                    company.username.toLowerCase()
+                )
                     handleCompanyParam();
                 // Caso o usuário venha da tela de escolha da empresa
                 else if (!company.departments) {

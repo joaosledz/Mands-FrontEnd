@@ -1,5 +1,5 @@
 const departmentUrls = {
-    // list: `Companies`,
+    show: `departments/`,
     listByCompany: 'departments/findByCompany/',
     create: `departments`,
 };

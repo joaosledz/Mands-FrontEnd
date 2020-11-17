@@ -21,9 +21,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
         projectsContainer: {
             marginTop: '1rem',
-            minHeight: '65vh',
+            minHeight: '55vh',
             maxHeight: '65vh',
             overflowY: 'auto',
+
+            '& h6': {
+                display: 'flex',
+                alignItems: 'center',
+                color: theme.palette.text.secondary,
+            },
         },
     })
 );

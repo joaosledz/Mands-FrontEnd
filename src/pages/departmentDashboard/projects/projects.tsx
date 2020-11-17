@@ -47,8 +47,8 @@ const Projects: React.FC = () => {
                 spacing={3}
                 className={classes.projectsContainer}
             >
-                {
-                    /* !loading && */ projects ? (
+                {projects ? (
+                    projects.length !== 0 ? (
                         projects.map((project, index) => {
                             animationDelay += 100;
                             return (
@@ -73,9 +73,16 @@ const Projects: React.FC = () => {
                             );
                         })
                     ) : (
-                        <Typography variant="h5">Carregando...</Typography>
+                        <Typography variant="h6">
+                            Você não está em nenhum projeto{' '}
+                            <span role="img" aria-label="Crying Face">
+                                😢
+                            </span>
+                        </Typography>
                     )
-                }
+                ) : (
+                    <Typography variant="h5">Carregando...</Typography>
+                )}
             </Grid>
         </Paper>
     );

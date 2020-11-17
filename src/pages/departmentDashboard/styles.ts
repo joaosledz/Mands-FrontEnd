@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
         contentContainer: {
             marginTop: '1rem',
+            [theme.breakpoints.down('md')]: {
+                flexWrap: 'wrap-reverse',
+            },
         },
 
         departments: {

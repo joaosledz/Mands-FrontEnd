@@ -8,6 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
 import TypeParams from '../../../../models/params';
+import useCompany from '../../../../hooks/useCompany';
 import { TypeDepartment, departmentApi } from '../../../../services';
 
 import DefaultDepartmentImage from '../../../../assets/selectableIcons/defaultDepartment.svg';
@@ -21,6 +22,7 @@ const Header: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const history = useHistory();
+    const company = useCompany();
     const { department } = props;
 
     const [loading, setLoading] = useState(true);
@@ -31,19 +33,22 @@ const Header: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         const getAllDepartments = async () => {
-            setLoading(true);
-            try {
-                // Fix: Mandar username da empresa
-                // const response = await departmentApi.listByCompany(params.companyName);
-                const response = await departmentApi.listByCompany(1);
-                setDepartments(response.data);
-                setLoading(false);
-            } catch (error) {
-                // toast de erro
-                setLoading(false);
-            }
+            if (company) {
+                setLoading(true);
+                try {
+                    const response = await departmentApi.listByCompany(
+                        company.companyId
+                    );
+                    setDepartments(response.data);
+                    setLoading(false);
+                } catch (error) {
+                    // toast de erro
+                    setLoading(false);
+                }
+            } else getAllDepartments();
         };
         getAllDepartments();
+        // eslint-disable-next-line
     }, []);
 
     const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -20,12 +20,12 @@ import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import useStyles, { inputStyle } from './styles';
+import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
 const Login: React.FC = () => {
     const { login } = useAuth();
     const classes = useStyles();
     const history = useHistory();
-
     // const handleSubmit = (event: FormEvent) => {
     //     event.preventDefault();
     //     console.log('handleSubmit');
@@ -37,9 +37,10 @@ const Login: React.FC = () => {
         try {
             /* const response = */ await login(data);
             // Animação de sucesso
+            SnackbarUtils.success('Login efetuado com sucesso');
             history.replace('/escolha-da-empresa');
         } catch (error) {
-            // Alerta de erro
+            SnackbarUtils.error('Não foi possível efetuar o login');
         }
     };
 

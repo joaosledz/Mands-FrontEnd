@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Hidden from '@material-ui/core/Hidden';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
+import SnackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 import TypeParams from '../../../../../models/params';
 import { UserCompanyType, companyApi } from '../../../../../services';
@@ -39,8 +40,10 @@ const Header: React.FC<Props> = ({ company }) => {
                 setCompanies(response.data);
                 setLoading(false);
             } catch (error) {
-                // toast de erro
                 setLoading(false);
+                SnackbarUtils.error(
+                    'Não foi possível obter os dados de Empresa'
+                );
             }
         };
         getAllCompanies();

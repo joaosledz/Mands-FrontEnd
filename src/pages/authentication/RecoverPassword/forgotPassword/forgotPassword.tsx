@@ -13,6 +13,7 @@ import AuthLayout from '../../../../layout/authLayout/authLayout';
 import SendEmailButton from '../../components/submitButton/submitButton';
 import forgotPasswordIllustration from '../../../../assets/forgotPasswordIllustration.svg';
 import useStyles, { inputStyle } from './styles';
+import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 type FormProps = {
     email: string;
@@ -25,9 +26,11 @@ const ForgotPassword: React.FC = () => {
     const onSubmit = async (data: FormProps) => {
         try {
             await authApi.recoverPassword(data.email);
-            // toast de email enviado
+            SnackbarUtils.success('E-mail enviado');
         } catch (error) {
-            // toast de erro
+            SnackbarUtils.error(
+                'Não foi possível enviar o e-mail. Tente novamente mais tarde'
+            );
         }
     };
 

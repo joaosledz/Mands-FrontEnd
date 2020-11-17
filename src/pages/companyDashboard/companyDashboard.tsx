@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import SnackbarUtils from '../../utils/functions/snackbarUtils';
 
 import {
     UserCompanyType,
@@ -49,7 +50,9 @@ const CompanyDashboard: React.FC = () => {
                 return data;
             } catch (error) {
                 setLoading(false);
-                // toast
+                SnackbarUtils.error(
+                    'Não foi possível obter os dados de departamento'
+                );
             }
         };
 

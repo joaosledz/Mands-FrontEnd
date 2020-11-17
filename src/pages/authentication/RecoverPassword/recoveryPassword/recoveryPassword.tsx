@@ -20,6 +20,7 @@ import AuthLayout from '../../../../layout/authLayout/authLayout';
 import SendEmailButton from '../../components/submitButton/submitButton';
 import useStyles, { inputStyle } from './styles';
 import forgotPasswordIllustration from '../../../../assets/forgotPasswordIllustration.svg';
+import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const email = 'exemplo@email.com';
 
@@ -46,7 +47,7 @@ const RecoveryPassword: React.FC = () => {
                 setUser(response.data);
                 setLoading(false);
             } catch (error) {
-                // toast de erro quando não encontrar o token ou o token estiver expirado
+                SnackbarUtils.error('Token expirado ou incorreto');
                 history.replace('/');
             }
         };
@@ -62,7 +63,9 @@ const RecoveryPassword: React.FC = () => {
             );
             console.log(response);
         } catch (error) {
-            // toast de erro
+            SnackbarUtils.error(
+                'Não foi possível alterar a senha. Tente novamente.'
+            );
         }
     };
 

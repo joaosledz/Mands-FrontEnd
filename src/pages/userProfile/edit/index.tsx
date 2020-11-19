@@ -237,31 +237,6 @@ const UserProfile: React.FC = () => {
                                             )}
                                         />
                                     </Grid>
-                                    {/* <Grid item xs={12} sm={4}>
-                                    <TextField
-                                        name="role"
-                                        label="Cargo"
-                                        color="primary"
-                                        defaultValue={data.role}
-                                        fullWidth
-                                        variant="outlined"
-                                        inputRef={register({
-                                            required:
-                                                'Esse campo é obrigatório',
-                                        })}
-                                    />
-                                    <ErrorMessage
-                                        errors={errors}
-                                        name="role"
-                                        render={({ message }) => (
-                                            <Typography
-                                                className={classes.ErrorMessage}
-                                            >
-                                                {message}
-                                            </Typography>
-                                        )}
-                                    />
-                                </Grid> */}
                                     <Grid item xs={12} sm={4}>
                                         <TextField
                                             name="email"

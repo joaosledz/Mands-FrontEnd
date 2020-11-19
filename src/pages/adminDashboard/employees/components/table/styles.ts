@@ -4,14 +4,14 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         header: {
             backgroundColor: '#F5F5F5',
-                paddingLeft: '18px',
-                paddingTop: '7px',
-                paddingBottom: '7px',
+            paddingLeft: '18px',
+            paddingTop: '7px',
+            paddingBottom: '7px',
         },
         tableTitle: {
             color: theme.palette.text.secondary,
             fontFamily: 'Arvo',
-            fontSize: '1.6rem'
+            fontSize: '1.6rem',
         },
         button: {
             width: '90%',
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.primary.light,
             boxShadow: theme.shadows[2],
 
-
             transition: 'background-color .2s',
 
             '&:hover': {
@@ -34,6 +33,11 @@ const useStyles = makeStyles((theme: Theme) =>
         iconButton: {
             color: 'white',
             width: '14px',
+        },
+        iconButtonKey: {
+            color: 'white',
+            width: '25px',
+            transform: 'rotate(135deg)',
         },
     })
 );

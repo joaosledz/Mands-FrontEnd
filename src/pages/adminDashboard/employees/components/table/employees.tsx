@@ -9,10 +9,11 @@ import MTableFilterRow from '../filter';
 import tableIcons from './config/icons';
 import useStyles from './styles';
 import Typography from '@material-ui/core/Typography';
-import { InfoCircle as InfoIcon } from '@styled-icons/bootstrap';
+import { KeyFill as KeyIcon } from '@styled-icons/bootstrap';
 import { RemoveUser as RemoveUserIcon } from '@styled-icons/entypo';
 import { withStyles } from '@material-ui/core/styles';
 import HiringModal from '../hiring/modal';
+import PermissionModal from '../../../../../components/permission/modal';
 
 type Props = {
     data: Array<TypeEmployee>;
@@ -36,6 +37,9 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const { data } = props;
     const tableRef = createRef();
     const [filter, setFilter] = useState<boolean>(false);
+    const [selectedEmployee, setSelectedEmployee] = useState<TypeEmployee>(
+        data[0]
+    );
     const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilter(!filter);
     };
@@ -45,9 +49,18 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const handleRemove = (id: number, name: string) => {
         console.log(`Funcionário ${name} deletado (id: ${id})`);
     };
+    //Hiring Modal
     const [showHiringModal, setShowHiringModal] = useState<boolean>(false);
     const handleOpenHiringModal = () => {
         setShowHiringModal(true);
+    };
+    //Permission Modal
+    const [showPermissionModal, setShowPermissionModal] = useState<boolean>(
+        false
+    );
+    const handleOpenPermissionModal = (rowData: TypeEmployee) => {
+        setSelectedEmployee(rowData);
+        setShowPermissionModal(true);
     };
     return (
         <>
@@ -118,7 +131,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         cellStyle: { textAlign: 'left' },
                     },
                     {
-                        title: 'Detalhes',
+                        title: 'Permissões',
                         filtering: false,
                         sorting: false,
                         field: 'url',
@@ -126,9 +139,11 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         render: rowData => (
                             <Button
                                 className={classes.button}
-                                onClick={handleOpenDetails}
+                                onClick={() =>
+                                    handleOpenPermissionModal(rowData)
+                                }
                             >
-                                <InfoIcon className={classes.iconButton} />
+                                <KeyIcon className={classes.iconButtonKey} />
                             </Button>
                         ),
                     },
@@ -200,6 +215,11 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
             <HiringModal
                 isOpen={showHiringModal}
                 setIsOpen={setShowHiringModal}
+            />
+            <PermissionModal
+                isOpen={showPermissionModal}
+                setIsOpen={setShowPermissionModal}
+                employee={selectedEmployee}
             />
         </>
     );

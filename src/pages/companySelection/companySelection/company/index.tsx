@@ -32,7 +32,9 @@ const Company: React.FC<Props> = (props: Props) => {
                 src={image}
                 alt={`${name} logo`}
                 className={classes.companyLogo}
-            />
+            >
+                {name.substr(0, 1)}
+            </Avatar>
             <Typography className={classes.companyName}>{name}</Typography>
         </ButtonBase>
     );

@@ -1,0 +1,48 @@
+import api from '../api';
+import { DepartmentModel, TypeDepartment } from '../models/department';
+import departmentUrls from '../urls/department';
+
+const departmentApi = {
+    show: async (department_name: string) => {
+        try {
+            const response = await api.get<TypeDepartment>(
+                departmentUrls.show + department_name
+            );
+            sessionStorage.setItem(
+                '@Mands:department',
+                JSON.stringify(response.data)
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
+    listByCompany: async (company_id: number) => {
+        try {
+            const response = await api.get<Array<TypeDepartment>>(
+                departmentUrls.listByCompany + company_id
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
+    create: async (data: DepartmentModel) => {
+        try {
+            const response = await api.post<TypeDepartment>(
+                departmentUrls.create,
+                data
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+};
+
+export default departmentApi;

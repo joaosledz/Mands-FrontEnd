@@ -8,8 +8,8 @@ import PrivateRoute from './components/privateRoute';
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
 import Register from '../pages/authentication/register/register';
-import ForgotPassword from '../pages/authentication/forgotPassword/forgotPassword';
-import RecoveryPassword from '../pages/authentication/recoveryPassword/recoveryPassword';
+import ForgotPassword from '../pages/authentication/RecoverPassword/forgotPassword/forgotPassword';
+import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPassword/recoveryPassword';
 //#endregion
 
 //#region Rotas da aplicação
@@ -17,7 +17,7 @@ import UserProfile from '../pages/userProfile/details/details';
 import UserProfileEdit from '../pages/userProfile/edit';
 import CompanySelection from '../pages/companySelection';
 import CompanyRegister from '../pages/companyRegister/company.register';
-import CompanyDashboard from '../pages/companyDashboard';
+import CompanyDashboard from '../pages/companyDashboard/companyDashboard';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
 //#endregion
@@ -65,7 +65,8 @@ const Routes = () => {
                     component={CompanyDashboard}
                 />
                 <PrivateRoute
-                    path="/:companyName/departamento/:departmentName"
+                    exact
+                    path="/:companyName/:departmentName"
                     component={DepartmentDashboard}
                 />
                 <PrivateRoute path="/quadros" component={Boards} />

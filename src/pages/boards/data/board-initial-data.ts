@@ -11,7 +11,7 @@ export const initialBoardData = {
                 {
                     id: 'task-1',
                     checked: 'true',
-                    title: 'Reforma do escritório',
+                    title: 'Reforma do escritório de baixo A51',
                 },
                 {
                     id: 'task-2',
@@ -24,6 +24,12 @@ export const initialBoardData = {
                     title: 'Marcar reunião semanal',
                 },
                 { id: 'task-4', checked: 'true', title: 'Comprar suprimentos' },
+                { id: 'task-5', checked: 'true', title: 'Comprar suprimentos' },
+                { id: 'task-6', checked: 'true', title: 'Comprar suprimentos' },
+                { id: 'task-7', checked: 'true', title: 'Comprar suprimentos' },
+                { id: 'task-8', checked: 'true', title: 'Comprar suprimentos' },
+                { id: 'task-9', checked: 'true', title: 'Comprar suprimentos' },
+                { id: 'task-10', checked: 'true', title: 'Comprar suprimentos' },
             ],
         },
         'item-2': {

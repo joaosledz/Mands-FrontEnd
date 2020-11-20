@@ -24,6 +24,14 @@ const theme = createMuiTheme({
     typography: {
         fontFamily: ['Roboto Slab, Roboto'].join(','),
     },
+    props: {
+        MuiTextField: {
+            variant: 'outlined',
+        },
+        // MuiInput: {
+        //     variant: 'standard',
+        // },
+    },
 });
 
 export default theme;

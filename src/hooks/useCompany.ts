@@ -1,12 +1,11 @@
-import {useHistory} from 'react-router-dom';
+import { UserCompanyType } from '../services';
 
-function useCompany() {
-
-        const history = useHistory();
-
-        const companyData = sessionStorage.getItem('@Mands:CompanyData');
-        if (companyData) return JSON.parse(companyData)
-        else history.push('/escolha-da-empresa');
-}
+const useCompany = () => {
+    const companyDataAux = sessionStorage.getItem('@Mands:CompanyData');
+    if (companyDataAux) {
+        const companyData: UserCompanyType = JSON.parse(companyDataAux);
+        return companyData;
+    } else return null;
+};
 
 export default useCompany;

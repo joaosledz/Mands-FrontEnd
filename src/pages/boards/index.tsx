@@ -5,17 +5,20 @@ import useStyles from './styles';
 import Typography from '@material-ui/core/Typography';
 import Board from './components/board/board';
 import Grid from '@material-ui/core/Grid';
+import {BoardProvider} from '../../contexts/board'
+
 
 const UserProfile: React.FC<RouteComponentProps> = ({ history }) => {
     const classes = useStyles();
     return (
-        <AppLayout>
+        <AppLayout layoutStyles={classes.layout}>
             <Grid className={classes.gridBoard}>
                 <Typography className={classes.title} variant="h4">
                     Board
                 </Typography>
-
-                <Board />
+                <BoardProvider>
+                    <Board />
+                </BoardProvider>
             </Grid>
         </AppLayout>
     );

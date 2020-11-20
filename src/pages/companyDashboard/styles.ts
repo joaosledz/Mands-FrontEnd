@@ -11,8 +11,20 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
 
+        name: {
+            color: theme.palette.primary.contrastText,
+            fontSize: '1.3rem',
+            fontWeight: 'bold',
+            [theme.breakpoints.down('sm')]: {
+                fontSize: '1rem',
+            },
+        },
+
         contentContainer: {
             marginTop: '1.5rem',
+            [theme.breakpoints.down('md')]: {
+                flexWrap: 'wrap-reverse',
+            },
         },
 
         departments: {

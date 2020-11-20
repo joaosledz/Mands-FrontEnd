@@ -1,6 +1,10 @@
+const baseURL = 'companies';
+
 const companyUrls = {
-    create: `Companies`,
-    list: `Companies`,
+    base: `${baseURL}`,
+    userCompanies: `${baseURL}/findByUser`,
+    showAllCompanyData: `${baseURL}/getAll`,
+    create: `${baseURL}`,
 };
 
 export default companyUrls;

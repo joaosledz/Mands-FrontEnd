@@ -37,7 +37,7 @@ const Login: React.FC = () => {
         try {
             /* const response = */ await login(data);
             // Animação de sucesso
-            SnackbarUtils.success('Login efetuado com sucesso');
+            // SnackbarUtils.success('Login efetuado com sucesso');
             history.replace('/escolha-da-empresa');
         } catch (error) {
             SnackbarUtils.error('Não foi possível efetuar o login');

@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
         gridUser: {
             padding: '20px',
+            // maxWidth: '1000px',
         },
         gridUserItems: {
             paddingBottom: '15px',

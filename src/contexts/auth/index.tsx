@@ -15,6 +15,7 @@ type AuthContextData = {
     login(data: LoginType): Promise<LoginModel>;
     logout(): void;
     loading: boolean;
+    updateUser: (data: userType) => void;
 };
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -82,9 +83,13 @@ export const AuthProvider: React.FC = ({ children }) => {
         setUser(null);
     }, []);
 
+    const updateUser = (data: userType) => {
+        setUser(data);
+    };
+
     return (
         <AuthContext.Provider
-            value={{ signed: !!user, user, login, logout, loading }}
+            value={{ signed: !!user, user, updateUser, login, logout, loading }}
         >
             {children}
         </AuthContext.Provider>

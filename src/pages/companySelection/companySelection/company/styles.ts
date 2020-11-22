@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             maxWidth: 300,
             padding: '1.2rem 1rem',
-            
+
             textDecoration: 'none',
             borderRadius: 10,
             textAlign: 'center',
@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme: Theme) =>
         companyLogo: {
             width: theme.spacing(9),
             height: theme.spacing(9),
+            color: 'white',
+            backgroundColor: '#D0009C',
             boxShadow: theme.shadows[3],
         },
 

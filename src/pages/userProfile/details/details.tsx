@@ -14,11 +14,6 @@ import SocialMedia from './components/socialMedia/socialMedia';
 import FabButton from '../../../components/fabButton';
 import useStyles from './styles';
 
-const data = {
-    presentation:
-        'Sou um desenvolvedor Full-Stack com foco no Front-End, graduando Ciência da Computação, com 1 ano de experiência em desenvolvimento web. Atualmente focado no aprendizado em desenvolvimento Web e Mobile com as tecnologias React, React Native e Node.Js',
-};
-
 const UserProfile: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
@@ -26,6 +21,7 @@ const UserProfile: React.FC = () => {
 
     useEffect(() => {
         document.title = user!.name;
+        console.log(user);
     }, [user]);
 
     return (
@@ -78,7 +74,7 @@ const UserProfile: React.FC = () => {
                             <Typography variant="h6" color="primary">
                                 Apresentação
                             </Typography>
-                            <Typography>{data.presentation}</Typography>
+                            <Typography>{user!.biography}</Typography>
                         </Grid>
                     </Grid>
                 </Grid>

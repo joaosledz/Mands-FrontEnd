@@ -46,7 +46,7 @@ type updateModel = {
     surname: string;
     phone: string;
     email: string;
-    cpf: string;
+    biography: string;
 };
 
 export type { userType, updateModel, LoginType, LoginModel, RegisterModel };

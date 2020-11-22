@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 
-import CpfValidator from '../../../validators/cpfValidator';
+// import CpfValidator from '../../../validators/cpfValidator';
 import InputMask from 'react-input-mask';
 
 import ProfilePic from '../../../assets/fakeDataImages/employees/anaTartari.png';
@@ -16,14 +16,14 @@ import RegisterButton from '../../../components/mainButton';
 import useStyles from './styles';
 import CropImageInput from '../../../components/cropImage/cropImageInput';
 import useAuth from '../../../hooks/useAuth';
-import { updateModel, userApi } from '../../../services';
+import { updateModel, authApi } from '../../../services';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
 type FormProps = {
     name: string;
     surname: string;
     email: string;
-    cpf: string;
+    biography: string;
     phone: string;
 };
 
@@ -41,7 +41,7 @@ const UserProfile: React.FC = () => {
     const handleEditUser = async (newData: updateModel) => {
         setLoading(true);
         try {
-            const response = await userApi.update(newData, user!.userId);
+            const response = await authApi.update(newData);
 
             const data = response.data;
             // console.log(data);
@@ -62,7 +62,7 @@ const UserProfile: React.FC = () => {
             {!loading ? (
                 <Paper className={classes.paper}>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Grid container>
+                        <Grid container justify="center">
                             <Grid item xs={1} md={4} />
                             <Grid container item xs={7} md={4} justify="center">
                                 <Typography
@@ -88,7 +88,11 @@ const UserProfile: React.FC = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <Grid className={classes.gridUser} container>
+                        <Grid
+                            className={classes.gridUser}
+                            container
+                            justify="center"
+                        >
                             <Grid container direction="row">
                                 <Grid item xs={12} md={2}>
                                     <CropImageInput
@@ -105,14 +109,13 @@ const UserProfile: React.FC = () => {
                                     md={10}
                                     spacing={3}
                                 >
-                                    <Grid item xs={12} sm={4}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField
                                             name="name"
                                             label="Nome"
                                             color="primary"
                                             defaultValue={user!.name}
                                             fullWidth
-                                            variant="outlined"
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -132,14 +135,13 @@ const UserProfile: React.FC = () => {
                                             )}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={4}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField
                                             name="surname"
                                             label="Nome"
                                             color="primary"
                                             defaultValue={user!.surname}
                                             fullWidth
-                                            variant="outlined"
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -159,7 +161,7 @@ const UserProfile: React.FC = () => {
                                             )}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={4}>
+                                    {/* <Grid item xs={12} sm={4}>
                                         <InputMask
                                             mask={'999.999.999-99'}
                                             maskChar="_"
@@ -170,7 +172,7 @@ const UserProfile: React.FC = () => {
                                                     name="cpf"
                                                     label="CPF"
                                                     fullWidth
-                                                    variant="outlined"
+                                                    
                                                     inputRef={register({
                                                         required:
                                                             'Esse campo é obrigatório',
@@ -197,8 +199,8 @@ const UserProfile: React.FC = () => {
                                                 </Typography>
                                             )}
                                         />
-                                    </Grid>
-                                    <Grid item xs={12} sm={4}>
+                                    </Grid> */}
+                                    <Grid item xs={12} sm={6}>
                                         <InputMask
                                             mask={'(99) 99999-9999'}
                                             maskChar="_"
@@ -210,7 +212,6 @@ const UserProfile: React.FC = () => {
                                                     label="Telefone"
                                                     color="primary"
                                                     fullWidth
-                                                    variant="outlined"
                                                     inputRef={register({
                                                         required:
                                                             'Esse campo é obrigatório',
@@ -237,14 +238,13 @@ const UserProfile: React.FC = () => {
                                             )}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={4}>
+                                    <Grid item xs={12} sm={6}>
                                         <TextField
                                             name="email"
                                             label="Email"
                                             color="primary"
                                             defaultValue={user!.email}
                                             fullWidth
-                                            variant="outlined"
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -253,6 +253,33 @@ const UserProfile: React.FC = () => {
                                         <ErrorMessage
                                             errors={errors}
                                             name="email"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12}>
+                                        <TextField
+                                            multiline
+                                            name="biography"
+                                            label="Descrição"
+                                            color="primary"
+                                            defaultValue={user!.biography}
+                                            fullWidth
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                            })}
+                                        />
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="biography"
                                             render={({ message }) => (
                                                 <Typography
                                                     className={

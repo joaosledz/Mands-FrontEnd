@@ -1,5 +1,6 @@
 import { useSnackbar, VariantType, WithSnackbarProps } from 'notistack';
 import React from 'react';
+import { Button } from '@material-ui/core';
 
 interface IProps {
     setUseSnackbarRef: (showSnackbar: WithSnackbarProps) => void;
@@ -35,6 +36,17 @@ export default {
         this.toast(msg, 'error');
     },
     toast(msg: string, variant: VariantType = 'default') {
-        useSnackbarRef.enqueueSnackbar(msg, { variant });
+        useSnackbarRef.enqueueSnackbar(msg, {
+            variant,
+            action: key => (
+                <Button
+                    style={{ color: 'white' }}
+                    size="small"
+                    onClick={() => useSnackbarRef.closeSnackbar(key)}
+                >
+                    X
+                </Button>
+            ),
+        });
     },
 };

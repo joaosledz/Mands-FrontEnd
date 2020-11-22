@@ -50,7 +50,13 @@ const AdministratorRoutes = () => {
             {/* Rotas de Funcionários */}
             <Route
                 exact
-                path={`${path}/funcionarios`}
+                path={`${path}/:company/funcionarios`}
+                component={Employees}
+            />
+
+            <Route
+                exact
+                path={`${path}/:company/calendario`}
                 component={Employees}
             />
 

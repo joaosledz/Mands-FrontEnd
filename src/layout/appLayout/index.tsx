@@ -2,15 +2,17 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 
 import Header from './components/header';
-
+import Loading from '../../components/loading/loading';
 import useStyles from './styles';
 
-interface AppLayoutProps {
+type Props = {
     layoutStyles?: string;
-}
+    loading?: boolean;
+    children: React.ReactNode;
+};
 
-const AppLayout: React.FC<AppLayoutProps> = props => {
-    const { layoutStyles, children } = props;
+const AppLayout: React.FC<Props> = (props: Props) => {
+    const { layoutStyles, loading, children } = props;
     const classes = useStyles();
 
     return (
@@ -23,7 +25,7 @@ const AppLayout: React.FC<AppLayoutProps> = props => {
             }
         >
             <Header />
-            {children}
+            {!loading ? children : <Loading />}
         </Box>
     );
 };

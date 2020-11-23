@@ -12,7 +12,7 @@ type Props = {
 };
 
 const AppLayout: React.FC<Props> = (props: Props) => {
-    const { layoutStyles, loading, children } = props;
+    const { layoutStyles, loading = false, children } = props;
     const classes = useStyles();
 
     return (

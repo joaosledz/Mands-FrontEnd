@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import SnackbarUtils from '../../utils/functions/snackbarUtils';
 
 import {
@@ -108,40 +109,46 @@ const CompanyDashboard: React.FC = () => {
     const { user } = auth;
 
     return (
-        <AppLayout>
-            {!loading && company ? (
-                <Box className={classes.container}>
-                    <Grid container component="section">
-                        <Grid item xs={12}>
-                            <Typography className={classes.name}>
-                                Seja bem-vindo ao Mands, {user!.name}
-                            </Typography>
-                        </Grid>
+        <AppLayout loading={loading}>
+            <Box className={classes.container}>
+                <Grid container component="section">
+                    <Grid item xs={12}>
+                        <Typography className={classes.name}>
+                            Seja bem-vindo ao Mands, {user!.name}
+                        </Typography>
                     </Grid>
+                </Grid>
 
-                    <Grid
-                        container
-                        spacing={3}
-                        className={classes.contentContainer}
-                    >
-                        <Grid item xs={12} md={6}>
-                            {company.userPermission.editCompany && (
-                                <ManageCompanyButton company={company} />
-                            )}
-                            <Departments
-                                departments={company.departments}
-                                containerStyles={classes.departments}
-                                breakpoints={{ xs: 12, sm: 6, md: 6 }}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <CompanyDetails data={company} />
-                        </Grid>
-                    </Grid>
-                </Box>
-            ) : (
-                <h1>Carregando...</h1>
-            )}
+                <Grid
+                    container
+                    spacing={3}
+                    className={classes.contentContainer}
+                >
+                    {company ? (
+                        <Fragment>
+                            <Grid item xs={12} md={6}>
+                                {company.userPermission.editCompany && (
+                                    <ManageCompanyButton company={company} />
+                                )}
+                                <Departments
+                                    departments={company.departments}
+                                    containerStyles={
+                                        company.userPermission.editCompany
+                                            ? classes.departments
+                                            : undefined
+                                    }
+                                    breakpoints={{ xs: 12, sm: 6, md: 6 }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <CompanyDetails data={company} />
+                            </Grid>
+                        </Fragment>
+                    ) : (
+                        <CircularProgress color="primary" />
+                    )}
+                </Grid>
+            </Box>
         </AppLayout>
     );
 };

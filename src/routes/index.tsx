@@ -4,6 +4,7 @@ import useAuth from '../hooks/useAuth';
 
 import PublicRoute from './components/publicRoute';
 import PrivateRoute from './components/privateRoute';
+import Loading from '../components/loading/loading';
 
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
@@ -30,7 +31,7 @@ const Routes = () => {
     const { loading, signed } = useAuth();
 
     // console.log('loading: ', loading, 'signed: ', signed);
-    if (loading) return <h1>Carregando...</h1>;
+    if (loading) return <Loading type="whole" />;
 
     return (
         <BrowserRouter>

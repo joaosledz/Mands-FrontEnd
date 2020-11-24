@@ -3,7 +3,7 @@ const authUrls = {
     login: `login`,
     me: '/me',
     changePassword: 'passReset',
-    update: 'Authentications',
+    update: 'User/Update',
 };
 
 export default authUrls;

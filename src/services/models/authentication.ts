@@ -14,6 +14,8 @@ type userType = {
     biography: string;
     imageId: number;
     image: string;
+    linkedin: string;
+    gitHub: string;
     companyUsers: null;
     solicitations: null;
     companyDepartmentUser: null;
@@ -47,6 +49,8 @@ type updateModel = {
     phone: string;
     email: string;
     biography: string;
+    gitHub: string;
+    linkedin: string;
 };
 
 export type { userType, updateModel, LoginType, LoginModel, RegisterModel };

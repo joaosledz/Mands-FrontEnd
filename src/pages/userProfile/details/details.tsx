@@ -60,7 +60,10 @@ const UserProfile: React.FC = () => {
                             md={5}
                             className={classes.gridUserItems}
                         >
-                            <SocialMedia />
+                            <SocialMedia
+                                linkedin={user!.linkedin}
+                                github={user!.gitHub}
+                            />
                         </Grid>
                     </Grid>
 

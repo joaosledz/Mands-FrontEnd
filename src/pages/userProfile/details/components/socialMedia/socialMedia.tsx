@@ -7,14 +7,28 @@ import { LinkedinSquare as LinkedinIcon } from '@styled-icons/boxicons-logos';
 
 import useStyles from './styles';
 
-const SocialMedia: React.FC = () => {
+type Props = {
+    linkedin: string;
+    github: string;
+};
+
+const SocialMedia: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { github, linkedin } = props;
     return (
         <Grid container>
             {/* Usar um Map */}
-            <Link
-                className={classes.socialMediaDiv}
-                to="https://github.com/anatartari"
+            <a
+                className={
+                    github
+                        ? [classes.socialMediaDiv, classes.fillSocialIcon].join(
+                              ' '
+                          )
+                        : [classes.socialMediaDiv, classes.graySocialIcon].join(
+                              ' '
+                          )
+                }
+                href={github}
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -27,10 +41,18 @@ const SocialMedia: React.FC = () => {
                     <GithubIcon size={50} />
                     <Typography>Github</Typography>
                 </Grid>
-            </Link>
-            <Link
-                className={classes.socialMediaDiv}
-                to="https://www.linkedin.com/in/jo%C3%A3o-victor-sledz-de-bulh%C3%B5es-ba08b073/"
+            </a>
+            <a
+                className={
+                    linkedin
+                        ? [classes.socialMediaDiv, classes.fillSocialIcon].join(
+                              ' '
+                          )
+                        : [classes.socialMediaDiv, classes.graySocialIcon].join(
+                              ' '
+                          )
+                }
+                href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -45,7 +67,7 @@ const SocialMedia: React.FC = () => {
                         Linkedin
                     </Typography>
                 </Grid>
-            </Link>
+            </a>
         </Grid>
     );
 };

@@ -19,18 +19,10 @@ import useAuth from '../../../hooks/useAuth';
 import { updateModel, authApi } from '../../../services';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
-type FormProps = {
-    name: string;
-    surname: string;
-    email: string;
-    biography: string;
-    phone: string;
-};
-
 const UserProfile: React.FC = () => {
     const classes = useStyles();
     const { user, updateUser } = useAuth();
-    const { register, errors, handleSubmit } = useForm<FormProps>();
+    const { register, errors, handleSubmit } = useForm<updateModel>();
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState<File | undefined>(undefined);
 
@@ -53,9 +45,18 @@ const UserProfile: React.FC = () => {
             SnackbarUtils.error('Não foi possível editar o perfil');
         }
     };
-    const onSubmit = (data: FormProps) => {
-        handleEditUser(data);
-        console.log(data);
+    const validLink = (data: updateModel) => {
+        let dataAux = data;
+        if (dataAux.gitHub.substring(0, 8) !== 'https://')
+            dataAux.gitHub = 'https://' + dataAux.gitHub;
+        if (dataAux.linkedin.substring(0, 8) !== 'https://')
+            dataAux.linkedin = 'https://' + dataAux.linkedin;
+        return dataAux;
+    };
+    const onSubmit = (data: updateModel) => {
+        let dataAux;
+        dataAux = validLink(data);
+        handleEditUser(dataAux);
     };
     return (
         <AppLayout>
@@ -161,7 +162,7 @@ const UserProfile: React.FC = () => {
                                             )}
                                         />
                                     </Grid>
-                                    {/* <Grid item xs={12} sm={4}>
+                                    {/* <Grid item xs={12} sm={6}>
                                         <InputMask
                                             mask={'999.999.999-99'}
                                             maskChar="_"
@@ -263,6 +264,60 @@ const UserProfile: React.FC = () => {
                                                 </Typography>
                                             )}
                                         />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            name="gitHub"
+                                            label="Github"
+                                            color="primary"
+                                            placeholder="Url do Github"
+                                            defaultValue={user!.gitHub}
+                                            fullWidth
+                                            inputRef={register({
+                                                // required:
+                                                //     'Esse campo é obrigatório',
+                                            })}
+                                        />
+                                        {/* <ErrorMessage
+                                            errors={errors}
+                                            name="gitHub"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        /> */}
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            name="linkedin"
+                                            label="LinkedIn"
+                                            color="primary"
+                                            placeholder="Url do LinkedIn"
+                                            defaultValue={user!.linkedin}
+                                            fullWidth
+                                            inputRef={register({
+                                                // required:
+                                                //     'Esse campo é obrigatório',
+                                            })}
+                                        />
+                                        {/* <ErrorMessage
+                                            errors={errors}
+                                            name="linkedin"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
                                         <TextField

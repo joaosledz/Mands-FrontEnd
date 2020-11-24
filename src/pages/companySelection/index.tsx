@@ -30,10 +30,8 @@ const CompanySelection: React.FC = () => {
     }, [companies.length]);
 
     return (
-        <AppLayout>
-            {loading ? (
-                <h1>Carregando...</h1>
-            ) : companies.length !== 0 ? (
+        <AppLayout loading={loading}>
+            {companies.length !== 0 ? (
                 <Companies companies={companies} />
             ) : (
                 <EmptyCompanies />

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 
 import {
     UserCompanyType,
@@ -85,8 +84,8 @@ const DepartmentDashboard: React.FC = () => {
     }, [company, department, params]);
 
     return (
-        <AppLayout>
-            {!loading && company && department ? (
+        <AppLayout loading={loading}>
+            {company && department && (
                 <Box className={classes.container}>
                     <Header jobTitle={company.userPermission.name} />
                     <Grid
@@ -102,8 +101,6 @@ const DepartmentDashboard: React.FC = () => {
                         </Grid>
                     </Grid>
                 </Box>
-            ) : (
-                <Typography variant="h5">Carregando...</Typography>
             )}
         </AppLayout>
     );

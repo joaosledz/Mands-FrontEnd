@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Grow from '@material-ui/core/Grow';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import TypeParams from '../../../models/params';
 import { TypeProject, projectApi } from '../../../services';
@@ -81,7 +82,9 @@ const Projects: React.FC = () => {
                         </Typography>
                     )
                 ) : (
-                    <Typography variant="h5">Carregando...</Typography>
+                    <Grid container alignItems="center" justify="center">
+                        <CircularProgress color="primary" />
+                    </Grid>
                 )}
             </Grid>
         </Paper>

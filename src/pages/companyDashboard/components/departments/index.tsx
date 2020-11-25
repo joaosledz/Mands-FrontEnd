@@ -10,12 +10,11 @@ import { TypeDepartment } from '../../../../services';
 import Department from './department';
 import useStyles from './styles';
 
-interface Props {
-    title?: string;
+type Props = {
     departments: Array<TypeDepartment> | undefined;
     containerStyles?: string;
     breakpoints: Breakpoints;
-}
+};
 
 const Departments: React.FC<Props> = (props: Props) => {
     const { departments, containerStyles, breakpoints } = props;

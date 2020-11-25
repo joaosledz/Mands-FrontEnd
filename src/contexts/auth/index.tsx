@@ -7,7 +7,7 @@ import {
     LoginModel,
     userType,
 } from '../../services';
-import { connectHub } from '../../services/socket';
+// import { connectHub } from '../../services/socket';
 
 type AuthContextData = {
     signed: boolean;
@@ -40,7 +40,7 @@ export const AuthProvider: React.FC = ({ children }) => {
                     .then(response => {
                         // console.log(response);
                         setUser(response.data);
-                        connectHub();
+                        // connectHub();
                         setLoading(false);
                     })
                     .catch((error: AxiosError) => {
@@ -67,7 +67,7 @@ export const AuthProvider: React.FC = ({ children }) => {
                 'Authorization'
             ] = `Bearer ${response.data.token}`;
             localStorage.setItem(tokenKey, response.data.token);
-            connectHub();
+            // connectHub();
             setLoading(false);
             return Promise.resolve(response.data);
         } catch (error) {

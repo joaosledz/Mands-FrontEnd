@@ -47,13 +47,13 @@ const CompanyDashboard: React.FC = () => {
                     '@Mands:CompanyData',
                     JSON.stringify(data)
                 );
-                setLoading(false);
                 return data;
             } catch (error) {
-                setLoading(false);
                 SnackbarUtils.error(
                     'Não foi possível obter os dados de departamento'
                 );
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -76,10 +76,13 @@ const CompanyDashboard: React.FC = () => {
                     '@Mands:CompanyData',
                     JSON.stringify(data)
                 );
-                setLoading(false);
                 // alerta de troca de empresa bem sucedida
             } catch (error) {
-                // alerta de erro
+                SnackbarUtils.error(
+                    'Não foi possível obter os dados da empresa.'
+                );
+                console.error(error);
+            } finally {
                 setLoading(false);
             }
         };
@@ -127,13 +130,13 @@ const CompanyDashboard: React.FC = () => {
                     {company ? (
                         <Fragment>
                             <Grid item xs={12} md={6}>
-                                {company.userPermission.editCompany && (
+                                {company.userPermission?.editCompany && (
                                     <ManageCompanyButton company={company} />
                                 )}
                                 <Departments
                                     departments={company.departments}
                                     containerStyles={
-                                        company.userPermission.editCompany
+                                        company.userPermission?.editCompany
                                             ? classes.departments
                                             : undefined
                                     }

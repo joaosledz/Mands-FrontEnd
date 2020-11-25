@@ -87,7 +87,7 @@ const DepartmentDashboard: React.FC = () => {
         <AppLayout loading={loading}>
             {company && department && (
                 <Box className={classes.container}>
-                    <Header jobTitle={company.userPermission.name} />
+                    <Header jobTitle={company.userPermission!.name} />
                     <Grid
                         container
                         spacing={3}

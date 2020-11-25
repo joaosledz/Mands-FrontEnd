@@ -1,19 +1,6 @@
-import React, {
-    useState,
-    useEffect,
-    Dispatch,
-    SetStateAction,
-    memo,
-} from 'react';
-import { useHistory } from 'react-router-dom';
-import {
-    Paper,
-    Modal,
-    Grid,
-    Typography,
-    Avatar,
-    Tooltip,
-} from '@material-ui/core';
+import React, { useEffect, Dispatch, SetStateAction, memo } from 'react';
+// import { useHistory } from 'react-router-dom';
+import { Paper, Modal, Grid, Typography, Avatar } from '@material-ui/core';
 import SubmitButton from '../mainButton';
 import useStyles from './styles';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
@@ -29,7 +16,7 @@ type Props = {
 const HiringModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { isOpen, setIsOpen, employee } = props;
-    const history = useHistory();
+    // const history = useHistory();
 
     useEffect(() => {}, [isOpen]);
 

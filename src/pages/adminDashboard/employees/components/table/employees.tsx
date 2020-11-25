@@ -48,9 +48,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilter(!filter);
     };
-    const handleOpenDetails = () => {
-        console.log('Modal Abrir Aqui');
-    };
+
     const handleRemove = (id: number, name: string) => {
         console.log(`Funcionário ${name} deletado (id: ${id})`);
     };

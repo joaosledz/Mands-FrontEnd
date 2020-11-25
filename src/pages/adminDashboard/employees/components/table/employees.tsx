@@ -77,12 +77,12 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                     filtering: true,
                     headerStyle: {
                         backgroundColor: '#F5F5F5',
-                        color: 'gray',
+                        color: '#606060',
                     },
                     rowStyle: {
                         backgroundColor: '#F5F5F5',
                         fontFamily: 'Roboto-slab',
-                        color: 'gray',
+                        color: '#606060',
                         fontSize: '1rem',
                     },
                     padding: 'default',

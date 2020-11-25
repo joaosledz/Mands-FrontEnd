@@ -13,6 +13,8 @@ import {
     Typography,
     Avatar,
     Tooltip,
+    Grow,
+    Slide,
 } from '@material-ui/core';
 import SubmitButton from '../../../../../components/mainButton';
 import useStyles from './styles';
@@ -22,7 +24,6 @@ import employeesData from '../../../../../utils/data/employees';
 import { TypeTeam } from '../../../../../models/department';
 import Autocomplete from '../autocomplete';
 import ChooseRole from '../role/radio';
-import Grow from '@material-ui/core/Grow';
 
 type Props = {
     isOpen: boolean;
@@ -71,7 +72,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
-            <>
+            <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
                 <Grid
                     container
                     component={Paper}
@@ -99,7 +100,12 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                     />
                     {value.length !== 0 && (
                         <Grow in={value.length !== 0} timeout={600}>
-                            <>
+                            <div
+                                style={{
+                                    width: '100%',
+                                    justifyContent: 'center',
+                                }}
+                            >
                                 <Grid
                                     container
                                     className={classes.scrollPerson}
@@ -154,7 +160,9 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                             <Grid
                                                 item
                                                 xs={1}
-                                                style={{ alignSelf: 'center' }}
+                                                style={{
+                                                    alignSelf: 'center',
+                                                }}
                                             >
                                                 <CloseIcon
                                                     className={classes.icon}
@@ -189,11 +197,11 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                         onClick={handleSubmit}
                                     />
                                 </Grid>
-                            </>
+                            </div>
                         </Grow>
                     )}
                 </Grid>
-            </>
+            </Slide>
         </Modal>
     );
 };

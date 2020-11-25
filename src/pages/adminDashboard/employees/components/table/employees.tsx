@@ -1,19 +1,24 @@
 import React, { createRef, useState } from 'react';
 import MaterialTable from 'material-table';
-import { Button, Grid, FormControlLabel, Switch } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import pt from 'date-fns/locale/pt-BR';
-// import DeleteCupom from '../../components/Dialogs/DeleteCupom';
-import Localization from './config/localization';
+import { withStyles } from '@material-ui/core/styles';
+import { Key as KeyIcon } from '@styled-icons/ionicons-sharp';
+import { PersonRemove as RemoveUserIcon } from '@styled-icons/material';
+
 import { TypeEmployee } from '../../../../../models/department';
+import Localization from './config/localization';
 import MTableFilterRow from '../filter';
 import tableIcons from './config/icons';
-import useStyles from './styles';
-import Typography from '@material-ui/core/Typography';
-import { KeyFill as KeyIcon } from '@styled-icons/bootstrap';
-import { RemoveUser as RemoveUserIcon } from '@styled-icons/entypo';
-import { withStyles } from '@material-ui/core/styles';
+
 import HiringModal from '../hiring/modal';
 import PermissionModal from '../../../../../components/permission/modal';
+import useStyles from './styles';
+// import DeleteCupom from '../../components/Dialogs/DeleteCupom';
 
 type Props = {
     data: Array<TypeEmployee>;
@@ -143,7 +148,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                     handleOpenPermissionModal(rowData)
                                 }
                             >
-                                <KeyIcon className={classes.iconButtonKey} />
+                                <KeyIcon size={21} color={'white'} />
                             </Button>
                         ),
                     },
@@ -161,9 +166,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                     handleRemove(rowData.id, rowData.name)
                                 }
                             >
-                                <RemoveUserIcon
-                                    className={classes.iconButton}
-                                />
+                                <RemoveUserIcon size={20} color={'white'} />
                             </Button>
                         ),
                     },

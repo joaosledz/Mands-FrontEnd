@@ -30,15 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundColor: theme.palette.primary.main,
             },
         },
-        iconButton: {
-            color: 'white',
-            width: '14px',
-        },
-        iconButtonKey: {
-            color: 'white',
-            width: '25px',
-            transform: 'rotate(135deg)',
-        },
     })
 );
 

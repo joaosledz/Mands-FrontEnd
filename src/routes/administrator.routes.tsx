@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 
-import Departments from '../pages/adminDashboard/departments';
+import Departments from '../pages/adminDashboard/departments/departments';
 import RegisterDepartment from '../pages/adminDashboard/departments/department/register/register';
 import DepartmentDetails from '../pages/adminDashboard/departments/department/details';
 import DepartmentEdit from '../pages/adminDashboard/departments/department/edit';

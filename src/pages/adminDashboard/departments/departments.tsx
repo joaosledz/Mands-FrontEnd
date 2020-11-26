@@ -11,11 +11,6 @@ import useStyles from './styles';
 const Departments: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
-    // const { loading, company } = useContext(Context);
-
-    // useEffect(() => {
-    //     console.log(loading, company);
-    // }, [company, loading]);
     useEffect(() => {
         document.title = 'Admin/Departamentos';
     }, []);

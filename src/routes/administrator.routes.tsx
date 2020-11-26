@@ -6,6 +6,7 @@ import RegisterDepartment from '../pages/adminDashboard/departments/department/r
 import DepartmentDetails from '../pages/adminDashboard/departments/department/details';
 import DepartmentEdit from '../pages/adminDashboard/departments/department/edit';
 import Employees from '../pages/adminDashboard/employees';
+import Calendar from '../pages/adminDashboard/calendar'
 
 import RegisterProject from '../pages/adminDashboard/departments/projects/register/register';
 import ProjectDetails from '../pages/adminDashboard/departments/projects/details/details';
@@ -57,7 +58,7 @@ const AdministratorRoutes = () => {
             <Route
                 exact
                 path={`${path}/:company/calendario`}
-                component={Employees}
+                component={Calendar}
             />
 
             {/* Redirecionamentos */}

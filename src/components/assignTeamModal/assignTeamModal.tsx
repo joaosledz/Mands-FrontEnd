@@ -10,8 +10,10 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
+import Slide from '@material-ui/core/Slide';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
 import { TypeTeam } from '../../models/department';
@@ -141,85 +143,92 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
-            <Grid
-                container
-                component={Paper}
-                className={classes.paper}
-                spacing={3}
-            >
-                <Grid item xs={12}>
-                    <Typography variant="h2">
-                        Atribua pessoas para esse departamento:
-                    </Typography>
-                </Grid>
-                <SearchButtonTF />
+            <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
                 <Grid
                     container
-                    item
-                    xs={12}
-                    spacing={3}
                     component={Paper}
-                    className={classes.employeesContainer}
+                    className={classes.paper}
+                    spacing={3}
                 >
+                    <Grid item xs={12}>
+                        <Typography variant="h2">
+                            Atribua pessoas para esse departamento:
+                        </Typography>
+                    </Grid>
+                    <IconButton
+                        onClick={handleCloseModal}
+                        className={classes.closeModalButton}
+                    >
+                        <TimesIcon size={20} />
+                    </IconButton>
+                    <SearchButtonTF />
                     <Grid
                         container
                         item
-                        xs={4}
+                        xs={12}
                         spacing={3}
-                        component={Button}
-                        onClick={handleClearCheckers}
-                        className={classes.clearAssigns}
+                        component={Paper}
+                        className={classes.employeesContainer}
                     >
-                        <TimesIcon size={20} />
-                        <Typography>Limpar Associados</Typography>
+                        <Grid
+                            container
+                            item
+                            xs={4}
+                            component={Button}
+                            onClick={handleClearCheckers}
+                            className={classes.clearAssigns}
+                        >
+                            <TimesIcon size={20} />
+                            <Typography>Limpar Associados</Typography>
+                        </Grid>
+                        <Grid id="employees" container item xs={12} spacing={3}>
+                            {employees.map((employee, index) => (
+                                <Grid
+                                    key={index}
+                                    container
+                                    item
+                                    alignItems="center"
+                                    xs={12}
+                                    spacing={1}
+                                    component="label"
+                                    htmlFor={`checkbox-${index}`}
+                                >
+                                    <Grid item xs={1}>
+                                        <Checkbox
+                                            id={`checkbox-${index}`}
+                                            color="primary"
+                                            value={employee.id}
+                                            checked={checkers[index]}
+                                            onChange={event =>
+                                                handleChange(event, index)
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                        <Avatar src={employee.image} />
+                                    </Grid>
+                                    <Grid item xs={5} component={Typography}>
+                                        {employee.name}
+                                    </Grid>
+                                    <Grid item xs={5} component={Typography}>
+                                        {employee.jobTitle}
+                                    </Grid>
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
-                    <Grid id="employees" container item xs={12} spacing={3}>
-                        {employees.map((employee, index) => (
-                            <Grid
-                                key={index}
-                                container
-                                item
-                                alignItems="center"
-                                xs={12}
-                                spacing={1}
-                                component="label"
-                                htmlFor={`checkbox-${index}`}
-                            >
-                                <Grid item xs={1}>
-                                    <Checkbox
-                                        id={`checkbox-${index}`}
-                                        color="primary"
-                                        value={employee.id}
-                                        checked={checkers[index]}
-                                        onChange={event =>
-                                            handleChange(event, index)
-                                        }
-                                    />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <Avatar src={employee.image} />
-                                </Grid>
-                                <Grid item xs={5} component={Typography}>
-                                    {employee.name}
-                                </Grid>
-                                <Grid item xs={5} component={Typography}>
-                                    {employee.jobTitle}
-                                </Grid>
-                            </Grid>
-                        ))}
+                    <Grid container item justify="center" xs={12}>
+                        <SubmitButton
+                            text="Salvar"
+                            disabled={isDisabled}
+                            mt={30}
+                            hg={40}
+                            mw={180}
+                            mwt={200}
+                        />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" xs={12}>
-                    <SubmitButton
-                        text="Salvar"
-                        disabled={isDisabled}
-                        mt={30}
-                        hg={40}
-                        mw={180}
-                        mwt={200}
-                    />
-                </Grid>
-            </Grid>
+            </Slide>
         </Modal>
     );
 };

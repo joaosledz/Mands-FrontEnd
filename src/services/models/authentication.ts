@@ -13,7 +13,12 @@ type userType = {
     address: null;
     biography: string;
     imageId: number;
-    image: string;
+    image: {
+        name: string;
+        path: string;
+        extention: string;
+        size: string;
+    };
     linkedin: string;
     gitHub: string;
     companyUsers: null;

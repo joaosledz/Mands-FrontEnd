@@ -1,5 +1,9 @@
 import api from '../api';
-import { UserCompanyType, CompanyModel } from '../models/company';
+import {
+    UserCompanyType,
+    CompanyModel,
+    CompanyUpdateModel,
+} from '../models/company';
 import companyUrls from '../urls/company';
 
 const companyApi = {
@@ -56,6 +60,18 @@ const companyApi = {
     create: async (data: CompanyModel) => {
         try {
             const response = await api.post(companyUrls.create, data);
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+    update: async (companyId: number, data: CompanyUpdateModel) => {
+        try {
+            const response = await api.put(
+                `${companyUrls.base}/${companyId}`,
+                data
+            );
             return Promise.resolve(response);
         } catch (error) {
             console.log(error);

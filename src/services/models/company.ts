@@ -10,6 +10,11 @@ export type CompanyModel = {
         cnpj?: string;
     };
 };
+export type CompanyUpdateModel = {
+    name: string;
+    phone: string;
+    email: string;
+};
 
 export type UserCompanyType = {
     companyId: number;

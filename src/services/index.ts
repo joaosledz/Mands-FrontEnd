@@ -8,7 +8,7 @@ import {
     RegisterModel,
     updateModel,
 } from './models/authentication';
-import { UserCompanyType } from './models/company';
+import { UserCompanyType, CompanyUpdateModel } from './models/company';
 import { TypeDepartment } from './models/department';
 import { TypeProject } from './models/project';
 import { PostImageType, ImageErrorType, ImageType } from './models/image';
@@ -41,7 +41,7 @@ export type {
     RegisterModel,
 };
 // Exportação das models de empresa
-export type { UserCompanyType };
+export type { UserCompanyType, CompanyUpdateModel };
 // Exportação das models de departamento
 export type { TypeDepartment };
 // Exportação das models de projeto

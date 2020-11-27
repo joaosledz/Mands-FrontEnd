@@ -37,7 +37,10 @@ const Header: React.FC = () => {
             </Grid>
             <Grid container item xs={4} className={classes.rightSide}>
                 <ButtonBase onClick={handleClick}>
-                    <Avatar src={avatar} alt={`${user?.name} avatar`} />
+                    <Avatar
+                        src={user?.image?.path || avatar}
+                        alt={`${user?.name} avatar`}
+                    />
                     <Hidden only="xs">
                         <Typography
                             style={{ color: 'white', fontSize: '0.9rem' }}

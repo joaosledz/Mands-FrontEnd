@@ -12,15 +12,16 @@ type Props = {
     username: string;
     email: string;
     phone: string;
+    imagePath?: string;
 };
 const User: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { name, username, email, phone } = props;
+    const { name, username, email, phone, imagePath } = props;
 
     return (
         <Grid container direction="row" justify="center" spacing={2}>
             <Grid container item justify="center" xs={12} sm={4}>
-                <Avatar className={classes.avatar} src={avatar} />
+                <Avatar className={classes.avatar} src={imagePath || avatar} />
             </Grid>
             <Grid
                 container

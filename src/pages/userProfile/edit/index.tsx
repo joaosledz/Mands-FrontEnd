@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-
+import { validLink } from './components/functions/validLink';
 // import CpfValidator from '../../../validators/cpfValidator';
 import InputMask from 'react-input-mask';
 
@@ -16,7 +16,12 @@ import RegisterButton from '../../../components/mainButton';
 import useStyles from './styles';
 import CropImageInput from '../../../components/cropImage/cropImageInput';
 import useAuth from '../../../hooks/useAuth';
-import { updateModel, authApi } from '../../../services';
+import {
+    updateModel,
+    authApi,
+    imageApi,
+    // PostImageType,
+} from '../../../services';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
 const UserProfile: React.FC = () => {
@@ -30,14 +35,31 @@ const UserProfile: React.FC = () => {
         document.title = 'Editar Perfil';
     }, []);
 
+    const handleEditImage = async (image: File, newData: updateModel) => {
+        const formData = new FormData();
+        formData.append('imageData', image);
+        setLoading(true);
+        try {
+            const response = await imageApi.post(formData);
+            const data = response.data;
+            console.log(data);
+            handleEditUser(newData);
+            SnackbarUtils.success('Imagem de perfil editada com sucesso');
+        } catch (error) {
+            setLoading(false);
+            SnackbarUtils.error('Não foi possível editar a imagem');
+        }
+    };
+
     const handleEditUser = async (newData: updateModel) => {
         setLoading(true);
         try {
             const response = await authApi.update(newData);
 
             const data = response.data;
-            // console.log(data);
+            console.log(data);
             updateUser(data);
+
             setLoading(false);
             SnackbarUtils.success('Perfil editado com sucesso');
         } catch (error) {
@@ -45,18 +67,11 @@ const UserProfile: React.FC = () => {
             SnackbarUtils.error('Não foi possível editar o perfil');
         }
     };
-    const validLink = (data: updateModel) => {
-        let dataAux = data;
-        if (dataAux.gitHub.substring(0, 8) !== 'https://')
-            dataAux.gitHub = 'https://' + dataAux.gitHub;
-        if (dataAux.linkedin.substring(0, 8) !== 'https://')
-            dataAux.linkedin = 'https://' + dataAux.linkedin;
-        return dataAux;
-    };
     const onSubmit = (data: updateModel) => {
         let dataAux;
         dataAux = validLink(data);
-        handleEditUser(dataAux);
+        if (image) handleEditImage(image, dataAux);
+        else handleEditUser(dataAux);
     };
     return (
         <AppLayout>
@@ -99,7 +114,9 @@ const UserProfile: React.FC = () => {
                                     <CropImageInput
                                         image={image}
                                         setImage={setImage}
-                                        preview={ProfilePic}
+                                        preview={
+                                            user?.image?.path || ProfilePic
+                                        }
                                         styles={classes.cropImage}
                                     />
                                 </Grid>
@@ -273,24 +290,8 @@ const UserProfile: React.FC = () => {
                                             placeholder="Url do Github"
                                             defaultValue={user!.gitHub}
                                             fullWidth
-                                            inputRef={register({
-                                                // required:
-                                                //     'Esse campo é obrigatório',
-                                            })}
+                                            inputRef={register({})}
                                         />
-                                        {/* <ErrorMessage
-                                            errors={errors}
-                                            name="gitHub"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        /> */}
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
@@ -300,24 +301,8 @@ const UserProfile: React.FC = () => {
                                             placeholder="Url do LinkedIn"
                                             defaultValue={user!.linkedin}
                                             fullWidth
-                                            inputRef={register({
-                                                // required:
-                                                //     'Esse campo é obrigatório',
-                                            })}
+                                            inputRef={register({})}
                                         />
-                                        {/* <ErrorMessage
-                                            errors={errors}
-                                            name="linkedin"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        /> */}
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
                                         <TextField

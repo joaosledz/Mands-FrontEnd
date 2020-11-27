@@ -8,9 +8,15 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.background.default,
             display: 'flex',
             flexDirection: 'column',
+            position: 'relative',
         },
         divider: {
             margin: theme.spacing(2, 0),
+        },
+        fabButton: {
+            position: 'absolute',
+            right: '15px',
+            bottom: '15px',
         },
     })
 );

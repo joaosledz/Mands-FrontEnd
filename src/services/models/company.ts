@@ -24,8 +24,7 @@ export type UserCompanyType = {
     cnpj: string;
     pin: string;
     phone: string;
-    imageId: number;
-    image: string;
+    imagePath: string;
     userPermission?: TypeCompanyPermission;
     departments?: Array<TypeDepartment>;
     // dados abaixo serão retirados

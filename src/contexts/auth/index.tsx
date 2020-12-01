@@ -7,6 +7,7 @@ import {
     LoginModel,
     userType,
 } from '../../services';
+import snackbarUtils from '../../utils/functions/snackbarUtils';
 // import { connectHub } from '../../services/socket';
 
 type AuthContextData = {
@@ -48,6 +49,9 @@ export const AuthProvider: React.FC = ({ children }) => {
                         if (error.response?.status === 401 && storagedToken) {
                             localStorage.removeItem(tokenKey);
                             setUser(null);
+                            snackbarUtils.info(
+                                'Seu token de acesso expirou, faça o Login novamente.'
+                            );
                         }
                         setLoading(false);
                     });

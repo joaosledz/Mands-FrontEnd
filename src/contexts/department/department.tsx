@@ -17,7 +17,7 @@ const DepartmentContext = createContext<TypeDepartmentData>(
 );
 
 const getStoragedDepartment = () => {
-    const companyDataAux = sessionStorage.getItem('@Mands:DepartmentData');
+    const companyDataAux = sessionStorage.getItem('@Mands:department');
     if (companyDataAux) {
         const companyData: TypeDepartment = JSON.parse(companyDataAux);
         return companyData;
@@ -58,6 +58,7 @@ export const DepartmentProvider: React.FC = ({ children }) => {
     );
 
     const updateDepartment = useCallback((data: TypeDepartment) => {
+        sessionStorage.setItem('@Mands:department', JSON.stringify(data));
         setDepartment(data);
     }, []);
 

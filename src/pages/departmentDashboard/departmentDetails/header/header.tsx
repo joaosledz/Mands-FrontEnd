@@ -23,7 +23,7 @@ const Header: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const history = useHistory();
-    const company = useCompany();
+    const { company } = useCompany();
     const { department } = props;
 
     const [loading, setLoading] = useState(true);

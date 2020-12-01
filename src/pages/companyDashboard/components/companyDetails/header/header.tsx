@@ -54,6 +54,7 @@ const Header: React.FC<Props> = ({ company }) => {
     };
 
     const handleChangeCompany = (company_username: string) => {
+        handleClose();
         history.replace(`/dashboard/${company_username}`);
     };
 

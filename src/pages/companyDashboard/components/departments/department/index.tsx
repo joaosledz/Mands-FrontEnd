@@ -26,9 +26,9 @@ const Department: React.FC<Props> = ({ department }) => {
     return (
         <Link
             component={RouterLink}
-            to={`/${params.companyName}/${name.toLowerCase()}`}
+            to={`/${params.company}/${name.toLowerCase()}`}
             // to={{
-            //     pathname: `/${params.companyName}/${name.toLowerCase()}`,
+            //     pathname: `/${params.company}/${name.toLowerCase()}`,
             //     state: { department },
             // }}
             onClick={() => handleSelection(department)}

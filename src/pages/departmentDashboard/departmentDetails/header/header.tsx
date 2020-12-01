@@ -94,15 +94,11 @@ const Header: React.FC<Props> = (props: Props) => {
                         {departments.map(department => (
                             <MenuItem
                                 key={department.departmentId}
-                                disabled={
-                                    params.departmentName === department.name
-                                }
-                                selected={
-                                    params.departmentName === department.name
-                                }
+                                disabled={params.department === department.name}
+                                selected={params.department === department.name}
                                 onClick={() =>
                                     handleChangeDepartment(
-                                        params.companyName,
+                                        params.company,
                                         department.name
                                     )
                                 }

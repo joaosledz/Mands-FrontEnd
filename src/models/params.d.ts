@@ -1,6 +1,6 @@
 type TypeParams = {
-    companyName: string;
-    departmentName?: string;
+    company: string;
+    department?: string;
 };
 
 export default TypeParams;

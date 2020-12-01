@@ -25,7 +25,7 @@ const CompanyDashboardHeader: React.FC<Props> = (props: Props) => {
                 <BackButton
                     message="Voltar"
                     white
-                    redirect={`dashboard/${params.companyName}`}
+                    redirect={`dashboard/${params.company}`}
                 />
             </Grid>
         </Grid>

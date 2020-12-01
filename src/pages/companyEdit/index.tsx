@@ -32,7 +32,7 @@ const CompanyRegister: React.FC = () => {
     const { register, errors, handleSubmit } = useForm<CompanyModel>();
 
     useEffect(() => {
-        document.title = 'Cadastrar Empresa';
+        document.title = 'Editar Empresa';
         console.log(companyData);
     }, []);
 
@@ -264,7 +264,7 @@ const CompanyRegister: React.FC = () => {
                             </Grid>
                         </Grid>
                         <Grid container item xs={12} justify="center">
-                            <SubmitButton mt={100} text="Cadastrar empresa" />
+                            <SubmitButton mt={100} text="Enviar" />
                         </Grid>
                     </Grid>
                 </Paper>

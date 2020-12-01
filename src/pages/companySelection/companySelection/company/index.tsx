@@ -16,7 +16,7 @@ const Company: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const history = useHistory();
     const { company } = props;
-    const { image, name, username } = company;
+    const { imagePath, name, username } = company;
 
     const handleCompanySelection = () => {
         sessionStorage.setItem('@Mands:CompanyData', JSON.stringify(company));
@@ -29,7 +29,7 @@ const Company: React.FC<Props> = (props: Props) => {
             className={classes.container}
         >
             <Avatar
-                src={image}
+                src={imagePath}
                 alt={`${name} logo`}
                 className={classes.companyLogo}
             >

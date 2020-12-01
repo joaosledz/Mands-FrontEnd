@@ -11,6 +11,7 @@ import {
 import { UserCompanyType } from './models/company';
 import { TypeDepartment, TypeMember } from './models/department';
 import { TypeProject } from './models/project';
+import { PostImageType, ImageErrorType, ImageType } from './models/image';
 
 import authApi from './useCases/authentication';
 import userApi from './useCases/user';
@@ -18,6 +19,7 @@ import companyApi from './useCases/company';
 import permissionApi from './useCases/companyPermission';
 import departmentApi from './useCases/department';
 import projectApi from './useCases/project';
+import imageApi from './useCases/image';
 
 export {
     api,
@@ -27,6 +29,7 @@ export {
     permissionApi,
     departmentApi,
     projectApi,
+    imageApi,
 };
 // Exportação das models de autenticação
 export type {
@@ -43,3 +46,5 @@ export type { UserCompanyType };
 export type { TypeDepartment, TypeMember };
 // Exportação das models de projeto
 export type { TypeProject };
+// Exportação das models de imagem
+export type { PostImageType, ImageErrorType, ImageType };

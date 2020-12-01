@@ -33,11 +33,20 @@ const Header: React.FC = () => {
         <Grid container component="header" className={classes.container}>
             <Grid item xs={4} />
             <Grid container item justify="center" xs={4}>
-                <img src={logo} alt="Logo do Mands" className={classes.logo} />
+                <Link to={'/'}>
+                    <img
+                        src={logo}
+                        alt="Logo do Mands"
+                        className={classes.logo}
+                    />
+                </Link>
             </Grid>
             <Grid container item xs={4} className={classes.rightSide}>
                 <ButtonBase onClick={handleClick}>
-                    <Avatar src={avatar} alt={`${user?.name} avatar`} />
+                    <Avatar
+                        src={user?.image?.path || avatar}
+                        alt={`${user?.name} avatar`}
+                    />
                     <Hidden only="xs">
                         <Typography
                             style={{ color: 'white', fontSize: '0.9rem' }}

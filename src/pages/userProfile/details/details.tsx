@@ -49,6 +49,7 @@ const UserProfile: React.FC = () => {
                                 username={user!.username}
                                 email={user!.email}
                                 phone={user!.phone}
+                                imagePath={user!.image?.path}
                             />
                         </Grid>
                         <Hidden smDown>

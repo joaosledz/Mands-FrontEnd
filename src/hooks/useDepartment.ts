@@ -1,11 +1,9 @@
-import { TypeDepartment } from '../services';
+import { useContext } from 'react';
+import DepartmentContext from '../contexts/department/department';
 
 const useDepartment = () => {
-    const departmentDataAux = sessionStorage.getItem('@Mands:department');
-    if (departmentDataAux) {
-        const departmentData: TypeDepartment = JSON.parse(departmentDataAux);
-        return departmentData;
-    } else return null;
+    const context = useContext(DepartmentContext);
+    return context;
 };
 
 export default useDepartment;

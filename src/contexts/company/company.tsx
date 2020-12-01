@@ -31,6 +31,7 @@ export const CompanyProvider: React.FC = ({ children }) => {
             const response = await companyApi.showAllCompanyData(
                 company_username
             );
+            // console.log(response.data);
             const permissionResponse = await permissionApi.userPermissions(
                 response.data.companyId
             );
@@ -70,9 +71,4 @@ export const CompanyProvider: React.FC = ({ children }) => {
     );
 };
 
-const useCompany = () => {
-    const context = useContext(CompanyContext);
-    return context;
-};
-
-export default useCompany;
+export default CompanyContext;

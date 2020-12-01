@@ -77,9 +77,4 @@ export const DepartmentProvider: React.FC = ({ children }) => {
     );
 };
 
-const useDepartment = () => {
-    const context = useContext(DepartmentContext);
-    return context;
-};
-
-export default useDepartment;
+export default DepartmentContext;

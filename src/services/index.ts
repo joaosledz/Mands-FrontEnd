@@ -9,7 +9,7 @@ import {
     updateModel,
 } from './models/authentication';
 import { UserCompanyType } from './models/company';
-import { TypeDepartment } from './models/department';
+import { TypeDepartment, TypeMember } from './models/department';
 import { TypeProject } from './models/project';
 
 import authApi from './useCases/authentication';
@@ -40,6 +40,6 @@ export type {
 // Exportação das models de empresa
 export type { UserCompanyType };
 // Exportação das models de departamento
-export type { TypeDepartment };
+export type { TypeDepartment, TypeMember };
 // Exportação das models de projeto
 export type { TypeProject };

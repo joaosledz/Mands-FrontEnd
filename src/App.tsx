@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { AuthProvider } from './contexts/auth';
+import AppProviders from './contexts/providers';
 import theme from './styles/theme';
 import GlobalCss from './styles/global';
 import { SnackbarProvider, SnackbarOrigin } from 'notistack';
@@ -18,10 +18,10 @@ const App: React.FC = () => {
             <ThemeProvider theme={theme}>
                 <SnackbarProvider maxSnack={4} anchorOrigin={snackBarOptions}>
                     <SnackbarUtilsConfigurator />
-                    <AuthProvider>
+                    <AppProviders>
                         <Routes />
                         <GlobalCss />
-                    </AuthProvider>
+                    </AppProviders>
                 </SnackbarProvider>
             </ThemeProvider>
         </div>

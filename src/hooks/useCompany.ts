@@ -1,11 +1,9 @@
-import { UserCompanyType } from '../services';
+import { useContext } from 'react';
+import CompanyContext from '../contexts/company/company';
 
 const useCompany = () => {
-    const companyDataAux = sessionStorage.getItem('@Mands:CompanyData');
-    if (companyDataAux) {
-        const companyData: UserCompanyType = JSON.parse(companyDataAux);
-        return companyData;
-    } else return null;
+    const context = useContext(CompanyContext);
+    return context;
 };
 
 export default useCompany;

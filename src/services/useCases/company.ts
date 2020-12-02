@@ -1,4 +1,5 @@
 import api from '../api';
+import { TypeMember } from '../models/department';
 import { UserCompanyType, CompanyModel } from '../models/company';
 import companyUrls from '../urls/company';
 
@@ -41,10 +42,22 @@ const companyApi = {
         }
     },
 
+    findAllEmployees: async (company_id: number) => {
+        try {
+            const response = await api.get<Array<TypeMember>>(
+                companyUrls.findAllEmployees + company_id
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+
     showAllCompanyData: async (company_name: string) => {
         try {
             const response = await api.get<UserCompanyType>(
-                companyUrls.showAllCompanyData + `/${company_name}`
+                companyUrls.showAllCompanyData + company_name
             );
             return Promise.resolve(response);
         } catch (error) {

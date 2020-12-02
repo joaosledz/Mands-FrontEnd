@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { TypeDepartment } from '../../../../../../services';
+import useDepartment from '../../../../../../hooks/useDepartment';
 import DefaultDepartmentIcon from '../../../../../../assets/selectableIcons/defaultDepartment.svg';
 import useStyles from './styles';
 
@@ -17,6 +18,7 @@ const Department: React.FC<Props> = ({ department }) => {
     const { name, image } = department;
 
     const params = useParams<{ company: string }>();
+    const { updateDepartment } = useDepartment();
 
     return (
         <Link
@@ -29,6 +31,7 @@ const Department: React.FC<Props> = ({ department }) => {
                     department: department,
                 },
             }}
+            onClick={() => updateDepartment(department)}
             className={classes.department}
         >
             <img

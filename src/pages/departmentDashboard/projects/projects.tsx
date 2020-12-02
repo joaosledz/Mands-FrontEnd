@@ -25,8 +25,8 @@ const Projects: React.FC = () => {
         const getProjectData = async () => {
             try {
                 const response = await projectApi.findByDepartment(
-                    params.companyName,
-                    params.departmentName!
+                    params.company,
+                    params.department!
                 );
                 setProjects(response.data);
                 setLoading(false);
@@ -37,7 +37,7 @@ const Projects: React.FC = () => {
         };
 
         getProjectData();
-    }, [params.companyName, params.departmentName]);
+    }, [params.company, params.department]);
 
     return (
         <Paper className={classes.container}>

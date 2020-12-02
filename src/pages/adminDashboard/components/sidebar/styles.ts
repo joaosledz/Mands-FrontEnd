@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
         drawerPaperPermanent: {
             width: drawerWidth,
-            height: '75vh',
+            height: '76vh',
 
             borderRadius: 10,
             backgroundColor: theme.palette.background.default,

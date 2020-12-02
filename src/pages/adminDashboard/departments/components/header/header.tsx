@@ -27,18 +27,18 @@ const Header: React.FC<Props> = (props: Props) => {
     return (
         <Grid container spacing={3}>
             <Hidden mdDown>
-                <Grid item xs={1} md={4} />
+                <Grid item xs={1} md={3} />
             </Hidden>
-            <Grid container item xs={12} md={4} justify="center">
+            <Grid container item xs={12} md={6} justify="center">
                 <Typography variant="h1" className={classes.title}>
                     Departamento - {departmentName}
                 </Typography>
             </Grid>
-            <Grid container item xs={12} md={4} justify="flex-end">
+            <Grid container item xs={12} md={3} justify="flex-end">
                 {redirect ? (
                     <BackButton
                         message={message}
-                        redirect={`admin/${params.companyName}/departamentos`}
+                        redirect={`admin/${params.company}/departamentos`}
                     />
                 ) : (
                     <BackButton message={message} />

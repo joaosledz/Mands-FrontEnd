@@ -31,8 +31,15 @@ const useStyles = makeStyles<Theme>(theme =>
             },
         },
 
+        closeModalButton: {
+            position: 'absolute',
+            top: '1%',
+            right: '1%',
+        },
+
         clearAssigns: {
             color: theme.palette.text.secondary,
+            textTransform: 'initial',
             transition: 'all .2s',
             '&:hover': {
                 backgroundColor: 'rgba(0,0,0,0.1)',

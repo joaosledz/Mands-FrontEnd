@@ -30,18 +30,21 @@ const DepartmentDashboard: React.FC = () => {
                         params.department!.toLowerCase() !==
                         department.name.toLowerCase()
                     )
-                        getDepartmentData(company.username, department.name);
+                        await getDepartmentData(
+                            company.username,
+                            department.name
+                        );
                     // Fix: verificar bug na troca de departamento, pelas rotas
                     else setLoading(false);
                 } else {
                     if (company) {
-                        getDepartmentData(
+                        await getDepartmentData(
                             company!.username,
                             params.department!
                         );
                     } else {
                         const response = await getCompanyData(params.company);
-                        getDepartmentData(
+                        await getDepartmentData(
                             response.username,
                             params.department!
                         );

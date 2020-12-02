@@ -1,3 +1,5 @@
+import { TypeProject } from './project';
+
 export type DepartmentModel = {
     name: string;
     objective: string;
@@ -26,4 +28,5 @@ export type TypeDepartment = {
     imageId: number;
     image: string;
     members: Array<TypeMember>;
+    projects?: Array<TypeProject>;
 };

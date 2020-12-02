@@ -10,7 +10,7 @@ import snackbarUtils from '../../utils/functions/snackbarUtils';
 
 type Props = {
     layoutStyles?: string;
-    loading?: boolean;
+    loading?: boolean | Array<boolean>;
     children: React.ReactNode;
 };
 
@@ -34,10 +34,12 @@ const AppLayout: React.FC<Props> = (props: Props) => {
                     if (
                         params.company.toLowerCase() !==
                         company.username.toLowerCase()
-                    )
-                        getCompanyData(params.company);
-                    // Caso o usuário entre pela URL
+                    ) {
+                        console.log('AppLayout: mudou url');
+                        await getCompanyData(params.company);
+                    } // Caso o usuário entre pela URL
                 } else {
+                    console.log('AppLayout: caso não tenha company');
                     await getCompanyData(params.company);
                 }
             } catch (error) {
@@ -49,7 +51,7 @@ const AppLayout: React.FC<Props> = (props: Props) => {
             }
         };
         checkCompanyData();
-    }, [company, params, getCompanyData, setLoading]);
+    }, [company, getCompanyData, params.company, setLoading]);
 
     return (
         <Box
@@ -61,7 +63,17 @@ const AppLayout: React.FC<Props> = (props: Props) => {
             }
         >
             <Header />
-            {!loading || !innerLoading ? children : <Loading />}
+            {typeof loading === 'boolean' ? (
+                !loading || !innerLoading ? (
+                    children
+                ) : (
+                    <Loading />
+                )
+            ) : loading.includes(true) && innerLoading ? (
+                <Loading />
+            ) : (
+                children
+            )}
         </Box>
     );
 };

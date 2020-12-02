@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React /* , { useState } */ from 'react';
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -9,7 +9,7 @@ import { AddUser as AddUserIcon } from '@styled-icons/entypo';
 import { Groups as TeamIcon } from '@styled-icons/material';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
-import employeesData from '../../../../../../utils/data/employees';
+// import employeesData from '../../../../../../utils/data/employees';
 import { TypeTeam } from '../../../../../../models/department';
 // import AssignTeamModal from '../../../../../../components/assignTeamModal/assignTeamModal'
 
@@ -22,11 +22,11 @@ const ChipsList: React.FC<Props> = (props: Props) => {
     const { teamData } = props;
     const history = useHistory();
     const classes = useStyles();
-    const [allEmployees] = useState(employeesData);
-    const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
+    // const [allEmployees] = useState(employeesData);
+    // const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
     //   const [editable, setEditable] = useState<boolean>(false);
     const handleAssignTeamModal = () => {
-        setShowTeamModal(true);
+        // setShowTeamModal(true);
     };
     const handleDelete = (index: number) => {
         console.info('You clicked the delete icon.');

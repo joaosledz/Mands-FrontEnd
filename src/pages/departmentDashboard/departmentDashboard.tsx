@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -52,7 +52,14 @@ const DepartmentDashboard: React.FC = () => {
             }
         };
         handleDepartmentParam();
-    }, [company, department, params]);
+    }, [
+        company,
+        department,
+        params,
+        getCompanyData,
+        getDepartmentData,
+        setLoading,
+    ]);
 
     return (
         <AppLayout loading={loading}>

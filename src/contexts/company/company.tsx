@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useCallback } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 import { UserCompanyType, companyApi, permissionApi } from '../../services';
 
 type TypeCompanyData = {

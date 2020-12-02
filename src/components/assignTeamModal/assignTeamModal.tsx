@@ -16,7 +16,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Slide from '@material-ui/core/Slide';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
-import { TypeTeam } from '../../models/department';
+import { TypeMember } from '../../services';
 import arraysEquals from '../../utils/functions/arraysEquals';
 
 import SearchButtonTF from './searchButtonTF/searchButtonTF';
@@ -26,8 +26,8 @@ import useStyles from './styles';
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    allEmployees: Array<TypeTeam>;
-    teamData: Array<TypeTeam>;
+    allEmployees: Array<TypeMember>;
+    teamData: Array<TypeMember>;
 };
 
 const AssignTeamModal: React.FC<Props> = (props: Props) => {
@@ -44,6 +44,8 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
     // useEffect(() => {
     //     console.log('checkers: ', checkers);
     //     console.log('teamIDs: ', teamIDs);
+    //     console.log(allEmployees);
+    //     console.log(teamData);
     // }, [teamIDs, checkers]);
 
     useEffect(() => {
@@ -56,9 +58,9 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
             const auxIDsArray: Array<number> = [];
             employees.map(employee => {
                 if (team.length !== 0) {
-                    if (team.some(e => e.id === employee.id)) {
+                    if (team.some(e => e.userId === employee.userId)) {
                         auxArray.push(true);
-                        auxIDsArray.push(employee.id);
+                        auxIDsArray.push(employee.userId);
                         return null;
                     } else {
                         auxArray.push(false);
@@ -197,7 +199,7 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                                         <Checkbox
                                             id={`checkbox-${index}`}
                                             color="primary"
-                                            value={employee.id}
+                                            value={employee.userId}
                                             checked={checkers[index]}
                                             onChange={event =>
                                                 handleChange(event, index)
@@ -211,7 +213,7 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                                         {employee.name}
                                     </Grid>
                                     <Grid item xs={5} component={Typography}>
-                                        {employee.jobTitle}
+                                        {employee.role_name}
                                     </Grid>
                                 </Grid>
                             ))}

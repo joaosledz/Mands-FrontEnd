@@ -53,6 +53,7 @@ export const CompanyProvider: React.FC = ({ children }) => {
     }, []);
 
     const updateCompany = useCallback((data: UserCompanyType) => {
+        sessionStorage.setItem('@Mands:CompanyData', JSON.stringify(data));
         setCompany(data);
     }, []);
 

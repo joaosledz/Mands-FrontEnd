@@ -17,19 +17,19 @@ const DepartmentContext = createContext<TypeDepartmentData>(
 );
 
 const getStoragedDepartment = () => {
-    const companyDataAux = sessionStorage.getItem('@Mands:department');
-    if (companyDataAux) {
-        const companyData: TypeDepartment = JSON.parse(companyDataAux);
+    const departmentDataAux = sessionStorage.getItem('@Mands:department');
+    if (departmentDataAux) {
+        const companyData: TypeDepartment = JSON.parse(departmentDataAux);
         return companyData;
     } else return null;
 };
 
 export const DepartmentProvider: React.FC = ({ children }) => {
-    const companyData = getStoragedDepartment();
+    const departmentData = getStoragedDepartment();
 
     const [loading, setLoading] = useState(true);
     const [department, setDepartment] = useState<TypeDepartment | null>(
-        companyData
+        departmentData
     );
 
     const getDepartmentData = useCallback(

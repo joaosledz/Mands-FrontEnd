@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
         project: {
             width: '100%',
             padding: '1rem',
+            maxHeight: '7rem',
 
             textDecoration: 'none',
 

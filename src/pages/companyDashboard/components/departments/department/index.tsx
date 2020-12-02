@@ -9,6 +9,7 @@ import { TypeDepartment } from '../../../../../services';
 
 import DefaultDepartmentIcon from '../../../../../assets/selectableIcons/defaultDepartment.svg';
 import useStyles from './styles';
+import useDepartment from '../../../../../hooks/useDepartment';
 
 type Props = {
     department: TypeDepartment;
@@ -18,9 +19,10 @@ const Department: React.FC<Props> = ({ department }) => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const { name, image } = department;
+    const { updateDepartment } = useDepartment();
 
     const handleSelection = (department: TypeDepartment) => {
-        sessionStorage.setItem('@Mands:department', JSON.stringify(department));
+        updateDepartment(department);
     };
 
     return (

@@ -57,7 +57,7 @@ const companyApi = {
     showAllCompanyData: async (company_name: string) => {
         try {
             const response = await api.get<UserCompanyType>(
-                companyUrls.showAllCompanyData + `/${company_name}`
+                companyUrls.showAllCompanyData + company_name
             );
             return Promise.resolve(response);
         } catch (error) {

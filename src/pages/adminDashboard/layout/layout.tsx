@@ -29,19 +29,19 @@ const Layout: React.FC<Props> = ({
 
     useEffect(() => {
         const checkCompanyData = async () => {
-            try {
-                if (company && company.userPermission!.editCompany)
-                    setLoading(false);
-                // Caso o usuário entre pela URL
-                else {
+            if (company && company.userPermission!.editCompany)
+                setLoading(false);
+            // Caso o usuário entre pela URL
+            else {
+                try {
                     const response = await getCompanyData(params.company);
                     if (response && response.userPermission!.editCompany)
                         setLoading(false);
                     else history.push('/');
+                } catch (error) {
+                    SnackbarUtils.error(error.message.data);
+                    history.push('/');
                 }
-            } catch (error) {
-                SnackbarUtils.error(error.message.data);
-                history.push('/');
             }
         };
         checkCompanyData();
@@ -56,7 +56,6 @@ const Layout: React.FC<Props> = ({
                         <Grid item lg={2}>
                             <SideBar />
                         </Grid>
-
                         {children}
                     </Grid>
                 </Box>

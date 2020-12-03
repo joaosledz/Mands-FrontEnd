@@ -4,6 +4,7 @@ const authUrls = {
     me: '/me',
     changePassword: 'passReset',
     update: 'User/Update',
+    verifyUsername: '/Authentications/VerifyUsername',
 };
 
 export default authUrls;

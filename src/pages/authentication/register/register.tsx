@@ -5,7 +5,6 @@ import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-
 import CpfValidator from '../../../validators/cpfValidator';
 import { /*AxiosError,*/ authApi, RegisterModel } from '../../../services';
 
@@ -14,6 +13,7 @@ import CropImageInputComponent from '../../../components/cropImage/cropImageInpu
 // import TextField from './components/textField';
 import RegisterButton from '../components/submitButton/submitButton';
 import useStyles /*,  { inputStyle } */ from './styles';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 const Register: React.FC = () => {
     const classes = useStyles();
@@ -33,7 +33,23 @@ const Register: React.FC = () => {
         [image]
     );
     //#endregion
-
+    const validateUsername = (username: string) => {
+        authApi
+            .verifyUsername(username)
+            .then(response => {
+                console.log(response);
+                return true;
+            })
+            .catch(error => {
+                return false;
+            });
+        return true;
+    };
+    const debouncePromise = AwesomeDebouncePromise(
+        validateUsername,
+        500
+        // options,
+    );
     const { register, errors, handleSubmit } = useForm<RegisterModel>();
 
     const onSubmit = (data: RegisterModel) => {
@@ -42,10 +58,10 @@ const Register: React.FC = () => {
             .register(data)
             .then(response => {
                 console.log(response);
-                // Alert de sucesso
+                //sucess alert
             })
             .catch(error => {
-                // Alert de erro
+                //error alert
             });
     };
 
@@ -127,6 +143,19 @@ const Register: React.FC = () => {
                                     variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
+                                        validate:
+                                            /*debouncePromise(*/
+                                            async (value: string) => {
+                                                return (
+                                                    (await validateUsername(
+                                                        value
+                                                    )) ||
+                                                    'Phone number is invalid'
+                                                );
+                                                /*);*/
+                                            },
+                                        // 500
+                                        // ),
                                     })}
                                 />
                                 <ErrorMessage

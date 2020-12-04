@@ -3,9 +3,9 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         project: {
-            // width: '100%',
-            maxWidth: '12rem',
+            width: '100%',
             padding: '1rem',
+            maxHeight: '7rem',
 
             textDecoration: 'none',
 
@@ -22,13 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: 'all .1s',
 
             '& img': {
-                maxWidth: '80%',
+                maxWidth: '30%',
             },
 
             '& p': {
                 marginTop: '0.5rem',
                 color: theme.palette.primary.contrastText,
-                fontSize: '1.2rem',
+                fontSize: '1.1rem',
                 fontWeight: 300,
             },
 

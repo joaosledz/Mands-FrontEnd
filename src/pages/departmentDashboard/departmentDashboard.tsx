@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import {
-    UserCompanyType,
-    TypeDepartment,
-    companyApi,
-    departmentApi,
-} from '../../services';
 import TypeParams from '../../models/params';
 import useCompany from '../../hooks/useCompany';
 import useDepartment from '../../hooks/useDepartment';
+import snackbarUtils from '../../utils/functions/snackbarUtils';
 
 import AppLayout from '../../layout/appLayout';
 import Header from './header/header';
@@ -22,66 +17,52 @@ import useStyles from './styles';
 const DepartmentDashboard: React.FC = () => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
-    const companyData = useCompany();
-    const departmentData = useDepartment();
-
-    const [loading, setLoading] = useState(true);
-    const [company, setCompany] = useState<UserCompanyType | null>(companyData);
-    const [department, setDepartment] = useState<TypeDepartment | null>(
-        departmentData
-    );
+    const { company, getCompanyData, loading, setLoading } = useCompany();
+    const { department, getDepartmentData } = useDepartment();
 
     useEffect(() => {
-        const getCompanyData = async (company_username: string) => {
-            try {
-                // Trocar para rota de permissão da empresa
-                const response = await companyApi.show(company_username);
-                setCompany(response.data);
-                setLoading(false);
-            } catch (error) {
-                //toast de erro
-                setLoading(false);
-            }
-        };
-
-        const getDepartmentData = async (department_name: string) => {
-            try {
-                // Trocar para rota de permissão da empresa
-                const response = await departmentApi.show(department_name);
-                setDepartment(response.data);
-                setLoading(false);
-            } catch (error) {
-                //toast de erro
-                setLoading(false);
-            }
-        };
-
         const handleDepartmentParam = async () => {
             setLoading(true);
-            if (department) {
-                document.title = `Departamento - ${department.name}`;
-                // console.log(
-                //     params.departmentName!.toLowerCase(),
-                //     department.name.toLowerCase()
-                // );
-                if (
-                    params.departmentName!.toLowerCase() !==
-                    department.name.toLowerCase()
-                )
-                    getDepartmentData(params.departmentName!);
-                // Fix: verificar bug na troca de departamento, pelas rotas
-                else setLoading(false);
-            } else {
-                if (company) {
-                    getDepartmentData(params.departmentName!);
+            try {
+                if (company && department) {
+                    document.title = `Departamento - ${department.name}`;
+                    if (
+                        params.department!.toLowerCase() !==
+                        department.name.toLowerCase()
+                    )
+                        await getDepartmentData(
+                            company.username,
+                            department.name
+                        );
+                    // Fix: verificar bug na troca de departamento, pelas rotas
+                    else setLoading(false);
                 } else {
-                    getCompanyData(params.companyName);
-                    getDepartmentData(params.departmentName!);
+                    if (company) {
+                        await getDepartmentData(
+                            company!.username,
+                            params.department!
+                        );
+                    } else {
+                        const response = await getCompanyData(params.company);
+                        await getDepartmentData(
+                            response.username,
+                            params.department!
+                        );
+                    }
                 }
+            } catch (error) {
+                snackbarUtils.error(error.message);
             }
         };
         handleDepartmentParam();
-    }, [company, department, params]);
+    }, [
+        company,
+        department,
+        params,
+        getCompanyData,
+        getDepartmentData,
+        setLoading,
+    ]);
 
     return (
         <AppLayout loading={loading}>

@@ -9,7 +9,6 @@ import AppLayout from '../../../../../layout/appLayout';
 import BackButton from '../../../../../components/backButton';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelection from '../../components/iconSelection/input';
-import AssignGridItem from '../../components/assignGridItem';
 import useStyles from './styles';
 
 const NewDepartment: React.FC = () => {
@@ -84,19 +83,6 @@ const NewDepartment: React.FC = () => {
                             label="Descrição"
                         />
                     </Grid>
-                </Grid>
-                <Grid
-                    container
-                    className={classes.assignsContainer}
-                    justify="flex-start"
-                >
-                    <AssignGridItem
-                        title="Equipe:"
-                        category="team"
-                        description="Adicione funcionários a este departamento pelo botão no canto superior direito."
-                        icon="team"
-                        actionIcon="add"
-                    />
                 </Grid>
                 <Grid
                     container

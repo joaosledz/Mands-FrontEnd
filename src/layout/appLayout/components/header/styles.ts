@@ -9,18 +9,29 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: theme.palette.primary.main,
             overflow: 'hidden',
         },
-        logo: { width: 75 },
+
+        logo: {
+            display: 'flex',
+            justifyContent: 'center',
+            '& img': {
+                width: 75,
+            },
+        },
+
         rightSide: {
             alignItems: 'center',
             justifyContent: 'flex-end',
 
-            '& img': {
-                width: 36,
-                height: 36,
-                marginRight: 10,
-                borderRadius: 20,
+            '& p': {
+                marginLeft: 10,
             },
         },
+
+        avatar: {
+            width: theme.spacing(4),
+            height: theme.spacing(4),
+        },
+
         menu: {
             '& li': {
                 fontFamily: 'Roboto',

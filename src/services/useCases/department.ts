@@ -1,16 +1,21 @@
 import api from '../api';
-import { DepartmentModel, TypeDepartment } from '../models/department';
+import {
+    DepartmentModel,
+    TypeDepartment,
+    TypeMember,
+} from '../models/department';
 import departmentUrls from '../urls/department';
 
 const departmentApi = {
-    show: async (department_name: string) => {
+    show: (company_name: string, department_name: string) =>
+        api.get<TypeDepartment>(
+            departmentUrls.show + `${company_name}/${department_name}`
+        ),
+
+    listByCompany: async (company_id: number) => {
         try {
-            const response = await api.get<TypeDepartment>(
-                departmentUrls.show + department_name
-            );
-            sessionStorage.setItem(
-                '@Mands:department',
-                JSON.stringify(response.data)
+            const response = await api.get<Array<TypeDepartment>>(
+                departmentUrls.listByCompany + company_id
             );
             return Promise.resolve(response);
         } catch (error) {
@@ -19,10 +24,10 @@ const departmentApi = {
         }
     },
 
-    listByCompany: async (company_id: number) => {
+    listEmployees: async (company_id: number, department_id: number) => {
         try {
-            const response = await api.get<Array<TypeDepartment>>(
-                departmentUrls.listByCompany + company_id
+            const response = await api.get<Array<TypeMember>>(
+                departmentUrls.listEmployees + `${company_id}/${department_id}`
             );
             return Promise.resolve(response);
         } catch (error) {

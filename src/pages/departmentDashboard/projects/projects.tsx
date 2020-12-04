@@ -25,8 +25,8 @@ const Projects: React.FC = () => {
         const getProjectData = async () => {
             try {
                 const response = await projectApi.findByDepartment(
-                    params.companyName,
-                    params.departmentName!
+                    params.company,
+                    params.department!
                 );
                 setProjects(response.data);
                 setLoading(false);
@@ -37,17 +37,12 @@ const Projects: React.FC = () => {
         };
 
         getProjectData();
-    }, [params.companyName, params.departmentName]);
+    }, [params.company, params.department]);
 
     return (
         <Paper className={classes.container}>
             <Typography className={classes.title}>Projetos:</Typography>
-            <Grid
-                container
-                justify="center"
-                spacing={3}
-                className={classes.projectsContainer}
-            >
+            <Grid container spacing={3} className={classes.projectsContainer}>
                 {projects ? (
                     projects.length !== 0 ? (
                         projects.map((project, index) => {

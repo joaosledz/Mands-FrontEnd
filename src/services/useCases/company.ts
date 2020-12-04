@@ -4,6 +4,7 @@ import {
     CompanyModel,
     CompanyUpdateModel,
 } from '../models/company';
+import { TypeMember } from '../models/department';
 import companyUrls from '../urls/company';
 
 const companyApi = {
@@ -45,10 +46,13 @@ const companyApi = {
         }
     },
 
+    findAllEmployees: (company_id: number) =>
+        api.get<Array<TypeMember>>(companyUrls.findAllEmployees + company_id),
+
     showAllCompanyData: async (company_name: string) => {
         try {
             const response = await api.get<UserCompanyType>(
-                companyUrls.showAllCompanyData + `/${company_name}`
+                companyUrls.showAllCompanyData + company_name
             );
             return Promise.resolve(response);
         } catch (error) {

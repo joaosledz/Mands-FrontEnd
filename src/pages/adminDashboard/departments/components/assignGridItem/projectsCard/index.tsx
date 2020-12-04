@@ -3,19 +3,20 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
-import { TypeProjects } from '../../../../../../models/department';
+import { TypeProject } from '../../../../../../services';
 import handleUrlParamName from '../../../../../../utils/functions/handleUrlParamName';
+import DefaultDepartmentIcon from '../../../../../../assets/selectableIcons/defaultProject.svg';
 
 import useStyles from './styles';
 
 type Props = {
-    project: TypeProjects;
+    project: TypeProject;
 };
 
 const ProjectsCard: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { project } = props;
-    const { icon, name } = project;
+    const { image, name } = project;
     const location = useLocation();
 
     const handleDetailsURL = () => {
@@ -39,7 +40,7 @@ const ProjectsCard: React.FC<Props> = (props: Props) => {
             }}
             className={classes.project}
         >
-            <img src={icon} alt="Ícone do Projeto" />
+            <img src={image || DefaultDepartmentIcon} alt="Ícone do Projeto" />
             <Typography>{name}</Typography>
         </Link>
     );

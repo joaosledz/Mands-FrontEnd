@@ -7,21 +7,10 @@ import {
 import departmentUrls from '../urls/department';
 
 const departmentApi = {
-    show: async (company_name: string, department_name: string) => {
-        try {
-            const response = await api.get<TypeDepartment>(
-                departmentUrls.show + `${company_name}/${department_name}`
-            );
-            sessionStorage.setItem(
-                '@Mands:department',
-                JSON.stringify(response.data)
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    show: (company_name: string, department_name: string) =>
+        api.get<TypeDepartment>(
+            departmentUrls.show + `${company_name}/${department_name}`
+        ),
 
     listByCompany: async (company_id: number) => {
         try {

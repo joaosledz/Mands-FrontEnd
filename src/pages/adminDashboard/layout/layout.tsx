@@ -3,7 +3,9 @@ import { useParams, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
+import TypeParams from '../../../models/params';
 import useCompany from '../../../hooks/useCompany';
+import useDepartment from '../../../hooks/useDepartment';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
 import AppLayout from '../../../layout/appLayout';
@@ -23,32 +25,59 @@ const Layout: React.FC<Props> = ({
     children,
 }) => {
     const classes = useStyles();
-    const params = useParams<{ company: string }>();
+    const params = useParams<TypeParams>();
     const history = useHistory();
     const { company, getCompanyData, loading, setLoading } = useCompany();
+    const {
+        department,
+        getDepartmentData,
+        loading: departmentLoading,
+    } = useDepartment();
 
     useEffect(() => {
         const checkCompanyData = async () => {
-            if (company && company.userPermission!.editCompany)
-                setLoading(false);
-            // Caso o usuário entre pela URL
-            else {
+            // Verifica a permissão do usuário
+            if (company && company.userPermission!.editCompany) {
                 try {
-                    const response = await getCompanyData(params.company);
-                    if (response && response.userPermission!.editCompany)
-                        setLoading(false);
-                    else history.push('/');
+                    // Verifica se os dados armazenados batem com a url
+                    if (params.department) {
+                        if (department) {
+                            if (
+                                params.department.toLowerCase() !==
+                                department.name.toLowerCase()
+                            ) {
+                                console.log('Layout: mudança de url');
+                                await getDepartmentData(
+                                    params.company,
+                                    params.department!
+                                );
+                            } else setLoading(false);
+                        } else {
+                            console.log('Layout: caso não tenha department');
+                            await getDepartmentData(
+                                params.company,
+                                params.department!
+                            );
+                        }
+                    } else setLoading(false);
                 } catch (error) {
-                    SnackbarUtils.error(error.message.data);
-                    history.push('/');
+                    SnackbarUtils.error(error.message);
                 }
             }
         };
         checkCompanyData();
-    }, [company, history, params, getCompanyData, setLoading]);
+    }, [
+        company,
+        history,
+        params,
+        getCompanyData,
+        setLoading,
+        department,
+        getDepartmentData,
+    ]);
 
     return (
-        <AppLayout loading={loading}>
+        <AppLayout loading={[loading, departmentLoading]}>
             {menu ? (
                 <Box className={classes.container}>
                     <Header name={title} />

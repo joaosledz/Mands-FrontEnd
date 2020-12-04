@@ -42,17 +42,8 @@ const companyApi = {
         }
     },
 
-    findAllEmployees: async (company_id: number) => {
-        try {
-            const response = await api.get<Array<TypeMember>>(
-                companyUrls.findAllEmployees + company_id
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    findAllEmployees: (company_id: number) =>
+        api.get<Array<TypeMember>>(companyUrls.findAllEmployees + company_id),
 
     showAllCompanyData: async (company_name: string) => {
         try {

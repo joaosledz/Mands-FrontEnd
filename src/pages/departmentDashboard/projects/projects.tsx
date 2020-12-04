@@ -42,12 +42,7 @@ const Projects: React.FC = () => {
     return (
         <Paper className={classes.container}>
             <Typography className={classes.title}>Projetos:</Typography>
-            <Grid
-                container
-                justify="center"
-                spacing={3}
-                className={classes.projectsContainer}
-            >
+            <Grid container spacing={3} className={classes.projectsContainer}>
                 {projects ? (
                     projects.length !== 0 ? (
                         projects.map((project, index) => {

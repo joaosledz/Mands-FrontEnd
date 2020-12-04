@@ -12,6 +12,7 @@ import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 // import TextField from './components/textField';
 import RegisterButton from '../components/submitButton/submitButton';
+import { validateUsername } from './components/validators/validateUsername';
 import useStyles /*,  { inputStyle } */ from './styles';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
@@ -33,24 +34,17 @@ const Register: React.FC = () => {
         [image]
     );
     //#endregion
-    const validateUsername = (username: string) => {
-        authApi
-            .verifyUsername(username)
-            .then(response => {
-                console.log(response);
-                return true;
-            })
-            .catch(error => {
-                return false;
-            });
-        return true;
-    };
-    const debouncePromise = AwesomeDebouncePromise(
-        validateUsername,
-        500
-        // options,
-    );
-    const { register, errors, handleSubmit } = useForm<RegisterModel>();
+
+    const { register, errors, handleSubmit } = useForm<RegisterModel>({
+        mode: 'onSubmit',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: 'firstError',
+        shouldFocusError: true,
+        shouldUnregister: true,
+    });
 
     const onSubmit = (data: RegisterModel) => {
         console.log(data);
@@ -143,19 +137,17 @@ const Register: React.FC = () => {
                                     variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
-                                        validate:
-                                            /*debouncePromise(*/
-                                            async (value: string) => {
+                                        validate: AwesomeDebouncePromise(
+                                            async value => {
                                                 return (
                                                     (await validateUsername(
                                                         value
                                                     )) ||
-                                                    'Phone number is invalid'
+                                                    'Nome de usuário indisponível'
                                                 );
-                                                /*);*/
                                             },
-                                        // 500
-                                        // ),
+                                            500
+                                        ),
                                     })}
                                 />
                                 <ErrorMessage
@@ -165,6 +157,9 @@ const Register: React.FC = () => {
                                         <Typography
                                             className={classes.ErrorMessage}
                                         >
+                                            {/* {errors.username?.type ===
+                                                'usernameInvalid' &&
+                                                'Nome de usuário indisponível'} */}
                                             {message}
                                         </Typography>
                                     )}

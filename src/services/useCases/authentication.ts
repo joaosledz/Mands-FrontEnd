@@ -37,17 +37,8 @@ const authApi = {
             return Promise.reject(error);
         }
     },
-    verifyUsername: async (username: string) => {
-        try {
-            const response: AxiosResponse = await api.get(
-                authUrls.verifyUsername + `/${username}`
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    verifyUsername: (username: string) =>
+        api.get(authUrls.verifyUsername + `/${username}`),
 
     register: async (data: RegisterModel) => {
         try {

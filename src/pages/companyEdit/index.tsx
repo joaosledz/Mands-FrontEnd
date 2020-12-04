@@ -8,7 +8,7 @@ import ReactInputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { companyApi, imageApi } from '../../services';
-import useCompanyData from '../../hooks/useCompany';
+import useCompany from '../../hooks/useCompany';
 import ProfilePic from '../../assets/fakeDataImages/employees/anaTartari.png';
 
 import AppLayout from '../../layout/appLayout';
@@ -26,14 +26,13 @@ type CompanyModel = {
 
 const CompanyRegister: React.FC = () => {
     const classes = useStyles();
-    const companyData = useCompanyData();
+    const { company, updateCompany } = useCompany();
     const [image, setImage] = useState<File | undefined>(undefined);
     const [loading, setLoading] = useState(false);
     const { register, errors, handleSubmit } = useForm<CompanyModel>();
 
     useEffect(() => {
         document.title = 'Editar Empresa';
-        console.log(companyData);
     }, []);
 
     const handleEditImage = async (image: File, newData: CompanyModel) => {
@@ -41,14 +40,11 @@ const CompanyRegister: React.FC = () => {
         formData.append('imageData', image);
         setLoading(true);
         try {
-            const response = await imageApi.post(
-                formData,
-                companyData!.companyId
-            );
+            const response = await imageApi.post(formData, company!.companyId);
             const data = response.data;
             console.log(data);
             handleEditCompany(newData);
-            SnackbarUtils.success('Imagem de perfil editada com sucesso');
+            // SnackbarUtils.success('Imagem de perfil editada com sucesso');
         } catch (error) {
             setLoading(false);
             SnackbarUtils.error('Não foi possível editar a imagem');
@@ -58,13 +54,13 @@ const CompanyRegister: React.FC = () => {
         setLoading(true);
         try {
             const response = await companyApi.update(
-                companyData!.companyId,
+                company!.companyId,
                 newData
             );
 
             const data = response.data;
             console.log(data);
-            // updateUser(data);
+            updateCompany(data);
 
             setLoading(false);
             SnackbarUtils.success('Empresa editada com sucesso');
@@ -126,7 +122,7 @@ const CompanyRegister: React.FC = () => {
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
-                                            defaultValue={companyData!.name}
+                                            defaultValue={company!.name}
                                             data-cy="company-name"
                                             name="name"
                                             label="Nome"
@@ -152,7 +148,7 @@ const CompanyRegister: React.FC = () => {
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
-                                            defaultValue={companyData!.username}
+                                            defaultValue={company!.username}
                                             disabled
                                             data-cy="company-username"
                                             name="username"
@@ -164,7 +160,7 @@ const CompanyRegister: React.FC = () => {
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
-                                            defaultValue={companyData!.email}
+                                            defaultValue={company!.email}
                                             fullWidth
                                             data-cy="company-email"
                                             name="email"
@@ -198,7 +194,7 @@ const CompanyRegister: React.FC = () => {
                                         <ReactInputMask
                                             mask={'(99) 99999-9999'}
                                             maskChar="_"
-                                            defaultValue={companyData!.phone}
+                                            defaultValue={company!.phone}
                                         >
                                             {() => (
                                                 <TextField
@@ -236,7 +232,7 @@ const CompanyRegister: React.FC = () => {
                                 <Grid container item spacing={3}>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
-                                            defaultValue={companyData!.cnpj}
+                                            defaultValue={company!.cnpj}
                                             disabled
                                             data-cy="company-cnpj"
                                             name="cnpj"
@@ -254,9 +250,7 @@ const CompanyRegister: React.FC = () => {
                                 md={3}
                             >
                                 <CropImageInput
-                                    preview={
-                                        companyData?.imagePath || ProfilePic
-                                    }
+                                    preview={company?.image.path || ProfilePic}
                                     title="Logo da Empresa:"
                                     image={image}
                                     setImage={setImage}

@@ -24,16 +24,7 @@ export type UserCompanyType = {
     cnpj: string;
     pin: string;
     phone: string;
-    image: {
-        department: string;
-        extension: string;
-        imageId: number;
-        name: string;
-        path: string;
-        project: string;
-        size: string;
-        user: string;
-    };
+    imagePath: string;
     userPermission?: TypeCompanyPermission;
     departments?: Array<TypeDepartment>;
     users?: Array<TypeMember>;

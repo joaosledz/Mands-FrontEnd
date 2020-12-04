@@ -33,7 +33,8 @@ const CompanyRegister: React.FC = () => {
 
     useEffect(() => {
         document.title = 'Editar Empresa';
-    }, []);
+        console.log(company);
+    }, [company]);
 
     const handleEditImage = async (image: File, newData: CompanyModel) => {
         const formData = new FormData();
@@ -250,7 +251,7 @@ const CompanyRegister: React.FC = () => {
                                 md={3}
                             >
                                 <CropImageInput
-                                    preview={company?.image.path || ProfilePic}
+                                    preview={company?.imagePath || ProfilePic}
                                     title="Logo da Empresa:"
                                     image={image}
                                     setImage={setImage}

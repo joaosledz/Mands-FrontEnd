@@ -82,6 +82,8 @@ const companyApi = {
             return Promise.reject(error);
         }
     },
+    verifyUsername: (username: string) =>
+        api.get(companyUrls.verifyUsername + `${username}`),
 };
 
 export default companyApi;

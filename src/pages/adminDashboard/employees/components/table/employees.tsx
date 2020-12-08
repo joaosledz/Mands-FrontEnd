@@ -1,4 +1,4 @@
-import React, { createRef, useState } from 'react';
+import React, { createRef, useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
@@ -9,7 +9,7 @@ import pt from 'date-fns/locale/pt-BR';
 import { withStyles } from '@material-ui/core/styles';
 import { Key as KeyIcon } from '@styled-icons/ionicons-sharp';
 import { PersonRemove as RemoveUserIcon } from '@styled-icons/material';
-
+import useCompany from '../../../../../hooks/useCompany';
 import { TypeEmployee } from '../../../../../models/department';
 import Localization from './config/localization';
 import MTableFilterRow from '../filter';
@@ -18,7 +18,8 @@ import tableIcons from './config/icons';
 import HiringModal from '../hiring/modal';
 import PermissionModal from '../../../../../components/permission/modal';
 import useStyles from './styles';
-// import DeleteCupom from '../../components/Dialogs/DeleteCupom';
+import { UserCompanyType, companyApi } from '../../../../../services';
+import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 type Props = {
     data: Array<TypeEmployee>;
@@ -26,6 +27,7 @@ type Props = {
 
 const TableEmployees: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { company, updateCompany } = useCompany();
     const PurpleSwitch = withStyles({
         switchBase: {
             color: ' #8D297E',
@@ -65,6 +67,28 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
         setSelectedEmployee(rowData);
         setShowPermissionModal(true);
     };
+    useEffect(() => {
+        const checkData = async () => {
+            if (company) {
+                try {
+                    const response = await companyApi.findAllEmployees(
+                        company.companyId
+                    );
+                    const data: UserCompanyType = {
+                        ...company,
+                        users: [...response.data],
+                    };
+                    console.log(response.data);
+                    console.log('requisição');
+                    updateCompany(data);
+                } catch (error) {
+                    snackbarUtils.error(error.message);
+                }
+            }
+        };
+        checkData();
+        // eslint-disable-next-line
+    }, []);
     return (
         <>
             <MaterialTable
@@ -150,7 +174,6 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                             </Button>
                         ),
                     },
-
                     {
                         title: 'Remover',
                         filtering: false,
@@ -169,7 +192,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         ),
                     },
                 ]}
-                data={data}
+                data={/*company?.users||*/ data}
                 components={{
                     FilterRow: props => {
                         return (

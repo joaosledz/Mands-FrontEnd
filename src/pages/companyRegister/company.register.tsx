@@ -9,6 +9,8 @@ import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import CNPJValidator from '../../validators/cnpjValidator';
 import { companyApi } from '../../services';
+import { validateUsername } from './validators/validateUsername';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 import AppLayout from '../../layout/appLayout';
 import BackButton from '../../components/backButton';
@@ -123,6 +125,17 @@ const CompanyRegister: React.FC = () => {
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
+                                            validate: AwesomeDebouncePromise(
+                                                async value => {
+                                                    return (
+                                                        (await validateUsername(
+                                                            value
+                                                        )) ||
+                                                        'Nome de usuário indisponível'
+                                                    );
+                                                },
+                                                500
+                                            ),
                                         })}
                                     />
                                     <ErrorMessage

@@ -1,6 +1,10 @@
 import api from '../api';
+import {
+    UserCompanyType,
+    CompanyModel,
+    CompanyUpdateModel,
+} from '../models/company';
 import { TypeMember } from '../models/department';
-import { UserCompanyType, CompanyModel } from '../models/company';
 import companyUrls from '../urls/company';
 
 const companyApi = {
@@ -66,6 +70,20 @@ const companyApi = {
             return Promise.reject(error);
         }
     },
+    update: async (companyId: number, data: CompanyUpdateModel) => {
+        try {
+            const response = await api.put(
+                `${companyUrls.base}/${companyId}`,
+                data
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+    verifyUsername: (username: string) =>
+        api.get(companyUrls.verifyUsername + `${username}`),
 };
 
 export default companyApi;

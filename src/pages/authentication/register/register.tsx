@@ -5,7 +5,6 @@ import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-
 import CpfValidator from '../../../validators/cpfValidator';
 import { /*AxiosError,*/ authApi, RegisterModel } from '../../../services';
 
@@ -13,7 +12,9 @@ import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 // import TextField from './components/textField';
 import RegisterButton from '../components/submitButton/submitButton';
+import { validateUsername } from './components/validators/validateUsername';
 import useStyles /*,  { inputStyle } */ from './styles';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 const Register: React.FC = () => {
     const classes = useStyles();
@@ -34,7 +35,16 @@ const Register: React.FC = () => {
     );
     //#endregion
 
-    const { register, errors, handleSubmit } = useForm<RegisterModel>();
+    const { register, errors, handleSubmit } = useForm<RegisterModel>({
+        mode: 'onSubmit',
+        reValidateMode: 'onChange',
+        defaultValues: {},
+        resolver: undefined,
+        context: undefined,
+        criteriaMode: 'firstError',
+        shouldFocusError: true,
+        shouldUnregister: true,
+    });
 
     const onSubmit = (data: RegisterModel) => {
         console.log(data);
@@ -42,10 +52,10 @@ const Register: React.FC = () => {
             .register(data)
             .then(response => {
                 console.log(response);
-                // Alert de sucesso
+                //sucess alert
             })
             .catch(error => {
-                // Alert de erro
+                //error alert
             });
     };
 
@@ -127,6 +137,17 @@ const Register: React.FC = () => {
                                     variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
+                                        validate: AwesomeDebouncePromise(
+                                            async value => {
+                                                return (
+                                                    (await validateUsername(
+                                                        value
+                                                    )) ||
+                                                    'Nome de usuário indisponível'
+                                                );
+                                            },
+                                            500
+                                        ),
                                     })}
                                 />
                                 <ErrorMessage
@@ -136,6 +157,9 @@ const Register: React.FC = () => {
                                         <Typography
                                             className={classes.ErrorMessage}
                                         >
+                                            {/* {errors.username?.type ===
+                                                'usernameInvalid' &&
+                                                'Nome de usuário indisponível'} */}
                                             {message}
                                         </Typography>
                                     )}

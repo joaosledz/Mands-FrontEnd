@@ -12,6 +12,11 @@ const projectApi = {
                 `${company_username}/${department_name}`
         ),
 
+    findByUser: (company_username: string, department_name: string) =>
+        api.get<Array<TypeProject>>(
+            projectUrls.findByUser + `${company_username}/${department_name}`
+        ),
+
     create: (data: ProjectModel) => api.post(projectUrls.create, data),
 };
 

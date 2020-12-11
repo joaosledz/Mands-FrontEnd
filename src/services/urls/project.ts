@@ -2,7 +2,7 @@ const projectUrl = 'project';
 
 const projectUrls = {
     show: `${projectUrl}/findById/`,
-    // list: `Companies`,
+    findByUser: `${projectUrl}/findByUser/`,
     findByDepartment: `${projectUrl}/findByDepartment/`,
     create: `${projectUrl}/create/`,
 };

@@ -9,7 +9,7 @@ import departmentUrls from '../urls/department';
 const departmentApi = {
     show: (company_name: string, department_name: string) =>
         api.get<TypeDepartment>(
-            departmentUrls.show + `${company_name}/${department_name}`
+            departmentUrls.base + `${company_name}/${department_name}`
         ),
 
     listByCompany: async (company_id: number) => {
@@ -36,18 +36,18 @@ const departmentApi = {
         }
     },
 
-    create: async (data: DepartmentModel) => {
-        try {
-            const response = await api.post<TypeDepartment>(
-                departmentUrls.create,
-                data
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    create: (company_id: number, data: DepartmentModel) =>
+        api.post<TypeDepartment>(departmentUrls.create + company_id, data),
+
+    update: (
+        department_id: number,
+        company_id: number,
+        data: DepartmentModel
+    ) =>
+        api.put<TypeDepartment>(
+            departmentUrls.base + `${department_id}/${company_id}`,
+            data
+        ),
 };
 
 export default departmentApi;

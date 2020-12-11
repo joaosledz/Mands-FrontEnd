@@ -9,7 +9,11 @@ import {
     updateModel,
 } from './models/authentication';
 import { UserCompanyType, CompanyUpdateModel } from './models/company';
-import { TypeDepartment, TypeMember } from './models/department';
+import {
+    TypeDepartment,
+    TypeMember,
+    DepartmentModel,
+} from './models/department';
 import { TypeProject } from './models/project';
 import { PostImageType, ImageErrorType, ImageType } from './models/image';
 
@@ -43,7 +47,7 @@ export type {
 // Exportação das models de empresa
 export type { UserCompanyType, CompanyUpdateModel };
 // Exportação das models de departamento
-export type { TypeDepartment, TypeMember };
+export type { TypeDepartment, TypeMember, DepartmentModel };
 // Exportação das models de projeto
 export type { TypeProject };
 // Exportação das models de imagem

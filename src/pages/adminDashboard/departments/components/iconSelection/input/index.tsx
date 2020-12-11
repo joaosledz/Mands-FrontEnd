@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, memo, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -70,4 +70,4 @@ const IconSelectionInput: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default IconSelectionInput;
+export default memo(IconSelectionInput);

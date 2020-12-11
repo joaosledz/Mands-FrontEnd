@@ -116,7 +116,7 @@ const Details: React.FC = () => {
     return (
         <AdminLayout>
             <Paper className={classes.container}>
-                <Header departmentName={department?.name} />
+                <Header departmentName={department?.name} page="details" />
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
                         <IconSelectionInput
@@ -127,7 +127,6 @@ const Details: React.FC = () => {
                     <Grid container item xs={12} md={4} spacing={3}>
                         <Grid item xs={12}>
                             <TextField
-                                fullWidth
                                 variant="outlined"
                                 disabled
                                 label="Nome"
@@ -136,7 +135,6 @@ const Details: React.FC = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                fullWidth
                                 disabled
                                 label="Email"
                                 value={department?.email}
@@ -146,7 +144,6 @@ const Details: React.FC = () => {
                     <Grid item xs={12} md={6}>
                         <TextField
                             disabled
-                            fullWidth
                             multiline
                             rows={6}
                             label="Descrição"

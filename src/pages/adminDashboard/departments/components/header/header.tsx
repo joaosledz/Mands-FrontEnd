@@ -12,7 +12,7 @@ import useStyles from './styles';
 type Props = {
     departmentName: string | undefined;
     message?: string;
-    redirect?: boolean;
+    page: 'details' | 'edit';
 };
 
 const Header: React.FC<Props> = (props: Props) => {
@@ -20,7 +20,7 @@ const Header: React.FC<Props> = (props: Props) => {
     const {
         departmentName,
         message = 'Voltar para os departamentos',
-        redirect,
+        page = 'details',
     } = props;
     const params = useParams<TypeParams>();
 
@@ -35,14 +35,16 @@ const Header: React.FC<Props> = (props: Props) => {
                 </Typography>
             </Grid>
             <Grid container item xs={12} md={3} justify="flex-end">
-                {redirect ? (
-                    <BackButton
-                        message={message}
-                        redirect={`admin/${params.company}/departamentos`}
-                    />
-                ) : (
-                    <BackButton message={message} />
-                )}
+                <BackButton
+                    message={message}
+                    redirect={
+                        page === 'details'
+                            ? `admin/${params.company}/departamentos`
+                            : `admin/${
+                                  params.company
+                              }/departamentos/${params.department!}/detalhes`
+                    }
+                />
             </Grid>
         </Grid>
     );

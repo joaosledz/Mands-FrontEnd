@@ -4,6 +4,7 @@ export type DepartmentModel = {
     name: string;
     objective: string;
     email: string;
+    phone?: string;
 };
 
 export type TypeMember = {

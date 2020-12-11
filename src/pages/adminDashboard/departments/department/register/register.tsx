@@ -17,6 +17,7 @@ import departmentAnimation from '../../../../../assets/animations/department.jso
 import { useParams } from 'react-router-dom';
 import TypeParams from '../../../../../models/params';
 import Lottie from 'lottie-react';
+import InputMask from 'react-input-mask';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
@@ -139,14 +140,28 @@ const NewDepartment: React.FC = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={12}>
-                                        <TextField
-                                            className={classes.textFieldGrid}
-                                            name="phone"
-                                            fullWidth
-                                            label="Telefone"
-                                            variant="outlined"
-                                            inputRef={register({})}
-                                        />
+                                        <InputMask
+                                            mask={'(99) 99999-9999'}
+                                            maskChar="_"
+                                        >
+                                            {() => (
+                                                <TextField
+                                                    className={
+                                                        classes.textFieldGrid
+                                                    }
+                                                    data-cy="department-phone"
+                                                    name="phone"
+                                                    label="Telefone"
+                                                    inputRef={register({
+                                                        minLength: {
+                                                            value: 15,
+                                                            message:
+                                                                'O número está incompleto',
+                                                        },
+                                                    })}
+                                                />
+                                            )}
+                                        </InputMask>
                                         <ErrorMessage
                                             errors={errors}
                                             name="phone"

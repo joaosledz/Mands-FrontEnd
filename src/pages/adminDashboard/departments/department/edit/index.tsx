@@ -140,7 +140,7 @@ const Edit: React.FC = () => {
 
                                 <ErrorMessage
                                     errors={errors}
-                                    name="name"
+                                    name="phone"
                                     render={({ message }) => (
                                         <ErrorContent message={message} />
                                     )}

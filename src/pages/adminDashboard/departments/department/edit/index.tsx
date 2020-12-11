@@ -17,7 +17,7 @@ import useDepartment from '../../../../../hooks/useDepartment';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
-import AdminLayout from '../../../layout/layout';
+import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
 import Header from '../../components/header/header';

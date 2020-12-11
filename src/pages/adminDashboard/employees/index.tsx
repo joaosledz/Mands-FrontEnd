@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 
 import employeesData from '../../../utils/data/employeesComplete';
 import TableEmployees from './components/table/employees';
-import Layout from '../layout/layout';
+import Layout from '../layout/departmentLayout';
 import FabButton from '../../../components/fabButton';
 import useStyles from './styles';
 

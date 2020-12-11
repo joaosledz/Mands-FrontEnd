@@ -37,6 +37,8 @@ const authApi = {
             return Promise.reject(error);
         }
     },
+    verifyUsername: (username: string) =>
+        api.get(authUrls.verifyUsername + `/${username}`),
 
     register: async (data: RegisterModel) => {
         try {

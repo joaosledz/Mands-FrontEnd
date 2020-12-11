@@ -1,47 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 
-import { TypeProjects } from '../../../../../models/department';
+import TypeParams from '../../../../../models/params';
+import { TypeProject } from '../../../../../services';
 import handleEditURL from '../../utils/handleURL';
+import useProject from '../../../../../hooks/useProject';
 
-import AppLayout from '../../../../../layout/appLayout';
+import ProjectLayout from '../../../layout/projectLayout';
 import FabButton from '../../../../../components/fabButton';
 import BackButton from '../../../../../components/backButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
 import useStyles from './styles';
 
-type LocationParams = {
-    project: TypeProjects;
+type TypeLocation = {
+    project: TypeProject;
 };
 
 const RegisterProject: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
-    const location = useLocation<LocationParams>();
-
-    const [project, setProject] = useState<TypeProjects>();
+    const params = useParams<TypeParams>();
+    const location = useLocation<TypeLocation>();
+    const { project } = useProject();
 
     useEffect(() => {
-        const handleLocationData = () => {
-            if (!location.state || !location.state.project)
-                history.push('/escolha-da-empresa');
-            else {
-                const project = location.state.project;
-                document.title = `Projeto - ${project.name}`;
-                setProject(project);
-            }
-        };
-        handleLocationData();
-        // eslint-disable-next-line
-    }, []);
+        if (project) document.title = `${project.name}`;
+    }, [project]);
 
     return (
-        <AppLayout>
+        <ProjectLayout>
             <Paper className={classes.container}>
                 <Grid container>
                     <Hidden mdDown>
@@ -53,14 +45,17 @@ const RegisterProject: React.FC = () => {
                         </Typography>
                     </Grid>
                     <Grid container item xs={12} md={4} justify="flex-end">
-                        <BackButton message="Voltar" />
+                        <BackButton
+                            message="Voltar"
+                            redirect={`admin/${params.company}/departamentos/${params.department}/detalhes`}
+                        />
                     </Grid>
                 </Grid>
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
                         <CropImageInput
                             image={undefined}
-                            preview={project?.icon}
+                            preview={project?.image}
                             disabled
                             styles={classes.cropImage}
                         />
@@ -68,30 +63,21 @@ const RegisterProject: React.FC = () => {
                     <Grid container item xs={12} md={6} spacing={3}>
                         <Grid item xs={12} md={6}>
                             <TextField
-                                fullWidth
                                 disabled
                                 label="Nome"
                                 variant="outlined"
                                 value={project?.name}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
-                                fullWidth
                                 disabled
                                 variant="outlined"
                                 label="Orçamento"
                                 value={project?.budget}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                disabled
-                                type="date"
-                                fullWidth
-                                label="Data inicial"
-                                value={project?.initialDate}
-                                variant="outlined"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -101,10 +87,19 @@ const RegisterProject: React.FC = () => {
                             <TextField
                                 disabled
                                 type="date"
-                                fullWidth
+                                label="Data inicial"
+                                value={project?.initialDate.split('T')[0]}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <TextField
+                                disabled
+                                type="date"
                                 label="Data Final"
-                                value={project?.finalDate}
-                                variant="outlined"
+                                value={project?.finalDate.split('T')[0]}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -120,6 +115,9 @@ const RegisterProject: React.FC = () => {
                             variant="outlined"
                             label="Descrição"
                             value={project?.description}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                     </Grid>
                 </Grid>
@@ -138,7 +136,7 @@ const RegisterProject: React.FC = () => {
                     )
                 }
             />
-        </AppLayout>
+        </ProjectLayout>
     );
 };
 

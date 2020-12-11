@@ -16,7 +16,8 @@ import TypeParams from '../../../../../models/params';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
-
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import { validateDeparmentName } from '../validators/validateDepartmentName';
 import AdminLayout from '../../../layout/layout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
@@ -106,6 +107,18 @@ const Edit: React.FC = () => {
                                     defaultValue={department.name}
                                     inputRef={register({
                                         required: 'Este campo é obrigatório',
+                                        validate: AwesomeDebouncePromise(
+                                            async value => {
+                                                return (
+                                                    (await validateDeparmentName(
+                                                        company!.companyId,
+                                                        value
+                                                    )) ||
+                                                    'Nome de departamento indisponível'
+                                                );
+                                            },
+                                            500
+                                        ),
                                     })}
                                 />
                                 <ErrorMessage

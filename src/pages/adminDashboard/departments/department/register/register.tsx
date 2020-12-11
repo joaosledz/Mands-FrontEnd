@@ -14,10 +14,13 @@ import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import useCompany from '../../../../../hooks/useCompany';
 import departmentAnimation from '../../../../../assets/animations/department.json';
+import { useParams } from 'react-router-dom';
+import TypeParams from '../../../../../models/params';
 import Lottie from 'lottie-react';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
+    const params = useParams<TypeParams>();
     const [image, setImage] = useState<string | undefined>('');
     const { register, errors, handleSubmit } = useForm<DepartmentModel>({});
     const { company } = useCompany();
@@ -60,7 +63,7 @@ const NewDepartment: React.FC = () => {
                     <Grid container item xs={12} md={4} justify="flex-end">
                         <BackButton
                             message="Voltar para os departamentos"
-                            redirect="admin/departamentos"
+                            redirect={`admin/${params.company}/departamentos`}
                         />
                     </Grid>
                 </Grid>

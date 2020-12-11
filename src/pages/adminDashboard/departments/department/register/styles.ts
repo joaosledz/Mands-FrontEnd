@@ -48,6 +48,10 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: '3rem',
         },
 
+        textFieldGrid: {
+            margin: theme.spacing(1, 0),
+        },
+
         projectAssignGridItem: {
             [theme.breakpoints.down('sm')]: {
                 marginTop: '2rem',
@@ -56,6 +60,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
         submitButtonContainer: {
             marginTop: '6rem',
+        },
+        ErrorMessage: {
+            marginTop: 7,
+            fontSize: '.8rem',
+            color: theme.palette.primary.main,
+            '&:before': { content: "'⚠ '" },
         },
     })
 );

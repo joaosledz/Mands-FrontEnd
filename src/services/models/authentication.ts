@@ -11,8 +11,16 @@ type userType = {
     birthday: string;
     addressId: null;
     address: null;
+    biography: string;
     imageId: number;
-    image: string;
+    image: {
+        name: string;
+        path: string;
+        extention: string;
+        size: string;
+    };
+    linkedin: string;
+    gitHub: string;
     companyUsers: null;
     solicitations: null;
     companyDepartmentUser: null;
@@ -40,4 +48,14 @@ type RegisterModel = {
     password: string;
 };
 
-export type { userType, LoginType, LoginModel, RegisterModel };
+type updateModel = {
+    name: string;
+    surname: string;
+    phone: string;
+    email: string;
+    biography: string;
+    gitHub: string;
+    linkedin: string;
+};
+
+export type { userType, updateModel, LoginType, LoginModel, RegisterModel };

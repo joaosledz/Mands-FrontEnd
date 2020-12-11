@@ -7,7 +7,8 @@ import {
     LoginModel,
     userType,
 } from '../../services';
-import { connectHub } from '../../services/socket';
+import snackbarUtils from '../../utils/functions/snackbarUtils';
+// import { connectHub } from '../../services/socket';
 
 type AuthContextData = {
     signed: boolean;
@@ -15,6 +16,7 @@ type AuthContextData = {
     login(data: LoginType): Promise<LoginModel>;
     logout(): void;
     loading: boolean;
+    updateUser: (data: userType) => void;
 };
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -39,7 +41,7 @@ export const AuthProvider: React.FC = ({ children }) => {
                     .then(response => {
                         // console.log(response);
                         setUser(response.data);
-                        connectHub();
+                        // connectHub();
                         setLoading(false);
                     })
                     .catch((error: AxiosError) => {
@@ -47,6 +49,9 @@ export const AuthProvider: React.FC = ({ children }) => {
                         if (error.response?.status === 401 && storagedToken) {
                             localStorage.removeItem(tokenKey);
                             setUser(null);
+                            snackbarUtils.info(
+                                'Seu token de acesso expirou, faça o Login novamente.'
+                            );
                         }
                         setLoading(false);
                     });
@@ -66,7 +71,7 @@ export const AuthProvider: React.FC = ({ children }) => {
                 'Authorization'
             ] = `Bearer ${response.data.token}`;
             localStorage.setItem(tokenKey, response.data.token);
-            connectHub();
+            // connectHub();
             setLoading(false);
             return Promise.resolve(response.data);
         } catch (error) {
@@ -82,9 +87,13 @@ export const AuthProvider: React.FC = ({ children }) => {
         setUser(null);
     }, []);
 
+    const updateUser = (data: userType) => {
+        setUser(data);
+    };
+
     return (
         <AuthContext.Provider
-            value={{ signed: !!user, user, login, logout, loading }}
+            value={{ signed: !!user, user, updateUser, login, logout, loading }}
         >
             {children}
         </AuthContext.Provider>

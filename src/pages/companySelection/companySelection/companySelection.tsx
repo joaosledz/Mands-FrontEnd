@@ -22,18 +22,13 @@ const CompanySelection: React.FC<Props> = (props: Props) => {
                     Qual empresa você gostaria de acessar?
                 </Typography>
             </Grid>
-            {companies?.map(company => (
-                <Grid
-                    key={company.companyId}
-                    container
-                    item
-                    xs={12}
-                    sm={3}
-                    justify="center"
-                >
-                    <Company company={company} />
-                </Grid>
-            ))}
+            <Grid container justify="center" spacing={3}>
+                {companies?.map(company => (
+                    <Grid key={company.companyId} item xs={12} sm={4} md={3}>
+                        <Company company={company} />
+                    </Grid>
+                ))}
+            </Grid>
         </Grid>
     );
 };

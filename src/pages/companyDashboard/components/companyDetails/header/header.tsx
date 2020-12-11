@@ -54,6 +54,7 @@ const Header: React.FC<Props> = ({ company }) => {
     };
 
     const handleChangeCompany = (company_username: string) => {
+        handleClose();
         history.replace(`/dashboard/${company_username}`);
     };
 
@@ -87,12 +88,8 @@ const Header: React.FC<Props> = ({ company }) => {
                         {companies.map(company => (
                             <MenuItem
                                 key={company.companyId}
-                                disabled={
-                                    params.companyName === company.username
-                                }
-                                selected={
-                                    params.companyName === company.username
-                                }
+                                disabled={params.company === company.username}
+                                selected={params.company === company.username}
                                 onClick={() =>
                                     handleChangeCompany(company.username)
                                 }

@@ -12,7 +12,7 @@ import useStyles from './styles';
 type Props = {
     departmentName: string | undefined;
     message?: string;
-    redirect?: boolean;
+    page: 'details' | 'edit';
 };
 
 const Header: React.FC<Props> = (props: Props) => {
@@ -20,29 +20,31 @@ const Header: React.FC<Props> = (props: Props) => {
     const {
         departmentName,
         message = 'Voltar para os departamentos',
-        redirect,
+        page = 'details',
     } = props;
     const params = useParams<TypeParams>();
 
     return (
         <Grid container spacing={3}>
             <Hidden mdDown>
-                <Grid item xs={1} md={4} />
+                <Grid item xs={1} md={3} />
             </Hidden>
-            <Grid container item xs={12} md={4} justify="center">
+            <Grid container item xs={12} md={6} justify="center">
                 <Typography variant="h1" className={classes.title}>
                     Departamento - {departmentName}
                 </Typography>
             </Grid>
-            <Grid container item xs={12} md={4} justify="flex-end">
-                {redirect ? (
-                    <BackButton
-                        message={message}
-                        redirect={`admin/${params.companyName}/departamentos`}
-                    />
-                ) : (
-                    <BackButton message={message} />
-                )}
+            <Grid container item xs={12} md={3} justify="flex-end">
+                <BackButton
+                    message={message}
+                    redirect={
+                        page === 'details'
+                            ? `admin/${params.company}/departamentos`
+                            : `admin/${
+                                  params.company
+                              }/departamentos/${params.department!}/detalhes`
+                    }
+                />
             </Grid>
         </Grid>
     );

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         socialMediaGrid: {
-            color: 'gray',
+            // color: 'gray',
 
             '& svg': {
                 borderSpacing: '3px',
@@ -34,11 +34,17 @@ const useStyles = makeStyles((theme: Theme) =>
                 transition: 'all .2s',
             },
 
-            '&:hover': {
-                '& svg, p': {
-                    color: theme.palette.primary.main,
-                },
-            },
+            // '&:hover': {
+            //     '& svg, p': {
+            //         color: theme.palette.primary.main,
+            //     },
+            // },
+        },
+        fillSocialIcon: {
+            color: theme.palette.primary.main,
+        },
+        graySocialIcon: {
+            color: 'gray',
         },
     })
 );

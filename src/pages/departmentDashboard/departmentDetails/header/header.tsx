@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
 import TypeParams from '../../../../models/params';
@@ -22,7 +23,7 @@ const Header: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const history = useHistory();
-    const company = useCompany();
+    const { company } = useCompany();
     const { department } = props;
 
     const [loading, setLoading] = useState(true);
@@ -93,15 +94,11 @@ const Header: React.FC<Props> = (props: Props) => {
                         {departments.map(department => (
                             <MenuItem
                                 key={department.departmentId}
-                                disabled={
-                                    params.departmentName === department.name
-                                }
-                                selected={
-                                    params.departmentName === department.name
-                                }
+                                disabled={params.department === department.name}
+                                selected={params.department === department.name}
                                 onClick={() =>
                                     handleChangeDepartment(
-                                        params.companyName,
+                                        params.company,
                                         department.name
                                     )
                                 }
@@ -112,7 +109,7 @@ const Header: React.FC<Props> = (props: Props) => {
                     </Menu>
                 </Box>
             ) : (
-                <Typography variant="h5">Carregando...</Typography>
+                <Skeleton variant="rect" width={'40%'} height={80} />
             )}
         </React.Fragment>
     );

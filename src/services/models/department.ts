@@ -1,7 +1,23 @@
+import { TypeProject } from './project';
+
 export type DepartmentModel = {
     name: string;
     objective: string;
     email: string;
+    phone?: string;
+};
+
+export type TypeMember = {
+    userId: number;
+    name: string;
+    surname: string;
+    imageId: number;
+    image: string;
+    username: string;
+    email: string;
+    cpf: string;
+    admission: null;
+    role_name: string;
 };
 
 export type TypeDepartment = {
@@ -12,10 +28,6 @@ export type TypeDepartment = {
     phone: string;
     imageId: number;
     image: string;
-    members: Array<{
-        userId: number;
-        name: string;
-        surname: string;
-        image: string;
-    }>;
+    members: Array<TypeMember>;
+    projects?: Array<TypeProject>;
 };

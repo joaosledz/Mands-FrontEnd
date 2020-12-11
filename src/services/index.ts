@@ -6,23 +6,49 @@ import {
     LoginModel,
     userType,
     RegisterModel,
+    updateModel,
 } from './models/authentication';
-import { UserCompanyType } from './models/company';
-import { TypeDepartment } from './models/department';
+import { UserCompanyType, CompanyUpdateModel } from './models/company';
+import {
+    TypeDepartment,
+    TypeMember,
+    DepartmentModel,
+} from './models/department';
 import { TypeProject } from './models/project';
+import { PostImageType, ImageErrorType, ImageType } from './models/image';
 
 import authApi from './useCases/authentication';
+import userApi from './useCases/user';
 import companyApi from './useCases/company';
 import permissionApi from './useCases/companyPermission';
 import departmentApi from './useCases/department';
 import projectApi from './useCases/project';
+import imageApi from './useCases/image';
 
-export { api, authApi, companyApi, permissionApi, departmentApi, projectApi };
+export {
+    api,
+    authApi,
+    userApi,
+    companyApi,
+    permissionApi,
+    departmentApi,
+    projectApi,
+    imageApi,
+};
 // Exportação das models de autenticação
-export type { AxiosError, LoginType, LoginModel, userType, RegisterModel };
+export type {
+    AxiosError,
+    LoginType,
+    LoginModel,
+    userType,
+    updateModel,
+    RegisterModel,
+};
 // Exportação das models de empresa
-export type { UserCompanyType };
+export type { UserCompanyType, CompanyUpdateModel };
 // Exportação das models de departamento
-export type { TypeDepartment };
+export type { TypeDepartment, TypeMember, DepartmentModel };
 // Exportação das models de projeto
 export type { TypeProject };
+// Exportação das models de imagem
+export type { PostImageType, ImageErrorType, ImageType };

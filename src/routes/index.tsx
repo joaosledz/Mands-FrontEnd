@@ -4,6 +4,7 @@ import useAuth from '../hooks/useAuth';
 
 import PublicRoute from './components/publicRoute';
 import PrivateRoute from './components/privateRoute';
+import Loading from '../components/loading/loading';
 
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
@@ -17,6 +18,7 @@ import UserProfile from '../pages/userProfile/details/details';
 import UserProfileEdit from '../pages/userProfile/edit';
 import CompanySelection from '../pages/companySelection';
 import CompanyRegister from '../pages/companyRegister/company.register';
+import CompanyEdit from '../pages/companyEdit';
 import CompanyDashboard from '../pages/companyDashboard/companyDashboard';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
@@ -30,7 +32,7 @@ const Routes = () => {
     const { loading, signed } = useAuth();
 
     // console.log('loading: ', loading, 'signed: ', signed);
-    if (loading) return <h1>Carregando...</h1>;
+    if (loading) return <Loading type="whole" />;
 
     return (
         <BrowserRouter>
@@ -61,12 +63,16 @@ const Routes = () => {
                     component={CompanyRegister}
                 />
                 <PrivateRoute
-                    path="/dashboard/:companyName"
+                    path="/:companyName/editar-empresa"
+                    component={CompanyEdit}
+                />
+                <PrivateRoute
+                    path="/dashboard/:company"
                     component={CompanyDashboard}
                 />
                 <PrivateRoute
                     exact
-                    path="/:companyName/:departmentName"
+                    path="/:company/:department"
                     component={DepartmentDashboard}
                 />
                 <PrivateRoute path="/quadros" component={Boards} />

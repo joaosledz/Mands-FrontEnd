@@ -5,6 +5,7 @@ import {
     LoginModel,
     userType,
     RegisterModel,
+    updateModel,
 } from '../models/authentication';
 import authUrls from '../urls/authentication';
 
@@ -36,6 +37,8 @@ const authApi = {
             return Promise.reject(error);
         }
     },
+    verifyUsername: (username: string) =>
+        api.get(authUrls.verifyUsername + `/${username}`),
 
     register: async (data: RegisterModel) => {
         try {
@@ -77,6 +80,18 @@ const authApi = {
                         Authorization: `Bearer ${token}`,
                     },
                 }
+            );
+            return Promise.resolve(response);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(error);
+        }
+    },
+    update: async (data: updateModel) => {
+        try {
+            const response: AxiosResponse<userType> = await api.put(
+                authUrls.update,
+                data
             );
             return Promise.resolve(response);
         } catch (error) {

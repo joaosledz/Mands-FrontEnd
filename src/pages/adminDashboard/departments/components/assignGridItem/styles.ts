@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingTop: 0,
             maxHeight: '70%',
             overflowY: 'auto',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
                 width: '8px',
@@ -34,8 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 borderRadius: '10px',
                 background: 'rgba(170,170,170,0.5)',
             },
-            justifyContent: 'center',
-            alignItems: 'flex-start',
 
             '& .empty-data': {
                 marginTop: '2.5rem',

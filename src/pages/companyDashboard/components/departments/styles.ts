@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
         departmentsContainer: {
             margin: '2rem auto 1rem',
-            maxHeight: '90vh',
+            maxHeight: '40vh',
             overflow: 'auto',
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {

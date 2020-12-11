@@ -44,7 +44,7 @@ const useStyles = makeStyles<Theme>(theme =>
 
             '&.active': {
                 background: 'center no-repeat',
-                backgroundSize: 'contain',
+                backgroundSize: 'cover',
 
                 '& svg': {
                     color: 'white',

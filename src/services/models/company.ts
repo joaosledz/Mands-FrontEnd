@@ -1,5 +1,5 @@
 import { TypeCompanyPermission } from './companyPermission';
-import { TypeDepartment } from './department';
+import { TypeDepartment, TypeMember } from './department';
 
 export type CompanyModel = {
     company: {
@@ -10,6 +10,11 @@ export type CompanyModel = {
         cnpj?: string;
     };
 };
+export type CompanyUpdateModel = {
+    name: string;
+    phone: string;
+    email: string;
+};
 
 export type UserCompanyType = {
     companyId: number;
@@ -19,12 +24,8 @@ export type UserCompanyType = {
     cnpj: string;
     pin: string;
     phone: string;
-    imageId: number;
-    image: string;
-    userPermission: TypeCompanyPermission;
+    imagePath: string;
+    userPermission?: TypeCompanyPermission;
     departments?: Array<TypeDepartment>;
-    // dados abaixo serão retirados
-    companyUsers?: null;
-    solicitations?: null;
-    companyEvents?: null;
+    users?: Array<TypeMember>;
 };

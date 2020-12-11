@@ -4,24 +4,21 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { ApiProps as DepartmentType } from '../../../../../../models/department';
-
+import { TypeDepartment } from '../../../../../../services';
+import useDepartment from '../../../../../../hooks/useDepartment';
+import DefaultDepartmentIcon from '../../../../../../assets/selectableIcons/defaultDepartment.svg';
 import useStyles from './styles';
 
-type ParamsType = {
-    company: string;
-};
-
 type Props = {
-    department: DepartmentType;
+    department: TypeDepartment;
 };
 
-const Department: React.FC<Props> = (props: Props) => {
+const Department: React.FC<Props> = ({ department }) => {
     const classes = useStyles();
-    const { department } = props;
-    const { name, icon } = department;
+    const { name, image } = department;
 
-    const params = useParams<ParamsType>();
+    const params = useParams<{ company: string }>();
+    const { updateDepartment } = useDepartment();
 
     return (
         <Link
@@ -34,9 +31,13 @@ const Department: React.FC<Props> = (props: Props) => {
                     department: department,
                 },
             }}
+            onClick={() => updateDepartment(department)}
             className={classes.department}
         >
-            <img src={icon} alt="Ícone do Departamento" />
+            <img
+                src={image || DefaultDepartmentIcon}
+                alt="Ícone do Departamento"
+            />
             <Typography>{name}</Typography>
         </Link>
     );

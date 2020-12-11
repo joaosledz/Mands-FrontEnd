@@ -1,7 +1,10 @@
+const baseUrl = 'departments';
+
 const departmentUrls = {
-    show: `departments/`,
-    listByCompany: 'departments/findByCompany/',
-    create: `departments`,
+    base: `${baseUrl}/`,
+    listByCompany: `${baseUrl}/findByCompany/`,
+    listEmployees: `${baseUrl}/listAssociatedUsers/`,
+    create: `${baseUrl}/`,
 };
 
 export default departmentUrls;

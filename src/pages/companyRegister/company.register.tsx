@@ -7,8 +7,10 @@ import TextField from '@material-ui/core/TextField';
 import ReactInputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-
+import CNPJValidator from '../../validators/cnpjValidator';
 import { companyApi } from '../../services';
+import { validateUsername } from './validators/validateUsername';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 import AppLayout from '../../layout/appLayout';
 import BackButton from '../../components/backButton';
@@ -123,6 +125,17 @@ const CompanyRegister: React.FC = () => {
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
+                                            validate: AwesomeDebouncePromise(
+                                                async value => {
+                                                    return (
+                                                        (await validateUsername(
+                                                            value
+                                                        )) ||
+                                                        'Nome de usuário indisponível'
+                                                    );
+                                                },
+                                                500
+                                            ),
                                         })}
                                     />
                                     <ErrorMessage
@@ -206,40 +219,38 @@ const CompanyRegister: React.FC = () => {
                             </Grid>
                             <Grid container item spacing={3}>
                                 <Grid item xs={12} sm={6}>
-                                    {/* <ReactInputMask
-                                            mask={'999.999.999-99'}
-                                            maskChar="_"
-                                        > */}
-                                    {/* {() => ( */}
-                                    <TextField
-                                        data-cy="company-cnpj"
+                                    <ReactInputMask
+                                        mask={'99.999.999/9999-99'}
+                                        maskChar="_"
+                                    >
+                                        {() => (
+                                            <TextField
+                                                data-cy="company-cnpj"
+                                                name="cnpj"
+                                                label="CNPJ"
+                                                fullWidth
+                                                inputRef={register({
+                                                    validate: {
+                                                        cnpjInvalido: value =>
+                                                            CNPJValidator(
+                                                                value
+                                                            ),
+                                                    },
+                                                })}
+                                            />
+                                        )}
+                                    </ReactInputMask>
+                                    <ErrorMessage
+                                        errors={errors}
                                         name="cnpj"
-                                        label="CNPJ"
-                                        fullWidth
-                                        // inputRef={register({
-                                        //     validate: {
-                                        //         cpfInvalido: value =>
-                                        //             CpfValidator(
-                                        //                 value
-                                        //             ),
-                                        //     },
-                                        // })}
+                                        render={({ message }) => (
+                                            <Typography
+                                                className={classes.ErrorMessage}
+                                            >
+                                                CNPJ inválido
+                                            </Typography>
+                                        )}
                                     />
-                                    {/* )} */}
-                                    {/* </ReactInputMask> */}
-                                    {/* <ErrorMessage
-                                            errors={errors}
-                                            name="cnpj"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        /> */}
                                 </Grid>
                             </Grid>
                         </Grid>

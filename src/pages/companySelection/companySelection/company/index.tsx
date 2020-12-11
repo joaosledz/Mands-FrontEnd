@@ -16,8 +16,8 @@ const Company: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const history = useHistory();
     const { company } = props;
-    const { image, name, username } = company;
-
+    const { imagePath, name, username } = company;
+    console.log(company);
     const handleCompanySelection = () => {
         sessionStorage.setItem('@Mands:CompanyData', JSON.stringify(company));
         history.push(`/dashboard/${username}`);
@@ -29,10 +29,12 @@ const Company: React.FC<Props> = (props: Props) => {
             className={classes.container}
         >
             <Avatar
-                src={image}
+                src={imagePath}
                 alt={`${name} logo`}
                 className={classes.companyLogo}
-            />
+            >
+                {name.substr(0, 1)}
+            </Avatar>
             <Typography className={classes.companyName}>{name}</Typography>
         </ButtonBase>
     );

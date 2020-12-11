@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Grow from '@material-ui/core/Grow';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import TypeParams from '../../../models/params';
 import { TypeProject, projectApi } from '../../../services';
@@ -23,9 +24,9 @@ const Projects: React.FC = () => {
         setLoading(true);
         const getProjectData = async () => {
             try {
-                const response = await projectApi.findByDepartment(
-                    params.companyName,
-                    params.departmentName!
+                const response = await projectApi.findByUser(
+                    params.company,
+                    params.department!
                 );
                 setProjects(response.data);
                 setLoading(false);
@@ -36,17 +37,12 @@ const Projects: React.FC = () => {
         };
 
         getProjectData();
-    }, [params.companyName, params.departmentName]);
+    }, [params.company, params.department]);
 
     return (
         <Paper className={classes.container}>
             <Typography className={classes.title}>Projetos:</Typography>
-            <Grid
-                container
-                justify="center"
-                spacing={3}
-                className={classes.projectsContainer}
-            >
+            <Grid container spacing={3} className={classes.projectsContainer}>
                 {projects ? (
                     projects.length !== 0 ? (
                         projects.map((project, index) => {
@@ -81,7 +77,9 @@ const Projects: React.FC = () => {
                         </Typography>
                     )
                 ) : (
-                    <Typography variant="h5">Carregando...</Typography>
+                    <Grid container alignItems="center" justify="center">
+                        <CircularProgress color="primary" />
+                    </Grid>
                 )}
             </Grid>
         </Paper>

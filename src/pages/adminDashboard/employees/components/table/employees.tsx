@@ -1,18 +1,24 @@
 import React, { createRef, useState } from 'react';
 import MaterialTable from 'material-table';
-import { Button, Grid, FormControlLabel, Switch } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import pt from 'date-fns/locale/pt-BR';
-// import DeleteCupom from '../../components/Dialogs/DeleteCupom';
-import Localization from './config/localization';
+import { withStyles } from '@material-ui/core/styles';
+import { Key as KeyIcon } from '@styled-icons/ionicons-sharp';
+import { PersonRemove as RemoveUserIcon } from '@styled-icons/material';
+
 import { TypeEmployee } from '../../../../../models/department';
+import Localization from './config/localization';
 import MTableFilterRow from '../filter';
 import tableIcons from './config/icons';
-import useStyles from './styles';
-import Typography from '@material-ui/core/Typography';
-import { InfoCircle as InfoIcon } from '@styled-icons/bootstrap';
-import { RemoveUser as RemoveUserIcon } from '@styled-icons/entypo';
-import { withStyles } from '@material-ui/core/styles';
+
 import HiringModal from '../hiring/modal';
+import PermissionModal from '../../../../../components/permission/modal';
+import useStyles from './styles';
+// import DeleteCupom from '../../components/Dialogs/DeleteCupom';
 
 type Props = {
     data: Array<TypeEmployee>;
@@ -36,18 +42,28 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const { data } = props;
     const tableRef = createRef();
     const [filter, setFilter] = useState<boolean>(false);
+    const [selectedEmployee, setSelectedEmployee] = useState<TypeEmployee>(
+        data[0]
+    );
     const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilter(!filter);
     };
-    const handleOpenDetails = () => {
-        console.log('Modal Abrir Aqui');
-    };
+
     const handleRemove = (id: number, name: string) => {
         console.log(`Funcionário ${name} deletado (id: ${id})`);
     };
+    //Hiring Modal
     const [showHiringModal, setShowHiringModal] = useState<boolean>(false);
     const handleOpenHiringModal = () => {
         setShowHiringModal(true);
+    };
+    //Permission Modal
+    const [showPermissionModal, setShowPermissionModal] = useState<boolean>(
+        false
+    );
+    const handleOpenPermissionModal = (rowData: TypeEmployee) => {
+        setSelectedEmployee(rowData);
+        setShowPermissionModal(true);
     };
     return (
         <>
@@ -61,12 +77,12 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                     filtering: true,
                     headerStyle: {
                         backgroundColor: '#F5F5F5',
-                        color: 'gray',
+                        color: '#606060',
                     },
                     rowStyle: {
                         backgroundColor: '#F5F5F5',
                         fontFamily: 'Roboto-slab',
-                        color: 'gray',
+                        color: '#606060',
                         fontSize: '1rem',
                     },
                     padding: 'default',
@@ -118,7 +134,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         cellStyle: { textAlign: 'left' },
                     },
                     {
-                        title: 'Detalhes',
+                        title: 'Permissões',
                         filtering: false,
                         sorting: false,
                         field: 'url',
@@ -126,9 +142,11 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         render: rowData => (
                             <Button
                                 className={classes.button}
-                                onClick={handleOpenDetails}
+                                onClick={() =>
+                                    handleOpenPermissionModal(rowData)
+                                }
                             >
-                                <InfoIcon className={classes.iconButton} />
+                                <KeyIcon size={21} color={'white'} />
                             </Button>
                         ),
                     },
@@ -146,9 +164,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                     handleRemove(rowData.id, rowData.name)
                                 }
                             >
-                                <RemoveUserIcon
-                                    className={classes.iconButton}
-                                />
+                                <RemoveUserIcon size={20} color={'white'} />
                             </Button>
                         ),
                     },
@@ -200,6 +216,11 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
             <HiringModal
                 isOpen={showHiringModal}
                 setIsOpen={setShowHiringModal}
+            />
+            <PermissionModal
+                isOpen={showPermissionModal}
+                setIsOpen={setShowPermissionModal}
+                employee={selectedEmployee}
             />
         </>
     );

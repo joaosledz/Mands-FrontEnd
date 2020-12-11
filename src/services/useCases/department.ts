@@ -1,23 +1,16 @@
 import api from '../api';
-import { DepartmentModel, TypeDepartment } from '../models/department';
+import {
+    DepartmentModel,
+    TypeDepartment,
+    TypeMember,
+} from '../models/department';
 import departmentUrls from '../urls/department';
 
 const departmentApi = {
-    show: async (department_name: string) => {
-        try {
-            const response = await api.get<TypeDepartment>(
-                departmentUrls.show + department_name
-            );
-            sessionStorage.setItem(
-                '@Mands:department',
-                JSON.stringify(response.data)
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    show: (company_name: string, department_name: string) =>
+        api.get<TypeDepartment>(
+            departmentUrls.base + `${company_name}/${department_name}`
+        ),
 
     listByCompany: async (company_id: number) => {
         try {
@@ -31,11 +24,10 @@ const departmentApi = {
         }
     },
 
-    create: async (data: DepartmentModel) => {
+    listEmployees: async (company_id: number, department_id: number) => {
         try {
-            const response = await api.post<TypeDepartment>(
-                departmentUrls.create,
-                data
+            const response = await api.get<Array<TypeMember>>(
+                departmentUrls.listEmployees + `${company_id}/${department_id}`
             );
             return Promise.resolve(response);
         } catch (error) {
@@ -43,6 +35,19 @@ const departmentApi = {
             return Promise.reject(error);
         }
     },
+
+    create: (company_id: number, data: DepartmentModel) =>
+        api.post<TypeDepartment>(departmentUrls.create + company_id, data),
+
+    update: (
+        department_id: number,
+        company_id: number,
+        data: DepartmentModel
+    ) =>
+        api.put<TypeDepartment>(
+            departmentUrls.base + `${department_id}/${company_id}`,
+            data
+        ),
 };
 
 export default departmentApi;

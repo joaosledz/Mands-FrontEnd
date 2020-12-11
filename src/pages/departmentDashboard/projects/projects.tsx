@@ -24,7 +24,7 @@ const Projects: React.FC = () => {
         setLoading(true);
         const getProjectData = async () => {
             try {
-                const response = await projectApi.findByDepartment(
+                const response = await projectApi.findByUser(
                     params.company,
                     params.department!
                 );

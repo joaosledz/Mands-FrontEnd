@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 
 import useCompany from '../../../hooks/useCompany';
-import Layout from '../layout/layout';
+import Layout from '../layout/departmentLayout';
 import DepartmentsContent from './components/departments/departments';
 import FabButton from '../../../components/fabButton';
 import useStyles from './styles';

@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import TypeParams from '../../../models/params';
 import useCompany from '../../../hooks/useCompany';
 import useDepartment from '../../../hooks/useDepartment';
+import useProject from '../../../hooks/useProject';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
 import AppLayout from '../../../layout/appLayout';
@@ -33,6 +34,7 @@ const Layout: React.FC<Props> = ({
         getDepartmentData,
         loading: departmentLoading,
     } = useDepartment();
+    const { loading: projectLoading } = useProject();
 
     useEffect(() => {
         const checkCompanyData = async () => {
@@ -77,7 +79,7 @@ const Layout: React.FC<Props> = ({
     ]);
 
     return (
-        <AppLayout loading={[loading, departmentLoading]}>
+        <AppLayout loading={[loading, departmentLoading, projectLoading]}>
             {menu ? (
                 <Box className={classes.container}>
                     <Header name={title} />

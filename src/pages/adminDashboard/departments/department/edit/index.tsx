@@ -18,7 +18,7 @@ import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { validateDeparmentName } from '../validators/validateDepartmentName';
-import AdminLayout from '../../../layout/layout';
+import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
 import Header from '../../components/header/header';

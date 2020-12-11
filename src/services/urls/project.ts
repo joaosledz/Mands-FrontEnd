@@ -1,7 +1,10 @@
+const projectUrl = 'project';
+
 const projectUrls = {
-    // list: `Companies`,
-    findByDepartment: 'project/findByDepartment/',
-    create: `project/create/`,
+    show: `${projectUrl}/findById/`,
+    findByUser: `${projectUrl}/findByUser/`,
+    findByDepartment: `${projectUrl}/findByDepartment/`,
+    create: `${projectUrl}/create/`,
 };
 
 export default projectUrls;

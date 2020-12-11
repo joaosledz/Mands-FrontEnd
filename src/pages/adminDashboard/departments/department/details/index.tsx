@@ -14,7 +14,7 @@ import useDepartment from '../../../../../hooks/useDepartment';
 import handleEditURL from '../../utils/handleURL';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
-import AdminLayout from '../../../layout/layout';
+import AdminLayout from '../../../layout/departmentLayout';
 import FabButton from '../../../../../components/fabButton';
 import IconSelectionInput from '../../components/iconSelection/input';
 import Header from '../../components/header/header';

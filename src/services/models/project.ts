@@ -18,19 +18,4 @@ export type TypeProject = {
     budget: number;
     imageId: number;
     image: string;
-    projectSessions: null;
-    eventProjects: null;
-    requests: null;
-    departmentProjectUsers: [
-        {
-            departmentProjectUserId: number;
-            departmentId: number;
-            department: null;
-            projectId: number;
-            projPermissionId: null;
-            projPermission: null;
-            userId: number;
-            user: null;
-        }
-    ];
 };

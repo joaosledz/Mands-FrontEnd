@@ -12,11 +12,15 @@ import IconSelection from '../../components/iconSelection/input';
 import useStyles from './styles';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import useCompany from '../../../../../hooks/useCompany';
+import departmentAnimation from '../../../../../assets/animations/department.json';
+import Lottie from 'lottie-react';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
     const [image, setImage] = useState<string | undefined>('');
     const { register, errors, handleSubmit } = useForm<DepartmentModel>({});
+    const { company } = useCompany();
 
     useEffect(() => {
         document.title = 'Cadastrar Departamento';
@@ -32,7 +36,7 @@ const NewDepartment: React.FC = () => {
         console.log(data);
         console.log(image);
         departmentApi
-            .create(data)
+            .create(company!.companyId, data)
             .then(response => {
                 console.log(response);
                 //sucess alert
@@ -60,71 +64,136 @@ const NewDepartment: React.FC = () => {
                         />
                     </Grid>
                 </Grid>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Grid
-                        container
-                        spacing={3}
-                        className={classes.formContainer}
-                    >
-                        <Grid item xs={12} md={2}>
-                            <IconSelection setImage={setImage} />
-                        </Grid>
-                        <Grid container item xs={12} md={6} spacing={3}>
-                            <Grid item xs={12} md={6}>
-                                <TextField
-                                    name="name"
-                                    fullWidth
-                                    label="Nome"
-                                    variant="outlined"
-                                    inputRef={register({
-                                        required: 'Esse campo é obrigatório',
-                                    })}
-                                />
+                <Grid container xs={12} md={12}>
+                    <Grid item xs={12} md={8} spacing={1}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <Grid
+                                container
+                                spacing={3}
+                                className={classes.formContainer}
+                            >
+                                <Grid item xs={12} md={3}>
+                                    <IconSelection setImage={setImage} />
+                                </Grid>
+
+                                <Grid container item xs={12} md={9}>
+                                    <Grid item xs={12} md={12}>
+                                        <TextField
+                                            className={classes.textFieldGrid}
+                                            name="name"
+                                            fullWidth
+                                            label="Nome"
+                                            variant="outlined"
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                            })}
+                                        />
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="name"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={12}>
+                                        <TextField
+                                            className={classes.textFieldGrid}
+                                            name="email"
+                                            fullWidth
+                                            label="Email"
+                                            variant="outlined"
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                            })}
+                                        />
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="email"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={12}>
+                                        <TextField
+                                            className={classes.textFieldGrid}
+                                            name="phone"
+                                            fullWidth
+                                            label="Telefone"
+                                            variant="outlined"
+                                            inputRef={register({})}
+                                        />
+                                        <ErrorMessage
+                                            errors={errors}
+                                            name="phone"
+                                            render={({ message }) => (
+                                                <Typography
+                                                    className={
+                                                        classes.ErrorMessage
+                                                    }
+                                                >
+                                                    {message}
+                                                </Typography>
+                                            )}
+                                        />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid item xs={12} md={12}>
+                                    <TextField
+                                        name="objective"
+                                        fullWidth
+                                        multiline
+                                        rows={5}
+                                        variant="outlined"
+                                        label="Descrição"
+                                        inputRef={register({
+                                            required:
+                                                'Esse campo é obrigatório',
+                                        })}
+                                    />
+                                    <ErrorMessage
+                                        errors={errors}
+                                        name="objective"
+                                        render={({ message }) => (
+                                            <Typography
+                                                className={classes.ErrorMessage}
+                                            >
+                                                {message}
+                                            </Typography>
+                                        )}
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} md={6}>
-                                <TextField
-                                    fullWidth
-                                    disabled
-                                    label="Gerente"
-                                    value="Ana Tartari"
-                                    variant="outlined"
-                                />
+                            <Grid
+                                container
+                                xs={12}
+                                justify="center"
+                                className={classes.submitButtonContainer}
+                            >
+                                <SubmitButton text="Cadastrar" />
                             </Grid>
-                            <Grid item xs={12} md={12}>
-                                <TextField
-                                    name="email"
-                                    fullWidth
-                                    label="Email"
-                                    variant="outlined"
-                                    inputRef={register({
-                                        required: 'Esse campo é obrigatório',
-                                    })}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12} md={4}>
-                            <TextField
-                                name="objective"
-                                fullWidth
-                                multiline
-                                rows={5}
-                                variant="outlined"
-                                label="Descrição"
-                                inputRef={register({
-                                    required: 'Esse campo é obrigatório',
-                                })}
-                            />
-                        </Grid>
+                        </form>
                     </Grid>
-                    <Grid
-                        container
-                        xs={12}
-                        justify="center"
-                        className={classes.submitButtonContainer}
-                    >
-                        <SubmitButton text="Cadastrar" />
+                    <Grid item xs={12} md={4}>
+                        <Lottie animationData={departmentAnimation} />
                     </Grid>
-                </form>
+                </Grid>
             </Paper>
         </AppLayout>
     );

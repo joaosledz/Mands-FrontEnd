@@ -18,6 +18,17 @@ const projectApi = {
         ),
 
     create: (data: ProjectModel) => api.post(projectUrls.create, data),
+
+    update: (
+        company_id: number,
+        department_id: number,
+        project_id: number,
+        data: ProjectModel
+    ) =>
+        api.put(
+            projectUrls.update + `${company_id}/${department_id}/${project_id}`,
+            data
+        ),
 };
 
 export default projectApi;

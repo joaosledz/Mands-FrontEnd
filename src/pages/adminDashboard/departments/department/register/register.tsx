@@ -18,6 +18,9 @@ import { useParams } from 'react-router-dom';
 import TypeParams from '../../../../../models/params';
 import Lottie from 'lottie-react';
 import InputMask from 'react-input-mask';
+import { validateDeparmentName } from '../validators/validateDepartmentName';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
@@ -36,6 +39,7 @@ const NewDepartment: React.FC = () => {
     //     };
     //     console.log(department);
     // };
+
     const onSubmit = (data: DepartmentModel) => {
         console.log(data);
         console.log(image);
@@ -43,10 +47,10 @@ const NewDepartment: React.FC = () => {
             .create(company!.companyId, data)
             .then(response => {
                 console.log(response);
-                //sucess alert
+                snackbarUtils.success('Departamento criado com sucesso');
             })
             .catch(error => {
-                //error alert
+                snackbarUtils.error('Erro ao tentar criar departamento');
             });
     };
     return (
@@ -91,6 +95,19 @@ const NewDepartment: React.FC = () => {
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
+                                                validate: AwesomeDebouncePromise(
+                                                    async value => {
+                                                        return (
+                                                            (await validateDeparmentName(
+                                                                company!
+                                                                    .companyId,
+                                                                value
+                                                            )) ||
+                                                            'Nome de departamento indisponível'
+                                                        );
+                                                    },
+                                                    500
+                                                ),
                                             })}
                                         />
                                         <ErrorMessage

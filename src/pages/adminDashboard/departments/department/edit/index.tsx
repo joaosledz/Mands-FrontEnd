@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { /*useLocation,*/ useHistory, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import { Paper, Tooltip } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import InputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-
+import { withStyles } from '@material-ui/core/styles';
 import {
-    TypeDepartment,
+    // TypeDepartment,
     DepartmentModel,
     departmentApi,
 } from '../../../../../services';
@@ -16,7 +16,8 @@ import TypeParams from '../../../../../models/params';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
-
+// import AwesomeDebouncePromise from 'awesome-debounce-promise';
+// import { validateDeparmentName } from '../validators/validateDepartmentName';
 import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
@@ -26,37 +27,54 @@ import useStyles from './styles';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
-    const location = useLocation<TypeDepartment>();
+    // const location = useLocation<TypeDepartment>();
     const history = useHistory();
     const params = useParams<TypeParams>();
+    const { company } = useCompany();
+    const { department, updateDepartment } = useDepartment();
+
+    const [image, setImage] = useState<string | undefined>(department?.image);
+
     const { register, errors, handleSubmit, formState } = useForm<
         DepartmentModel
-    >();
-    const { company } = useCompany();
-    const { department: departmentData, updateDepartment } = useDepartment();
+    >({
+        mode: 'onSubmit',
+        reValidateMode: 'onChange',
+        defaultValues: {
+            name: department?.name || '',
+            email: department?.email || '',
+            objective: department?.objective || '',
+            phone: department?.phone || '',
+        },
+        // resolver: undefined,
+        // context: undefined,
+        // criteriaMode: 'firstError',
+        // shouldFocusError: true,
+        // shouldUnregister: true,
+    });
 
-    const handleDepartmentData = () => {
-        console.log(location.state ? 'location' : 'dep');
-        return location.state ? location.state : departmentData;
-    };
-
-    const departmentState = handleDepartmentData();
-    const [department] = useState(departmentState);
-    const [departmentChanged, setDepartmentChanged] = useState<boolean>(false);
-    const [image, setImage] = useState<string | undefined>(
-        departmentState?.image
-    );
-
+    //Validação de nome de Departamento
+    // const [departmentName, setDepartmentName] = useState(department!.name);
+    // const [open, setOpen] = React.useState(true);
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
+    // const handleOpen = () => {
+    //     setOpen(true);
+    // };
+    const SuccessTooltip = withStyles(() => ({
+        tooltip: {
+            backgroundColor: 'rgba(0, 160, 85, 0.884)',
+            color: 'rgba(255, 255, 255, 0.87)',
+            fontSize: 11,
+        },
+        arrow: {
+            color: 'rgba(0, 160, 85, 0.884)',
+        },
+    }))(Tooltip);
     useEffect(() => {
-        if (departmentState) document.title = `${departmentState.name}/edição`;
-    }, [departmentState]);
-
-    useEffect(() => {
-        const checkDepartmentChanged = () => {
-            setDepartmentChanged(formState.isDirty);
-        };
-        checkDepartmentChanged();
-    }, [formState]);
+        if (department) document.title = `${department.name}/edição`;
+    }, [department]);
 
     const formSubmit = async (data: DepartmentModel) => {
         try {
@@ -65,11 +83,18 @@ const Edit: React.FC = () => {
                 company!.companyId,
                 data
             );
+            console.log(response.data);
             updateDepartment(response.data);
             snackbarUtils.success('Departamento editado com sucesso');
-            history.push(
-                `/admin/${params.company}/departamentos/${params.department!}`
-            );
+            if (data.name != department!.name)
+                history.replace(
+                    `/admin/${params.company}/departamentos/${data.name}/edicao`
+                );
+
+            // reset();
+            // history.push(
+            //     `/admin/${params.company}/departamentos/${params.department!}`
+            // );
         } catch (error) {
             snackbarUtils.error(error.message);
         }
@@ -80,10 +105,18 @@ const Edit: React.FC = () => {
             {department && (
                 <Paper className={classes.container}>
                     <Header
-                        departmentName={departmentState!.name}
+                        departmentName={department!.name}
                         message="Cancelar edição"
                         page="edit"
                     />
+                    {/* <button
+                        type="button"
+                        onClick={() => {
+                            trigger('name');
+                        }}
+                    >
+                        Trigger
+                    </button> */}
                     <Grid
                         component="form"
                         container
@@ -99,15 +132,34 @@ const Edit: React.FC = () => {
                         </Grid>
                         <Grid container item xs={12} md={6} spacing={3}>
                             <Grid item xs={12} md={6}>
+                                {/* <SuccessTooltip
+                                    arrow
+                                    open={!errors.name && formState.isDirty}
+                                    title="dadasdas está disponível"
+                                    placement="top"
+                                > */}
                                 <TextField
                                     data-cy="department-name"
                                     name="name"
                                     label="Nome"
-                                    defaultValue={department.name}
+                                    // onChange={() => trigger('name')}
                                     inputRef={register({
                                         required: 'Este campo é obrigatório',
+                                        // validate: AwesomeDebouncePromise(
+                                        //     async value => {
+                                        //         return (
+                                        //             (await validateDeparmentName(
+                                        //                 company!.companyId,
+                                        //                 value
+                                        //             )) ||
+                                        //             'Nome de departamento indisponível'
+                                        //         );
+                                        //     },
+                                        //     5
+                                        // ),
                                     })}
                                 />
+                                {/* </SuccessTooltip> */}
                                 <ErrorMessage
                                     errors={errors}
                                     name="name"
@@ -117,16 +169,12 @@ const Edit: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <InputMask
-                                    mask={'(99) 99999-9999'}
-                                    maskChar="_"
-                                >
+                                <InputMask mask={'(99) 99999-9999'} maskChar="">
                                     {() => (
                                         <TextField
                                             data-cy="department-phone"
                                             name="phone"
                                             label="Telefone"
-                                            defaultValue={department.phone}
                                             inputRef={register({
                                                 minLength: {
                                                     value: 15,
@@ -151,7 +199,6 @@ const Edit: React.FC = () => {
                                     data-cy="department-email"
                                     name="email"
                                     label="Email"
-                                    defaultValue={department.email}
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                         pattern: {
@@ -177,7 +224,6 @@ const Edit: React.FC = () => {
                                 rows={6}
                                 name="objective"
                                 label="Descrição"
-                                defaultValue={department.objective}
                                 inputRef={register({
                                     required: 'Esse campo é obrigatório',
                                 })}
@@ -190,7 +236,7 @@ const Edit: React.FC = () => {
                         >
                             <SubmitButton
                                 type="submit"
-                                disabled={!departmentChanged}
+                                disabled={!formState.isDirty}
                                 text="Salvar alterações"
                             />
                         </Grid>

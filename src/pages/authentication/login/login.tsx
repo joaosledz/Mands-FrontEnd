@@ -73,6 +73,7 @@ const Login: React.FC = () => {
                                 >
                                     <TextField
                                         id="outlined-basic"
+                                        autoFocus
                                         label="Acesso"
                                         name="credential"
                                         variant="outlined"

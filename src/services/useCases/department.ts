@@ -38,6 +38,10 @@ const departmentApi = {
 
     create: (company_id: number, data: DepartmentModel) =>
         api.post<TypeDepartment>(departmentUrls.create + company_id, data),
+    verifyUsername: (company_id: number, name: string) =>
+        api.get<TypeDepartment>(
+            departmentUrls.create + `${company_id}/${name}`
+        ),
 
     update: (
         department_id: number,

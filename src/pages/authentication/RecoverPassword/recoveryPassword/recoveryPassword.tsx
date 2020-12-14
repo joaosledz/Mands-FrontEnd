@@ -14,7 +14,7 @@ import {
     EyeSlash as EyeSlashIcon,
 } from '@styled-icons/fa-solid';
 
-import { authApi, userType } from '../../../../services';
+import { authApi, TypeUser } from '../../../../services';
 
 import AuthLayout from '../../../../layout/authLayout/authLayout';
 import SendEmailButton from '../../components/submitButton/submitButton';
@@ -35,7 +35,7 @@ const RecoveryPassword: React.FC = () => {
     const { register, errors, handleSubmit } = useForm<FormProps>();
 
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<userType | null>(null);
+    const [user, setUser] = useState<TypeUser | null>(null);
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {

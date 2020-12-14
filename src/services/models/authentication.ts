@@ -1,4 +1,4 @@
-type userType = {
+type TypeUser = {
     userId: number;
     name: string;
     surname: string;
@@ -21,11 +21,6 @@ type userType = {
     };
     linkedin: string;
     gitHub: string;
-    companyUsers: null;
-    solicitations: null;
-    companyDepartmentUser: null;
-    departmentProjectUsers: null;
-    taskUsers: null;
 };
 
 type LoginType = {
@@ -34,7 +29,7 @@ type LoginType = {
 };
 
 type LoginModel = {
-    user: userType;
+    user: TypeUser;
     token: string;
 };
 
@@ -58,4 +53,4 @@ type updateModel = {
     linkedin: string;
 };
 
-export type { userType, updateModel, LoginType, LoginModel, RegisterModel };
+export type { TypeUser, updateModel, LoginType, LoginModel, RegisterModel };

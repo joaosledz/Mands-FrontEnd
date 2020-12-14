@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import { validLink } from './components/functions/validLink';
 // import CpfValidator from '../../../validators/cpfValidator';
 import InputMask from 'react-input-mask';
@@ -131,6 +130,13 @@ const UserProfile: React.FC = () => {
                                         <TextField
                                             name="name"
                                             label="Nome"
+                                            error={errors.name !== undefined}
+                                            helperText={
+                                                errors.name
+                                                    ? '⚠' +
+                                                      errors?.name?.message
+                                                    : ''
+                                            }
                                             color="primary"
                                             defaultValue={user!.name}
                                             inputRef={register({
@@ -138,24 +144,18 @@ const UserProfile: React.FC = () => {
                                                     'Esse campo é obrigatório',
                                             })}
                                         />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="name"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
                                             name="surname"
-                                            label="Nome"
+                                            label="Sobrenome"
+                                            error={errors.surname !== undefined}
+                                            helperText={
+                                                errors.surname
+                                                    ? '⚠' +
+                                                      errors?.surname?.message
+                                                    : ''
+                                            }
                                             color="primary"
                                             defaultValue={user!.surname}
                                             inputRef={register({
@@ -163,59 +163,8 @@ const UserProfile: React.FC = () => {
                                                     'Esse campo é obrigatório',
                                             })}
                                         />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="surname"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        />
                                     </Grid>
-                                    {/* <Grid item xs={12} sm={6}>
-                                        <InputMask
-                                            mask={'999.999.999-99'}
-                                            maskChar="_"
-                                            defaultValue={user!.cpf}
-                                        >
-                                            {() => (
-                                                <TextField
-                                                    name="cpf"
-                                                    label="CPF"
-                                                      
-                                                    
-                                                    inputRef={register({
-                                                        required:
-                                                            'Esse campo é obrigatório',
-                                                        validate: {
-                                                            cpfInvalido: value =>
-                                                                CpfValidator(
-                                                                    value
-                                                                ),
-                                                        },
-                                                    })}
-                                                />
-                                            )}
-                                        </InputMask>
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="cpf"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    CPF inválido
-                                                </Typography>
-                                            )}
-                                        />
-                                    </Grid> */}
+
                                     <Grid item xs={12} sm={6}>
                                         <InputMask
                                             mask={'(99) 99999-9999'}
@@ -226,6 +175,17 @@ const UserProfile: React.FC = () => {
                                                 <TextField
                                                     name="phone"
                                                     label="Telefone"
+                                                    error={
+                                                        errors.phone !==
+                                                        undefined
+                                                    }
+                                                    helperText={
+                                                        errors.phone
+                                                            ? '⚠' +
+                                                              errors?.phone
+                                                                  ?.message
+                                                            : ''
+                                                    }
                                                     color="primary"
                                                     inputRef={register({
                                                         required:
@@ -239,24 +199,18 @@ const UserProfile: React.FC = () => {
                                                 />
                                             )}
                                         </InputMask>
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="phone"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
                                             name="email"
                                             label="Email"
+                                            error={errors.email !== undefined}
+                                            helperText={
+                                                errors.email
+                                                    ? '⚠' +
+                                                      errors?.email?.message
+                                                    : ''
+                                            }
                                             color="primary"
                                             defaultValue={user!.email}
                                             inputRef={register({
@@ -270,24 +224,18 @@ const UserProfile: React.FC = () => {
                                                 },
                                             })}
                                         />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="email"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
                                             name="gitHub"
                                             label="Github"
+                                            error={errors.gitHub !== undefined}
+                                            helperText={
+                                                errors.gitHub
+                                                    ? '⚠' +
+                                                      errors?.gitHub?.message
+                                                    : ''
+                                            }
                                             color="primary"
                                             placeholder="Url do Github"
                                             defaultValue={user!.gitHub}
@@ -298,6 +246,15 @@ const UserProfile: React.FC = () => {
                                         <TextField
                                             name="linkedin"
                                             label="LinkedIn"
+                                            error={
+                                                errors.linkedin !== undefined
+                                            }
+                                            helperText={
+                                                errors.linkedin
+                                                    ? '⚠' +
+                                                      errors?.linkedin?.message
+                                                    : ''
+                                            }
                                             color="primary"
                                             placeholder="Url do LinkedIn"
                                             defaultValue={user!.linkedin}
@@ -309,25 +266,21 @@ const UserProfile: React.FC = () => {
                                             multiline
                                             name="biography"
                                             label="Descrição"
+                                            error={
+                                                errors.biography !== undefined
+                                            }
+                                            helperText={
+                                                errors.biography
+                                                    ? '⚠' +
+                                                      errors?.biography?.message
+                                                    : ''
+                                            }
                                             color="primary"
                                             defaultValue={user!.biography}
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
                                             })}
-                                        />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="biography"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
                                         />
                                     </Grid>
                                 </Grid>

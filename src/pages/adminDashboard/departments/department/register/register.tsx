@@ -11,7 +11,6 @@ import SubmitButton from '../../../../../components/mainButton';
 import IconSelection from '../../components/iconSelection/input';
 import useStyles from './styles';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import useCompany from '../../../../../hooks/useCompany';
 import departmentAnimation from '../../../../../assets/animations/department.json';
 import { useParams } from 'react-router-dom';
@@ -90,6 +89,13 @@ const NewDepartment: React.FC = () => {
                                             className={classes.textFieldGrid}
                                             name="name"
                                             label="Nome"
+                                            error={errors.name !== undefined}
+                                            helperText={
+                                                errors.name
+                                                    ? '⚠' +
+                                                      errors?.name?.message
+                                                    : ''
+                                            }
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -108,25 +114,19 @@ const NewDepartment: React.FC = () => {
                                                 ),
                                             })}
                                         />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="name"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        />
                                     </Grid>
                                     <Grid item xs={12} md={12}>
                                         <TextField
                                             className={classes.textFieldGrid}
                                             name="email"
                                             label="Email"
+                                            error={errors.email !== undefined}
+                                            helperText={
+                                                errors.email
+                                                    ? '⚠' +
+                                                      errors?.email?.message
+                                                    : ''
+                                            }
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -137,19 +137,6 @@ const NewDepartment: React.FC = () => {
                                                         'Deve seguir o formato nome@email.com',
                                                 },
                                             })}
-                                        />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="email"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
                                         />
                                     </Grid>
                                     <Grid item xs={12} md={12}>
@@ -164,6 +151,17 @@ const NewDepartment: React.FC = () => {
                                                     }
                                                     data-cy="department-phone"
                                                     name="phone"
+                                                    error={
+                                                        errors.phone !==
+                                                        undefined
+                                                    }
+                                                    helperText={
+                                                        errors.phone
+                                                            ? '⚠' +
+                                                              errors?.phone
+                                                                  ?.message
+                                                            : ''
+                                                    }
                                                     label="Telefone"
                                                     inputRef={register({
                                                         minLength: {
@@ -175,43 +173,26 @@ const NewDepartment: React.FC = () => {
                                                 />
                                             )}
                                         </InputMask>
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="phone"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        />
                                     </Grid>
                                 </Grid>
 
                                 <Grid item xs={12} md={12}>
                                     <TextField
                                         name="objective"
+                                        label="Descrição"
+                                        error={errors.objective !== undefined}
+                                        helperText={
+                                            errors.objective
+                                                ? '⚠' +
+                                                  errors?.objective?.message
+                                                : ''
+                                        }
                                         multiline
                                         rows={5}
-                                        label="Descrição"
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
                                         })}
-                                    />
-                                    <ErrorMessage
-                                        errors={errors}
-                                        name="objective"
-                                        render={({ message }) => (
-                                            <Typography
-                                                className={classes.ErrorMessage}
-                                            >
-                                                {message}
-                                            </Typography>
-                                        )}
                                     />
                                 </Grid>
                             </Grid>

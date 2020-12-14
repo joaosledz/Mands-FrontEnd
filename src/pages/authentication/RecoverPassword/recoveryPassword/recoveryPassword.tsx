@@ -7,7 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import { Lock } from '@styled-icons/material';
 import {
     Eye as EyeIcon,
@@ -100,6 +99,13 @@ const RecoveryPassword: React.FC = () => {
                                         }
                                         name="password"
                                         label="Senha"
+                                        error={errors.password !== undefined}
+                                        helperText={
+                                            errors.password
+                                                ? '⚠' +
+                                                  errors?.password?.message
+                                                : ''
+                                        }
                                         InputProps={{
                                             startAdornment: (
                                                 <Lock
@@ -141,17 +147,6 @@ const RecoveryPassword: React.FC = () => {
                                                 message: 'A senha está curta',
                                             },
                                         })}
-                                    />
-                                    <ErrorMessage
-                                        errors={errors}
-                                        name="password"
-                                        render={({ message }) => (
-                                            <Typography
-                                                className={classes.ErrorMessage}
-                                            >
-                                                {message}
-                                            </Typography>
-                                        )}
                                     />
                                     <SendEmailButton
                                         mt={60}

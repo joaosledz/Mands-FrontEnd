@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import {
     LoginType,
     LoginModel,
-    userType,
+    TypeUser,
     RegisterModel,
     updateModel,
 } from './models/authentication';
@@ -14,7 +14,7 @@ import {
     TypeMember,
     DepartmentModel,
 } from './models/department';
-import { TypeProject } from './models/project';
+import { TypeProject, ProjectModel } from './models/project';
 import { PostImageType, ImageErrorType, ImageType } from './models/image';
 
 import authApi from './useCases/authentication';
@@ -40,7 +40,7 @@ export type {
     AxiosError,
     LoginType,
     LoginModel,
-    userType,
+    TypeUser,
     updateModel,
     RegisterModel,
 };
@@ -49,6 +49,6 @@ export type { UserCompanyType, CompanyUpdateModel };
 // Exportação das models de departamento
 export type { TypeDepartment, TypeMember, DepartmentModel };
 // Exportação das models de projeto
-export type { TypeProject };
+export type { TypeProject, ProjectModel };
 // Exportação das models de imagem
 export type { PostImageType, ImageErrorType, ImageType };

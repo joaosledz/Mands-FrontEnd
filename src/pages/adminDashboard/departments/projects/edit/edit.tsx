@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 
 import { ProjectModel, projectApi } from '../../../../../services';
 import useProject from '../../../../../hooks/useProject';
@@ -15,20 +14,17 @@ import ProjectLayout from '../../../layout/projectLayout';
 import BackButton from '../../../../../components/backButton';
 import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
-import ErrorContent from '../../../../../components/errorContent/errorContent';
 import useStyles from './styles';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
-    const { register, errors, handleSubmit, formState, reset } = useForm<
-        ProjectModel
-    >();
+    const { register, errors, handleSubmit, formState, reset } = useForm();
+    /*<ProjectModel>*/
     const { company } = useCompany();
     const { department } = useDepartment();
     const { project, updateProject } = useProject();
-
     const [image, setImage] = useState<File | undefined>();
 
     useEffect(() => {
@@ -90,17 +86,16 @@ const Edit: React.FC = () => {
                                 data-cy="project-name"
                                 name="name"
                                 label="Nome"
+                                error={errors.name !== undefined}
+                                helperText={
+                                    errors.name
+                                        ? '⚠' + errors?.name?.message
+                                        : ''
+                                }
                                 defaultValue={project?.name}
                                 inputRef={register({
                                     required: 'Este campo é obrigatório',
                                 })}
-                            />
-                            <ErrorMessage
-                                errors={errors}
-                                name="name"
-                                render={({ message }) => (
-                                    <ErrorContent message={message} />
-                                )}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -108,6 +103,12 @@ const Edit: React.FC = () => {
                                 data-cy="project-budget"
                                 name="budget"
                                 label="Orçamento"
+                                error={errors.budget !== undefined}
+                                helperText={
+                                    errors.budget
+                                        ? '⚠' + errors?.budget?.message
+                                        : ''
+                                }
                                 defaultValue={project?.budget}
                                 inputRef={register()}
                             />
@@ -118,6 +119,12 @@ const Edit: React.FC = () => {
                                 type="date"
                                 label="Data inicial"
                                 name="initialDate"
+                                error={errors.initialDate !== undefined}
+                                helperText={
+                                    errors.initialDate
+                                        ? '⚠' + errors?.initialDate?.message
+                                        : ''
+                                }
                                 defaultValue={
                                     project?.initialDate.split('T')[0]
                                 }
@@ -128,13 +135,6 @@ const Edit: React.FC = () => {
                                     shrink: true,
                                 }}
                             />
-                            <ErrorMessage
-                                errors={errors}
-                                name="initialDate"
-                                render={({ message }) => (
-                                    <ErrorContent message={message} />
-                                )}
-                            />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
@@ -142,6 +142,12 @@ const Edit: React.FC = () => {
                                 type="date"
                                 label="Data Final"
                                 name="finalDate"
+                                error={errors.finalDate !== undefined}
+                                helperText={
+                                    errors.finalDate
+                                        ? '⚠' + errors?.finalDate?.message
+                                        : ''
+                                }
                                 defaultValue={project?.finalDate.split('T')[0]}
                                 inputRef={register({
                                     required: 'Este campo é obrigatório',
@@ -150,13 +156,6 @@ const Edit: React.FC = () => {
                                     shrink: true,
                                 }}
                             />
-                            <ErrorMessage
-                                errors={errors}
-                                name="finalDate"
-                                render={({ message }) => (
-                                    <ErrorContent message={message} />
-                                )}
-                            />
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={4}>
@@ -164,17 +163,16 @@ const Edit: React.FC = () => {
                             data-cy="project-description"
                             name="description"
                             label="Descrição"
+                            error={errors.description !== undefined}
+                            helperText={
+                                errors.description
+                                    ? '⚠' + errors?.description?.message
+                                    : ''
+                            }
                             multiline
                             rows={5}
                             defaultValue={project?.description}
                             inputRef={register()}
-                        />
-                        <ErrorMessage
-                            errors={errors}
-                            name="description"
-                            render={({ message }) => (
-                                <ErrorContent message={message} />
-                            )}
                         />
                     </Grid>
                     <Grid

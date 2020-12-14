@@ -6,7 +6,6 @@ import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
 import ReactInputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import { companyApi, imageApi } from '../../services';
 import useCompany from '../../hooks/useCompany';
 import ProfilePic from '../../assets/fakeDataImages/employees/anaTartari.png';
@@ -127,23 +126,17 @@ const CompanyRegister: React.FC = () => {
                                             data-cy="company-name"
                                             name="name"
                                             label="Nome"
+                                            error={errors.name !== undefined}
+                                            helperText={
+                                                errors.name
+                                                    ? '⚠' +
+                                                      errors?.name?.message
+                                                    : ''
+                                            }
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
                                             })}
-                                        />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="name"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -163,6 +156,13 @@ const CompanyRegister: React.FC = () => {
                                             data-cy="company-email"
                                             name="email"
                                             label="Email"
+                                            error={errors.email !== undefined}
+                                            helperText={
+                                                errors.email
+                                                    ? '⚠' +
+                                                      errors?.email?.message
+                                                    : ''
+                                            }
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -173,19 +173,6 @@ const CompanyRegister: React.FC = () => {
                                                         'Deve seguir o formato nome@email.com',
                                                 },
                                             })}
-                                        />
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="email"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -199,6 +186,17 @@ const CompanyRegister: React.FC = () => {
                                                     data-cy="company-phone"
                                                     name="phone"
                                                     label="Telefone"
+                                                    error={
+                                                        errors.phone !==
+                                                        undefined
+                                                    }
+                                                    helperText={
+                                                        errors.phone
+                                                            ? '⚠' +
+                                                              errors?.phone
+                                                                  ?.message
+                                                            : ''
+                                                    }
                                                     inputRef={register({
                                                         required:
                                                             'Esse campo é obrigatório',
@@ -211,19 +209,6 @@ const CompanyRegister: React.FC = () => {
                                                 />
                                             )}
                                         </ReactInputMask>
-                                        <ErrorMessage
-                                            errors={errors}
-                                            name="phone"
-                                            render={({ message }) => (
-                                                <Typography
-                                                    className={
-                                                        classes.ErrorMessage
-                                                    }
-                                                >
-                                                    {message}
-                                                </Typography>
-                                            )}
-                                        />
                                     </Grid>
                                 </Grid>
                                 <Grid container item spacing={3}>

@@ -5,7 +5,6 @@ import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 
 import { authApi } from '../../../../services';
 
@@ -54,6 +53,10 @@ const ForgotPassword: React.FC = () => {
                             id="outlined-basic"
                             name="email"
                             label="Email"
+                            error={errors.email !== undefined}
+                            helperText={
+                                errors.email ? '⚠' + errors?.email?.message : ''
+                            }
                             inputProps={{
                                 style: inputStyle,
                             }}
@@ -66,15 +69,6 @@ const ForgotPassword: React.FC = () => {
                                         'Deve seguir o formato nome@email.com',
                                 },
                             })}
-                        />
-                        <ErrorMessage
-                            errors={errors}
-                            name="email"
-                            render={({ message }) => (
-                                <Typography className={classes.ErrorMessage}>
-                                    {message}
-                                </Typography>
-                            )}
                         />
                         <SendEmailButton
                             mt={60}

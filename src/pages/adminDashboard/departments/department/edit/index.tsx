@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { /*useLocation,*/ useHistory, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import { Paper, Tooltip } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import InputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
-import { withStyles } from '@material-ui/core/styles';
 import {
     // TypeDepartment,
     DepartmentModel,
@@ -22,7 +20,6 @@ import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
 import Header from '../../components/header/header';
-import ErrorContent from '../../../../../components/errorContent/errorContent';
 import useStyles from './styles';
 
 const Edit: React.FC = () => {
@@ -62,16 +59,6 @@ const Edit: React.FC = () => {
     // const handleOpen = () => {
     //     setOpen(true);
     // };
-    const SuccessTooltip = withStyles(() => ({
-        tooltip: {
-            backgroundColor: 'rgba(0, 160, 85, 0.884)',
-            color: 'rgba(255, 255, 255, 0.87)',
-            fontSize: 11,
-        },
-        arrow: {
-            color: 'rgba(0, 160, 85, 0.884)',
-        },
-    }))(Tooltip);
     useEffect(() => {
         if (department) document.title = `${department.name}/edição`;
     }, [department]);
@@ -86,7 +73,7 @@ const Edit: React.FC = () => {
             console.log(response.data);
             updateDepartment(response.data);
             snackbarUtils.success('Departamento editado com sucesso');
-            if (data.name != department!.name)
+            if (data.name !== department!.name)
                 history.replace(
                     `/admin/${params.company}/departamentos/${data.name}/edicao`
                 );
@@ -132,16 +119,16 @@ const Edit: React.FC = () => {
                         </Grid>
                         <Grid container item xs={12} md={6} spacing={3}>
                             <Grid item xs={12} md={6}>
-                                {/* <SuccessTooltip
-                                    arrow
-                                    open={!errors.name && formState.isDirty}
-                                    title="dadasdas está disponível"
-                                    placement="top"
-                                > */}
                                 <TextField
                                     data-cy="department-name"
                                     name="name"
                                     label="Nome"
+                                    error={errors.name !== undefined}
+                                    helperText={
+                                        errors.name
+                                            ? '⚠' + errors?.name?.message
+                                            : ''
+                                    }
                                     // onChange={() => trigger('name')}
                                     inputRef={register({
                                         required: 'Este campo é obrigatório',
@@ -159,14 +146,6 @@ const Edit: React.FC = () => {
                                         // ),
                                     })}
                                 />
-                                {/* </SuccessTooltip> */}
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="name"
-                                    render={({ message }) => (
-                                        <ErrorContent message={message} />
-                                    )}
-                                />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <InputMask mask={'(99) 99999-9999'} maskChar="">
@@ -175,6 +154,13 @@ const Edit: React.FC = () => {
                                             data-cy="department-phone"
                                             name="phone"
                                             label="Telefone"
+                                            error={errors.phone !== undefined}
+                                            helperText={
+                                                errors.phone
+                                                    ? '⚠' +
+                                                      errors?.phone?.message
+                                                    : ''
+                                            }
                                             inputRef={register({
                                                 minLength: {
                                                     value: 15,
@@ -185,20 +171,18 @@ const Edit: React.FC = () => {
                                         />
                                     )}
                                 </InputMask>
-
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="phone"
-                                    render={({ message }) => (
-                                        <ErrorContent message={message} />
-                                    )}
-                                />
                             </Grid>
                             <Grid item xs={12} md={12}>
                                 <TextField
                                     data-cy="department-email"
                                     name="email"
                                     label="Email"
+                                    error={errors.email !== undefined}
+                                    helperText={
+                                        errors.email
+                                            ? '⚠' + errors?.email?.message
+                                            : ''
+                                    }
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                         pattern: {
@@ -209,13 +193,6 @@ const Edit: React.FC = () => {
                                         },
                                     })}
                                 />
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="email"
-                                    render={({ message }) => (
-                                        <ErrorContent message={message} />
-                                    )}
-                                />
                             </Grid>
                         </Grid>
                         <Grid item xs={12} md={4}>
@@ -224,6 +201,12 @@ const Edit: React.FC = () => {
                                 rows={6}
                                 name="objective"
                                 label="Descrição"
+                                error={errors.objective !== undefined}
+                                helperText={
+                                    errors.objective
+                                        ? '⚠' + errors?.objective?.message
+                                        : ''
+                                }
                                 inputRef={register({
                                     required: 'Esse campo é obrigatório',
                                 })}

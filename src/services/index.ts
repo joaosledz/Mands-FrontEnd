@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import {
     LoginType,
     LoginModel,
-    userType,
+    TypeUser,
     RegisterModel,
     updateModel,
 } from './models/authentication';
@@ -40,7 +40,7 @@ export type {
     AxiosError,
     LoginType,
     LoginModel,
-    userType,
+    TypeUser,
     updateModel,
     RegisterModel,
 };

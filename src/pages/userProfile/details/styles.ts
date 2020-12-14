@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'relative',
 
             '& h1': {
+                margin: theme.spacing(0, 0, 2),
                 fontSize: '2rem',
                 fontWeight: 600,
             },

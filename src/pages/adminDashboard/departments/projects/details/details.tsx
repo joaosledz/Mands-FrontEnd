@@ -65,7 +65,6 @@ const RegisterProject: React.FC = () => {
                             <TextField
                                 disabled
                                 label="Nome"
-                                variant="outlined"
                                 value={project?.name}
                                 InputLabelProps={{
                                     shrink: true,
@@ -75,7 +74,6 @@ const RegisterProject: React.FC = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 disabled
-                                variant="outlined"
                                 label="Orçamento"
                                 value={project?.budget}
                                 InputLabelProps={{
@@ -109,10 +107,8 @@ const RegisterProject: React.FC = () => {
                     <Grid item xs={12} md={4}>
                         <TextField
                             disabled
-                            fullWidth
                             multiline
                             rows={5}
-                            variant="outlined"
                             label="Descrição"
                             value={project?.description}
                             InputLabelProps={{

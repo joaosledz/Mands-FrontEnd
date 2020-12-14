@@ -98,7 +98,6 @@ const CompanyRegister: React.FC = () => {
                                         data-cy="company-name"
                                         name="name"
                                         label="Nome"
-                                        fullWidth
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
@@ -121,7 +120,6 @@ const CompanyRegister: React.FC = () => {
                                         data-cy="company-username"
                                         name="username"
                                         label="Nome de Usuário"
-                                        fullWidth
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
@@ -154,7 +152,6 @@ const CompanyRegister: React.FC = () => {
                             <Grid container item spacing={3}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        fullWidth
                                         data-cy="company-email"
                                         name="email"
                                         label="Email"
@@ -188,7 +185,6 @@ const CompanyRegister: React.FC = () => {
                                     >
                                         {() => (
                                             <TextField
-                                                fullWidth
                                                 data-cy="company-phone"
                                                 name="phone"
                                                 label="Telefone"
@@ -228,7 +224,6 @@ const CompanyRegister: React.FC = () => {
                                                 data-cy="company-cnpj"
                                                 name="cnpj"
                                                 label="CNPJ"
-                                                fullWidth
                                                 inputRef={register({
                                                     validate: {
                                                         cnpjInvalido: value =>

@@ -25,8 +25,6 @@ const User: React.FC<Props> = ({
                 label={Name}
                 color="primary"
                 defaultValue={defaultValue}
-                fullWidth
-                variant="outlined"
                 // inputRef={register({
                 //     required: 'Esse campo é obrigatório',
                 // })}

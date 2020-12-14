@@ -133,7 +133,6 @@ const UserProfile: React.FC = () => {
                                             label="Nome"
                                             color="primary"
                                             defaultValue={user!.name}
-                                            fullWidth
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -159,7 +158,6 @@ const UserProfile: React.FC = () => {
                                             label="Nome"
                                             color="primary"
                                             defaultValue={user!.surname}
-                                            fullWidth
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -189,7 +187,7 @@ const UserProfile: React.FC = () => {
                                                 <TextField
                                                     name="cpf"
                                                     label="CPF"
-                                                    fullWidth
+                                                      
                                                     
                                                     inputRef={register({
                                                         required:
@@ -229,7 +227,6 @@ const UserProfile: React.FC = () => {
                                                     name="phone"
                                                     label="Telefone"
                                                     color="primary"
-                                                    fullWidth
                                                     inputRef={register({
                                                         required:
                                                             'Esse campo é obrigatório',
@@ -262,7 +259,6 @@ const UserProfile: React.FC = () => {
                                             label="Email"
                                             color="primary"
                                             defaultValue={user!.email}
-                                            fullWidth
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -295,7 +291,6 @@ const UserProfile: React.FC = () => {
                                             color="primary"
                                             placeholder="Url do Github"
                                             defaultValue={user!.gitHub}
-                                            fullWidth
                                             inputRef={register({})}
                                         />
                                     </Grid>
@@ -306,7 +301,6 @@ const UserProfile: React.FC = () => {
                                             color="primary"
                                             placeholder="Url do LinkedIn"
                                             defaultValue={user!.linkedin}
-                                            fullWidth
                                             inputRef={register({})}
                                         />
                                     </Grid>
@@ -317,7 +311,6 @@ const UserProfile: React.FC = () => {
                                             label="Descrição"
                                             color="primary"
                                             defaultValue={user!.biography}
-                                            fullWidth
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',

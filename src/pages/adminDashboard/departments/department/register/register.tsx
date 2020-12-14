@@ -89,9 +89,7 @@ const NewDepartment: React.FC = () => {
                                         <TextField
                                             className={classes.textFieldGrid}
                                             name="name"
-                                            fullWidth
                                             label="Nome"
-                                            variant="outlined"
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -128,9 +126,7 @@ const NewDepartment: React.FC = () => {
                                         <TextField
                                             className={classes.textFieldGrid}
                                             name="email"
-                                            fullWidth
                                             label="Email"
-                                            variant="outlined"
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
@@ -198,10 +194,8 @@ const NewDepartment: React.FC = () => {
                                 <Grid item xs={12} md={12}>
                                     <TextField
                                         name="objective"
-                                        fullWidth
                                         multiline
                                         rows={5}
-                                        variant="outlined"
                                         label="Descrição"
                                         inputRef={register({
                                             required:

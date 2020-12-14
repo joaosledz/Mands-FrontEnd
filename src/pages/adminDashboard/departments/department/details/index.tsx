@@ -127,7 +127,6 @@ const Details: React.FC = () => {
                     <Grid container item xs={12} md={4} spacing={3}>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
                                 disabled
                                 label="Nome"
                                 value={department?.name}

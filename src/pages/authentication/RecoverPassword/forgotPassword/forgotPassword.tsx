@@ -54,7 +54,6 @@ const ForgotPassword: React.FC = () => {
                             id="outlined-basic"
                             name="email"
                             label="Email"
-                            variant="outlined"
                             inputProps={{
                                 style: inputStyle,
                             }}

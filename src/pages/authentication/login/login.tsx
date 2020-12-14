@@ -56,7 +56,6 @@ const Login: React.FC = () => {
                             Log in
                         </Typography>
                         <form
-                            // fullWidth
                             className={classes.form}
                             onSubmit={handleSubmit(onSubmit)}
                         >
@@ -76,7 +75,6 @@ const Login: React.FC = () => {
                                         autoFocus
                                         label="Acesso"
                                         name="credential"
-                                        variant="outlined"
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
@@ -111,7 +109,6 @@ const Login: React.FC = () => {
                                     type="password"
                                     name="password"
                                     label="Senha"
-                                    variant="outlined"
                                     InputProps={{
                                         startAdornment: (
                                             <LockIcon

@@ -94,14 +94,12 @@ const RecoveryPassword: React.FC = () => {
                                 >
                                     <TextField
                                         className={classes.input}
-                                        fullWidth
                                         id="outlined-basic"
                                         type={
                                             showPassword ? 'text' : 'password'
                                         }
                                         name="password"
                                         label="Senha"
-                                        variant="outlined"
                                         InputProps={{
                                             startAdornment: (
                                                 <Lock

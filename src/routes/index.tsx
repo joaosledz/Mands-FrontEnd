@@ -16,6 +16,7 @@ import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPa
 //#region Rotas da aplicação
 import UserProfile from '../pages/userProfile/details/details';
 import UserProfileEdit from '../pages/userProfile/edit';
+import OtherProfile from '../pages/otherProfile/otherProfile';
 import CompanySelection from '../pages/companySelection';
 import CompanyRegister from '../pages/companyRegister/company.register';
 import CompanyEdit from '../pages/companyEdit';
@@ -49,10 +50,14 @@ const Routes = () => {
                     component={RecoveryPassword}
                 />
                 {/* Rotas da Aplicação */}
-                <PrivateRoute path="/perfil" component={UserProfile} />
+                <PrivateRoute path="/perfil" exact component={UserProfile} />
                 <PrivateRoute
                     path="/editar-perfil"
                     component={UserProfileEdit}
+                />
+                <PrivateRoute
+                    path="/perfil/:username"
+                    component={OtherProfile}
                 />
                 <PrivateRoute
                     path="/escolha-da-empresa"

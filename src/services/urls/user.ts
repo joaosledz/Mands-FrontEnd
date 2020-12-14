@@ -1,5 +1,7 @@
+const baseUrl = 'users';
+
 const userUrls = {
-    show: 'Users',
+    show: `${baseUrl}/`,
 };
 
 export default userUrls;

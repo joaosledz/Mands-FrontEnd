@@ -28,21 +28,26 @@ const Edit: React.FC = () => {
     const history = useHistory();
     const params = useParams<TypeParams>();
     const { company } = useCompany();
-    const { department, updateDepartment } = useDepartment();
+    const { department, updateDepartment, setLoading } = useDepartment();
 
     const [image, setImage] = useState<string | undefined>(department?.image);
 
-    const { register, errors, handleSubmit, formState } = useForm<
-        DepartmentModel
-    >({
+    const {
+        register,
+        errors,
+        handleSubmit,
+        formState,
+        setValue,
+        reset,
+    } = useForm<DepartmentModel>({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
-        defaultValues: {
-            name: department?.name || '',
-            email: department?.email || '',
-            objective: department?.objective || '',
-            phone: department?.phone || '',
-        },
+        // defaultValues: {
+        //     name: department?.name,
+        //     email: department?.email,
+        //     objective: department?.objective,
+        //     phone: department?.phone,
+        // },
         // resolver: undefined,
         // context: undefined,
         // criteriaMode: 'firstError',
@@ -59,31 +64,61 @@ const Edit: React.FC = () => {
     // const handleOpen = () => {
     //     setOpen(true);
     // };
+
     useEffect(() => {
         if (department) document.title = `${department.name}/edição`;
     }, [department]);
 
+    useEffect(() => {
+        const fillDefaultValues = () => {
+            const data: Array<{
+                name: keyof DepartmentModel;
+                value: string | undefined;
+            }> = [
+                {
+                    name: 'name',
+                    value: department?.name,
+                },
+                {
+                    name: 'email',
+                    value: department?.email,
+                },
+                {
+                    name: 'objective',
+                    value: department?.objective,
+                },
+                {
+                    name: 'phone',
+                    value: department?.phone,
+                },
+            ];
+
+            data.forEach(({ name, value }) => setValue(name, value));
+        };
+
+        if (department) fillDefaultValues();
+    }, [department, setValue]);
+
     const formSubmit = async (data: DepartmentModel) => {
+        setLoading(true);
         try {
             const response = await departmentApi.update(
                 department!.departmentId,
                 company!.companyId,
                 data
             );
-            console.log(response.data);
-            updateDepartment(response.data);
-            snackbarUtils.success('Departamento editado com sucesso');
             if (data.name !== department!.name)
                 history.replace(
                     `/admin/${params.company}/departamentos/${data.name}/edicao`
                 );
-
-            // reset();
-            // history.push(
-            //     `/admin/${params.company}/departamentos/${params.department!}`
-            // );
+            // console.log(response.data);
+            updateDepartment(response.data);
+            snackbarUtils.success('Departamento editado com sucesso');
+            reset();
         } catch (error) {
             snackbarUtils.error(error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -120,7 +155,6 @@ const Edit: React.FC = () => {
                         <Grid container item xs={12} md={6} spacing={3}>
                             <Grid item xs={12} md={6}>
                                 <TextField
-                                    data-cy="department-name"
                                     name="name"
                                     label="Nome"
                                     error={errors.name !== undefined}
@@ -130,6 +164,9 @@ const Edit: React.FC = () => {
                                             : ''
                                     }
                                     // onChange={() => trigger('name')}
+                                    inputProps={{
+                                        'data-cy': 'department-name',
+                                    }}
                                     inputRef={register({
                                         required: 'Este campo é obrigatório',
                                         // validate: AwesomeDebouncePromise(
@@ -148,10 +185,13 @@ const Edit: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <InputMask mask={'(99) 99999-9999'} maskChar="">
+                                <InputMask
+                                    mask={'(99) 99999-9999'}
+                                    maskChar="_"
+                                    defaultValue={department.phone}
+                                >
                                     {() => (
                                         <TextField
-                                            data-cy="department-phone"
                                             name="phone"
                                             label="Telefone"
                                             error={errors.phone !== undefined}
@@ -161,6 +201,9 @@ const Edit: React.FC = () => {
                                                       errors?.phone?.message
                                                     : ''
                                             }
+                                            inputProps={{
+                                                'data-cy': 'department-phone',
+                                            }}
                                             inputRef={register({
                                                 minLength: {
                                                     value: 15,
@@ -174,7 +217,6 @@ const Edit: React.FC = () => {
                             </Grid>
                             <Grid item xs={12} md={12}>
                                 <TextField
-                                    data-cy="department-email"
                                     name="email"
                                     label="Email"
                                     error={errors.email !== undefined}
@@ -183,6 +225,9 @@ const Edit: React.FC = () => {
                                             ? '⚠' + errors?.email?.message
                                             : ''
                                     }
+                                    inputProps={{
+                                        'data-cy': 'department-email',
+                                    }}
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                         pattern: {
@@ -207,6 +252,9 @@ const Edit: React.FC = () => {
                                         ? '⚠' + errors?.objective?.message
                                         : ''
                                 }
+                                inputProps={{
+                                    'data-cy': 'department-objective',
+                                }}
                                 inputRef={register({
                                     required: 'Esse campo é obrigatório',
                                 })}

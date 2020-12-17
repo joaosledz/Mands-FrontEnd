@@ -33,6 +33,10 @@ const Details: React.FC = () => {
     const { department, updateDepartment } = useDepartment();
 
     useEffect(() => {
+        if (department) document.title = `Departamento - ${department.name}`;
+    }, [department]);
+
+    useEffect(() => {
         const getProjectsData = async () => {
             console.log('projetos');
             try {
@@ -97,7 +101,6 @@ const Details: React.FC = () => {
 
         const checkData = async () => {
             if (department) {
-                document.title = `Departamento - ${department.name}`;
                 const teamIsEmpty = department.members.length === 0;
                 const projectIsEmpty =
                     department.projects?.length === 0 || !department.projects;
@@ -111,7 +114,7 @@ const Details: React.FC = () => {
         };
         checkData();
         // eslint-disable-next-line
-    }, []);
+    }, [department]);
 
     return (
         <AdminLayout>
@@ -130,6 +133,9 @@ const Details: React.FC = () => {
                                 disabled
                                 label="Nome"
                                 value={department?.name}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -137,6 +143,9 @@ const Details: React.FC = () => {
                                 disabled
                                 label="Email"
                                 value={department?.email}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                             />
                         </Grid>
                     </Grid>
@@ -147,6 +156,9 @@ const Details: React.FC = () => {
                             rows={6}
                             label="Descrição"
                             value={department?.objective}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                     </Grid>
                 </Grid>

@@ -3,10 +3,13 @@ import React, {
     useState,
     Dispatch,
     SetStateAction,
+    useEffect,
 } from 'react';
 import { TypeBoard, TypeColumn, TypeItem } from '../../models/boardTypes';
 import { initialBoardData as BoardData } from '../../utils/data/board';
 import { v4 as uuidv4 } from 'uuid';
+import { connectHub } from '../../services/socket';
+import useAuth from '../../hooks/useAuth';
 
 interface BoardContextData {
     state: TypeBoard;
@@ -25,6 +28,12 @@ const BoardContext = createContext<BoardContextData>({} as BoardContextData);
 // import { Container } from './styles';
 export const BoardProvider: React.FC = ({ children }) => {
     const [state, setState] = useState(BoardData);
+    const { user } = useAuth();
+
+    useEffect(() => {
+        if (user) connectHub(user.userId);
+    }, [user]);
+
     //Funções de Coluna
     const AddColumn = () => {
         const newID = uuidv4();

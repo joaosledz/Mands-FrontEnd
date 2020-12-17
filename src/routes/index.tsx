@@ -80,7 +80,10 @@ const Routes = () => {
                     path="/:company/:department"
                     component={DepartmentDashboard}
                 />
-                <PrivateRoute path="/quadros" component={Boards} />
+                <PrivateRoute
+                    path="/:company/:department/:project"
+                    component={Boards}
+                />
                 {/* Rotas do Administrador */}
                 <PrivateRoute path="/admin" component={AdministratorRoutes} />
                 {signed ? (

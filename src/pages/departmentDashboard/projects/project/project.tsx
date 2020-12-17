@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import { Link as RouterLink } from 'react-router-dom';
 
+import TypeParams from '../../../../models/params';
 import { TypeProject } from '../../../../services';
 
 import DefaultDepartmentIcon from '../../../../assets/selectableIcons/defaultProject.svg';
@@ -14,17 +15,14 @@ type Props = {
 
 const Project: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const params = useParams<TypeParams>();
+    const { company, department } = params;
     const { project } = props;
 
     return (
         <Link
             component={RouterLink}
-            to={{
-                pathname: `/`,
-                state: {
-                    props: props,
-                },
-            }}
+            to={`/${company}/${department}/${project.projectId}`}
             className={classes.project}
         >
             <img

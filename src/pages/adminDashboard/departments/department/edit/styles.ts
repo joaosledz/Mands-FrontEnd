@@ -78,11 +78,12 @@ const useStyles = makeStyles((theme: Theme) =>
             '& button': {
                 marginTop: '1rem',
                 textTransform: 'initial',
-                color: theme.palette.primary.contrastText,
-                backgroundColor: '#CD2A2A',
+                color: '#CD2A2A',
+                transition: 'all .2s',
 
                 '&:hover': {
-                    backgroundColor: '#A11313',
+                    color: theme.palette.primary.contrastText,
+                    backgroundColor: '#CD2A2A',
                 },
             },
 

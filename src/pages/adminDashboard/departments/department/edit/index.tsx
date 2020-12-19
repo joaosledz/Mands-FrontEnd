@@ -24,6 +24,7 @@ import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
 import Header from '../../components/header/header';
+import DeleteModal from '../../components/deleteModal/deleteModal';
 import useStyles from './styles';
 
 const Edit: React.FC = () => {
@@ -35,6 +36,7 @@ const Edit: React.FC = () => {
     const { department, updateDepartment, setLoading } = useDepartment();
 
     const [image, setImage] = useState<string | undefined>(department?.image);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const {
         register,
@@ -124,13 +126,6 @@ const Edit: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleDelete = async () => {
-        const response = await departmentApi.delete(
-            department!.departmentId,
-            company!.companyId
-        );
     };
 
     return (
@@ -328,7 +323,9 @@ const Edit: React.FC = () => {
                                         md={6}
                                         component={Button}
                                         variant="outlined"
-                                        onClick={handleDelete}
+                                        onClick={() =>
+                                            setOpenDeleteModal(!openDeleteModal)
+                                        }
                                     >
                                         Deletar este departamento
                                     </Grid>
@@ -337,6 +334,14 @@ const Edit: React.FC = () => {
                         </Grid>
                     </Grid>
                 </Paper>
+            )}
+            {company && department && (
+                <DeleteModal
+                    isOpen={openDeleteModal}
+                    setIsOpen={setOpenDeleteModal}
+                    company={company}
+                    department={department}
+                />
             )}
         </AdminLayout>
     );

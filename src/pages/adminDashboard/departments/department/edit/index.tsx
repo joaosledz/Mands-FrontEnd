@@ -317,6 +317,7 @@ const Edit: React.FC = () => {
                                         tem volta. Por favor, tenha certeza.
                                     </Grid>
                                     <Grid
+                                        data-cy="delete-modal-button"
                                         container
                                         item
                                         xs={12}

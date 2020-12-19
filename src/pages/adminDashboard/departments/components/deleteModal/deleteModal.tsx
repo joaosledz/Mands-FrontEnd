@@ -141,16 +141,23 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                             placeholder="Palavra de segurança"
                             size="small"
                             onChange={handleChange}
+                            inputProps={{
+                                'data-cy': 'security-word-input',
+                            }}
                             className={classes.textField}
                         />
 
                         <Grid
+                            data-cy="department-delete-button"
                             container
                             justify="center"
                             component={Button}
                             variant="outlined"
                             disabled={correctWord !== securityWord}
                             onClick={handleDelete}
+                            // inputProps={{
+                            //     'data-cy': 'department-email',
+                            // }}
                             className={
                                 correctWord === securityWord
                                     ? classes.button

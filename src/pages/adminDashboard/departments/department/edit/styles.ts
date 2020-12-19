@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
             '& #danger-zone-container': {
                 padding: '1rem',
-                border: '1px solid gray',
+                border: '1px solid #b1b1b1',
                 borderRadius: 10,
             },
 

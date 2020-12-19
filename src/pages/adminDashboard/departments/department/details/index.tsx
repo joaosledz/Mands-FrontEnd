@@ -88,7 +88,10 @@ const Details: React.FC = () => {
                         department.name
                     );
 
-                    if (projectResponse.data.length !== 0 || teamResponse.data.length !== 0) {
+                    if (
+                        projectResponse.data.length !== 0 ||
+                        teamResponse.data.length !== 0
+                    ) {
                         const data: TypeDepartment = {
                             ...department,
                             projects: [...projectResponse.data],
@@ -191,8 +194,8 @@ const Details: React.FC = () => {
                     />
                 </Grid>
                 <FabButton
-                    title="Editar"
-                    icon="edit"
+                    title="Configurar"
+                    icon="settings"
                     onClick={() =>
                         history.push(
                             handleEditURL(

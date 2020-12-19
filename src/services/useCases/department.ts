@@ -52,6 +52,9 @@ const departmentApi = {
             departmentUrls.base + `${department_id}/${company_id}`,
             data
         ),
+
+    delete: (department_id: number, company_id: number) =>
+        api.delete(departmentUrls.base + `${department_id}/${company_id}`),
 };
 
 export default departmentApi;

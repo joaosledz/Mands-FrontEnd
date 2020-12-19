@@ -87,12 +87,18 @@ const Details: React.FC = () => {
                         company.username,
                         department.name
                     );
-                    const data: TypeDepartment = {
-                        ...department,
-                        projects: [...projectResponse.data],
-                        members: [...teamResponse.data],
-                    };
-                    updateDepartment(data);
+
+                    if (
+                        projectResponse.data.length !== 0 ||
+                        teamResponse.data.length !== 0
+                    ) {
+                        const data: TypeDepartment = {
+                            ...department,
+                            projects: [...projectResponse.data],
+                            members: [...teamResponse.data],
+                        };
+                        updateDepartment(data);
+                    } else return;
                 }
             } catch (error) {
                 snackbarUtils.error(error.message);
@@ -188,8 +194,8 @@ const Details: React.FC = () => {
                     />
                 </Grid>
                 <FabButton
-                    title="Editar"
-                    icon="edit"
+                    title="Configurar"
+                    icon="settings"
                     onClick={() =>
                         history.push(
                             handleEditURL(

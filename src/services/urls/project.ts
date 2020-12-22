@@ -6,6 +6,7 @@ const projectUrls = {
     findByDepartment: `${projectUrl}/findByDepartment/`,
     create: `${projectUrl}/create/`,
     update: `${projectUrl}/update/`,
+    remove: `${projectUrl}/delete/`,
 };
 
 export default projectUrls;

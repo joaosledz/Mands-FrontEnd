@@ -36,7 +36,7 @@ type Props = {
     department: TypeDepartment;
 };
 
-const AssignTeamModal: React.FC<Props> = (props: Props) => {
+const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const history = useHistory();
@@ -176,4 +176,4 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default memo(AssignTeamModal);
+export default memo(DepartmentDeleteModal);

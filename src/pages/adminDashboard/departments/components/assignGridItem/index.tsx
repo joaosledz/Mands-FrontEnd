@@ -11,7 +11,7 @@ import {
     TypeProject,
     companyApi,
 } from '../../../../../services';
-import AssignButtonProps from '../../models/assignButton';
+import AssignButtonProps from '../assignButton/assignButton';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 

@@ -4,7 +4,7 @@ const useStyles = makeStyles<Theme>(theme =>
     createStyles({
         paper: {
             width: '100%',
-            maxWidth: '35vw',
+            maxWidth: '37vw',
             padding: '2rem 1rem',
             boxShadow: theme.shadows[5],
 

@@ -12,13 +12,14 @@ import {
     TypeItem,
 } from '../../models/boardTypes';
 import {
-    initialBoardData /*as BoardData*/,
+    // initialBoardData /*as BoardData*/,
     initialBoardData3 as BoardData,
     newBoardData,
 } from '../../utils/data/board';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import { connectHub } from '../../services/socket';
 import useAuth from '../../hooks/useAuth';
+import { ConvertResponse } from './Functions/convertResponse';
 
 interface BoardContextData {
     state: TypeBoard;
@@ -36,7 +37,7 @@ const BoardContext = createContext<BoardContextData>({} as BoardContextData);
 
 // import { Container } from './styles';
 export const BoardProvider: React.FC = ({ children }) => {
-    const [state, setState] = useState(BoardData);
+    const [state, setState] = useState(ConvertResponse(newBoardData));
     const { user } = useAuth();
 
     useEffect(() => {
@@ -45,24 +46,32 @@ export const BoardProvider: React.FC = ({ children }) => {
     }, [user]);
     // const ConvertResponse = (newState: TypeNewBoard) => {
     //     console.log(newState);
+    //     //Armazena o parâmetro sem tipagem para facilitar a adequação e remoção de parâmetros
     //     let newStateAux = newState;
+    //     //Estado auxiliar no qual seram armazenados os novos dados do quadro já no formato padrão da biblioteca
     //     let auxState: TypeBoard;
     //     auxState = {
     //         items: {},
     //         columns: {},
     //         columnsOrder: [],
     //     };
+    //     //Mapeamento do array do novo estado
     //     newStateAux.map(session => {
     //         let sessionAux: any = session;
-    //         //Items
+    //         //Mapeamento das tasks(items) desta sessão(coluna) do novo estado
     //         if (session.tasks) {
     //             session.tasks.map(task => {
+    //                 let taskAux: any = task;
+    //                 taskAux.taskId = taskAux.taskId.toString();
     //                 auxState.items = {
     //                     ...auxState.items,
     //                     [task.taskId]: { ...task },
     //                 };
+    //                 return true;
     //             });
     //         }
+    //         //Após as tasks serem adicionadas aos items são removidas do objeto sessions pois não ficam ai nesse novo formato
+    //         sessionAux.sessionId = sessionAux.sessionId.toString();
     //         delete sessionAux.tasks;
     //         //Colunas
     //         auxState.columns = {
@@ -70,7 +79,7 @@ export const BoardProvider: React.FC = ({ children }) => {
     //             [session.sessionId]: { ...sessionAux },
     //         };
     //         //Ordem Colunas
-    //         auxState.columnsOrder.push(session.sessionId);
+    //         auxState.columnsOrder.push(sessionAux.sessionId);
     //         console.log(auxState);
     //         return true;
     //     });

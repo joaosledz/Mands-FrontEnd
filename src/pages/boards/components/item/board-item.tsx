@@ -123,30 +123,36 @@ export const BoardItem = (props: BoardItemProps) => {
                             >
                                 {item.title}
                             </Grid>
-                            <Grid
-                                xs={12}
-                                container
-                                item
-                                className={classes.members}
-                                alignItems="flex-end"
-                            >
-                                <Grid xs={11} container item>
-                                    {item.responsible.map(
-                                        (responsible, index) => (
-                                            <Link
-                                                key={index}
-                                                className={classes.memberName}
-                                                to={'/perfil'}
-                                            >
-                                                @{responsible}
-                                            </Link>
-                                        )
-                                    )}
+                            {item.responsible && (
+                                <Grid
+                                    xs={12}
+                                    container
+                                    item
+                                    className={classes.members}
+                                    alignItems="flex-end"
+                                >
+                                    <Grid xs={11} container item>
+                                        {item.responsible.map(
+                                            (responsible, index) => (
+                                                <Link
+                                                    key={index}
+                                                    className={
+                                                        classes.memberName
+                                                    }
+                                                    to={'/perfil'}
+                                                >
+                                                    @{responsible}
+                                                </Link>
+                                            )
+                                        )}
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                        <UserAddIcon
+                                            className={classes.iconTask}
+                                        />
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={1}>
-                                    <UserAddIcon className={classes.iconTask} />
-                                </Grid>
-                            </Grid>
+                            )}
                         </Grid>
                     </BoardItemEl>
                 )}

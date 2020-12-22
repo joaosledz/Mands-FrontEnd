@@ -1,4 +1,4 @@
-import { TypeBoard } from '../../models/boardTypes';
+import { TypeBoard, TypeNewBoard } from '../../models/boardTypes';
 
 export const initialBoardData: TypeBoard = {
     items: {
@@ -30,7 +30,7 @@ export const initialBoardData: TypeBoard = {
     columnsOrder: ['1', '2'],
 };
 
-export const newBoardData = [
+export const newBoardData: TypeNewBoard = [
     {
         sessionId: 51,
         position: 1,
@@ -39,13 +39,13 @@ export const newBoardData = [
         tasks: [
             {
                 taskId: 21,
-                title: 'dgdfgdfg',
-                description: 'tyjtyjtyj',
+                title: 'Pagar estagiários',
+                description: 'Muito muito dinheiro',
                 tag: {
                     tagId: 11,
                     companyId: 71,
-                    label: 'string',
-                    color: '#FFFFF',
+                    label: 'Financeiro',
+                    color: 'green',
                 },
                 subtasks: [
                     {

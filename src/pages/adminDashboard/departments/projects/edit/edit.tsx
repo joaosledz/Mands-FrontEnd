@@ -93,7 +93,6 @@ const Edit: React.FC = () => {
                         <Grid container item xs={12} md={8} spacing={3}>
                             <Grid item xs={12}>
                                 <TextField
-                                    data-cy="project-name"
                                     name="name"
                                     label="Nome"
                                     error={errors.name !== undefined}
@@ -103,6 +102,9 @@ const Edit: React.FC = () => {
                                             : ''
                                     }
                                     defaultValue={project?.name}
+                                    inputProps={{
+                                        'data-cy': 'project-name',
+                                    }}
                                     inputRef={register({
                                         required: 'Este campo é obrigatório',
                                     })}
@@ -110,7 +112,6 @@ const Edit: React.FC = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    data-cy="project-budget"
                                     name="budget"
                                     label="Orçamento"
                                     error={errors.budget !== undefined}
@@ -120,6 +121,9 @@ const Edit: React.FC = () => {
                                             : ''
                                     }
                                     defaultValue={project?.budget}
+                                    inputProps={{
+                                        'data-cy': 'project-budget',
+                                    }}
                                     inputRef={register()}
                                 />
                             </Grid>
@@ -128,7 +132,6 @@ const Edit: React.FC = () => {
                         <Grid container item xs={12} spacing={3}>
                             <Grid item xs={12} md={6}>
                                 <TextField
-                                    data-cy="project-initialDate"
                                     type="date"
                                     label="Data inicial"
                                     name="initialDate"
@@ -141,6 +144,9 @@ const Edit: React.FC = () => {
                                     defaultValue={
                                         project?.initialDate.split('T')[0]
                                     }
+                                    inputProps={{
+                                        'data-cy': 'project-initialDate',
+                                    }}
                                     inputRef={register({
                                         required: 'Este campo é obrigatório',
                                     })}
@@ -151,7 +157,6 @@ const Edit: React.FC = () => {
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <TextField
-                                    data-cy="project-finalDate"
                                     type="date"
                                     label="Data Final"
                                     name="finalDate"
@@ -164,6 +169,9 @@ const Edit: React.FC = () => {
                                     defaultValue={
                                         project?.finalDate.split('T')[0]
                                     }
+                                    inputProps={{
+                                        'data-cy': 'project-finalDate',
+                                    }}
                                     inputRef={register({
                                         required: 'Este campo é obrigatório',
                                     })}
@@ -174,7 +182,6 @@ const Edit: React.FC = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    data-cy="project-description"
                                     name="description"
                                     label="Descrição"
                                     error={errors.description !== undefined}
@@ -186,6 +193,9 @@ const Edit: React.FC = () => {
                                     multiline
                                     rows={5}
                                     defaultValue={project?.description}
+                                    inputProps={{
+                                        'data-cy': 'project-description',
+                                    }}
                                     inputRef={register()}
                                 />
                             </Grid>

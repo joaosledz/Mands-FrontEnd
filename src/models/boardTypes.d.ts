@@ -1,26 +1,36 @@
 //ITEMS
 export type TypeMembers = Array<string>;
 
-export type TypeTask = {
+export type TypeSubTask = {
     id: string;
-    checked: boolean;
-    title: string;
+    completed: boolean;
+    description: string;
 };
 
 export type TypeItem = Object<
     string,
     {
-        id: string;
+        taskId: string;
         title: string;
         description: string;
-        tag: string;
-        tagColor: string;
-        members: Array<string>;
-        tasks: Array<{
-            id: string;
-            checked: boolean;
-            title: string;
-        }>;
+        tag: {
+            tagId: number;
+            companyId: number;
+            label: string;
+            color: string;
+        } | null;
+        responsible: Array<string>;
+        subtasks: [
+            {
+                completed: boolean;
+                description: string;
+            }
+        ];
+        // tasks: Array<{
+        //     id: string;
+        //     checked: boolean;
+        //     title: string;
+        // }>;
     }
 >;
 
@@ -39,17 +49,27 @@ export type TypeBoard = {
     items: Object<
         string,
         {
-            id: string;
+            taskId: string;
             title: string;
             description: string;
-            tag: string;
-            tagColor: string;
-            members: Array<string>;
-            tasks: Array<{
-                id: string;
-                checked: boolean;
-                title: string;
-            }>;
+            tag: {
+                tagId: number;
+                companyId: number;
+                label: string;
+                color: string;
+            } | null;
+            responsible: Array<string>;
+            subtasks: [
+                {
+                    completed: boolean;
+                    description: string;
+                }
+            ];
+            // tasks: Array<{
+            //     id: string;
+            //     checked: boolean;
+            //     title: string;
+            // }>;
         }
     >;
     columns: Object<
@@ -62,3 +82,27 @@ export type TypeBoard = {
     >;
     columnsOrder: Array<string>;
 };
+export type TypeNewBoard = Array<{
+    sessionId: number;
+    position: number;
+    title: string;
+    description: string;
+    tasks: Array<{
+        taskId: number;
+        title: string;
+        description: string;
+        tag: {
+            tagId: number;
+            companyId: number;
+            label: string;
+            color: string;
+        } | null;
+        subtasks: [
+            {
+                completed: boolean;
+                description: string;
+            }
+        ];
+        responsible: Array<string> | null;
+    }> | null;
+}>;

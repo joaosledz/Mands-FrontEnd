@@ -5,8 +5,17 @@ import React, {
     SetStateAction,
     useEffect,
 } from 'react';
-import { TypeBoard, TypeColumn, TypeItem } from '../../models/boardTypes';
-import { initialBoardData as BoardData } from '../../utils/data/board';
+import {
+    TypeBoard,
+    TypeNewBoard,
+    TypeColumn,
+    TypeItem,
+} from '../../models/boardTypes';
+import {
+    initialBoardData /*as BoardData*/,
+    initialBoardData3 as BoardData,
+    newBoardData,
+} from '../../utils/data/board';
 import { v4 as uuidv4 } from 'uuid';
 import { connectHub } from '../../services/socket';
 import useAuth from '../../hooks/useAuth';
@@ -32,12 +41,43 @@ export const BoardProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
         if (user) connectHub(user.userId);
+        // ConvertResponse(newBoardData);
     }, [user]);
-
+    // const ConvertResponse = (newState: TypeNewBoard) => {
+    //     console.log(newState);
+    //     let newStateAux = newState;
+    //     let auxState: TypeBoard;
+    //     auxState = {
+    //         items: {},
+    //         columns: {},
+    //         columnsOrder: [],
+    //     };
+    //     newStateAux.map(session => {
+    //         let sessionAux: any = session;
+    //         //Items
+    //         if (session.tasks) {
+    //             session.tasks.map(task => {
+    //                 auxState.items = {
+    //                     ...auxState.items,
+    //                     [task.taskId]: { ...task },
+    //                 };
+    //             });
+    //         }
+    //         delete sessionAux.tasks;
+    //         //Colunas
+    //         auxState.columns = {
+    //             ...auxState.columns,
+    //             [session.sessionId]: { ...sessionAux },
+    //         };
+    //         //Ordem Colunas
+    //         auxState.columnsOrder.push(session.sessionId);
+    //         console.log(auxState);
+    //         return true;
+    //     });
+    // };
     //Funções de Coluna
     const AddColumn = () => {
-        const newID = uuidv4();
-
+        const newID = Math.floor(Math.random() * 100001).toString();
         const newState = {
             ...state,
             columns: {
@@ -60,7 +100,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         };
         //Apagar todos os itens pertencentes a coluna excluída
         (newState.columns[columnID].itemsIds as Array<any>).map(
-            (itemID: 'item-1' | 'item-2') => {
+            (itemID: 1 | 2) => {
                 delete newState.items[itemID];
                 return itemID;
             }
@@ -96,7 +136,8 @@ export const BoardProvider: React.FC = ({ children }) => {
     };
     const AddTask = (columnID: keyof TypeColumn, title: string) => {
         //Gerando um ID aleatório
-        const newID = uuidv4();
+        // const newID = uuidv4();
+        const newID = Math.floor(Math.random() * 100001);
 
         const newState = {
             ...state,
@@ -107,8 +148,8 @@ export const BoardProvider: React.FC = ({ children }) => {
             [newID]: {
                 id: newID,
                 title: title,
-                tag: 'Financeiro',
-                tagColor: 'green',
+                // tag: 'Financeiro',
+                // tagColor: 'green',
                 members: ['Raiane Souza', 'Josefa Oliveira'],
                 tasks: [],
             },

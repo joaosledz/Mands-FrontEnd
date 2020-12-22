@@ -14,12 +14,16 @@ type BoardItemProps = {
     index: number;
     columnID: string;
     item: {
-        id: string;
+        taskId: string;
         title: string;
         description: string;
-        tag: string;
-        tagColor: string;
-        members: string[];
+        tag: {
+            tagId: number;
+            companyId: number;
+            label: string;
+            color: string;
+        } | null;
+        responsible: string[];
         tasks: any;
     };
 };
@@ -32,6 +36,7 @@ type BoardItemStylesProps = {
 
 // Create style for board item element
 const BoardItemEl = styled.div<BoardItemStylesProps>`
+    position: relative;
     padding: 8px;
     background-color: ${props => (props.isDragging ? '#d3e4ee' : '#FFFFFF')};
     border-radius: 4px;
@@ -42,7 +47,6 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
     &:hover {
         background-color: #f7fafc;
     }
-
     & + & {
         margin-top: 4px;
     }
@@ -64,7 +68,7 @@ export const BoardItem = (props: BoardItemProps) => {
 
     return (
         <>
-            <Draggable draggableId={item.id} index={index}>
+            <Draggable draggableId={item.taskId} index={index}>
                 {(provided, snapshot) => (
                     <BoardItemEl
                         {...provided.draggableProps}
@@ -79,24 +83,34 @@ export const BoardItem = (props: BoardItemProps) => {
                                 container
                                 justify="space-between"
                             >
-                                <Grid item xs={11}>
-                                    <span
-                                        style={{
-                                            backgroundColor: item.tagColor,
-                                            color: 'white',
-                                            fontSize: '0.8rem',
-                                            fontFamily: 'Roboto',
-                                            fontWeight: 'lighter',
-                                            padding: '1px 10px',
-                                            borderRadius: '15px',
-                                        }}
-                                    >
-                                        {item.tag}
-                                    </span>
-                                </Grid>
-                                <Grid item xs={1}>
+                                {item.tag && (
+                                    <Grid item xs={11}>
+                                        <span
+                                            style={{
+                                                backgroundColor: item.tag.color,
+                                                color: 'white',
+                                                fontSize: '0.8rem',
+                                                fontFamily: 'Roboto',
+                                                fontWeight: 'lighter',
+                                                padding: '1px 10px',
+                                                borderRadius: '15px',
+                                            }}
+                                        >
+                                            {item.tag.label}
+                                        </span>
+                                    </Grid>
+                                )}
+                                <Grid
+                                    item
+                                    xs={1}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '5px',
+                                        top: '5px',
+                                    }}
+                                >
                                     <Popover
-                                        itemID={item.id}
+                                        itemID={item.taskId}
                                         columnID={columnID}
                                     />
                                 </Grid>
@@ -117,15 +131,17 @@ export const BoardItem = (props: BoardItemProps) => {
                                 alignItems="flex-end"
                             >
                                 <Grid xs={11} container item>
-                                    {item.members.map((member, index) => (
-                                        <Link
-                                            key={index}
-                                            className={classes.memberName}
-                                            to={'/perfil'}
-                                        >
-                                            @{member}
-                                        </Link>
-                                    ))}
+                                    {item.responsible.map(
+                                        (responsible, index) => (
+                                            <Link
+                                                key={index}
+                                                className={classes.memberName}
+                                                to={'/perfil'}
+                                            >
+                                                @{responsible}
+                                            </Link>
+                                        )
+                                    )}
                                 </Grid>
                                 <Grid item xs={1}>
                                     <UserAddIcon className={classes.iconTask} />

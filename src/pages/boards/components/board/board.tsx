@@ -13,7 +13,7 @@ const Board: React.FC = () => {
     // Handle drag & drop
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-        console.log(typeof state);
+        console.log(state);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
@@ -67,7 +67,7 @@ const Board: React.FC = () => {
                 ...state,
                 columns: {
                     ...state.columns,
-                    [newColumnStart.id]: newColumnStart,
+                    [newColumnStart.sessionId]: newColumnStart,
                 },
             };
             // Update the board state with new data
@@ -101,8 +101,8 @@ const Board: React.FC = () => {
                 ...state,
                 columns: {
                     ...state.columns,
-                    [newColumnStart.id]: newColumnStart,
-                    [newColumnFinish.id]: newColumnFinish,
+                    [newColumnStart.sessionId]: newColumnStart,
+                    [newColumnFinish.sessionId]: newColumnFinish,
                 },
             };
             // Update the board state with new data
@@ -138,7 +138,7 @@ const Board: React.FC = () => {
                                 // Render the BoardColumn component
                                 return (
                                     <BoardColumn
-                                        key={column.id}
+                                        key={column.sessionId}
                                         column={column}
                                         items={items}
                                         index={index}

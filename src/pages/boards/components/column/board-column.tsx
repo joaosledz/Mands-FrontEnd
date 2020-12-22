@@ -63,7 +63,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
 
     return (
         <>
-            <Draggable draggableId={column.id} index={index}>
+            <Draggable draggableId={column.sessionId} index={index}>
                 {provided => (
                     <div
                         className={classes.BoardColumnWrapper}
@@ -81,25 +81,25 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 <MutableInput
                                     value={column.title}
                                     valueSet={setColumnTitle}
-                                    id={column.id}
+                                    id={column.sessionId}
                                 />
                             </Grid>
                             <Grid item xs={1}>
                                 <AddIcon
                                     className={classes.icon}
                                     onClick={() =>
-                                        AddTask(column.id, 'Texto Novo')
+                                        AddTask(column.sessionId, 'Texto Novo')
                                     }
                                 />
                             </Grid>
                             <Grid item xs={1}>
                                 <Popover
                                     DeleteColumn={DeleteColumn}
-                                    columnID={column.id}
+                                    columnID={column.sessionId}
                                 />
                             </Grid>
                         </Grid>
-                        <Droppable droppableId={column.id} type="task">
+                        <Droppable droppableId={column.sessionId} type="task">
                             {(provided, snapshot) => (
                                 <BoardColumnContent
                                     {...provided.droppableProps}
@@ -109,10 +109,10 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                     {/* All board items belong into specific column. */}
                                     {items.map((item: any, index: number) => (
                                         <BoardItem
-                                            key={item.id}
+                                            key={item.taskId}
                                             item={item}
                                             index={index}
-                                            columnID={column.id}
+                                            columnID={column.sessionId}
                                         />
                                     ))}
                                     {provided.placeholder}

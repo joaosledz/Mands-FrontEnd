@@ -44,14 +44,14 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     };
     const handleSubmit = () => {
         let UpdatedItem = {
-            id: item.id,
+            id: item.taskId,
             title: title,
             tag: 'Financeiro',
             tagColor: 'green',
             members: ['Raiane Souza', 'Josefa Oliveira'],
             tasks: [],
         };
-        UpdateTask(item.id, UpdatedItem);
+        UpdateTask(item.taskId, UpdatedItem);
         handleCloseModal();
     };
 
@@ -79,7 +79,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         <MutableInput
                             value={title}
                             valueSet={setTitle}
-                            id={item.id}
+                            id={item.taskId}
                         />
                     </Grid>
                     {/* DESCRIÇÃO DO ITEM */}
@@ -97,7 +97,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         <MutableInput
                             value={description}
                             valueSet={setDescription}
-                            id={item.id}
+                            id={item.taskId}
                         />
                     </Grid>
                     {/* LISTA DE TAREFAS */}
@@ -112,7 +112,9 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 </Typography>
                             </Grid>
                         </Grid>
-                        <CheckBoxList tasks={item.tasks} />
+                        {item.subtasks && (
+                            <CheckBoxList subtasks={item.subtasks} />
+                        )}
                         {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
 
                         <Team teamData={teamData} setTeamData={setTeamData} />

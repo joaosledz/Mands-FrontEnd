@@ -1,71 +1,142 @@
-import {TypeBoard} from '../../models/boardTypes'
+import { TypeBoard } from '../../models/boardTypes';
 
-export const initialBoardData:TypeBoard = {
+export const initialBoardData: TypeBoard = {
     items: {
-        'item-1': {
-            id: 'item-1',
+        '1': {
+            id: '1',
             title: 'Relatório Financeiro',
             description: 'Atividades referentes ao financeiro',
-            tag: 'Financeiro',
-            tagColor: 'green',
-            members: ['Raiane Souza', 'Josefa Oliveira'],
-            tasks: [
-                {
-                    id: 'task-1',
-                    checked: true,
-                    title: 'Reforma do escritório de baixo A51',
+            responsible: ['Raiane Souza', 'Josefa Oliveira'],
+        },
+        '2': {
+            id: '2',
+            title: 'Relatório Marketing',
+            description: 'Atividades referentes ao financeiro',
+            responsible: ['Raiane Souza', 'Josefa Oliveira'],
+        },
+    },
+    columns: {
+        '1': {
+            id: '1',
+            title: 'A Fazer',
+            itemsIds: ['1'],
+        },
+        '2': {
+            id: '2',
+            title: 'A Fazer',
+            itemsIds: ['2'],
+        },
+    },
+    columnsOrder: ['1', '2'],
+};
+
+export const newBoardData = [
+    {
+        sessionId: 51,
+        position: 1,
+        title: 'Afazeres',
+        description: '',
+        tasks: [
+            {
+                taskId: 21,
+                title: 'dgdfgdfg',
+                description: 'tyjtyjtyj',
+                tag: {
+                    tagId: 11,
+                    companyId: 71,
+                    label: 'string',
+                    color: '#FFFFF',
                 },
-                {
-                    id: 'task-2',
-                    checked: false,
-                    title: 'Confecção dos crachás',
-                },
-                {
-                    id: 'task-3',
-                    checked: true,
-                    title: 'Marcar reunião semanal',
-                },
-                { id: 'task-4', checked: true, title: 'Comprar suprimentos' },
-                { id: 'task-5', checked: true, title: 'Comprar suprimentos' },
-                { id: 'task-6', checked: true, title: 'Comprar suprimentos' },
-                { id: 'task-7', checked: true, title: 'Comprar suprimentos' },
-                { id: 'task-8', checked: true, title: 'Comprar suprimentos' },
-                { id: 'task-9', checked: true, title: 'Comprar suprimentos' },
-                { id: 'task-10', checked: true, title: 'Comprar suprimentos' },
-            ],
+                subtasks: [
+                    {
+                        completed: false,
+                        description: 'string',
+                    },
+                ],
+                responsible: null,
+            },
+        ],
+    },
+    {
+        sessionId: 41,
+        position: 2,
+        title: 'Em Progresso',
+        description: '',
+        tasks: null,
+    },
+    {
+        sessionId: 31,
+        position: 3,
+        title: 'Finalizado',
+        description: '',
+        tasks: null,
+    },
+];
+
+export const initialBoardData3: TypeBoard = {
+    items: {
+        'item-1': {
+            taskId: 'item-1',
+            title: 'Relatório Financeiro',
+            description: 'Atividades referentes ao financeiro',
+            tag: {
+                tagId: 11,
+                companyId: 71,
+                label: 'Marketing',
+                color: 'orange',
+            },
+            subtasks: null,
+            responsible: ['Raiane Souza', 'Josefa Oliveira'],
         },
         'item-2': {
-            id: 'item-2',
+            taskId: 'item-2',
             title: 'Relatório de Marketing',
             description: 'Atividades referentes ao admin',
-            tag: 'Marketing',
-            tagColor: 'blue',
-            members: ['Raiane Souza', 'Xandão'],
-            tasks: [],
+            tag: null,
+            responsible: ['Raiane Souza', 'Xandão'],
+            subtasks: [
+                {
+                    completed: false,
+                    description: 'string',
+                },
+            ],
         },
         'item-3': {
-            id: 'item-3',
+            taskId: 'item-3',
             title: 'Andamento Alvenaria',
             description: 'Atividades referentes ao marketing',
-            tag: 'Reforma',
-            tagColor: 'orange',
-            members: ['Raiane Souza', 'José Lima'],
-            tasks: [],
+            tag: {
+                tagId: 21,
+                companyId: 71,
+                label: 'Financeiro',
+                color: 'green',
+            },
+            responsible: ['Raiane Souza', 'José Lima'],
+            subtasks: [
+                {
+                    completed: false,
+                    description: 'string2',
+                },
+                {
+                    completed: true,
+                    description: 'string3',
+                },
+            ],
         },
     },
     columns: {
         'column-1': {
-            id: 'column-1',
+            sessionId: 'column-1',
             title: 'A Fazer',
             itemsIds: ['item-1', 'item-2', 'item-3'],
         },
         'column-2': {
-            id: 'column-2',
+            sessionId: 'column-2',
             title: 'Em Andamento',
             itemsIds: [],
         },
         'column-3': {
-            id: 'column-3',
+            sessionId: 'column-3',
             title: 'Concluido',
             itemsIds: [],
         },

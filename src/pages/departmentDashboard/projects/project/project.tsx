@@ -22,7 +22,7 @@ const Project: React.FC<Props> = (props: Props) => {
     return (
         <Link
             component={RouterLink}
-            to={`/${company}/${department}/${project.projectId}`}
+            to={`/${company}/${department}/quadro/${project.projectId}`}
             className={classes.project}
         >
             <img

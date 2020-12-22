@@ -24,7 +24,7 @@ import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
 import Header from '../../components/header/header';
-import DeleteModal from '../../components/deleteModal/deleteModal';
+import DeleteModal from '../../components/deleteModal/department';
 import useStyles from './styles';
 
 const Edit: React.FC = () => {

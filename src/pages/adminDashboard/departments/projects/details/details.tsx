@@ -119,8 +119,8 @@ const RegisterProject: React.FC = () => {
                 </Grid>
             </Paper>
             <FabButton
-                title="Editar"
-                icon="edit"
+                title="Configurar"
+                icon="settings"
                 onClick={() =>
                     history.push(
                         handleEditURL(

@@ -29,6 +29,11 @@ const projectApi = {
             projectUrls.update + `${company_id}/${department_id}/${project_id}`,
             data
         ),
+
+    remove: (company_id: number, department_id: number, project_id: number) =>
+        api.delete(
+            projectUrls.remove + `${company_id}/${department_id}/${project_id}`
+        ),
 };
 
 export default projectApi;

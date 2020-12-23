@@ -38,12 +38,14 @@ const Layout: React.FC<Props> = ({
 
     useEffect(() => {
         const checkCompanyData = async () => {
+            // console.log(location.pathname);
             // Verifica a permissão do usuário
             if (company && company.userPermission!.editCompany) {
                 try {
                     // Verifica se os dados armazenados batem com a url
                     if (params.department) {
-                        if (department) {
+                        if (department)
+                            /* {
                             if (
                                 params.department.toLowerCase() !==
                                 department.name.toLowerCase()
@@ -53,8 +55,10 @@ const Layout: React.FC<Props> = ({
                                     params.company,
                                     params.department!
                                 );
-                            } else setLoading(false);
-                        } else {
+                            } else  */ setLoading(
+                                false
+                            );
+                        else {
                             console.log('Layout: caso não tenha department');
                             await getDepartmentData(
                                 params.company,
@@ -63,7 +67,9 @@ const Layout: React.FC<Props> = ({
                         }
                     } else setLoading(false);
                 } catch (error) {
+                    console.log(error);
                     SnackbarUtils.error(error.message);
+                    history.replace(`/admin/${params.company}/departamentos`);
                 }
             }
         };

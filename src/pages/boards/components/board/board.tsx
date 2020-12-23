@@ -14,6 +14,7 @@ const Board: React.FC = () => {
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
         console.log(state);
+        console.log(source);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;

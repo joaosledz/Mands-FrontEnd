@@ -7,19 +7,21 @@ import React, {
 } from 'react';
 import {
     TypeBoard,
-    TypeNewBoard,
     TypeColumn,
     TypeItem,
+    TypeNewBoard,
 } from '../../models/boardTypes';
+import { projectApi } from '../../services';
 import {
-    // initialBoardData /*as BoardData*/,
-    initialBoardData3 as BoardData,
+    // initialBoardData3 as BoardData,
     newBoardData,
 } from '../../utils/data/board';
 // import { v4 as uuidv4 } from 'uuid';
 import { connectHub } from '../../services/socket';
 import useAuth from '../../hooks/useAuth';
 import { ConvertResponse } from './Functions/convertResponse';
+import snackbarUtils from '../../utils/functions/snackbarUtils';
+import { useParams } from 'react-router-dom';
 
 interface BoardContextData {
     state: TypeBoard;
@@ -32,6 +34,12 @@ interface BoardContextData {
     setColumnTitle: (title: string, columnID: keyof TypeColumn) => void;
 }
 
+interface TypeParams {
+    company: string;
+    department: string;
+    project: string;
+}
+
 const BoardContext = createContext<BoardContextData>({} as BoardContextData);
 //Funções de Task
 
@@ -39,51 +47,12 @@ const BoardContext = createContext<BoardContextData>({} as BoardContextData);
 export const BoardProvider: React.FC = ({ children }) => {
     const [state, setState] = useState(ConvertResponse(newBoardData));
     const { user } = useAuth();
-
+    const params = useParams<TypeParams>();
     useEffect(() => {
         if (user) connectHub(user.userId);
-        // ConvertResponse(newBoardData);
+        console.log(params);
     }, [user]);
-    // const ConvertResponse = (newState: TypeNewBoard) => {
-    //     console.log(newState);
-    //     //Armazena o parâmetro sem tipagem para facilitar a adequação e remoção de parâmetros
-    //     let newStateAux = newState;
-    //     //Estado auxiliar no qual seram armazenados os novos dados do quadro já no formato padrão da biblioteca
-    //     let auxState: TypeBoard;
-    //     auxState = {
-    //         items: {},
-    //         columns: {},
-    //         columnsOrder: [],
-    //     };
-    //     //Mapeamento do array do novo estado
-    //     newStateAux.map(session => {
-    //         let sessionAux: any = session;
-    //         //Mapeamento das tasks(items) desta sessão(coluna) do novo estado
-    //         if (session.tasks) {
-    //             session.tasks.map(task => {
-    //                 let taskAux: any = task;
-    //                 taskAux.taskId = taskAux.taskId.toString();
-    //                 auxState.items = {
-    //                     ...auxState.items,
-    //                     [task.taskId]: { ...task },
-    //                 };
-    //                 return true;
-    //             });
-    //         }
-    //         //Após as tasks serem adicionadas aos items são removidas do objeto sessions pois não ficam ai nesse novo formato
-    //         sessionAux.sessionId = sessionAux.sessionId.toString();
-    //         delete sessionAux.tasks;
-    //         //Colunas
-    //         auxState.columns = {
-    //             ...auxState.columns,
-    //             [session.sessionId]: { ...sessionAux },
-    //         };
-    //         //Ordem Colunas
-    //         auxState.columnsOrder.push(sessionAux.sessionId);
-    //         console.log(auxState);
-    //         return true;
-    //     });
-    // };
+
     //Funções de Coluna
     const AddColumn = () => {
         const newID = Math.floor(Math.random() * 100001).toString();
@@ -179,6 +148,22 @@ export const BoardProvider: React.FC = ({ children }) => {
 
         setState(newState);
     };
+    useEffect(() => {
+        const getBoardData = async () => {
+            try {
+                const response = await projectApi.getBoardData(
+                    parseInt(params.project)
+                );
+                console.log(response.data);
+                setState(ConvertResponse(response.data));
+            } catch (error) {
+                snackbarUtils.error(error.message);
+            }
+        };
+        getBoardData();
+        console.log('object');
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <BoardContext.Provider

@@ -17,22 +17,22 @@ export const ConvertResponse = (newState: TypeNewBoard) => {
         sessionAux.itemsIds = [];
         //Mapeamento das tasks(items) desta sessão(coluna) do novo estado
         if (session.tasks) {
-            console.log(session.tasks);
+            // console.log(session.tasks);
             session.tasks.map(task => {
-                console.log('ENTROU');
+                // console.log('ENTROU');
                 let taskAux: any = Object.assign({}, task);
-                taskAux.taskId = taskAux.taskId.toString();
+                taskAux.taskId = 'task_' + taskAux.taskId.toString();
                 // console.log(taskAux);
                 auxState.items = {
                     ...auxState.items,
                     [taskAux.taskId]: { ...taskAux },
                 };
                 sessionAux.itemsIds.push(taskAux.taskId);
-                console.log(auxState);
-                // return taskAux;
+                // console.log(auxState);
+                return true;
             });
         }
-        console.log(auxState);
+        // console.log(auxState);
         //Após as tasks serem adicionadas aos items são removidas do objeto sessions pois não ficam ai nesse novo formato
         sessionAux.sessionId = sessionAux.sessionId.toString();
         // delete sessionAux.tasks;
@@ -43,7 +43,8 @@ export const ConvertResponse = (newState: TypeNewBoard) => {
         };
         //Ordem Colunas
         auxState.columnsOrder.push(sessionAux.sessionId);
+        return true;
     });
-    console.log(auxState);
+    // console.log(auxState);
     return auxState;
 };

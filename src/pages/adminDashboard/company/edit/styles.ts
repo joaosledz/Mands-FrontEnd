@@ -7,7 +7,7 @@ const useStyles = makeStyles<Theme>(theme =>
             padding: '2rem',
 
             [theme.breakpoints.only('xs')]: {
-                margin: '0.5rem',
+                margin: '0 0.5rem 0.5rem',
                 padding: '1rem',
             },
 

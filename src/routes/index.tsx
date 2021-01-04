@@ -19,7 +19,6 @@ import UserProfileEdit from '../pages/userProfile/edit';
 import OtherProfile from '../pages/otherProfile/otherProfile';
 import CompanySelection from '../pages/companySelection';
 import CompanyRegister from '../pages/companyRegister/company.register';
-import CompanyEdit from '../pages/companyEdit';
 import CompanyDashboard from '../pages/companyDashboard/companyDashboard';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
@@ -66,10 +65,6 @@ const Routes = () => {
                 <PrivateRoute
                     path="/cadastrar-empresa"
                     component={CompanyRegister}
-                />
-                <PrivateRoute
-                    path="/:companyName/editar-empresa"
-                    component={CompanyEdit}
                 />
                 <PrivateRoute
                     path="/dashboard/:company"

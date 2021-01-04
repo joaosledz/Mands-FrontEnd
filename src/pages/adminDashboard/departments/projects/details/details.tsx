@@ -8,7 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import TypeParams from '../../../../../models/params';
 import { TypeProject } from '../../../../../services';
-import handleEditURL from '../../utils/handleURL';
+import handleEditURL from '../../../utils/handleURL';
 import useProject from '../../../../../hooks/useProject';
 
 import ProjectLayout from '../../../layout/projectLayout';

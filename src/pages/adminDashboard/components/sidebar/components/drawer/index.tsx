@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import Routes, { setCompanyUsername } from './utils/routes';
+import Routes from './utils/routes';
 import TypeParams from '../../../../../../models/params';
 import useStyles from './styles';
 
@@ -25,10 +25,6 @@ const Drawer: React.FC<Props> = (props: Props) => {
 
     const [page] = useState(window.location.href.split('/')[5]);
 
-    useEffect(() => {
-        setCompanyUsername(params.company);
-    }, []);
-
     return (
         <Box className={classes.drawer}>
             <Box className={classes.logoContainer}>
@@ -38,12 +34,12 @@ const Drawer: React.FC<Props> = (props: Props) => {
                 <Divider variant="middle" className={classes.divider} />
             )}
             <List>
-                {Routes.map((route, index) => (
+                {Routes.map(route => (
                     <ListItem
                         button
                         component={Link}
                         to={`/admin/${params.company}/${route.page}`}
-                        key={index}
+                        key={route.page}
                         disabled={page === route.page}
                         className={
                             page === route.page ? classes.itemSelected : ''

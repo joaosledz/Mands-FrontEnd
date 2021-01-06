@@ -25,9 +25,9 @@ import {
     TypeDepartment,
     TypeProject,
     projectApi,
-} from '../../../../../services';
-import TypeParams from '../../../../../models/params';
-import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
+} from '../../../../services';
+import TypeParams from '../../../../models/params';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
 
 type Props = {

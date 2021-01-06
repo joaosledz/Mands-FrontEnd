@@ -63,7 +63,7 @@ const companyApi = {
 
     create: async (data: CompanyModel) => {
         try {
-            const response = await api.post(companyUrls.create, data);
+            const response = await api.post(companyUrls.base, data);
             return Promise.resolve(response);
         } catch (error) {
             console.log(error);
@@ -82,6 +82,8 @@ const companyApi = {
             return Promise.reject(error);
         }
     },
+    delete: (company_id: number) =>
+        api.delete(companyUrls.base + `/${company_id}`),
     verifyUsername: (username: string) =>
         api.get(companyUrls.verifyUsername + `${username}`),
 };

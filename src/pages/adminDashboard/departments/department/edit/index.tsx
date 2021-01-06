@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { /*useLocation,*/ useHistory, useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputMask from 'react-input-mask';
-import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 // import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
@@ -24,6 +22,7 @@ import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
 import IconSelectionInput from '../../components/iconSelection/input';
 import Header from '../../components/header/header';
+import DangerZone from '../../../components/dangerZone/dangerZone';
 import DeleteModal from '../../../components/deleteModal/department';
 import useStyles from './styles';
 
@@ -291,47 +290,11 @@ const Edit: React.FC = () => {
                             </Grid>
                         </Grid>
                         <Grid container item xs={12} md={5}>
-                            <Grid
-                                container
-                                direction="column"
-                                justify="flex-end"
-                                className={classes.rightSide}
-                            >
-                                <Grid
-                                    container
-                                    component={Typography}
-                                    variant="h2"
-                                >
-                                    Área Perigosa
-                                </Grid>
-                                <Grid id="danger-zone-container" container>
-                                    <Grid
-                                        container
-                                        component={Typography}
-                                        variant="h3"
-                                    >
-                                        Deletar departamento
-                                    </Grid>
-                                    <Grid container component={Typography}>
-                                        Uma vez deletado este departamento, não
-                                        tem volta. Por favor, tenha certeza.
-                                    </Grid>
-                                    <Grid
-                                        data-cy="delete-modal-button"
-                                        container
-                                        item
-                                        xs={12}
-                                        md={6}
-                                        component={Button}
-                                        variant="outlined"
-                                        onClick={() =>
-                                            setOpenDeleteModal(!openDeleteModal)
-                                        }
-                                    >
-                                        Deletar este departamento
-                                    </Grid>
-                                </Grid>
-                            </Grid>
+                            <DangerZone
+                                type="department"
+                                modalIsOpen={openDeleteModal}
+                                handleModal={setOpenDeleteModal}
+                            />
                         </Grid>
                     </Grid>
                 </Paper>

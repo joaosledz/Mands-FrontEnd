@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ReactInputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
 
@@ -17,6 +19,8 @@ import AppLayout from '../../../../layout/appLayout';
 import BackButton from '../../../../components/backButton';
 import CropImageInput from '../../../../components/cropImage/cropImageInput';
 import SubmitButton from '../../../../components/mainButton';
+import DangerZone from '../../components/dangerZone/dangerZone';
+import DeleteModal from '../../components/deleteModal/company';
 import useStyles from './styles';
 
 type CompanyModel = {
@@ -28,14 +32,19 @@ type CompanyModel = {
 const CompanyEdit: React.FC = () => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
-    const { register, errors, handleSubmit } = useForm<CompanyModel>();
-    const { company, updateCompany } = useCompany();
+    const { register, errors, handleSubmit, formState } = useForm<
+        CompanyModel
+    >();
+    const { company, updateCompany, loading: companyLoading } = useCompany();
 
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState<File | undefined>(undefined);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     useEffect(() => {
-        document.title = `Empresa - ${company?.name}`;
+        company
+            ? (document.title = `Empresa - ${company?.name}`)
+            : (document.title = 'Carregando...');
         // console.log(company);
     }, [company]);
 
@@ -79,186 +88,197 @@ const CompanyEdit: React.FC = () => {
     };
 
     return (
-        <AppLayout>
-            {!loading ? (
+        <Fragment>
+            <Backdrop className={classes.backdrop} open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            <AppLayout loading={companyLoading}>
                 <Paper elevation={3} className={classes.paper}>
                     <Grid
                         container
-                        component="form"
-                        onSubmit={handleSubmit(onSubmit)}
+                        alignItems="center"
+                        className={classes.header}
                     >
-                        <Grid container className={classes.header}>
-                            <Grid item xs={12} sm={9} md={6}>
-                                <Typography variant="h1" color="primary">
-                                    Empresa - {company?.name}
-                                </Typography>
-                            </Grid>
-
-                            <Hidden only="xs">
-                                <Grid
-                                    container
-                                    item
-                                    sm={3}
-                                    md={6}
-                                    justify="flex-end"
-                                >
-                                    <BackButton
-                                        message="Voltar"
-                                        redirect={`admin/${params.company}/detalhes`}
-                                    />
-                                </Grid>
-                            </Hidden>
-                        </Grid>
+                        <Hidden only="xs">
+                            <Grid item sm={2} md={4} />
+                        </Hidden>
 
                         <Grid
                             container
                             item
                             xs={12}
-                            className={classes.formContent}
+                            sm={8}
+                            md={4}
+                            alignItems="center"
+                            justify="center"
                         >
-                            {company && (
-                                <Grid
-                                    container
-                                    item
-                                    spacing={3}
-                                    xs={12}
-                                    md={9}
-                                    style={{ marginTop: 20 }}
-                                >
-                                    <Grid container item spacing={3}>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                defaultValue={company.name}
-                                                data-cy="company-name"
-                                                name="name"
-                                                label="Nome"
-                                                error={
-                                                    errors.name !== undefined
-                                                }
-                                                helperText={
-                                                    errors.name
-                                                        ? '⚠' +
-                                                          errors?.name?.message
-                                                        : ''
-                                                }
-                                                inputRef={register({
-                                                    required:
-                                                        'Esse campo é obrigatório',
-                                                })}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                defaultValue={company.username}
-                                                disabled
-                                                data-cy="company-username"
-                                                name="username"
-                                                label="Nome de Usuário"
-                                            />
-                                        </Grid>
+                            <Typography variant="h1" color="primary">
+                                Empresa - {company?.name}
+                            </Typography>
+                        </Grid>
+
+                        <Hidden only="xs">
+                            <Grid
+                                container
+                                item
+                                sm={2}
+                                md={4}
+                                justify="flex-end"
+                            >
+                                <BackButton
+                                    message="Voltar"
+                                    redirect={`admin/${params.company}/detalhes`}
+                                />
+                            </Grid>
+                        </Hidden>
+                    </Grid>
+
+                    {company && (
+                        <Grid
+                            container
+                            component="form"
+                            onSubmit={handleSubmit(onSubmit)}
+                            spacing={3}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            <Grid container item xs={12} md={7} spacing={3}>
+                                <Grid container item xs={12} md={4}>
+                                    <CropImageInput
+                                        preview={company?.imagePath}
+                                        image={image}
+                                        setImage={setImage}
+                                    />
+                                </Grid>
+                                <Grid container item xs={12} md={8} spacing={3}>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            defaultValue={company.name}
+                                            data-cy="company-name"
+                                            name="name"
+                                            label="Nome"
+                                            error={errors.name !== undefined}
+                                            helperText={
+                                                errors.name
+                                                    ? '⚠' +
+                                                      errors?.name?.message
+                                                    : ''
+                                            }
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                            })}
+                                        />
                                     </Grid>
-                                    <Grid container item spacing={3}>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                defaultValue={company.email}
-                                                data-cy="company-email"
-                                                name="email"
-                                                label="Email"
-                                                error={
-                                                    errors.email !== undefined
-                                                }
-                                                helperText={
-                                                    errors.email
-                                                        ? '⚠' +
-                                                          errors?.email?.message
-                                                        : ''
-                                                }
-                                                inputRef={register({
-                                                    required:
-                                                        'Esse campo é obrigatório',
-                                                    pattern: {
-                                                        // eslint-disable-next-line
-                                                        value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                                        message:
-                                                            'Deve seguir o formato nome@email.com',
-                                                    },
-                                                })}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <ReactInputMask
-                                                mask={'(99) 99999-9999'}
-                                                maskChar="_"
-                                                defaultValue={company.phone}
-                                            >
-                                                {() => (
-                                                    <TextField
-                                                        data-cy="company-phone"
-                                                        name="phone"
-                                                        label="Telefone"
-                                                        error={
-                                                            errors.phone !==
-                                                            undefined
-                                                        }
-                                                        helperText={
-                                                            errors.phone
-                                                                ? '⚠' +
-                                                                  errors?.phone
-                                                                      ?.message
-                                                                : ''
-                                                        }
-                                                        inputRef={register({
-                                                            required:
-                                                                'Esse campo é obrigatório',
-                                                            minLength: {
-                                                                value: 15,
-                                                                message:
-                                                                    'O número está incompleto',
-                                                            },
-                                                        })}
-                                                    />
-                                                )}
-                                            </ReactInputMask>
-                                        </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            defaultValue={company.username}
+                                            disabled
+                                            data-cy="company-username"
+                                            name="username"
+                                            label="Nome de Usuário"
+                                        />
                                     </Grid>
-                                    <Grid container item spacing={3}>
-                                        <Grid item xs={12} sm={6}>
-                                            <TextField
-                                                defaultValue={company.cnpj}
-                                                disabled
-                                                data-cy="company-cnpj"
-                                                name="cnpj"
-                                                label="CNPJ"
-                                            />
-                                        </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            defaultValue={company.email}
+                                            data-cy="company-email"
+                                            name="email"
+                                            label="Email"
+                                            error={errors.email !== undefined}
+                                            helperText={
+                                                errors.email
+                                                    ? '⚠' +
+                                                      errors?.email?.message
+                                                    : ''
+                                            }
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                                pattern: {
+                                                    // eslint-disable-next-line
+                                                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                                    message:
+                                                        'Deve seguir o formato nome@email.com',
+                                                },
+                                            })}
+                                        />
                                     </Grid>
                                 </Grid>
-                            )}
-                            <Grid
-                                component="aside"
-                                className={classes.rightSide}
-                                item
-                                xs={12}
-                                md={3}
-                            >
-                                <CropImageInput
-                                    preview={company?.imagePath}
-                                    title="Logo da Empresa:"
-                                    image={image}
-                                    setImage={setImage}
+                                <Grid container item xs={12} spacing={3}>
+                                    <Grid item xs={12}>
+                                        <ReactInputMask
+                                            mask={'(99) 99999-9999'}
+                                            maskChar="_"
+                                            defaultValue={company.phone}
+                                        >
+                                            {() => (
+                                                <TextField
+                                                    data-cy="company-phone"
+                                                    name="phone"
+                                                    label="Telefone"
+                                                    error={
+                                                        errors.phone !==
+                                                        undefined
+                                                    }
+                                                    helperText={
+                                                        errors.phone
+                                                            ? '⚠' +
+                                                              errors?.phone
+                                                                  ?.message
+                                                            : ''
+                                                    }
+                                                    inputRef={register({
+                                                        required:
+                                                            'Esse campo é obrigatório',
+                                                        minLength: {
+                                                            value: 15,
+                                                            message:
+                                                                'O número está incompleto',
+                                                        },
+                                                    })}
+                                                />
+                                            )}
+                                        </ReactInputMask>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            defaultValue={company.cnpj}
+                                            disabled
+                                            data-cy="company-cnpj"
+                                            name="cnpj"
+                                            label="CNPJ"
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container justify="center">
+                                    <SubmitButton
+                                        mt={40}
+                                        type="submit"
+                                        text="Salvar alterações"
+                                        disabled={!formState.isDirty}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container item xs={12} md={5}>
+                                <DangerZone
+                                    type="company"
+                                    modalIsOpen={openDeleteModal}
+                                    handleModal={setOpenDeleteModal}
+                                    style={classes.dangerZone}
                                 />
                             </Grid>
                         </Grid>
-
-                        <Grid container item xs={12} justify="center">
-                            <SubmitButton mt={100} text="Enviar" />
-                        </Grid>
-                    </Grid>
+                    )}
+                    {company && (
+                        <DeleteModal
+                            isOpen={openDeleteModal}
+                            setIsOpen={setOpenDeleteModal}
+                            company={company}
+                        />
+                    )}
                 </Paper>
-            ) : (
-                <h1>Carregando...</h1>
-            )}
-        </AppLayout>
+            </AppLayout>
+        </Fragment>
     );
 };
 

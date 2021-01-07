@@ -1,24 +1,27 @@
 import React, { useState, useMemo } from 'react';
+// import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+
 import CpfValidator from '../../../validators/cpfValidator';
-import { /*AxiosError,*/ authApi, RegisterModel } from '../../../services';
+import { authApi, RegisterModel } from '../../../services';
+import { validateUsername } from './components/validators/validateUsername';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
-// import TextField from './components/textField';
 import RegisterButton from '../components/submitButton/submitButton';
-import { validateUsername } from './components/validators/validateUsername';
-import useStyles /*,  { inputStyle } */ from './styles';
-import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import useStyles from './styles';
+import encrypt from '../../../utils/functions/encrypt';
+// import snackbarUtils from '../../../utils/functions/snackbarUtils';
 
 const Register: React.FC = () => {
     const classes = useStyles();
-
+    // const history = useHistory();
     const [image, setImage] = useState<File | undefined>(undefined);
 
     //#region CropImageSetup
@@ -46,17 +49,17 @@ const Register: React.FC = () => {
         shouldUnregister: true,
     });
 
-    const onSubmit = (data: RegisterModel) => {
-        console.log(data);
-        authApi
-            .register(data)
-            .then(response => {
-                console.log(response);
-                //sucess alert
-            })
-            .catch(error => {
-                //error alert
-            });
+    const onSubmit = async (data: RegisterModel) => {
+        const userData: RegisterModel = {
+            ...data,
+            password: encrypt(data.password),
+        };
+        try {
+            await authApi.register(userData);
+            // snackbarUtils.success('Empresa criada com sucesso');
+        } catch (error) {
+            // snackbarUtils.error(error.message);
+        }
     };
 
     return (

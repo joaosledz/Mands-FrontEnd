@@ -8,10 +8,13 @@ before(() => {
 });
 
 describe('Register a new company', () => {
-    it('Should fill the Inputs', () => {
+    it('Should visit the page', () => {
         cy.visit('/cadastrar-empresa');
+    });
+
+    it('Should fill the Inputs', () => {
         cy.get('[ data-cy="company-name"]').type('Facebook');
-        cy.get('[data-cy=company-username]').type('Facebook');
+        cy.get('[data-cy=company-username]').type('Face');
         cy.get('[data-cy=company-email]').type('oi@Facebook.com');
         cy.get('[data-cy=company-phone]').type('71995187312');
         cy.get('[data-cy=company-cnpj]').type('94365130000171');

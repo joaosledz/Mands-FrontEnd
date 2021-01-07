@@ -19,7 +19,7 @@ const ManageCompanyButton: React.FC<Props> = ({ company }) => {
     return (
         <Link
             component={RouterLink}
-            to={`/admin/${username}/departamentos`}
+            to={`/admin/${username}/detalhes`}
             className={classes.button}
         >
             <img

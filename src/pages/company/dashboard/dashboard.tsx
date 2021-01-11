@@ -3,13 +3,13 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import SnackbarUtils from '../../utils/functions/snackbarUtils';
+import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
-import { UserCompanyType, departmentApi } from '../../services';
-import useAuth from '../../hooks/useAuth';
-import useCompany from '../../hooks/useCompany';
+import { UserCompanyType, departmentApi } from '../../../services';
+import useAuth from '../../../hooks/useAuth';
+import useCompany from '../../../hooks/useCompany';
 
-import AppLayout from '../../layout/appLayout';
+import AppLayout from '../../../layout/appLayout';
 import ManageCompanyButton from './components/manageCompanyButton/manageCompanyButton';
 import Departments from './components/departments';
 import CompanyDetails from './components/companyDetails/companyDetails';

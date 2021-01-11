@@ -1,4 +1,4 @@
-import { companyApi } from '../../../services';
+import { companyApi } from '../../../../services';
 
 export const validateUsername = async (username: string) => {
     let valid = true;

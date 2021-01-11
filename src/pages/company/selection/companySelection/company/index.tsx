@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import useCompany from '../../../../hooks/useCompany';
+import useCompany from '../../../../../hooks/useCompany';
 
-import { UserCompanyType } from '../../../../services';
+import { UserCompanyType } from '../../../../../services';
 import useStyles from './styles';
 
 type Props = {

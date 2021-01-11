@@ -3,9 +3,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
-import { UserCompanyType } from '../../../../services';
-
-import CompanyIcon from '../../../../assets/selectableIcons/company.svg';
+import { UserCompanyType } from '../../../../../services';
+import CompanyIcon from '../../../../../assets/selectableIcons/company.svg';
 import useStyles from './styles';
 
 type Props = {

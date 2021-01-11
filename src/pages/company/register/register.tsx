@@ -6,15 +6,15 @@ import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
 import ReactInputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
-import CNPJValidator from '../../validators/cnpjValidator';
-import { companyApi } from '../../services';
+import CNPJValidator from '../../../validators/cnpjValidator';
+import { companyApi } from '../../../services';
 import { validateUsername } from './validators/validateUsername';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
-import AppLayout from '../../layout/appLayout';
-import BackButton from '../../components/backButton';
-import CropImageInput from '../../components/cropImage/cropImageInput';
-import SubmitButton from '../../components/mainButton';
+import AppLayout from '../../../layout/appLayout';
+import BackButton from '../../../components/backButton';
+import CropImageInput from '../../../components/cropImage/cropImageInput';
+import SubmitButton from '../../../components/mainButton';
 import useStyles from './styles';
 
 type CompanyModel = {

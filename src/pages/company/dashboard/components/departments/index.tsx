@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Grow from '@material-ui/core/Grow';
 
 import { Breakpoints } from './models/breakpoints';
-import { TypeDepartment } from '../../../../services';
+import { TypeDepartment } from '../../../../../services';
 
 import Department from './department';
 import useStyles from './styles';

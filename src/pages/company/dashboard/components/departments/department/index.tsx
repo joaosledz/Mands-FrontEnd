@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
-import TypeParams from '../../../../../models/params';
-import { TypeDepartment } from '../../../../../services';
+import TypeParams from '../../../../../../models/params';
+import { TypeDepartment } from '../../../../../../services';
 
-import DefaultDepartmentIcon from '../../../../../assets/selectableIcons/defaultDepartment.svg';
+import DefaultDepartmentIcon from '../../../../../../assets/selectableIcons/defaultDepartment.svg';
 import useStyles from './styles';
-import useDepartment from '../../../../../hooks/useDepartment';
+import useDepartment from '../../../../../../hooks/useDepartment';
 
 type Props = {
     department: TypeDepartment;

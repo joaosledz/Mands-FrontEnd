@@ -11,11 +11,11 @@ import Hidden from '@material-ui/core/Hidden';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
 
-import TypeParams from '../../../../../models/params';
-import SnackbarUtils from '../../../../../utils/functions/snackbarUtils';
-import { UserCompanyType, companyApi } from '../../../../../services';
+import TypeParams from '../../../../../../models/params';
+import SnackbarUtils from '../../../../../../utils/functions/snackbarUtils';
+import useCompany from '../../../../../../hooks/useCompany';
+import { UserCompanyType, companyApi } from '../../../../../../services';
 import useStyles from './styles';
-import useCompany from '../../../../../hooks/useCompany';
 
 type Props = {
     company: UserCompanyType;

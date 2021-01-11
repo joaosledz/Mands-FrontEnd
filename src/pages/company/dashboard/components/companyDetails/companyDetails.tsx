@@ -3,9 +3,9 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 
-import { UserCompanyType } from '../../../../services';
+import { UserCompanyType } from '../../../../../services';
 import Header from './header/header';
-import CompanyDataItem from '../../../../components/dataTextGridItem';
+import CompanyDataItem from '../../../../../components/dataTextGridItem';
 import useStyles from './styles';
 
 type Props = {

@@ -17,9 +17,9 @@ import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPa
 import UserProfile from '../pages/userProfile/details/details';
 import UserProfileEdit from '../pages/userProfile/edit';
 import OtherProfile from '../pages/otherProfile/otherProfile';
-import CompanySelection from '../pages/companySelection';
-import CompanyRegister from '../pages/companyRegister/company.register';
-import CompanyDashboard from '../pages/companyDashboard/companyDashboard';
+import CompanySelection from '../pages/company/selection';
+import CompanyRegister from '../pages/company/register/register';
+import CompanyDashboard from '../pages/company/dashboard/dashboard';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
 //#endregion

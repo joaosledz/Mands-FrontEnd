@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { companyApi, UserCompanyType } from '../../services';
+import { companyApi, UserCompanyType } from '../../../services';
 
-import AppLayout from '../../layout/appLayout';
+import AppLayout from '../../../layout/appLayout';
 import EmptyCompanies from './emptyCompanies';
-import Companies from './companySelection/companySelection';
-import FabButton from '../../components/fabButton';
+import Companies from './companySelection/selection';
+import FabButton from '../../../components/fabButton';
 
 const CompanySelection: React.FC = () => {
     const [companies, setCompanies] = useState<Array<UserCompanyType>>([]);

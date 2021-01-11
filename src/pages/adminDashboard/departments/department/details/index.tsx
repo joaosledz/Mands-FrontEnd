@@ -11,7 +11,7 @@ import {
 } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
-import handleEditURL from '../../utils/handleURL';
+import handleEditURL from '../../../utils/handleURL';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 import AdminLayout from '../../../layout/departmentLayout';

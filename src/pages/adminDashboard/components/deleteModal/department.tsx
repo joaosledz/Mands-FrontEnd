@@ -23,11 +23,10 @@ import { Times as TimesIcon } from '@styled-icons/fa-solid';
 import {
     UserCompanyType,
     TypeDepartment,
-    TypeProject,
-    projectApi,
-} from '../../../../../services';
-import TypeParams from '../../../../../models/params';
-import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
+    departmentApi,
+} from '../../../../services';
+import TypeParams from '../../../../models/params';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
 
 type Props = {
@@ -35,19 +34,18 @@ type Props = {
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     company: UserCompanyType;
     department: TypeDepartment;
-    project: TypeProject;
 };
 
-const ProjectDeleteModal: React.FC<Props> = (props: Props) => {
+const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const history = useHistory();
-    const { isOpen, setIsOpen, company, department, project } = props;
+    const { isOpen, setIsOpen, company, department } = props;
 
     const [submitting, setSubmitting] = useState(false);
 
     const [securityWord, setSecurityWord] = useState('');
-    const correctWord = `${department.name}/${project.name}`;
+    const correctWord = `${company.username}/${department.name}`;
 
     const handleCloseModal = () => {
         setIsOpen(false);
@@ -62,15 +60,12 @@ const ProjectDeleteModal: React.FC<Props> = (props: Props) => {
     const handleDelete = async () => {
         setSubmitting(true);
         try {
-            await projectApi.remove(
-                company.companyId,
-                department.departmentId,
-                project.projectId
+            await departmentApi.delete(
+                department!.departmentId,
+                company!.companyId
             );
-            snackbarUtils.success('Projeto deletado com sucesso');
-            history.replace(
-                `/admin/${params.company}/departamentos/${params.department}/detalhes`
-            );
+            snackbarUtils.success('Departamento deletado com sucesso');
+            history.replace(`/admin/${params.company}/departamentos`);
         } catch (error) {
             console.log(error);
             snackbarUtils.error(error.message);
@@ -128,8 +123,9 @@ const ProjectDeleteModal: React.FC<Props> = (props: Props) => {
                         >
                             <Typography>
                                 Essa ação não pode ser desfeita. Essa ação vai
-                                permanentemente deletar o projeto{' '}
-                                <strong>{correctWord}</strong>.
+                                permanentemente deletar o departamento{' '}
+                                <strong>{correctWord}</strong> e os projetos
+                                contidos nele.
                             </Typography>
 
                             <Typography>
@@ -152,7 +148,7 @@ const ProjectDeleteModal: React.FC<Props> = (props: Props) => {
                         />
 
                         <Grid
-                            data-cy="project-delete-button"
+                            data-cy="department-delete-button"
                             container
                             justify="center"
                             component={Button}
@@ -171,7 +167,7 @@ const ProjectDeleteModal: React.FC<Props> = (props: Props) => {
                                       ].join(' ')
                             }
                         >
-                            Deletar Projeto
+                            Deletar Departamento
                         </Grid>
                     </Grid>
                 </Slide>
@@ -180,4 +176,4 @@ const ProjectDeleteModal: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default memo(ProjectDeleteModal);
+export default memo(DepartmentDeleteModal);

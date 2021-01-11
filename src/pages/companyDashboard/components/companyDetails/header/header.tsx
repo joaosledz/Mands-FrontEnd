@@ -10,13 +10,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Hidden from '@material-ui/core/Hidden';
 import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
-import SnackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 import TypeParams from '../../../../../models/params';
+import SnackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import { UserCompanyType, companyApi } from '../../../../../services';
-
-import ITLogo from '../../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import useStyles from './styles';
+import useCompany from '../../../../../hooks/useCompany';
 
 type Props = {
     company: UserCompanyType;
@@ -26,6 +25,7 @@ const Header: React.FC<Props> = ({ company }) => {
     const classes = useStyles();
     const history = useHistory();
     const params = useParams<TypeParams>();
+    const { getCompanyData } = useCompany();
 
     const [loading, setLoading] = useState(true);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -53,8 +53,9 @@ const Header: React.FC<Props> = ({ company }) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleChangeCompany = (company_username: string) => {
+    const handleChangeCompany = async (company_username: string) => {
         handleClose();
+        await getCompanyData(company_username);
         history.replace(`/dashboard/${company_username}`);
     };
 
@@ -66,10 +67,12 @@ const Header: React.FC<Props> = ({ company }) => {
         <Box>
             <Button onClick={handleOpen}>
                 <Avatar
-                    src={ITLogo}
+                    src={company.imagePath}
                     alt="Logo da empresa"
                     className={classes.avatar}
-                />
+                >
+                    {company.name.substr(0, 1)}
+                </Avatar>
                 <Typography variant="h5" className={classes.companyName}>
                     {company.name}
                 </Typography>

@@ -1,21 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ReactInputMask from 'react-input-mask';
 import { useForm } from 'react-hook-form';
-import { companyApi, imageApi } from '../../services';
-import useCompany from '../../hooks/useCompany';
-import ProfilePic from '../../assets/fakeDataImages/employees/anaTartari.png';
 
-import AppLayout from '../../layout/appLayout';
-import BackButton from '../../components/backButton';
-import CropImageInput from '../../components/cropImage/cropImageInput';
-import SubmitButton from '../../components/mainButton';
+import TypeParams from '../../../../models/params';
+import { companyApi, imageApi } from '../../../../services';
+import useCompany from '../../../../hooks/useCompany';
+import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
+
+import AppLayout from '../../../../layout/appLayout';
+import BackButton from '../../../../components/backButton';
+import CropImageInput from '../../../../components/cropImage/cropImageInput';
+import SubmitButton from '../../../../components/mainButton';
+import DangerZone from '../../components/dangerZone/dangerZone';
+import DeleteModal from '../../components/deleteModal/company';
 import useStyles from './styles';
-import SnackbarUtils from '../../utils/functions/snackbarUtils';
 
 type CompanyModel = {
     name: string;
@@ -23,33 +29,42 @@ type CompanyModel = {
     email: string;
 };
 
-const CompanyRegister: React.FC = () => {
+const CompanyEdit: React.FC = () => {
     const classes = useStyles();
-    const { company, updateCompany } = useCompany();
-    const [image, setImage] = useState<File | undefined>(undefined);
+    const params = useParams<TypeParams>();
+    const { register, errors, handleSubmit, formState } = useForm<
+        CompanyModel
+    >();
+    const { company, updateCompany, loading: companyLoading } = useCompany();
+
     const [loading, setLoading] = useState(false);
-    const { register, errors, handleSubmit } = useForm<CompanyModel>();
+    const [image, setImage] = useState<File | undefined>(undefined);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     useEffect(() => {
-        document.title = 'Editar Empresa';
-        console.log(company);
+        company
+            ? (document.title = `Empresa - ${company?.name}`)
+            : (document.title = 'Carregando...');
+        // console.log(company);
     }, [company]);
 
     const handleEditImage = async (image: File, newData: CompanyModel) => {
-        const formData = new FormData();
-        formData.append('imageData', image);
         setLoading(true);
         try {
-            const response = await imageApi.post(formData, company!.companyId);
-            const data = response.data;
-            console.log(data);
+            const formData = new FormData();
+            formData.append('imageData', image);
+
+            await imageApi.post(formData, company!.companyId);
+            // console.log(data);
             handleEditCompany(newData);
             // SnackbarUtils.success('Imagem de perfil editada com sucesso');
         } catch (error) {
-            setLoading(false);
             SnackbarUtils.error('Não foi possível editar a imagem');
+        } finally {
+            setLoading(false);
         }
     };
+
     const handleEditCompany = async (newData: CompanyModel) => {
         setLoading(true);
         try {
@@ -57,16 +72,13 @@ const CompanyRegister: React.FC = () => {
                 company!.companyId,
                 newData
             );
-
-            const data = response.data;
-            console.log(data);
-            updateCompany(data);
-
-            setLoading(false);
+            // console.log(response.data);
+            updateCompany(response.data);
             SnackbarUtils.success('Empresa editada com sucesso');
         } catch (error) {
-            setLoading(false);
             SnackbarUtils.error('Não foi possível editar a empresa');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -76,53 +88,71 @@ const CompanyRegister: React.FC = () => {
     };
 
     return (
-        <AppLayout>
-            {!loading ? (
+        <Fragment>
+            <Backdrop className={classes.backdrop} open={loading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
+            <AppLayout loading={companyLoading}>
                 <Paper elevation={3} className={classes.paper}>
                     <Grid
                         container
-                        component="form"
-                        onSubmit={handleSubmit(onSubmit)}
+                        alignItems="center"
+                        className={classes.header}
                     >
-                        <Grid container className={classes.header}>
-                            <Grid item xs={12} sm={9} md={6}>
-                                <Typography variant="h1" color="primary">
-                                    Cadastrar uma empresa
-                                </Typography>
-                            </Grid>
-                            <Hidden only="xs">
-                                <Grid
-                                    container
-                                    item
-                                    sm={3}
-                                    md={6}
-                                    justify="flex-end"
-                                >
-                                    <BackButton
-                                        message="Voltar"
-                                        redirect="escolha-da-empresa"
-                                    />
-                                </Grid>
-                            </Hidden>
-                        </Grid>
+                        <Hidden only="xs">
+                            <Grid item sm={2} md={4} />
+                        </Hidden>
+
                         <Grid
                             container
                             item
                             xs={12}
-                            className={classes.formContent}
+                            sm={8}
+                            md={4}
+                            alignItems="center"
+                            justify="center"
                         >
+                            <Typography variant="h1" color="primary">
+                                Empresa - {company?.name}
+                            </Typography>
+                        </Grid>
+
+                        <Hidden only="xs">
                             <Grid
                                 container
                                 item
-                                spacing={3}
-                                xs={12}
-                                md={9}
-                                style={{ marginTop: 20 }}
+                                sm={2}
+                                md={4}
+                                justify="flex-end"
                             >
-                                <Grid container item spacing={3}>
-                                    <Grid item xs={12} sm={6}>
+                                <BackButton
+                                    message="Voltar"
+                                    redirect={`admin/${params.company}/detalhes`}
+                                />
+                            </Grid>
+                        </Hidden>
+                    </Grid>
+
+                    {company && (
+                        <Grid
+                            container
+                            component="form"
+                            onSubmit={handleSubmit(onSubmit)}
+                            spacing={3}
+                            style={{ marginTop: '2rem' }}
+                        >
+                            <Grid container item xs={12} md={7} spacing={3}>
+                                <Grid container item xs={12} md={4}>
+                                    <CropImageInput
+                                        preview={company?.imagePath}
+                                        image={image}
+                                        setImage={setImage}
+                                    />
+                                </Grid>
+                                <Grid container item xs={12} md={8} spacing={3}>
+                                    <Grid item xs={12}>
                                         <TextField
-                                            defaultValue={company!.name}
+                                            defaultValue={company.name}
                                             data-cy="company-name"
                                             name="name"
                                             label="Nome"
@@ -139,20 +169,18 @@ const CompanyRegister: React.FC = () => {
                                             })}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12}>
                                         <TextField
-                                            defaultValue={company!.username}
+                                            defaultValue={company.username}
                                             disabled
                                             data-cy="company-username"
                                             name="username"
                                             label="Nome de Usuário"
                                         />
                                     </Grid>
-                                </Grid>
-                                <Grid container item spacing={3}>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12}>
                                         <TextField
-                                            defaultValue={company!.email}
+                                            defaultValue={company.email}
                                             data-cy="company-email"
                                             name="email"
                                             label="Email"
@@ -175,11 +203,13 @@ const CompanyRegister: React.FC = () => {
                                             })}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                </Grid>
+                                <Grid container item xs={12} spacing={3}>
+                                    <Grid item xs={12}>
                                         <ReactInputMask
                                             mask={'(99) 99999-9999'}
                                             maskChar="_"
-                                            defaultValue={company!.phone}
+                                            defaultValue={company.phone}
                                         >
                                             {() => (
                                                 <TextField
@@ -210,11 +240,9 @@ const CompanyRegister: React.FC = () => {
                                             )}
                                         </ReactInputMask>
                                     </Grid>
-                                </Grid>
-                                <Grid container item spacing={3}>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12}>
                                         <TextField
-                                            defaultValue={company!.cnpj}
+                                            defaultValue={company.cnpj}
                                             disabled
                                             data-cy="company-cnpj"
                                             name="cnpj"
@@ -222,32 +250,36 @@ const CompanyRegister: React.FC = () => {
                                         />
                                     </Grid>
                                 </Grid>
+                                <Grid container justify="center">
+                                    <SubmitButton
+                                        mt={40}
+                                        type="submit"
+                                        text="Salvar alterações"
+                                        disabled={!formState.isDirty}
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid
-                                component="aside"
-                                className={classes.rightSide}
-                                item
-                                xs={12}
-                                md={3}
-                            >
-                                <CropImageInput
-                                    preview={company?.imagePath || ProfilePic}
-                                    title="Logo da Empresa:"
-                                    image={image}
-                                    setImage={setImage}
+                            <Grid container item xs={12} md={5}>
+                                <DangerZone
+                                    type="company"
+                                    modalIsOpen={openDeleteModal}
+                                    handleModal={setOpenDeleteModal}
+                                    style={classes.dangerZone}
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container item xs={12} justify="center">
-                            <SubmitButton mt={100} text="Enviar" />
-                        </Grid>
-                    </Grid>
+                    )}
+                    {company && (
+                        <DeleteModal
+                            isOpen={openDeleteModal}
+                            setIsOpen={setOpenDeleteModal}
+                            company={company}
+                        />
+                    )}
                 </Paper>
-            ) : (
-                <h1>Carregando...</h1>
-            )}
-        </AppLayout>
+            </AppLayout>
+        </Fragment>
     );
 };
 
-export default CompanyRegister;
+export default CompanyEdit;

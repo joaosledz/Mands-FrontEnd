@@ -6,7 +6,7 @@ import React, {
     ChangeEvent,
     Fragment,
 } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
@@ -20,32 +20,25 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
-import {
-    UserCompanyType,
-    TypeDepartment,
-    departmentApi,
-} from '../../../../../services';
-import TypeParams from '../../../../../models/params';
-import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
+import { UserCompanyType, companyApi } from '../../../../services';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
 
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     company: UserCompanyType;
-    department: TypeDepartment;
 };
 
-const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
+const CompanyDeleteModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const params = useParams<TypeParams>();
     const history = useHistory();
-    const { isOpen, setIsOpen, company, department } = props;
+    const { isOpen, setIsOpen, company } = props;
 
     const [submitting, setSubmitting] = useState(false);
 
     const [securityWord, setSecurityWord] = useState('');
-    const correctWord = `${company.username}/${department.name}`;
+    const correctWord = `${company.username}`;
 
     const handleCloseModal = () => {
         setIsOpen(false);
@@ -60,14 +53,11 @@ const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
     const handleDelete = async () => {
         setSubmitting(true);
         try {
-            await departmentApi.delete(
-                department!.departmentId,
-                company!.companyId
-            );
-            snackbarUtils.success('Departamento deletado com sucesso');
-            history.replace(`/admin/${params.company}/departamentos`);
+            await companyApi.delete(company!.companyId);
+            snackbarUtils.success('Empresa deletada com sucesso');
+            history.replace(`/`);
         } catch (error) {
-            console.log(error);
+            console.error(error);
             snackbarUtils.error(error.message);
         } finally {
             setSubmitting(false);
@@ -123,9 +113,9 @@ const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
                         >
                             <Typography>
                                 Essa ação não pode ser desfeita. Essa ação vai
-                                permanentemente deletar o departamento{' '}
-                                <strong>{correctWord}</strong> e os projetos
-                                contidos nele.
+                                permanentemente deletar a empresa{' '}
+                                <strong>{correctWord}</strong>, os departamentos
+                                e projetos contidos nela.
                             </Typography>
 
                             <Typography>
@@ -148,7 +138,7 @@ const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
                         />
 
                         <Grid
-                            data-cy="department-delete-button"
+                            data-cy="company-delete-button"
                             container
                             justify="center"
                             component={Button}
@@ -167,7 +157,7 @@ const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
                                       ].join(' ')
                             }
                         >
-                            Deletar Departamento
+                            Deletar Empresa
                         </Grid>
                     </Grid>
                 </Slide>
@@ -176,4 +166,4 @@ const DepartmentDeleteModal: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default memo(DepartmentDeleteModal);
+export default memo(CompanyDeleteModal);

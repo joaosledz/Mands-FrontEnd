@@ -20,8 +20,8 @@ const UserProfile: React.FC = () => {
     const { user } = useAuth();
 
     useEffect(() => {
-        document.title = user!.name;
-        console.log(user);
+        if (user) document.title = user.name;
+        else document.title = 'Carregando...';
     }, [user]);
 
     return (

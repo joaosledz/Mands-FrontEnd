@@ -1,166 +1,267 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
+import Button from '@material-ui/core/Button';
+import { useForm } from 'react-hook-form';
 
-import { TypeProjects } from '../../../../../models/department';
-import departmentsData from '../../../../../utils/data/departments';
+import { ProjectModel, projectApi } from '../../../../../services';
+import useCompany from '../../../../../hooks/useCompany';
+import useDepartment from '../../../../../hooks/useDepartment';
+import useProject from '../../../../../hooks/useProject';
+import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
-import AppLayout from '../../../../../layout/appLayout';
+import ProjectLayout from '../../../layout/projectLayout';
 import BackButton from '../../../../../components/backButton';
 import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
+import DeleteModal from '../../../components/deleteModal/project';
 import useStyles from './styles';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
-    const location = useLocation<TypeProjects>();
+    const { register, errors, handleSubmit, formState, reset } = useForm();
+    /*<ProjectModel>*/
+    const { company } = useCompany();
+    const { department } = useDepartment();
+    const { project, updateProject } = useProject();
 
-    const handleProjectData = () => {
-        console.log(location);
-        return location.state ? location.state : departmentsData[0].projects[0];
-    };
-
-    const projectState = handleProjectData();
-    const [project, setProject] = useState<TypeProjects>(projectState);
-    const [projectChanged, setProjectChanged] = useState<boolean>(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [image, setImage] = useState<File | undefined>();
 
     useEffect(() => {
-        document.title = `${projectState.name} - Edição`;
-    }, [projectState.name]);
+        if (project) document.title = `${project.name} - Edição`;
+    }, [project]);
 
-    useEffect(() => {
-        const checkProjectChanged = () => {
-            if (JSON.stringify(projectState) !== JSON.stringify(project))
-                setProjectChanged(true);
-            else if (image) {
-                if (projectState.icon !== URL.createObjectURL!(image))
-                    setProjectChanged(true);
-                else setProjectChanged(false);
-            } else setProjectChanged(false);
-        };
-        checkProjectChanged();
-    }, [project, projectState, image]);
-
-    const handleChange = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        key: string
-    ) => {
-        console.log(event.target.value);
-        setProject({
-            ...project,
-            [key]: event.target.value,
-        });
+    const formSubmit = async (data: ProjectModel) => {
+        try {
+            const response = await projectApi.update(
+                company!.companyId,
+                department!.departmentId,
+                project!.projectId,
+                data
+            );
+            updateProject(response.data);
+            reset();
+            snackbarUtils.success('Departamento editado com sucesso');
+        } catch (error) {
+            console.log(error);
+            snackbarUtils.error(error.message);
+        }
     };
 
     return (
-        <AppLayout>
+        <ProjectLayout>
             <Paper className={classes.container}>
                 <Grid container>
-                    <Hidden mdDown>
-                        <Grid item xs={1} md={4} />
+                    <Hidden only="xs">
+                        <Grid item xs={1} sm={4} />
                     </Hidden>
-                    <Grid container item xs={12} md={4} justify="center">
+
+                    <Grid container item xs={12} sm={4} justify="center">
                         <Typography variant="h1" className={classes.title}>
-                            {projectState.name} - Edição
+                            Projeto - {project?.name}
                         </Typography>
                     </Grid>
-                    <Grid container item xs={12} md={4} justify="flex-end">
-                        <BackButton message="Voltar" />
-                    </Grid>
+
+                    <Hidden only="xs">
+                        <Grid container item xs={12} sm={4} justify="flex-end">
+                            <BackButton message="Voltar" />
+                        </Grid>
+                    </Hidden>
                 </Grid>
-                <Grid container spacing={3} className={classes.formContainer}>
-                    <Grid item xs={12} md={2}>
-                        <CropImageInput
-                            image={image}
-                            preview={project.icon}
-                            setImage={setImage}
-                            styles={classes.cropImage}
-                        />
-                    </Grid>
-                    <Grid container item xs={12} md={6} spacing={3}>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                label="Nome"
-                                value={project.name}
-                                onChange={event => handleChange(event, 'name')}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                label="Orçamento"
-                                value={project.budget}
-                                onChange={event =>
-                                    handleChange(event, 'budget')
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                type="date"
-                                fullWidth
-                                label="Data inicial"
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={project.initialDate}
-                                onChange={event =>
-                                    handleChange(event, 'initialDate')
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                type="date"
-                                fullWidth
-                                label="Data Final"
-                                variant="outlined"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={project.finalDate}
-                                onChange={event =>
-                                    handleChange(event, 'finalDate')
-                                }
-                            />
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <TextField
-                            fullWidth
-                            multiline
-                            rows={5}
-                            variant="outlined"
-                            label="Descrição"
-                            value={project.description}
-                            onChange={event =>
-                                handleChange(event, 'description')
-                            }
-                        />
-                    </Grid>
-                </Grid>
+
                 <Grid
                     container
-                    justify="center"
-                    className={classes.submitButtonContainer}
+                    spacing={3}
+                    className={classes.formContainer}
+                    component="form"
+                    onSubmit={handleSubmit(formSubmit)}
                 >
-                    <SubmitButton
-                        text="Salvar alterações"
-                        disabled={!projectChanged}
-                        onClick={() => console.log(!projectChanged)}
-                    />
+                    <Grid container item xs={12} md={7} spacing={3}>
+                        <Grid item xs={12} md={4}>
+                            <CropImageInput
+                                image={image}
+                                preview={project?.image}
+                                setImage={setImage}
+                                styles={classes.cropImage}
+                            />
+                        </Grid>
+
+                        <Grid container item xs={12} md={8} spacing={3}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="name"
+                                    label="Nome"
+                                    error={errors.name !== undefined}
+                                    helperText={
+                                        errors.name
+                                            ? '⚠' + errors?.name?.message
+                                            : ''
+                                    }
+                                    defaultValue={project?.name}
+                                    inputProps={{
+                                        'data-cy': 'project-name',
+                                    }}
+                                    inputRef={register({
+                                        required: 'Este campo é obrigatório',
+                                    })}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="budget"
+                                    label="Orçamento"
+                                    error={errors.budget !== undefined}
+                                    helperText={
+                                        errors.budget
+                                            ? '⚠' + errors?.budget?.message
+                                            : ''
+                                    }
+                                    defaultValue={project?.budget}
+                                    inputProps={{
+                                        'data-cy': 'project-budget',
+                                    }}
+                                    inputRef={register()}
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Grid container item xs={12} spacing={3}>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    type="date"
+                                    label="Data inicial"
+                                    name="initialDate"
+                                    error={errors.initialDate !== undefined}
+                                    helperText={
+                                        errors.initialDate
+                                            ? '⚠' + errors?.initialDate?.message
+                                            : ''
+                                    }
+                                    defaultValue={
+                                        project?.initialDate.split('T')[0]
+                                    }
+                                    inputProps={{
+                                        'data-cy': 'project-initialDate',
+                                    }}
+                                    inputRef={register({
+                                        required: 'Este campo é obrigatório',
+                                    })}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <TextField
+                                    type="date"
+                                    label="Data Final"
+                                    name="finalDate"
+                                    error={errors.finalDate !== undefined}
+                                    helperText={
+                                        errors.finalDate
+                                            ? '⚠' + errors?.finalDate?.message
+                                            : ''
+                                    }
+                                    defaultValue={
+                                        project?.finalDate.split('T')[0]
+                                    }
+                                    inputProps={{
+                                        'data-cy': 'project-finalDate',
+                                    }}
+                                    inputRef={register({
+                                        required: 'Este campo é obrigatório',
+                                    })}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="description"
+                                    label="Descrição"
+                                    error={errors.description !== undefined}
+                                    helperText={
+                                        errors.description
+                                            ? '⚠' + errors?.description?.message
+                                            : ''
+                                    }
+                                    multiline
+                                    rows={5}
+                                    defaultValue={project?.description}
+                                    inputProps={{
+                                        'data-cy': 'project-description',
+                                    }}
+                                    inputRef={register()}
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Grid container justify="center">
+                            <SubmitButton
+                                type="submit"
+                                text="Salvar alterações"
+                                disabled={!formState.isDirty}
+                                mt={20}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container item xs={12} md={5}>
+                        <Grid
+                            container
+                            direction="column"
+                            justify="flex-end"
+                            className={classes.rightSide}
+                        >
+                            <Grid container component={Typography} variant="h2">
+                                Área Perigosa
+                            </Grid>
+                            <Grid id="danger-zone-container" container>
+                                <Grid
+                                    container
+                                    component={Typography}
+                                    variant="h3"
+                                >
+                                    Deletar projeto
+                                </Grid>
+                                <Grid container component={Typography}>
+                                    Uma vez deletado este projeto, não tem
+                                    volta. Por favor, tenha certeza.
+                                </Grid>
+                                <Grid
+                                    data-cy="delete-modal-button"
+                                    container
+                                    item
+                                    xs={12}
+                                    md={6}
+                                    component={Button}
+                                    variant="outlined"
+                                    onClick={() =>
+                                        setOpenDeleteModal(!openDeleteModal)
+                                    }
+                                >
+                                    Deletar este projeto
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Paper>
-        </AppLayout>
+
+            {company && department && project && (
+                <DeleteModal
+                    isOpen={openDeleteModal}
+                    setIsOpen={setOpenDeleteModal}
+                    company={company}
+                    department={department}
+                    project={project}
+                />
+            )}
+        </ProjectLayout>
     );
 };
 

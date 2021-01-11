@@ -6,7 +6,7 @@ import { Documents as DocumentsIcon } from '@styled-icons/ionicons-sharp';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
 import { Settings as SettingsIcon } from '@styled-icons/material';
 
-import Props from '../../models/assignButton';
+import Props from './assignButton';
 
 import useStyles from './styles';
 

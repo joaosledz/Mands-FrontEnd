@@ -1,13 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import CpfValidator from '../../../validators/cpfValidator';
 import { /*AxiosError,*/ authApi, RegisterModel } from '../../../services';
-
+import InputAdornment from '@material-ui/core/InputAdornment';
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 // import TextField from './components/textField';
@@ -15,14 +15,15 @@ import RegisterButton from '../components/submitButton/submitButton';
 import { validateUsername } from './components/validators/validateUsername';
 import useStyles /*,  { inputStyle } */ from './styles';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
-
+import { UserCheck as ValidUserIcon } from '@styled-icons/boxicons-regular';
+import { UserX as InvalidUserIcon } from '@styled-icons/boxicons-regular';
+import snackbarUtils from '../../../utils/functions/snackbarUtils';
 const Register: React.FC = () => {
     const classes = useStyles();
-
     const [image, setImage] = useState<File | undefined>(undefined);
-
+    const [validUser, setValidUser] = useState<Boolean>(false);
+    const history = useHistory();
     //#region CropImageSetup
-
     const CropImageInput = useMemo(
         () => (
             <CropImageInputComponent
@@ -34,8 +35,9 @@ const Register: React.FC = () => {
         [image]
     );
     //#endregion
-
-    const { register, errors, handleSubmit } = useForm<RegisterModel>({
+    const { register, errors, handleSubmit, formState, trigger } = useForm<
+        RegisterModel
+    >({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
         defaultValues: {},
@@ -52,13 +54,21 @@ const Register: React.FC = () => {
             .register(data)
             .then(response => {
                 console.log(response);
-                //sucess alert
+                snackbarUtils.success('Conta criada com sucesso');
+                history.replace('/login');
             })
             .catch(error => {
-                //error alert
+                snackbarUtils.success(
+                    'Não foi possível criar a conta, tente novamente mais tarde'
+                );
             });
     };
-
+    useEffect(() => {
+        // console.log(validUser);
+        console.log(errors.username);
+        console.log(errors.username === undefined);
+        console.log(formState.isDirty);
+    }, [validUser, errors, formState]);
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
             <Grid
@@ -84,64 +94,57 @@ const Register: React.FC = () => {
                                 <TextField
                                     data-cy="user-firstName"
                                     name="name"
+                                    autoFocus
+                                    error={errors.name !== undefined}
+                                    helperText={
+                                        errors.name
+                                            ? '⚠' + errors?.name?.message
+                                            : ''
+                                    }
                                     label="Nome"
-                                    fullWidth
-                                    variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                     })}
-                                />
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="name"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {message}
-                                        </Typography>
-                                    )}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     data-cy="user-lastName"
                                     name="surname"
+                                    error={errors.surname !== undefined}
+                                    helperText={
+                                        errors.surname
+                                            ? '⚠' + errors?.surname?.message
+                                            : ''
+                                    }
                                     label="Sobrenome"
-                                    fullWidth
-                                    variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                     })}
-                                />
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="surname"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {message}
-                                        </Typography>
-                                    )}
                                 />
                             </Grid>
                         </Grid>
                         <Grid container item spacing={3}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    error={errors.username !== undefined}
+                                    helperText={
+                                        errors.username
+                                            ? '⚠' + errors?.username?.message
+                                            : ''
+                                    }
                                     data-cy="user-userName"
                                     name="username"
                                     label="Nome de usuário"
-                                    fullWidth
-                                    variant="outlined"
+                                    onChange={() => trigger('username')}
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                         validate: AwesomeDebouncePromise(
                                             async value => {
                                                 return (
                                                     (await validateUsername(
-                                                        value
+                                                        value,
+                                                        setValidUser
                                                     )) ||
                                                     'Nome de usuário indisponível'
                                                 );
@@ -149,30 +152,43 @@ const Register: React.FC = () => {
                                             500
                                         ),
                                     })}
-                                />
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="username"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {/* {errors.username?.type ===
-                                                'usernameInvalid' &&
-                                                'Nome de usuário indisponível'} */}
-                                            {message}
-                                        </Typography>
-                                    )}
+                                    InputProps={{
+                                        endAdornment:
+                                            errors.username === undefined &&
+                                            formState.isDirty ? (
+                                                <InputAdornment position="end">
+                                                    <ValidUserIcon
+                                                        className={
+                                                            classes.iconValidUser
+                                                        }
+                                                    />
+                                                </InputAdornment>
+                                            ) : (
+                                                formState.isDirty && (
+                                                    <InputAdornment position="end">
+                                                        <InvalidUserIcon
+                                                            className={
+                                                                classes.iconInvalidUser
+                                                            }
+                                                        />
+                                                    </InputAdornment>
+                                                )
+                                            ),
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     data-cy="user-email"
                                     name="email"
+                                    error={errors.email !== undefined}
+                                    helperText={
+                                        errors.email
+                                            ? '⚠' + errors?.email?.message
+                                            : ''
+                                    }
                                     type="Text"
                                     label="Email"
-                                    fullWidth
-                                    variant="outlined"
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                         pattern: {
@@ -183,17 +199,6 @@ const Register: React.FC = () => {
                                         },
                                     })}
                                 />
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="email"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {message}
-                                        </Typography>
-                                    )}
-                                />
                             </Grid>
                         </Grid>
                         <Grid container item spacing={3}>
@@ -203,31 +208,25 @@ const Register: React.FC = () => {
                                         <TextField
                                             data-cy="user-cpf"
                                             name="cpf"
+                                            error={errors.cpf !== undefined}
+                                            helperText={
+                                                errors.cpf
+                                                    ? '⚠' + errors?.cpf?.message
+                                                    : ''
+                                            }
                                             label="CPF"
-                                            fullWidth
-                                            variant="outlined"
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',
                                                 validate: {
                                                     cpfInvalido: value =>
-                                                        CpfValidator(value),
+                                                        CpfValidator(value) ||
+                                                        'CPF inválido',
                                                 },
                                             })}
                                         />
                                     )}
                                 </InputMask>
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="cpf"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            CPF inválido
-                                        </Typography>
-                                    )}
-                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <InputMask
@@ -238,8 +237,6 @@ const Register: React.FC = () => {
                                         <TextField
                                             data-cy="user-phone"
                                             name="phone"
-                                            fullWidth
-                                            variant="outlined"
                                             label="Telefone"
                                             inputRef={register({
                                                 required:
@@ -253,17 +250,6 @@ const Register: React.FC = () => {
                                         />
                                     )}
                                 </InputMask>
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="phone"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {message}
-                                        </Typography>
-                                    )}
-                                />
                             </Grid>
                         </Grid>
                         <Grid container item spacing={3}>
@@ -271,19 +257,14 @@ const Register: React.FC = () => {
                                 <TextField
                                     data-cy="user-password"
                                     name="password"
+                                    error={errors.password !== undefined}
+                                    helperText={
+                                        errors.password
+                                            ? '⚠' + errors?.password?.message
+                                            : ''
+                                    }
                                     type="password"
                                     label="Senha"
-                                    fullWidth
-                                    variant="outlined"
-                                    // InputProps={{
-                                    //     startAdornment: (
-                                    //         <LockIcon
-                                    //             size="20"
-                                    //             color="#B03E9F"
-                                    //         />
-                                    //     ),
-                                    //     style: inputStyle,
-                                    // }}
                                     inputRef={register({
                                         required: 'Esse campo é obrigatório',
                                         minLength: {
@@ -293,28 +274,6 @@ const Register: React.FC = () => {
                                         },
                                     })}
                                 />
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="password"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {message}
-                                        </Typography>
-                                    )}
-                                />
-                                {!errors.password && (
-                                    <Typography
-                                        component="span"
-                                        style={{
-                                            fontSize: 12,
-                                            fontWeight: 300,
-                                        }}
-                                    >
-                                        Use 6 caracteres no mínimo
-                                    </Typography>
-                                )}
                             </Grid>
                         </Grid>
                     </Grid>

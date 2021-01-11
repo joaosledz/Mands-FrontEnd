@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import { UserTie as UserTieIcon } from '@styled-icons/fa-solid';
 import { Lock as LockIcon } from '@styled-icons/material';
 
@@ -31,7 +30,8 @@ const Login: React.FC = () => {
     //     console.log('handleSubmit');
     // };
 
-    const { register, errors, handleSubmit } = useForm<LoginType>();
+    const { register, errors, handleSubmit } = useForm();
+    // <LoginType>
 
     const onSubmit = async (data: LoginType) => {
         try {
@@ -56,7 +56,6 @@ const Login: React.FC = () => {
                             Log in
                         </Typography>
                         <form
-                            // fullWidth
                             className={classes.form}
                             onSubmit={handleSubmit(onSubmit)}
                         >
@@ -73,9 +72,16 @@ const Login: React.FC = () => {
                                 >
                                     <TextField
                                         id="outlined-basic"
+                                        autoFocus
                                         label="Acesso"
                                         name="credential"
-                                        variant="outlined"
+                                        error={errors.credential !== undefined}
+                                        helperText={
+                                            errors.credential
+                                                ? '⚠' +
+                                                  errors?.credential?.message
+                                                : ''
+                                        }
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
@@ -93,24 +99,18 @@ const Login: React.FC = () => {
                                         }}
                                     />
                                 </Tooltip>
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="email"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {message}
-                                        </Typography>
-                                    )}
-                                />
                                 <TextField
                                     className={classes.input}
                                     id="outlined-basic"
                                     type="password"
                                     name="password"
                                     label="Senha"
-                                    variant="outlined"
+                                    error={errors.password !== undefined}
+                                    helperText={
+                                        errors.password
+                                            ? '⚠' + errors?.password?.message
+                                            : ''
+                                    }
                                     InputProps={{
                                         startAdornment: (
                                             <LockIcon
@@ -129,17 +129,6 @@ const Login: React.FC = () => {
                                             message: 'A senha está curta',
                                         },
                                     })}
-                                />
-                                <ErrorMessage
-                                    errors={errors}
-                                    name="password"
-                                    render={({ message }) => (
-                                        <Typography
-                                            className={classes.ErrorMessage}
-                                        >
-                                            {message}
-                                        </Typography>
-                                    )}
                                 />
                             </Box>
                             <Box mt={2}>

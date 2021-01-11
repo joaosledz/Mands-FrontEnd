@@ -16,20 +16,20 @@ const DepartmentContext = createContext<TypeDepartmentData>(
     {} as TypeDepartmentData
 );
 
-const getStoragedDepartment = () => {
-    const departmentDataAux = sessionStorage.getItem('@Mands:department');
-    if (departmentDataAux) {
-        const companyData: TypeDepartment = JSON.parse(departmentDataAux);
-        return companyData;
-    } else return null;
-};
+// const getStoragedDepartment = () => {
+//     const departmentDataAux = sessionStorage.getItem('@Mands:department');
+//     if (departmentDataAux) {
+//         const companyData: TypeDepartment = JSON.parse(departmentDataAux);
+//         return companyData;
+//     } else return null;
+// };
 
 export const DepartmentProvider: React.FC = ({ children }) => {
-    const departmentData = getStoragedDepartment();
+    // const departmentData = getStoragedDepartment();
 
     const [loading, setLoading] = useState(true);
     const [department, setDepartment] = useState<TypeDepartment | null>(
-        departmentData
+        /* departmentData */ null
     );
 
     const getDepartmentData = useCallback(
@@ -40,10 +40,10 @@ export const DepartmentProvider: React.FC = ({ children }) => {
                     company_name,
                     department_name
                 );
-                sessionStorage.setItem(
-                    '@Mands:department',
-                    JSON.stringify(response.data)
-                );
+                // sessionStorage.setItem(
+                //     '@Mands:department',
+                //     JSON.stringify(response.data)
+                // );
                 setDepartment(response.data);
                 return Promise.resolve(response.data);
                 // alerta de troca de empresa bem sucedida
@@ -58,7 +58,7 @@ export const DepartmentProvider: React.FC = ({ children }) => {
     );
 
     const updateDepartment = useCallback((data: TypeDepartment) => {
-        sessionStorage.setItem('@Mands:department', JSON.stringify(data));
+        // sessionStorage.setItem('@Mands:department', JSON.stringify(data));
         setDepartment(data);
     }, []);
 

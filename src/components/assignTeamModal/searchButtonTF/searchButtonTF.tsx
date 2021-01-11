@@ -39,7 +39,6 @@ const SearchButtonTF: React.FC = () => {
             <Grid item xs={9} md={10}>
                 <Grow in={showSearch}>
                     <TextField
-                        fullWidth
                         variant="standard"
                         label="Pesquise uma pessoa"
                         inputRef={myTextField}

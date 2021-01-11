@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import {
     UserCompanyType,
@@ -11,7 +12,7 @@ import {
     TypeProject,
     companyApi,
 } from '../../../../../services';
-import AssignButtonProps from '../../models/assignButton';
+import AssignButtonProps from '../assignButton/assignButton';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
@@ -20,12 +21,15 @@ import TeamCard from './teamCard';
 import ProjectsCard from './projectsCard';
 import AssignTeamModal from '../../../../../components/assignTeamModal/assignTeamModal';
 import useStyles from './styles';
+
+type TypeItem = 'team' | 'project';
 interface Props extends AssignButtonProps {
     title: string;
-    category: 'team' | 'project';
+    category: TypeItem;
     description: string;
     teamData?: Array<TypeMember>;
     projectData?: Array<TypeProject>;
+    loading: boolean;
     styles?: string;
 }
 
@@ -43,6 +47,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         projectData = [],
         actionIcon,
         disabled,
+        loading,
         styles,
     } = props;
 
@@ -81,6 +86,44 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
             : history.push(handleProjectURL());
     };
 
+    const handleAlign = () => {
+        if (category === 'team' && teamData.length === 0) return 'center';
+        else if (category === 'project' && projectData.length === 0)
+            return 'center';
+        else return 'flex-start';
+    };
+
+    const renderTeam = () =>
+        teamData!.length !== 0 ? (
+            teamData!.map((item, index) => (
+                <TeamCard key={index} teammate={item} />
+            ))
+        ) : (
+            <Grid item className="empty-data" xs={9}>
+                <Typography>{description}</Typography>
+            </Grid>
+        );
+
+    const renderProject = () =>
+        projectData!.length !== 0 ? (
+            projectData!.map((item, index) => (
+                <Grid key={index} item xs={12} md={4}>
+                    <ProjectsCard project={item} />
+                </Grid>
+            ))
+        ) : (
+            <Grid item className="empty-data" xs={9}>
+                <Typography>{description}</Typography>
+            </Grid>
+        );
+
+    const renderSkeleton = (type: TypeItem) =>
+        Array.apply(null, Array(6)).map(() => (
+            <Grid item xs={12} sm={4}>
+                <Skeleton variant="rect" height={type === 'team' ? 64 : 112} />
+            </Grid>
+        ));
+
     return (
         <Fragment>
             <Grid
@@ -103,6 +146,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                             {title}
                         </Typography>
                     </Grid>
+
                     {!disabled && (
                         <Grid item>
                             <AssignButton
@@ -114,36 +158,23 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                         </Grid>
                     )}
                 </Grid>
+
                 <Grid
                     container
-                    item
-                    xs={12}
                     spacing={3}
+                    justify={handleAlign()}
                     className={classes.assignContainer}
                 >
-                    {category === 'team' ? (
-                        teamData!.length !== 0 ? (
-                            teamData!.map((item, index) => (
-                                <TeamCard key={index} teammate={item} />
-                            ))
-                        ) : (
-                            <Grid item className="empty-data" xs={9}>
-                                <Typography>{description}</Typography>
-                            </Grid>
-                        )
-                    ) : projectData!.length !== 0 ? (
-                        projectData!.map((item, index) => (
-                            <Grid key={index} item xs={12} md={4}>
-                                <ProjectsCard project={item} />
-                            </Grid>
-                        ))
-                    ) : (
-                        <Grid item className="empty-data" xs={9}>
-                            <Typography>{description}</Typography>
-                        </Grid>
-                    )}
+                    {category === 'team'
+                        ? !loading
+                            ? renderTeam()
+                            : renderSkeleton('team')
+                        : !loading
+                        ? renderProject()
+                        : renderSkeleton('project')}
                 </Grid>
             </Grid>
+
             {!disabled && category === 'team' && company && (
                 <AssignTeamModal
                     isOpen={showTeamModal}

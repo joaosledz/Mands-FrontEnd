@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -11,7 +11,7 @@ import {
 } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
-import handleEditURL from '../../utils/handleURL';
+import handleEditURL from '../../../utils/handleURL';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 import AdminLayout from '../../../layout/departmentLayout';
@@ -31,10 +31,14 @@ const Details: React.FC = () => {
     const history = useHistory();
     const { company } = useCompany();
     const { department, updateDepartment } = useDepartment();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (department) document.title = `Departamento - ${department.name}`;
+    }, [department]);
 
     useEffect(() => {
         const getProjectsData = async () => {
-            console.log('projetos');
             try {
                 if (company && department) {
                     const response = await projectApi.findByDepartment(
@@ -49,11 +53,12 @@ const Details: React.FC = () => {
                 }
             } catch (error) {
                 snackbarUtils.error(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
         const getEmployeesData = async () => {
-            console.log('funcionários');
             try {
                 if (company && department) {
                     const response = await departmentApi.listEmployees(
@@ -68,6 +73,8 @@ const Details: React.FC = () => {
                 }
             } catch (error) {
                 snackbarUtils.error(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -75,43 +82,56 @@ const Details: React.FC = () => {
             console.log('os dois vazios');
             try {
                 if (company && department) {
-                    const teamResponse = await departmentApi.listEmployees(
+                    const teamResponse = departmentApi.listEmployees(
                         company.companyId,
                         department.departmentId
                     );
-                    const projectResponse = await projectApi.findByDepartment(
+                    const projectResponse = projectApi.findByDepartment(
                         company.username,
                         department.name
                     );
-                    const data: TypeDepartment = {
-                        ...department,
-                        projects: [...projectResponse.data],
-                        members: [...teamResponse.data],
-                    };
-                    updateDepartment(data);
+
+                    const response = await Promise.all([
+                        teamResponse,
+                        projectResponse,
+                    ]);
+
+                    if (
+                        response[0].data.length !== 0 ||
+                        response[1].data.length !== 0
+                    ) {
+                        const data: TypeDepartment = {
+                            ...department,
+                            projects: [...response[1].data],
+                            members: [...response[0].data],
+                        };
+                        updateDepartment(data);
+                    } else return;
                 }
             } catch (error) {
                 snackbarUtils.error(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
         const checkData = async () => {
             if (department) {
-                document.title = `Departamento - ${department.name}`;
                 const teamIsEmpty = department.members.length === 0;
                 const projectIsEmpty =
                     department.projects?.length === 0 || !department.projects;
+
                 if (teamIsEmpty && projectIsEmpty)
                     await getTeamAndProjectsData();
                 else if (teamIsEmpty) await getEmployeesData();
                 else if (!department.projects || projectIsEmpty)
                     await getProjectsData();
-                else return;
+                else return setLoading(false);
             }
         };
         checkData();
         // eslint-disable-next-line
-    }, []);
+    }, [department]);
 
     return (
         <AdminLayout>
@@ -127,10 +147,12 @@ const Details: React.FC = () => {
                     <Grid container item xs={12} md={4} spacing={3}>
                         <Grid item xs={12}>
                             <TextField
-                                variant="outlined"
                                 disabled
                                 label="Nome"
                                 value={department?.name}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -138,6 +160,9 @@ const Details: React.FC = () => {
                                 disabled
                                 label="Email"
                                 value={department?.email}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                             />
                         </Grid>
                     </Grid>
@@ -148,6 +173,9 @@ const Details: React.FC = () => {
                             rows={6}
                             label="Descrição"
                             value={department?.objective}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                     </Grid>
                 </Grid>
@@ -164,6 +192,7 @@ const Details: React.FC = () => {
                         teamData={department?.members}
                         icon="team"
                         actionIcon="manage"
+                        loading={loading}
                     />
                     <AssignGridItem
                         title="Projetos:"
@@ -173,12 +202,13 @@ const Details: React.FC = () => {
                         projectData={department?.projects}
                         icon="document"
                         actionIcon="add"
+                        loading={loading}
                         styles={classes.projectAssignGridItem}
                     />
                 </Grid>
                 <FabButton
-                    title="Editar"
-                    icon="edit"
+                    title="Configurar"
+                    icon="settings"
                     onClick={() =>
                         history.push(
                             handleEditURL(

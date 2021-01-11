@@ -52,25 +52,15 @@ const NewProject: React.FC = () => {
                     </Grid>
                     <Grid container item xs={12} md={6} spacing={3}>
                         <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                label="Nome"
-                                variant="outlined"
-                            />
+                            <TextField label="Nome" />
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                label="Orçamento"
-                            />
+                            <TextField label="Orçamento" />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
                                 type="date"
-                                fullWidth
                                 label="Data inicial"
-                                variant="outlined"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -79,9 +69,7 @@ const NewProject: React.FC = () => {
                         <Grid item xs={12} md={6}>
                             <TextField
                                 type="date"
-                                fullWidth
                                 label="Data Final"
-                                variant="outlined"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -89,13 +77,7 @@ const NewProject: React.FC = () => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <TextField
-                            fullWidth
-                            multiline
-                            rows={5}
-                            variant="outlined"
-                            label="Descrição"
-                        />
+                        <TextField multiline rows={5} label="Descrição" />
                     </Grid>
                 </Grid>
                 {/* <Grid

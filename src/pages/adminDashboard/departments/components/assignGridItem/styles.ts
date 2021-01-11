@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
         assignContainer: {
             paddingTop: 0,
+            padding: '0 1rem',
             maxHeight: '70%',
             overflowY: 'auto',
             alignItems: 'flex-start',
-            justifyContent: 'center',
 
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {

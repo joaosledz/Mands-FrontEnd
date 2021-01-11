@@ -126,7 +126,7 @@ const Details: React.FC = () => {
                 else if (teamIsEmpty) await getEmployeesData();
                 else if (!department.projects || projectIsEmpty)
                     await getProjectsData();
-                else return;
+                else return setLoading(false);
             }
         };
         checkData();

@@ -1,4 +1,6 @@
+import 'cypress-file-upload';
 import companyUrls from '../../../src/services/urls/company';
+const image = 'images/skillAlexa.png';
 
 const baseUrl = Cypress.env('CYPRESS_API');
 const token = Cypress.env('CYPRESS_TOKEN');
@@ -18,6 +20,11 @@ describe('Register a new company', () => {
         cy.get('[data-cy=company-email]').type('oi@Facebook.com');
         cy.get('[data-cy=company-phone]').type('71995187312');
         cy.get('[data-cy=company-cnpj]').type('94365130000171');
+    });
+
+    it("Should upload the company's image", () => {
+        cy.get('[data-cy="image-input"]').attachFile(image);
+        cy.get('[data-cy="crop-image-button"]').click();
     });
 
     it('Should register a new company', () => {

@@ -4,14 +4,14 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../../hooks/useAuth';
 
-import AppLayout from '../../../layout/appLayout';
+import AppLayout from '../../../../layout/appLayout';
 import Paper from '@material-ui/core/Paper';
-import BackButton from '../../../components/backButton';
+import BackButton from '../../../../components/backButton';
 import UserInfo from './components/userInfo/userInfo';
 import SocialMedia from './components/socialMedia/socialMedia';
-import FabButton from '../../../components/fabButton';
+import FabButton from '../../../../components/fabButton';
 import useStyles from './styles';
 
 const UserProfile: React.FC = () => {

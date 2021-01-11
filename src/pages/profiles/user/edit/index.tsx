@@ -8,20 +8,14 @@ import { validLink } from './components/functions/validLink';
 // import CpfValidator from '../../../validators/cpfValidator';
 import InputMask from 'react-input-mask';
 
-import ProfilePic from '../../../assets/fakeDataImages/employees/anaTartari.png';
-import AppLayout from '../../../layout/appLayout';
-import BackButton from '../../../components/backButton';
-import RegisterButton from '../../../components/mainButton';
+import AppLayout from '../../../../layout/appLayout';
+import BackButton from '../../../../components/backButton';
+import RegisterButton from '../../../../components/mainButton';
 import useStyles from './styles';
-import CropImageInput from '../../../components/cropImage/cropImageInput';
-import useAuth from '../../../hooks/useAuth';
-import {
-    updateModel,
-    authApi,
-    imageApi,
-    // PostImageType,
-} from '../../../services';
-import SnackbarUtils from '../../../utils/functions/snackbarUtils';
+import CropImageInput from '../../../../components/cropImage/cropImageInput';
+import useAuth from '../../../../hooks/useAuth';
+import { updateModel, authApi, imageApi } from '../../../../services';
+import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const UserProfile: React.FC = () => {
     const classes = useStyles();
@@ -113,9 +107,7 @@ const UserProfile: React.FC = () => {
                                     <CropImageInput
                                         image={image}
                                         setImage={setImage}
-                                        preview={
-                                            user?.image?.path || ProfilePic
-                                        }
+                                        preview={user?.image?.path}
                                         styles={classes.cropImage}
                                     />
                                 </Grid>

@@ -1,4 +1,4 @@
-import { updateModel } from '../../../../../services';
+import { updateModel } from '../../../../../../services';
 
 export const validLink = (data: updateModel) => {
     let dataAux = data;

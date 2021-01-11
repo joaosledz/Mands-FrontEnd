@@ -4,14 +4,14 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 
-import { userApi, TypeUser } from '../../services';
-import snackbarUtils from '../../utils/functions/snackbarUtils';
+import { userApi, TypeUser } from '../../../services';
+import snackbarUtils from '../../../utils/functions/snackbarUtils';
 
-import AppLayout from '../../layout/appLayout';
+import AppLayout from '../../../layout/appLayout';
 import Paper from '@material-ui/core/Paper';
-import UserInfo from '../userProfile/details/components/userInfo/userInfo';
-import SocialMedia from '../userProfile/details/components/socialMedia/socialMedia';
-import useStyles from '../userProfile/details/styles';
+import UserInfo from '../user/details/components/userInfo/userInfo';
+import SocialMedia from '../user/details/components/socialMedia/socialMedia';
+import useStyles from '../user/details/styles';
 
 const UserProfile: React.FC = () => {
     const classes = useStyles();

@@ -7,27 +7,28 @@ import AppLayout from '../../../layout/appLayout';
 import EmptyCompanies from './emptyCompanies';
 import Companies from './companySelection/selection';
 import FabButton from '../../../components/fabButton';
+import snackbarUtils from '../../../utils/functions/snackbarUtils';
 
 const CompanySelection: React.FC = () => {
     const [companies, setCompanies] = useState<Array<UserCompanyType>>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const history = useHistory();
 
     useEffect(() => {
         document.title = 'Seleção de Empresa';
         const getUserCompanies = async () => {
+            setLoading(true);
             try {
-                setLoading(true);
                 const response = await companyApi.userCompanies();
                 setCompanies(response.data);
-                setLoading(false);
             } catch (error) {
-                // alerta de erro
+                snackbarUtils.error(error.message);
+            } finally {
                 setLoading(false);
             }
         };
-        if (companies.length === 0) getUserCompanies();
-    }, [companies.length]);
+        getUserCompanies();
+    }, []);
 
     return (
         <AppLayout loading={loading}>

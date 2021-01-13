@@ -1,28 +1,31 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
-import { useForm } from 'react-hook-form';
-import CpfValidator from '../../../validators/cpfValidator';
-import { /*AxiosError,*/ authApi, RegisterModel } from '../../../services';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import AuthLayout from '../../../layout/authLayout/authLayout';
-import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
-// import TextField from './components/textField';
-import RegisterButton from '../components/submitButton/submitButton';
-import { validateUsername } from './components/validators/validateUsername';
-import useStyles /*,  { inputStyle } */ from './styles';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import { useForm } from 'react-hook-form';
 import { UserCheck as ValidUserIcon } from '@styled-icons/boxicons-regular';
 import { UserX as InvalidUserIcon } from '@styled-icons/boxicons-regular';
-import snackbarUtils from '../../../utils/functions/snackbarUtils';
+
+import CpfValidator from '../../../validators/cpfValidator';
+import encrypt from '../../../utils/functions/encrypt';
+// import snackbarUtils from '../../../utils/functions/snackbarUtils';
+import { authApi, RegisterModel } from '../../../services';
+import { validateUsername } from './components/validators/validateUsername';
+
+import AuthLayout from '../../../layout/authLayout/authLayout';
+import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
+import RegisterButton from '../components/submitButton/submitButton';
+import useStyles from './styles';
+
 const Register: React.FC = () => {
     const classes = useStyles();
     const [image, setImage] = useState<File | undefined>(undefined);
     const [validUser, setValidUser] = useState<Boolean>(false);
-    const history = useHistory();
+    // const history = useHistory();
     //#region CropImageSetup
     const CropImageInput = useMemo(
         () => (
@@ -48,27 +51,26 @@ const Register: React.FC = () => {
         shouldUnregister: true,
     });
 
-    const onSubmit = (data: RegisterModel) => {
-        console.log(data);
-        authApi
-            .register(data)
-            .then(response => {
-                console.log(response);
-                snackbarUtils.success('Conta criada com sucesso');
-                history.replace('/login');
-            })
-            .catch(error => {
-                snackbarUtils.success(
-                    'Não foi possível criar a conta, tente novamente mais tarde'
-                );
-            });
+    const onSubmit = async (data: RegisterModel) => {
+        const userData: RegisterModel = {
+            ...data,
+            password: encrypt(data.password),
+        };
+        try {
+            await authApi.register(userData);
+            // snackbarUtils.success('Empresa criada com sucesso');
+        } catch (error) {
+            // snackbarUtils.error(error.message);
+        }
     };
+
     useEffect(() => {
         // console.log(validUser);
         console.log(errors.username);
         console.log(errors.username === undefined);
         console.log(formState.isDirty);
     }, [validUser, errors, formState]);
+
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
             <Grid

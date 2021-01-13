@@ -5,23 +5,25 @@ import React, {
     SetStateAction,
     useEffect,
 } from 'react';
-import {
-    TypeBoard,
-    TypeColumn,
-    TypeItem,
-    TypeNewBoard,
-} from '../../models/boardTypes';
+import { useParams } from 'react-router-dom';
+
 import { projectApi } from '../../services';
 import {
     // initialBoardData3 as BoardData,
     newBoardData,
 } from '../../utils/data/board';
 // import { v4 as uuidv4 } from 'uuid';
-import { connectHub } from '../../services/socket';
+import getHubConnection, { connectHub } from '../../services/socket';
 import useAuth from '../../hooks/useAuth';
 import { ConvertResponse } from './Functions/convertResponse';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
-import { useParams } from 'react-router-dom';
+import TypeParams from '../../models/params';
+import {
+    TypeBoard,
+    TypeColumn,
+    TypeItem,
+    // TypeNewBoard,
+} from '../../models/boardTypes';
 
 interface BoardContextData {
     state: TypeBoard;
@@ -34,12 +36,6 @@ interface BoardContextData {
     setColumnTitle: (title: string, columnID: keyof TypeColumn) => void;
 }
 
-interface TypeParams {
-    company: string;
-    department: string;
-    project: string;
-}
-
 const BoardContext = createContext<BoardContextData>({} as BoardContextData);
 //Funções de Task
 
@@ -48,9 +44,24 @@ export const BoardProvider: React.FC = ({ children }) => {
     const [state, setState] = useState(ConvertResponse(newBoardData));
     const { user } = useAuth();
     const params = useParams<TypeParams>();
+
     useEffect(() => {
-        if (user) connectHub(user.userId);
-        console.log(params);
+        const handleHubConnection = async () => {
+            if (user) {
+                try {
+                    await connectHub(user.userId);
+                    const hubConnection = getHubConnection();
+                    hubConnection.invoke('JoinGroup', params.project!);
+                    hubConnection.on('TaskSent', session => {
+                        console.log(session);
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        handleHubConnection();
+        // console.log(params);
     }, [user]);
 
     //Funções de Coluna
@@ -152,7 +163,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         const getBoardData = async () => {
             try {
                 const response = await projectApi.getBoardData(
-                    parseInt(params.project)
+                    parseInt(params.project!)
                 );
                 console.log(response.data);
                 setState(ConvertResponse(response.data));

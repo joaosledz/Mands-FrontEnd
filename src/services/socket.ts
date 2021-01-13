@@ -13,7 +13,7 @@ export const connectHub = async (user_id: number) => {
             const response = await hubConnection.start();
             console.log('Connected: ', response);
 
-            hubConnection.invoke('MapConnections', user_id);
+            // hubConnection.invoke('MapConnections', user_id);
 
             return Promise.resolve(hubConnection);
         } catch (error) {

@@ -19,14 +19,21 @@ import { validateUsername } from './components/validators/validateUsername';
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 import RegisterButton from '../components/submitButton/submitButton';
+import ConfirmRegisterModal from '../components/confirmRegisterModal';
 import useStyles from './styles';
 
 const Register: React.FC = () => {
     const classes = useStyles();
-    const [image, setImage] = useState<File | undefined>(undefined);
-    const [validUser, setValidUser] = useState<Boolean>(false);
     // const history = useHistory();
-    //#region CropImageSetup
+
+    const [image, setImage] = useState<File | undefined>(undefined);
+    const [validUser, setValidUser] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    useEffect(() => {
+        console.log(validUser);
+    }, [validUser]);
+
     const CropImageInput = useMemo(
         () => (
             <CropImageInputComponent
@@ -37,7 +44,7 @@ const Register: React.FC = () => {
         ),
         [image]
     );
-    //#endregion
+
     const { register, errors, handleSubmit, formState, trigger } = useForm<
         RegisterModel
     >({
@@ -63,13 +70,6 @@ const Register: React.FC = () => {
             // snackbarUtils.error(error.message);
         }
     };
-
-    useEffect(() => {
-        // console.log(validUser);
-        console.log(errors.username);
-        console.log(errors.username === undefined);
-        console.log(formState.isDirty);
-    }, [validUser, errors, formState]);
 
     return (
         <AuthLayout backButtonMessage="Voltar para o Login">
@@ -285,6 +285,10 @@ const Register: React.FC = () => {
                 </Grid>
                 <RegisterButton mt={60} text="Criar conta" />
             </Grid>
+            <ConfirmRegisterModal
+                isOpen={modalIsOpen}
+                setIsOpen={setModalIsOpen}
+            />
         </AuthLayout>
     );
 };

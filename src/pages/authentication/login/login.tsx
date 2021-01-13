@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AxiosError } from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +12,7 @@ import { Lock as LockIcon } from '@styled-icons/material';
 
 import useAuth from '../../../hooks/useAuth';
 import { LoginType } from '../../../services';
+import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 import ConfirmRegisterModal from '../components/confirmRegisterModal';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
@@ -20,29 +22,36 @@ import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import useStyles, { inputStyle } from './styles';
-import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
 const Login: React.FC = () => {
-    const { login } = useAuth();
     const classes = useStyles();
     const history = useHistory();
-    // const handleSubmit = (event: FormEvent) => {
-    //     event.preventDefault();
-    //     console.log('handleSubmit');
-    // };
-
+    const { login } = useAuth();
     const { register, errors, handleSubmit } = useForm();
-    // <LoginType>
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const onSubmit = async (data: LoginType) => {
         try {
-            /* const response = */ await login(data);
-            // Animação de sucesso
-            // SnackbarUtils.success('Login efetuado com sucesso');
+            await login(data);
+            SnackbarUtils.success('Seja bem-vindo');
             history.replace('/escolha-da-empresa');
-        } catch (error) {
-            SnackbarUtils.error('Não foi possível efetuar o login');
+        } catch (err) {
+            const error: AxiosError = err;
+            console.log(error.response?.status);
+            switch (error.response?.status) {
+                case 401:
+                    SnackbarUtils.error(
+                        'Credenciais inválidas, verique sua credencial e senha'
+                    );
+                    break;
+                case 403:
+                    setModalIsOpen(true);
+                    break;
+                default:
+                    SnackbarUtils.error('Não foi possível efetuar o login');
+                    break;
+            }
         }
     };
 

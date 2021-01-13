@@ -1,4 +1,4 @@
-import React /*, { FormEvent }*/ from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +11,7 @@ import { Lock as LockIcon } from '@styled-icons/material';
 
 import useAuth from '../../../hooks/useAuth';
 import { LoginType } from '../../../services';
+import ConfirmRegisterModal from '../components/confirmRegisterModal';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import LogInButton from '../components/submitButton/submitButton';
@@ -32,6 +33,7 @@ const Login: React.FC = () => {
 
     const { register, errors, handleSubmit } = useForm();
     // <LoginType>
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const onSubmit = async (data: LoginType) => {
         try {
@@ -193,6 +195,10 @@ const Login: React.FC = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            <ConfirmRegisterModal
+                isOpen={modalIsOpen}
+                setIsOpen={setModalIsOpen}
+            />
         </AuthLayout>
     );
 };

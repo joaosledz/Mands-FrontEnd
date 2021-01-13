@@ -69,7 +69,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             password: encrypt(data.password),
         };
 
-        console.log(userData);
+        // console.log(userData);
         try {
             const response = await authApi.login(userData);
             // console.log(response);

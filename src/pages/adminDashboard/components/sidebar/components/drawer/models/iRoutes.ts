@@ -2,7 +2,6 @@ type IRoute = {
     name: string;
     icon: string;
     iconAlt: string;
-    path: string;
     page: string;
 };
 

@@ -17,7 +17,7 @@ import ProjectLayout from '../../../layout/projectLayout';
 import BackButton from '../../../../../components/backButton';
 import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
-import DeleteModal from '../../components/deleteModal/project';
+import DeleteModal from '../../../components/deleteModal/project';
 import useStyles from './styles';
 
 const Edit: React.FC = () => {

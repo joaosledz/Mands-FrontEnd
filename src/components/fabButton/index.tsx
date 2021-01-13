@@ -4,12 +4,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import { Plus as PlusIcon } from '@styled-icons/entypo';
 import { Edit as EditIcon } from '@styled-icons/material';
+import { Settings as SettingsIcon } from '@styled-icons/material';
 
 import useStyles from './styles';
 
 type Props = {
     title?: string;
-    icon?: 'plus' | 'edit';
+    icon?: 'plus' | 'edit' | 'settings';
     size?: 'small' | 'medium' | 'large';
     style?: string;
     onClick?: () => void;
@@ -26,6 +27,8 @@ const FabButton: React.FC<Props> = (props: Props) => {
                 return <PlusIcon color="#B03E9F" size={35} />;
             case 'edit':
                 return <EditIcon color="#B03E9F" size={30} />;
+            case 'settings':
+                return <SettingsIcon color="#B03E9F" size={30} />;
             default:
                 return <PlusIcon color="#B03E9F" size={35} />;
         }

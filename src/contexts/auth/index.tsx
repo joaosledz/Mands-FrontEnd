@@ -5,7 +5,7 @@ import {
     authApi,
     LoginType,
     LoginModel,
-    userType,
+    TypeUser,
 } from '../../services';
 import encrypt from '../../utils/functions/encrypt';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
@@ -13,18 +13,18 @@ import snackbarUtils from '../../utils/functions/snackbarUtils';
 
 type AuthContextData = {
     signed: boolean;
-    user: userType | null;
+    user: TypeUser | null;
     login(data: LoginType): Promise<LoginModel>;
     logout(): void;
     loading: boolean;
-    updateUser: (data: userType) => void;
+    updateUser: (data: TypeUser) => void;
 };
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
     const tokenKey = '@Mands:token';
-    const [user, setUser] = useState<userType | null>(null);
+    const [user, setUser] = useState<TypeUser | null>(null);
     const [loading, setLoading] = useState(true);
     // const [firstLogin, setFirstLogin] = useState(false);
     // const [haveLogged, setHaveLogged] = useState(true);
@@ -95,7 +95,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         setUser(null);
     }, []);
 
-    const updateUser = (data: userType) => {
+    const updateUser = (data: TypeUser) => {
         setUser(data);
     };
 

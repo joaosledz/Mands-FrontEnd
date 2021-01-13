@@ -11,19 +11,9 @@ type TypeCompanyData = {
 
 const CompanyContext = createContext<TypeCompanyData>({} as TypeCompanyData);
 
-const getStoragedCompany = () => {
-    const companyDataAux = sessionStorage.getItem('@Mands:CompanyData');
-    if (companyDataAux) {
-        const companyData: UserCompanyType = JSON.parse(companyDataAux);
-        return companyData;
-    } else return null;
-};
-
 export const CompanyProvider: React.FC = ({ children }) => {
-    const companyData = getStoragedCompany();
-
     const [loading, setLoading] = useState(true);
-    const [company, setCompany] = useState<UserCompanyType | null>(companyData);
+    const [company, setCompany] = useState<UserCompanyType | null>(null);
 
     const getCompanyData = useCallback(async (company_username: string) => {
         setLoading(true);
@@ -31,7 +21,6 @@ export const CompanyProvider: React.FC = ({ children }) => {
             const response = await companyApi.showAllCompanyData(
                 company_username
             );
-            // console.log(response.data);
             const permissionResponse = await permissionApi.userPermissions(
                 response.data.companyId
             );
@@ -39,11 +28,9 @@ export const CompanyProvider: React.FC = ({ children }) => {
                 ...response.data,
                 userPermission: { ...permissionResponse.data },
             };
-            // console.log(data);
-            sessionStorage.setItem('@Mands:CompanyData', JSON.stringify(data));
+
             setCompany(data);
             return Promise.resolve(data);
-            // alerta de troca de empresa bem sucedida
         } catch (error) {
             console.log(error);
             return Promise.reject(error);
@@ -53,7 +40,6 @@ export const CompanyProvider: React.FC = ({ children }) => {
     }, []);
 
     const updateCompany = useCallback((data: UserCompanyType) => {
-        sessionStorage.setItem('@Mands:CompanyData', JSON.stringify(data));
         setCompany(data);
     }, []);
 

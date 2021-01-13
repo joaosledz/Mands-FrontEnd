@@ -7,14 +7,13 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import { Lock } from '@styled-icons/material';
 import {
     Eye as EyeIcon,
     EyeSlash as EyeSlashIcon,
 } from '@styled-icons/fa-solid';
 
-import { authApi, userType } from '../../../../services';
+import { authApi, TypeUser } from '../../../../services';
 
 import AuthLayout from '../../../../layout/authLayout/authLayout';
 import SendEmailButton from '../../components/submitButton/submitButton';
@@ -35,7 +34,7 @@ const RecoveryPassword: React.FC = () => {
     const { register, errors, handleSubmit } = useForm<FormProps>();
 
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<userType | null>(null);
+    const [user, setUser] = useState<TypeUser | null>(null);
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(() => {
@@ -94,14 +93,19 @@ const RecoveryPassword: React.FC = () => {
                                 >
                                     <TextField
                                         className={classes.input}
-                                        fullWidth
                                         id="outlined-basic"
                                         type={
                                             showPassword ? 'text' : 'password'
                                         }
                                         name="password"
                                         label="Senha"
-                                        variant="outlined"
+                                        error={errors.password !== undefined}
+                                        helperText={
+                                            errors.password
+                                                ? '⚠' +
+                                                  errors?.password?.message
+                                                : ''
+                                        }
                                         InputProps={{
                                             startAdornment: (
                                                 <Lock
@@ -143,17 +147,6 @@ const RecoveryPassword: React.FC = () => {
                                                 message: 'A senha está curta',
                                             },
                                         })}
-                                    />
-                                    <ErrorMessage
-                                        errors={errors}
-                                        name="password"
-                                        render={({ message }) => (
-                                            <Typography
-                                                className={classes.ErrorMessage}
-                                            >
-                                                {message}
-                                            </Typography>
-                                        )}
                                     />
                                     <SendEmailButton
                                         mt={60}

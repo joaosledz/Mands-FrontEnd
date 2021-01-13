@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         submitButtonContainer: {
-            marginTop: '6rem',
+            marginTop: '1rem',
         },
     })
 );

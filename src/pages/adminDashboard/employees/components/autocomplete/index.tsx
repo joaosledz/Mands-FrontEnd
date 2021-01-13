@@ -49,8 +49,6 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                 renderInput={params => (
                     <TextField
                         {...params}
-                        fullWidth
-                        variant="outlined"
                         label="Procure por usuário, e-mail, ou CPF"
                         placeholder="pessoas"
                     />

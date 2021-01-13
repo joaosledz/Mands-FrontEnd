@@ -5,18 +5,18 @@ import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import { useTheme } from '@material-ui/core/styles';
-
-import DrawerComponent from './components/drawer';
-import ITLogo from '../../../../assets/fakeDataImages/companiesImages/IT2.png';
 import { Menu as MenuIcon } from '@styled-icons/entypo';
+
+import useCompany from '../../../../hooks/useCompany';
+import DrawerComponent from './components/drawer';
 import useStyles from './styles';
 
 type Props = {};
 
 const SideBar: React.FC<Props> = (props: Props) => {
-    // const {} = props;
     const classes = useStyles();
     const theme = useTheme();
+    const { company } = useCompany();
 
     const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
@@ -50,7 +50,7 @@ const SideBar: React.FC<Props> = (props: Props) => {
                             keepMounted: true, // Better open performance on mobile.
                         }}
                     >
-                        <DrawerComponent logo={ITLogo} />
+                        <DrawerComponent logo={company?.imagePath} />
                     </Drawer>
                 </Hidden>
                 <Hidden mdDown implementation="css">
@@ -61,7 +61,7 @@ const SideBar: React.FC<Props> = (props: Props) => {
                         variant="permanent"
                         open
                     >
-                        <DrawerComponent logo={ITLogo} divider />
+                        <DrawerComponent logo={company?.imagePath} divider />
                     </Drawer>
                 </Hidden>
             </nav>

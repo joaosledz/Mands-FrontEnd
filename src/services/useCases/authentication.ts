@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import {
     LoginType,
     LoginModel,
-    userType,
+    TypeUser,
     RegisterModel,
     updateModel,
 } from '../models/authentication';
@@ -25,7 +25,7 @@ const authApi = {
 
     me: async (token?: string) => {
         try {
-            const response: AxiosResponse<userType> = await api.get(
+            const response: AxiosResponse<TypeUser> = await api.get(
                 authUrls.me,
                 token
                     ? { headers: { Authorization: `Bearer ${token}` } }
@@ -89,7 +89,7 @@ const authApi = {
     },
     update: async (data: updateModel) => {
         try {
-            const response: AxiosResponse<userType> = await api.put(
+            const response: AxiosResponse<TypeUser> = await api.put(
                 authUrls.update,
                 data
             );

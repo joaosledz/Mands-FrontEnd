@@ -30,6 +30,11 @@ const useStyles = makeStyles<Theme>(theme =>
             cursor: 'pointer',
             transition: 'all .2s',
 
+            [theme.breakpoints.down('md')]: {
+                maxWidth: 150,
+                height: 150,
+            },
+
             '& #avatar-blur': {
                 width: '100%',
                 height: '100%',

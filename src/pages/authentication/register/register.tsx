@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import InputMask from 'react-input-mask';
@@ -7,7 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { useForm } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import { UserCheck as ValidUserIcon } from '@styled-icons/boxicons-regular';
 import { UserX as InvalidUserIcon } from '@styled-icons/boxicons-regular';
 
@@ -26,7 +25,7 @@ const Register: React.FC = () => {
     const classes = useStyles();
     const [image, setImage] = useState<File | undefined>(undefined);
     const [validUser, setValidUser] = useState<Boolean>(false);
-    const history = useHistory();
+    // const history = useHistory();
     //#region CropImageSetup
     const CropImageInput = useMemo(
         () => (

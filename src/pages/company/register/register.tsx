@@ -5,11 +5,14 @@ import Paper from '@material-ui/core/Paper';
 import Hidden from '@material-ui/core/Hidden';
 import TextField from '@material-ui/core/TextField';
 import ReactInputMask from 'react-input-mask';
-import { useForm } from 'react-hook-form';
-import CNPJValidator from '../../../validators/cnpjValidator';
-import { companyApi } from '../../../services';
-import { validateUsername } from './validators/validateUsername';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import { useForm } from 'react-hook-form';
+
+import CNPJValidator from '../../../validators/cnpjValidator';
+import { validateUsername } from './validators/validateUsername';
+import useCompany from '../../../hooks/useCompany';
+import { companyApi, imageApi, UserCompanyType } from '../../../services';
+import snackbarUtils from '../../../utils/functions/snackbarUtils';
 
 import AppLayout from '../../../layout/appLayout';
 import BackButton from '../../../components/backButton';
@@ -27,24 +30,45 @@ type CompanyModel = {
 
 const CompanyRegister: React.FC = () => {
     const classes = useStyles();
+    const { updateCompany } = useCompany();
+    const { register, errors, handleSubmit } = useForm<CompanyModel>();
 
     const [image, setImage] = useState<File | undefined>(undefined);
-
-    const { register, errors, handleSubmit } = useForm<CompanyModel>();
 
     useEffect(() => {
         document.title = 'Cadastrar Empresa';
     }, []);
 
     const onSubmit = async (data: CompanyModel) => {
+        let companyData: UserCompanyType = {} as UserCompanyType;
         const companyModelData = {
             company: { ...data },
         };
+
         try {
-            await companyApi.create(companyModelData);
-            // Animação de sucesso
+            const { data: response } = await companyApi.create(
+                companyModelData
+            );
+
+            companyData = {
+                ...response,
+            };
+
+            if (image) {
+                const formData = new FormData();
+                formData.append('imageData', image);
+
+                const { data: imageResponse } = await imageApi.post(
+                    formData,
+                    response.companyId
+                );
+                companyData.imagePath = imageResponse.path;
+            }
+
+            updateCompany(companyData);
+            snackbarUtils.success('Empresa criada com sucesso');
         } catch (error) {
-            // Alerta de erro
+            snackbarUtils.error(error.message);
         }
     };
 

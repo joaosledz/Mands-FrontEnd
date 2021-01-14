@@ -91,6 +91,7 @@ const CropImageInput: React.FC<Props> = (props: Props) => {
                 <CameraIcon size="25" />
                 <Box id="avatar-blur" className={classes.avatarBlur} />
                 <input
+                    data-cy="image-input"
                     id="avatar-input"
                     type="file"
                     accept="image/png, image/jpeg, image/jpg"

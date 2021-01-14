@@ -1,6 +1,8 @@
+const baseUrl = 'images';
+
 const imageUrls = {
-    main: `images`,
-    associate: 'images/associateImage',
+    main: `${baseUrl}`,
+    associate: `${baseUrl}/associateImage`,
 };
 
 export default imageUrls;

@@ -7,6 +7,7 @@ import {
     LoginModel,
     TypeUser,
 } from '../../services';
+import encrypt from '../../utils/functions/encrypt';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
 // import { connectHub } from '../../services/socket';
 
@@ -62,8 +63,15 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const login = useCallback(async (data: LoginType) => {
         setLoading(true);
+
+        const userData: LoginType = {
+            ...data,
+            password: encrypt(data.password),
+        };
+
+        console.log(userData);
         try {
-            const response = await authApi.login(data);
+            const response = await authApi.login(userData);
             // console.log(response);
             setUser(response.data.user);
             // SetUserId(res.data.company.id);

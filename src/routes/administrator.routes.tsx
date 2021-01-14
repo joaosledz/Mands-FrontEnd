@@ -1,6 +1,9 @@
 import React from 'react';
 import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 
+import CompanyDetails from '../pages/adminDashboard/company/details/details';
+import CompanyEdit from '../pages/adminDashboard/company/edit/edit';
+
 import Departments from '../pages/adminDashboard/departments/departments';
 import RegisterDepartment from '../pages/adminDashboard/departments/department/register/register';
 import DepartmentDetails from '../pages/adminDashboard/departments/department/details';
@@ -16,6 +19,19 @@ const AdministratorRoutes = () => {
 
     return (
         <Switch>
+            {/* Rotas de empresa */}
+            <Route
+                exact
+                path={`${path}/:company/detalhes`}
+                component={CompanyDetails}
+            />
+            <Route
+                exact
+                path={`${path}/:company/edicao`}
+                component={CompanyEdit}
+            />
+
+            {/* Rotas de departamento */}
             <Route
                 exact
                 path={`${path}/:company/departamentos`}

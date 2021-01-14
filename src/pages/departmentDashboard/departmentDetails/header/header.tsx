@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -10,6 +10,7 @@ import { ChevronDown as ChevronDownIcon } from '@styled-icons/entypo';
 
 import TypeParams from '../../../../models/params';
 import useCompany from '../../../../hooks/useCompany';
+import useDepartment from '../../../../hooks/useDepartment';
 import { TypeDepartment, departmentApi } from '../../../../services';
 
 import DefaultDepartmentImage from '../../../../assets/selectableIcons/defaultDepartment.svg';
@@ -24,6 +25,7 @@ const Header: React.FC<Props> = (props: Props) => {
     const params = useParams<TypeParams>();
     const history = useHistory();
     const { company } = useCompany();
+    const { updateDepartment } = useDepartment();
     const { department } = props;
 
     const [loading, setLoading] = useState(true);
@@ -41,16 +43,15 @@ const Header: React.FC<Props> = (props: Props) => {
                         company.companyId
                     );
                     setDepartments(response.data);
-                    setLoading(false);
                 } catch (error) {
                     // toast de erro
+                } finally {
                     setLoading(false);
                 }
-            } else getAllDepartments();
+            }
         };
         getAllDepartments();
-        // eslint-disable-next-line
-    }, []);
+    }, [company]);
 
     const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -62,9 +63,11 @@ const Header: React.FC<Props> = (props: Props) => {
 
     const handleChangeDepartment = (
         company_username: string,
-        department_name: string
+        department: TypeDepartment
     ) => {
-        history.replace(`/${company_username}/${department_name}`);
+        handleClose();
+        updateDepartment(department);
+        history.replace(`/${company_username}/${department.name}`);
     };
 
     return (
@@ -91,21 +94,26 @@ const Header: React.FC<Props> = (props: Props) => {
                         onClose={handleClose}
                     >
                         <MenuItem disabled>Trocar de Departamento:</MenuItem>
-                        {departments.map(department => (
-                            <MenuItem
-                                key={department.departmentId}
-                                disabled={params.department === department.name}
-                                selected={params.department === department.name}
-                                onClick={() =>
-                                    handleChangeDepartment(
-                                        params.company,
-                                        department.name
-                                    )
-                                }
-                            >
-                                {department.name}
-                            </MenuItem>
-                        ))}
+                        {departments.map(department => {
+                            const isEqual =
+                                params.department?.toLowerCase() ===
+                                department.name.toLowerCase();
+                            return (
+                                <MenuItem
+                                    key={department.departmentId}
+                                    disabled={isEqual}
+                                    selected={isEqual}
+                                    onClick={() =>
+                                        handleChangeDepartment(
+                                            params.company,
+                                            department
+                                        )
+                                    }
+                                >
+                                    {department.name}
+                                </MenuItem>
+                            );
+                        })}
                     </Menu>
                 </Box>
             ) : (
@@ -115,4 +123,4 @@ const Header: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default Header;
+export default memo(Header);

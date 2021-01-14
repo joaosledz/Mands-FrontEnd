@@ -28,17 +28,15 @@ describe('Register a new company', () => {
     });
 
     it('Should register a new company', () => {
-        // console.log(authUrls.register);
-        cy.server();
-        cy.route('POST', `${baseUrl}/${companyUrls.create}`).as(
+        cy.intercept('POST', `${baseUrl}/${companyUrls.base}`).as(
             'registerCompany'
         );
 
         cy.get('form').submit();
 
-        cy.wait('@registerCompany').then(resp => {
-            cy.log(JSON.stringify(resp, null, 2));
-            expect(resp.status).be.greaterThan(199).below(300);
+        cy.wait('@registerCompany').then(({ request, response }) => {
+            cy.log(JSON.stringify(response, null, 2));
+            expect(response.statusCode).be.greaterThan(199).below(300);
         });
     });
 });

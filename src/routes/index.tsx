@@ -9,6 +9,7 @@ import Loading from '../components/loading/loading';
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
 import Register from '../pages/authentication/register/register';
+import ConfirmAccount from '../pages/authentication/confirmAccount/confirmAccount';
 import ForgotPassword from '../pages/authentication/RecoverPassword/forgotPassword/forgotPassword';
 import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPassword/recoveryPassword';
 //#endregion
@@ -43,6 +44,10 @@ const Routes = () => {
                 <PublicRoute
                     path="/esqueci-a-senha"
                     component={ForgotPassword}
+                />
+                <PublicRoute
+                    path="/confirmar-conta"
+                    component={ConfirmAccount}
                 />
                 <PublicRoute
                     path="/recuperar-senha/:token"

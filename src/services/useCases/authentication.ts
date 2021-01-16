@@ -25,6 +25,19 @@ const authApi = {
     register: (data: RegisterModel) =>
         api.post<TypeUser>(authUrls.register, data),
 
+    update: (data: updateModel) => api.put<TypeUser>(authUrls.update, data),
+
+    confirmAccount: (token: string) =>
+        api.put(
+            authUrls.confirmAccount,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        ),
+
     recoverPassword: (email: string) =>
         api.post(authUrls.changePassword, {
             email,
@@ -42,8 +55,6 @@ const authApi = {
                 },
             }
         ),
-
-    update: (data: updateModel) => api.put<TypeUser>(authUrls.update, data),
 };
 
 export default authApi;

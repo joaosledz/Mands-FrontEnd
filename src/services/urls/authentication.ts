@@ -1,10 +1,13 @@
+const baseUrl = 'Authentications';
+
 const authUrls = {
-    register: 'Authentications/register',
     login: `login`,
     me: '/me',
-    changePassword: 'passReset',
+    register: `${baseUrl}/register`,
     update: 'User/Update',
-    verifyUsername: '/Authentications/VerifyUsername',
+    confirmAccount: 'account/confirm',
+    changePassword: 'passReset',
+    verifyUsername: `/${baseUrl}/VerifyUsername`,
 };
 
 export default authUrls;

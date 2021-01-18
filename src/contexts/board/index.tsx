@@ -52,8 +52,11 @@ export const BoardProvider: React.FC = ({ children }) => {
                     await connectHub(user.userId);
                     const hubConnection = getHubConnection();
                     hubConnection.invoke('JoinGroup', params.project!);
-                    hubConnection.on('TaskSent', session => {
-                        console.log(session);
+                    hubConnection.on('TaskSent', task => {
+                        console.log(task);
+                        console.log(task.projectSessionId);
+                        console.log(task.tasks[0].title);
+                        AddTask(task.projectSessionId, task.tasks[0].title);
                     });
                 } catch (error) {
                     console.log(error);
@@ -62,7 +65,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         };
         handleHubConnection();
         // console.log(params);
-    }, [user]);
+    }, [user, params]);
 
     //Funções de Coluna
     const AddColumn = () => {
@@ -126,7 +129,7 @@ export const BoardProvider: React.FC = ({ children }) => {
     const AddTask = (columnID: keyof TypeColumn, title: string) => {
         //Gerando um ID aleatório
         // const newID = uuidv4();
-        const newID = Math.floor(Math.random() * 100001);
+        const newID = Math.floor(Math.random() * 100001).toString();
 
         const newState = {
             ...state,
@@ -135,11 +138,11 @@ export const BoardProvider: React.FC = ({ children }) => {
         newState.items = {
             ...state.items,
             [newID]: {
-                id: newID,
+                taskId: newID,
                 title: title,
                 // tag: 'Financeiro',
                 // tagColor: 'green',
-                members: ['Raiane Souza', 'Josefa Oliveira'],
+                responsible: ['Raiane Souza', 'Josefa Oliveira'],
                 tasks: [],
             },
         };

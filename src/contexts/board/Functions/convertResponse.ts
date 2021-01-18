@@ -1,7 +1,7 @@
 import { TypeBoard, TypeNewBoard } from '../../../models/boardTypes';
 
 export const ConvertResponse = (newState: TypeNewBoard) => {
-    console.log(newState);
+    // console.log(newState);
     //Armazena o parâmetro sem tipagem para facilitar a adequação e remoção de parâmetros
     let newStateAux = newState;
     //Estado auxiliar no qual seram armazenados os novos dados do quadro já no formato padrão da biblioteca

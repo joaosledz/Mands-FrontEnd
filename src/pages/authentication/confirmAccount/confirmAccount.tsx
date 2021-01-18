@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -46,7 +46,7 @@ const ConfirmAccount: React.FC = () => {
         try {
             await authApi.confirmAccount(data.token);
             snackbarUtils.success('Conta confirmada com sucesso');
-            history.replace('/');
+            history.replace('/login?confirmed=true');
         } catch (error) {
             console.error(error);
             snackbarUtils.error(error.message);

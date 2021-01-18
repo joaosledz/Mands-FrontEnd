@@ -118,8 +118,8 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         );
 
     const renderSkeleton = (type: TypeItem) =>
-        Array.apply(null, Array(6)).map(() => (
-            <Grid item xs={12} sm={4}>
+        Array.apply(null, Array(6)).map((item, index) => (
+            <Grid key={index} item xs={12} sm={4}>
                 <Skeleton variant="rect" height={type === 'team' ? 64 : 112} />
             </Grid>
         ));

@@ -1,22 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
 import TypeParams from '../../models/params';
 import useDepartment from '../../hooks/useDepartment';
+import { AxiosError } from '../../services';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
 
 import AppLayout from '../../layout/appLayout';
 import Header from './header/header';
 import DepartmentDetails from './departmentDetails/departmentDetails';
 import Projects from './projects/projects';
+import NotFound from '../404';
+
 import useStyles from './styles';
 
 const DepartmentDashboard: React.FC = () => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const { department, getDepartmentData, loading } = useDepartment();
+
+    const [notFound, setNotFound] = useState(false);
 
     useEffect(() => {
         if (department) document.title = `Departamento - ${department.name}`;
@@ -32,14 +37,24 @@ const DepartmentDashboard: React.FC = () => {
                             params.company,
                             params.department
                         );
-                } catch (error) {
-                    snackbarUtils.error(error.message);
+                } catch (err) {
+                    const error: AxiosError = err;
+                    switch (error.response?.status) {
+                        case 404:
+                            setNotFound(true);
+                            break;
+                        default:
+                            snackbarUtils.error(error.message);
+                            break;
+                    }
                 }
             }
         };
         checkDepartmentData();
         // eslint-disable-next-line
     }, []);
+
+    if (notFound) return <NotFound />;
 
     return (
         <AppLayout loading={loading}>

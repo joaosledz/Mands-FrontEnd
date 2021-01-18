@@ -13,8 +13,6 @@ import AppLayout from '../../../layout/appLayout';
 import ManageCompanyButton from './components/manageCompanyButton/manageCompanyButton';
 import Departments from './components/departments';
 import CompanyDetails from './components/companyDetails/companyDetails';
-//#endregion
-
 import useStyles from './styles';
 
 const CompanyDashboard: React.FC = () => {

@@ -10,7 +10,7 @@ import { authApi } from '../../../../services';
 
 import AuthLayout from '../../../../layout/authLayout/authLayout';
 import SendEmailButton from '../../components/submitButton/submitButton';
-import forgotPasswordIllustration from '../../../../assets/forgotPasswordIllustration.svg';
+import forgotPasswordIllustration from '../../../../assets/illustrations/forgotPassword.svg';
 import useStyles, { inputStyle } from './styles';
 import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
 

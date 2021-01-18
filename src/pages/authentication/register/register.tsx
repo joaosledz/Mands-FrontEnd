@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 // import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -33,6 +33,8 @@ const Register: React.FC = () => {
     useEffect(() => {
         console.log(validUser);
     }, [validUser]);
+
+    const handleCloseModal = useCallback(() => setModalIsOpen(false), []);
 
     const CropImageInput = useMemo(
         () => (
@@ -287,7 +289,7 @@ const Register: React.FC = () => {
             </Grid>
             <ConfirmRegisterModal
                 isOpen={modalIsOpen}
-                setIsOpen={setModalIsOpen}
+                handleClose={handleCloseModal}
             />
         </AuthLayout>
     );

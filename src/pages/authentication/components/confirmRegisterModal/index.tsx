@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, memo } from 'react';
+import React, { memo } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
@@ -14,21 +14,17 @@ import useStyles from './styles';
 
 type Props = {
     isOpen: boolean;
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
+    handleClose: () => void;
 };
 
 const ConfirmRegisterModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen } = props;
-
-    const handleCloseModal = () => {
-        setIsOpen(false);
-    };
+    const { isOpen, handleClose } = props;
 
     return (
         <Modal
             open={isOpen}
-            onClose={handleCloseModal}
+            onClose={handleClose}
             style={{ paddingTop: '2rem' }}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
@@ -53,7 +49,7 @@ const ConfirmRegisterModal: React.FC<Props> = (props: Props) => {
                             <img src={MandsLogo} alt="logo do mands" />
                         </Grid>
                         <Grid container item xs={2} justify="flex-end">
-                            <IconButton onClick={handleCloseModal}>
+                            <IconButton onClick={handleClose}>
                                 <TimesIcon size={20} />
                             </IconButton>
                         </Grid>

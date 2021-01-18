@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
@@ -13,11 +13,13 @@ import { Lock as LockIcon } from '@styled-icons/material';
 import useAuth from '../../../hooks/useAuth';
 import { LoginType } from '../../../services';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
-import ConfirmRegisterModal from '../components/confirmRegisterModal';
+import useQuery from '../../../hooks/useQuery';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import LogInButton from '../components/submitButton/submitButton';
 import CompanyButton from './components/companyButton';
+import ConfirmRegisterModal from '../components/confirmRegisterModal';
+import AccountRegisteredModal from '../components/accountRegisteredModal';
 import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
@@ -26,10 +28,49 @@ import useStyles, { inputStyle } from './styles';
 const Login: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
+    const query = useQuery();
     const { login } = useAuth();
     const { register, errors, handleSubmit } = useForm();
 
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState({
+        confirm: false,
+        registered: false,
+    });
+
+    useEffect(() => {
+        document.title = 'Mands';
+    }, []);
+
+    useEffect(() => {
+        const checkConfirmedParam = () => {
+            const confirmed = !!query.get('confirmed');
+            if (confirmed)
+                setModalIsOpen({
+                    ...modalIsOpen,
+                    registered: true,
+                });
+        };
+        checkConfirmedParam();
+        // eslint-disable-next-line
+    }, []);
+
+    const handleCloseConfirmModal = useCallback(
+        () =>
+            setModalIsOpen({
+                ...modalIsOpen,
+                confirm: false,
+            }),
+        [modalIsOpen]
+    );
+
+    const handleCloseRegisteredModal = useCallback(
+        () =>
+            setModalIsOpen({
+                ...modalIsOpen,
+                registered: false,
+            }),
+        [modalIsOpen]
+    );
 
     const onSubmit = async (data: LoginType) => {
         try {
@@ -46,7 +87,10 @@ const Login: React.FC = () => {
                     );
                     break;
                 case 403:
-                    setModalIsOpen(true);
+                    setModalIsOpen({
+                        ...modalIsOpen,
+                        confirm: true,
+                    });
                     break;
                 default:
                     SnackbarUtils.error('Não foi possível efetuar o login');
@@ -149,12 +193,7 @@ const Login: React.FC = () => {
                                 >
                                     Esqueceu a senha?
                                 </Link>
-                                <LogInButton
-                                    // type="submit"
-                                    mt={60}
-                                    text="Entrar"
-                                    // onClick={handleSubmit}
-                                />
+                                <LogInButton mt={60} text="Entrar" />
                             </Box>
                         </form>
                     </Box>
@@ -205,8 +244,12 @@ const Login: React.FC = () => {
                 </Grid>
             </Grid>
             <ConfirmRegisterModal
-                isOpen={modalIsOpen}
-                setIsOpen={setModalIsOpen}
+                isOpen={modalIsOpen.confirm}
+                handleClose={handleCloseConfirmModal}
+            />
+            <AccountRegisteredModal
+                isOpen={modalIsOpen.registered}
+                handleClose={handleCloseRegisteredModal}
             />
         </AuthLayout>
     );

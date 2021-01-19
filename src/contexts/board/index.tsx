@@ -42,7 +42,9 @@ const BoardContext = createContext<BoardContextData>({} as BoardContextData);
 
 // import { Container } from './styles';
 export const BoardProvider: React.FC = ({ children }) => {
-    const [state, setState] = useState(ConvertResponse(newBoardData));
+    const [state, setState] = useState<TypeBoard>(
+        ConvertResponse(newBoardData)
+    );
     const { user } = useAuth();
     const params = useParams<TypeParams>();
 
@@ -106,7 +108,6 @@ export const BoardProvider: React.FC = ({ children }) => {
         setState(newState);
     };
     const AddTask = (columnID: keyof TypeColumn, task: TaskSocket) => {
-        //Gerando um ID aleatório
         console.log(task);
         const newID = 'task_' + task.taskId.toString();
         // const newID = Math.floor(Math.random() * 100001).toString();
@@ -121,10 +122,6 @@ export const BoardProvider: React.FC = ({ children }) => {
             [newID]: {
                 taskId: newID,
                 title: task.title,
-                tag: 'Financeiro',
-                tagColor: 'green',
-                responsible: ['Raiane Souza', 'Josefa Oliveira'],
-                tasks: [],
             },
         };
         console.log(newState.items);
@@ -169,7 +166,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         };
         handleHubConnection();
         // console.log(params);
-    }, [user, params]);
+    }, [user, params, state]);
 
     useEffect(() => {
         const getBoardData = async () => {

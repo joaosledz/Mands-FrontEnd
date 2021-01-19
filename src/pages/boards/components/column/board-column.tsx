@@ -87,9 +87,9 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                             <Grid item xs={1}>
                                 <AddIcon
                                     className={classes.icon}
-                                    onClick={() =>
-                                        AddTask(column.sessionId, 'Texto Novo')
-                                    }
+                                    // onClick={() =>
+                                    //     AddTask(column.sessionId, 'Texto Novo')
+                                    // }
                                 />
                             </Grid>
                             <Grid item xs={1}>

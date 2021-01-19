@@ -22,13 +22,14 @@ import {
     TypeBoard,
     TypeColumn,
     TypeItem,
+    TaskSocket,
     // TypeNewBoard,
 } from '../../models/boardTypes';
 
 interface BoardContextData {
     state: TypeBoard;
     setState: Dispatch<SetStateAction<TypeBoard>>;
-    AddTask: (columnID: keyof TypeColumn, title: string) => void;
+    AddTask: (columnID: keyof TypeColumn, task: TaskSocket) => void;
     UpdateTask: (itemID: keyof TypeItem, updatedItem: TypeItem) => void;
     DeleteTask: (itemID: keyof TypeItem, columnID: keyof TypeColumn) => void;
     AddColumn: () => void;
@@ -44,28 +45,6 @@ export const BoardProvider: React.FC = ({ children }) => {
     const [state, setState] = useState(ConvertResponse(newBoardData));
     const { user } = useAuth();
     const params = useParams<TypeParams>();
-
-    useEffect(() => {
-        const handleHubConnection = async () => {
-            if (user) {
-                try {
-                    await connectHub(user.userId);
-                    const hubConnection = getHubConnection();
-                    hubConnection.invoke('JoinGroup', params.project!);
-                    hubConnection.on('TaskSent', task => {
-                        console.log(task);
-                        console.log(task.projectSessionId);
-                        console.log(task.tasks[0].title);
-                        AddTask(task.projectSessionId, task.tasks[0].title);
-                    });
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        };
-        handleHubConnection();
-        // console.log(params);
-    }, [user, params]);
 
     //Funções de Coluna
     const AddColumn = () => {
@@ -126,31 +105,35 @@ export const BoardProvider: React.FC = ({ children }) => {
         ].itemsIds.filter((item: string) => item !== itemID);
         setState(newState);
     };
-    const AddTask = (columnID: keyof TypeColumn, title: string) => {
+    const AddTask = (columnID: keyof TypeColumn, task: TaskSocket) => {
         //Gerando um ID aleatório
-        // const newID = uuidv4();
-        const newID = Math.floor(Math.random() * 100001).toString();
-
+        console.log(task);
+        const newID = 'task_' + task.taskId.toString();
+        // const newID = Math.floor(Math.random() * 100001).toString();
+        console.log(state);
         const newState = {
             ...state,
         };
+        console.log(newState);
         //Adicionar Item à lista de itens
         newState.items = {
             ...state.items,
             [newID]: {
                 taskId: newID,
-                title: title,
-                // tag: 'Financeiro',
-                // tagColor: 'green',
+                title: task.title,
+                tag: 'Financeiro',
+                tagColor: 'green',
                 responsible: ['Raiane Souza', 'Josefa Oliveira'],
                 tasks: [],
             },
         };
+        console.log(newState.items);
         //Adicionar ID do item à coluna correspondente
         newState.columns[columnID].itemsIds = [
             ...newState.columns[columnID].itemsIds,
             newID,
         ];
+        console.log('newState');
         setState(newState);
     };
     const UpdateTask = (itemID: keyof TypeItem, updatedItem: TypeItem) => {
@@ -162,6 +145,32 @@ export const BoardProvider: React.FC = ({ children }) => {
 
         setState(newState);
     };
+    useEffect(() => {
+        console.log(state);
+    }, [state]);
+    useEffect(() => {
+        const handleHubConnection = async () => {
+            if (user) {
+                try {
+                    await connectHub(user.userId);
+                    const hubConnection = getHubConnection();
+                    hubConnection.invoke('JoinGroup', params.project!);
+                    hubConnection.on('TaskSent', task => {
+                        // console.log(task);
+                        // console.log(task.projectSessionId);
+                        // console.log(task.tasks[0].title);
+                        console.log(state);
+                        AddTask(task.projectSessionId, task.tasks[0]);
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        };
+        handleHubConnection();
+        // console.log(params);
+    }, [user, params]);
+
     useEffect(() => {
         const getBoardData = async () => {
             try {

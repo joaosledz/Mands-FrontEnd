@@ -106,3 +106,22 @@ export type TypeNewBoard = Array<{
         responsible: Array<string> | null;
     }> | null;
 }>;
+
+export type TaskSocket = {
+    completed: boolean;
+    cost: number;
+    description: string;
+    finalDate: date;
+    heads: null;
+    initialDate: date;
+    nodes: null;
+    progress: boolean;
+    session: number;
+    sessionId: number;
+    subtasks: null;
+    tag: string;
+    tagId: number;
+    taskId: number;
+    taskUsers: null;
+    title: string;
+};

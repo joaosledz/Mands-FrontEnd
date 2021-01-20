@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import BoardContext from '../../../../contexts/board';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import MutableInput from '../multableInput/multableInput';
 // Import BoardItem component
 import { BoardItem } from '../item/board-item';
 import Popover from '../popover/columnPopover';
+import CreateTaskModal from '../modal/create-task';
 
 // Define types for board column element properties
 type BoardColumnProps = {
@@ -60,6 +61,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
     const { AddTask, DeleteColumn, setColumnTitle } = useContext(BoardContext);
     const { column, items, index } = props;
+    const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
 
     return (
         <>
@@ -87,9 +89,7 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                             <Grid item xs={1}>
                                 <AddIcon
                                     className={classes.icon}
-                                    // onClick={() =>
-                                    //     AddTask(column.sessionId, 'Texto Novo')
-                                    // }
+                                    onClick={() => setShowCreateTaskModal(true)}
                                 />
                             </Grid>
                             <Grid item xs={1}>
@@ -122,6 +122,10 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                     </div>
                 )}
             </Draggable>
+            <CreateTaskModal
+                isOpen={showCreateTaskModal}
+                setIsOpen={setShowCreateTaskModal}
+            />
         </>
     );
 };

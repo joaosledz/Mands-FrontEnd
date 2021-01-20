@@ -16,6 +16,7 @@ import {
 } from './models/department';
 import { TypeProject, ProjectModel } from './models/project';
 import { PostImageType, ImageErrorType, ImageType } from './models/image';
+import { SubmitTaskType } from './models/task';
 
 import authApi from './useCases/authentication';
 import userApi from './useCases/user';
@@ -24,6 +25,7 @@ import permissionApi from './useCases/companyPermission';
 import departmentApi from './useCases/department';
 import projectApi from './useCases/project';
 import imageApi from './useCases/image';
+import taskApi from './useCases/task';
 
 export {
     api,
@@ -34,6 +36,7 @@ export {
     departmentApi,
     projectApi,
     imageApi,
+    taskApi,
 };
 // Exportação das models de autenticação
 export type {
@@ -52,3 +55,5 @@ export type { TypeDepartment, TypeMember, DepartmentModel };
 export type { TypeProject, ProjectModel };
 // Exportação das models de imagem
 export type { PostImageType, ImageErrorType, ImageType };
+// Exportação das models de Task
+export type { SubmitTaskType };

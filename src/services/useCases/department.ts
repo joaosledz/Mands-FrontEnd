@@ -25,17 +25,10 @@ const departmentApi = {
         }
     },
 
-    listEmployees: async (company_id: number, department_id: number) => {
-        try {
-            const response = await api.get<Array<TypeMember>>(
-                departmentUrls.listEmployees + `${company_id}/${department_id}`
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    listEmployees: (company_id: number, department_id: number) =>
+        api.get<Array<TypeMember>>(
+            departmentUrls.listEmployees + `${company_id}/${department_id}`
+        ),
 
     create: (company_id: number, data: DepartmentModel) =>
         api.post<TypeDepartment>(departmentUrls.create + company_id, data),

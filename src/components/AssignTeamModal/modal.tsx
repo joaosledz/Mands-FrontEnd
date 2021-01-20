@@ -4,46 +4,93 @@ import React, {
     Dispatch,
     SetStateAction,
     memo,
+    useCallback,
 } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-    Paper,
-    Modal,
-    Grid,
-    Typography,
-    Avatar,
-    Tooltip,
-    Grow,
-    Slide,
-} from '@material-ui/core';
-import SubmitButton from '../../../../../components/mainButton';
-import useStyles from './styles';
+import Paper from '@material-ui/core/Paper';
+import Modal from '@material-ui/core/Modal';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
+import Grow from '@material-ui/core/Grow';
+import Slide from '@material-ui/core/Slide';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import { MailSend as MailSendIcon } from '@styled-icons/boxicons-regular';
-import employeesData from '../../../../../utils/data/employees';
-import { TypeTeam } from '../../../../../models/department';
-import Autocomplete from '../autocomplete';
-import ChooseRole from '../role/radio';
+
+import { TypeMember } from '../../services';
+import SubmitButton from '../mainButton';
+import Autocomplete from './autocomplete';
+import ChooseRole from './role';
+import useStyles from './styles';
+
+type TypeAssignData = {
+    title: string;
+};
+
+interface IAssignTypes {
+    company: TypeAssignData;
+    department: TypeAssignData;
+    project: TypeAssignData;
+}
+
+const types: IAssignTypes = {
+    company: {
+        title: 'Convide alguém para a empresa',
+    },
+    department: {
+        title: 'Associe alguém para este departamento',
+    },
+    project: {
+        title: 'Associe alguém para este projeto',
+    },
+};
+
+type TypeModal = 'company' | 'department' | 'project';
 
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
+    type: TypeModal;
+    selectedValues?: TypeMember[];
 };
 
 const HiringModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen } = props;
-    const [teamData /*, setTeamData*/] = useState<Array<TypeTeam>>(
-        employeesData
-    );
-    const [value, setValue] = React.useState<Array<TypeTeam>>([]);
     const history = useHistory();
+    const { isOpen, setIsOpen, type = 'company', selectedValues = [] } = props;
 
-    useEffect(() => {}, [isOpen]);
+    const [data, setData] = useState<TypeAssignData>({} as TypeAssignData);
+    const [value, setValue] = useState<TypeMember[]>([]);
+    const [roleValue, setRoleValue] = useState('funcionario');
 
-    const handleCloseModal = () => {
+    useEffect(() => {
+        const handleData = (type: TypeModal, types: IAssignTypes) =>
+            setData(types[type]);
+        handleData(type, types);
+    }, [type]);
+
+    const handleCloseModal = useCallback(() => {
         setIsOpen(false);
-    };
+    }, [setIsOpen]);
+
+    const handleDeletePerson = useCallback(
+        (index: number) => {
+            let auxArray = [...value];
+            //Adicionar Item à lista de itens
+            auxArray.splice(index, 1);
+            setValue(auxArray);
+        },
+        [value]
+    );
+
+    const handleChangeRole = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setRoleValue((event.target as HTMLInputElement).value);
+        },
+        []
+    );
+
     const handleSubmit = () => {
         let body = {
             value,
@@ -51,16 +98,6 @@ const HiringModal: React.FC<Props> = (props: Props) => {
         };
         console.log(body);
         handleCloseModal();
-    };
-    const handleDeletePerson = (index: number) => {
-        let auxArray = [...value];
-        //Adicionar Item à lista de itens
-        auxArray.splice(index, 1);
-        setValue(auxArray);
-    };
-    const [roleValue, setRoleValue] = React.useState('funcionario');
-    const handleChangeRole = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRoleValue((event.target as HTMLInputElement).value);
     };
 
     return (
@@ -90,13 +127,13 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                         className={classes.title}
                         component={Typography}
                     >
-                        Convide alguém para a empresa
+                        {data.title}
                     </Grid>
 
                     <Autocomplete
-                        data={teamData}
                         value={value}
                         setValue={setValue}
+                        selectedValues={selectedValues}
                     />
                     {value.length !== 0 && (
                         <Grow in={value.length !== 0} timeout={600}>
@@ -114,6 +151,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                     {/* {console.log(value.length)} */}
                                     {value.map((person, index) => (
                                         <Grid
+                                            key={person.userId}
                                             container
                                             item
                                             className={classes.personContainer}

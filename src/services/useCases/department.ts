@@ -3,6 +3,7 @@ import {
     DepartmentModel,
     TypeDepartment,
     TypeMember,
+    TypeDepAssociateModel,
 } from '../models/department';
 import departmentUrls from '../urls/department';
 
@@ -38,6 +39,7 @@ const departmentApi = {
 
     create: (company_id: number, data: DepartmentModel) =>
         api.post<TypeDepartment>(departmentUrls.create + company_id, data),
+
     verifyUsername: (company_id: number, name: string) =>
         api.get<TypeDepartment>(
             departmentUrls.create + `${company_id}/${name}`
@@ -50,6 +52,16 @@ const departmentApi = {
     ) =>
         api.put<TypeDepartment>(
             departmentUrls.base + `${department_id}/${company_id}`,
+            data
+        ),
+
+    associate: (
+        company_id: number,
+        department_id: number,
+        data: TypeDepAssociateModel[]
+    ) =>
+        api.post<void>(
+            departmentUrls.associate + `${company_id}/${department_id}`,
             data
         ),
 

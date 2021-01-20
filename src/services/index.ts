@@ -8,14 +8,6 @@ import {
     RegisterModel,
     updateModel,
 } from './models/authentication';
-import { UserCompanyType, CompanyUpdateModel } from './models/company';
-import {
-    TypeDepartment,
-    TypeMember,
-    DepartmentModel,
-} from './models/department';
-import { TypeProject, ProjectModel } from './models/project';
-import { PostImageType, ImageErrorType, ImageType } from './models/image';
 
 import authApi from './useCases/authentication';
 import userApi from './useCases/user';
@@ -24,6 +16,11 @@ import permissionApi from './useCases/companyPermission';
 import departmentApi from './useCases/department';
 import projectApi from './useCases/project';
 import imageApi from './useCases/image';
+
+export * from './models/company';
+export * from './models/department';
+export * from './models/project';
+export * from './models/image';
 
 export {
     api,
@@ -44,11 +41,3 @@ export type {
     updateModel,
     RegisterModel,
 };
-// Exportação das models de empresa
-export type { UserCompanyType, CompanyUpdateModel };
-// Exportação das models de departamento
-export type { TypeDepartment, TypeMember, DepartmentModel };
-// Exportação das models de projeto
-export type { TypeProject, ProjectModel };
-// Exportação das models de imagem
-export type { PostImageType, ImageErrorType, ImageType };

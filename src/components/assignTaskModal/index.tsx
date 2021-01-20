@@ -199,13 +199,13 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                                         >
                                             {employee.name} {employee.surname}
                                         </Grid>
-                                        <Grid
+                                        {/* <Grid
                                             item
                                             xs={5}
                                             component={Typography}
                                         >
                                             {employee.role_name}
-                                        </Grid>
+                                        </Grid> */}
                                     </Grid>
                                 ))
                             ) : (

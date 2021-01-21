@@ -13,7 +13,10 @@ import {
     newBoardData,
 } from '../../utils/data/board';
 // import { v4 as uuidv4 } from 'uuid';
-import getHubConnection, { connectHub } from '../../services/socket';
+import getHubConnection, {
+    connectHub,
+    HubConnection,
+} from '../../services/socket';
 import useAuth from '../../hooks/useAuth';
 import { ConvertResponse } from './Functions/convertResponse';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
@@ -47,6 +50,10 @@ export const BoardProvider: React.FC = ({ children }) => {
     );
     const { user } = useAuth();
     const params = useParams<TypeParams>();
+
+    const [hubConnection, setHubConnection] = useState<
+        HubConnection | undefined
+    >(undefined);
 
     //Funções de Coluna
     const AddColumn = () => {
@@ -145,18 +152,35 @@ export const BoardProvider: React.FC = ({ children }) => {
     useEffect(() => {
         console.log(state);
     }, [state]);
+
     useEffect(() => {
         const handleHubConnection = async () => {
-            if (user) {
+            try {
+                if (user) {
+                    const hubResponse = await connectHub(user.userId);
+
+                    setHubConnection(hubResponse);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
+            return () => {
+                hubConnection?.stop();
+            };
+        };
+        handleHubConnection();
+    }, [user]);
+
+    useEffect(() => {
+        console.log('teste');
+        const handleWebSocket = async () => {
+            if (hubConnection) {
                 try {
-                    await connectHub(user.userId);
-                    const hubConnection = getHubConnection();
+                    console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
                     hubConnection.on('TaskSent', task => {
-                        // console.log(task);
-                        // console.log(task.projectSessionId);
-                        // console.log(task.tasks[0].title);
-                        console.log(state);
+                        console.log(task);
                         AddTask(task.projectSessionId, task.tasks[0]);
                     });
                 } catch (error) {
@@ -164,9 +188,9 @@ export const BoardProvider: React.FC = ({ children }) => {
                 }
             }
         };
-        handleHubConnection();
+        handleWebSocket();
         // console.log(params);
-    }, [user, params, state]);
+    }, [params, state]);
 
     useEffect(() => {
         const getBoardData = async () => {

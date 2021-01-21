@@ -87,10 +87,14 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 />
                             </Grid>
                             <Grid item xs={1}>
-                                <AddIcon
-                                    className={classes.icon}
-                                    onClick={() => setShowCreateTaskModal(true)}
-                                />
+                                {index === 0 && (
+                                    <AddIcon
+                                        className={classes.icon}
+                                        onClick={() =>
+                                            setShowCreateTaskModal(true)
+                                        }
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={1}>
                                 <Popover

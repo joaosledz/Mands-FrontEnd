@@ -8,3 +8,9 @@ export type SubmitTaskType = {
     finalDate?: Date;
     cost?: number;
 };
+
+export type SubmitResponsible = {
+    userIds: Array<number>;
+    departmentId: number;
+    projectId: number;
+};

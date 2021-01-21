@@ -4,14 +4,14 @@ let hubConnection: HubConnection;
 
 export const connectHub = async (user_id: number) => {
     hubConnection = new HubConnectionBuilder()
-        .withUrl('http://localhost:58196/notificationhub')
+        .withUrl('https://mands-api.herokuapp.com/notificationhub')
         .withAutomaticReconnect()
         .build();
 
     if (hubConnection) {
         try {
-            const response = await hubConnection.start();
-            console.log('Connected: ', response);
+            await hubConnection.start();
+            console.log('Connected');
 
             // hubConnection.invoke('MapConnections', user_id);
 

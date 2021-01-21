@@ -1,6 +1,6 @@
 export type TypeDepartmentPermission = {
-    name: string;
     depPermissionId: number;
+    name: string;
     editDepartment: boolean;
     deleteDepartment: boolean;
     project: boolean;

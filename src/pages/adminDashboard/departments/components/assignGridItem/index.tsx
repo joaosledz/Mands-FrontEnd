@@ -16,7 +16,7 @@ import useCompany from '../../../../../hooks/useCompany';
 import AssignButton from '../assignButton';
 import TeamCard from './teamCard';
 import ProjectsCard from './projectsCard';
-import AssignTeamModal from '../../../../../components/AssignTeamModal/modal';
+import AssignTeamModal from '../../../components/assignTeamModal/department';
 import useStyles from './styles';
 
 type TypeItem = 'team' | 'project';
@@ -94,8 +94,8 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         );
 
     const renderSkeleton = (type: TypeItem) =>
-        Array.apply(null, Array(6)).map(() => (
-            <Grid item xs={12} sm={4}>
+        Array.apply(null, Array(6)).map((item, index) => (
+            <Grid key={index} item xs={12} sm={4}>
                 <Skeleton variant="rect" height={type === 'team' ? 64 : 112} />
             </Grid>
         ));
@@ -155,7 +155,6 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                 <AssignTeamModal
                     isOpen={showTeamModal}
                     setIsOpen={setShowTeamModal}
-                    type="department"
                     selectedValues={teamData}
                 />
             )}

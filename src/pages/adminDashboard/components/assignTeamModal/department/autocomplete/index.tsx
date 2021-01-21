@@ -1,11 +1,17 @@
 /* eslint-disable no-use-before-define */
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useState,
+    memo,
+} from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 
-import { TypeMember, companyApi } from '../../../services';
-import useCompany from '../../../hooks/useCompany';
-import snackbarUtils from '../../../utils/functions/snackbarUtils';
+import { TypeMember, companyApi } from '../../../../../../services';
+import useCompany from '../../../../../../hooks/useCompany';
+import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
 
 type Props = {
@@ -70,11 +76,12 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                     <TextField
                         {...params}
                         label="Procure por usuário, e-mail, ou CPF"
-                        placeholder="pessoas"
+                        placeholder="Pessoas"
                     />
                 )}
+                noOptionsText={'Nenhuma pessoa disponível foi identificada.'}
             />
         </div>
     );
 };
-export default Autocompletar;
+export default memo(Autocompletar);

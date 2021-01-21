@@ -80,8 +80,8 @@ const useStyles = makeStyles<Theme>(theme =>
             alignSelf: 'begin',
             justifyContent: 'flex-begin',
             color: theme.palette.primary.main,
-            // fontWeight: 'bold',
             fontSize: '0.8rem',
+            textDecoration: 'none',
             [theme.breakpoints.up('md')]: {
                 fontSize: '1rem',
             },
@@ -157,6 +157,11 @@ const useStyles = makeStyles<Theme>(theme =>
         submitButton: {
             position: 'relative',
             paddingTop: '8px',
+        },
+
+        backdrop: {
+            zIndex: theme.zIndex.modal + 1,
+            color: 'white',
         },
     })
 );

@@ -131,7 +131,7 @@ const Details: React.FC = () => {
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
                         teamData={members}
                         icon="team"
-                        actionIcon="manage"
+                        actionIcon="add"
                         loading={loading}
                     />
                     <AssignGridItem

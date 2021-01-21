@@ -15,7 +15,7 @@ import Localization from './config/localization';
 import MTableFilterRow from '../filter';
 import tableIcons from './config/icons';
 
-import HiringModal from '../../../../../components/AssignTeamModal/modal';
+import HiringModal from '../../../components/assignTeamModal/department';
 import PermissionModal from '../../../../../components/permission/modal';
 import useStyles from './styles';
 // import DeleteCupom from '../../components/Dialogs/DeleteCupom';
@@ -216,7 +216,6 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
             <HiringModal
                 isOpen={showHiringModal}
                 setIsOpen={setShowHiringModal}
-                type="company"
             />
             <PermissionModal
                 isOpen={showPermissionModal}

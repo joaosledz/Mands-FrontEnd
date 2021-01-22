@@ -26,6 +26,9 @@ type BoardItemProps = {
         responsible: string[];
         tasks: any;
     };
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 
 // Define types for board item element style properties
@@ -54,7 +57,7 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
 
 // Create and export the BoardItem component
 export const BoardItem = (props: BoardItemProps) => {
-    const { item, index, columnID } = props;
+    const { item, index, columnID, departmentId, projectId, companyId } = props;
     const classes = useStyles();
     //Modal de details e edição
     const [showNewTaskModal, setShowNewTaskModal] = useState<boolean>(false);
@@ -112,6 +115,9 @@ export const BoardItem = (props: BoardItemProps) => {
                                     <Popover
                                         itemID={item.taskId}
                                         columnID={columnID}
+                                        departmentId={departmentId}
+                                        projectId={projectId}
+                                        companyId={companyId}
                                     />
                                 </Grid>
                             </Grid>

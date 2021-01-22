@@ -12,23 +12,26 @@ import useStyles from './styles';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 // import BoardContext from '../../../../contexts/board';
 import { useForm } from 'react-hook-form';
-import { SubmitTaskType, taskApi, TypeDepartment } from '../../../../services';
+import { SubmitTaskType, taskApi } from '../../../../services';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
-import useCompany from '../../../../hooks/useCompany';
-import { useParams } from 'react-router-dom';
-import TypeParams from '../../../../models/params';
-import useDepartment from '../../../../hooks/useDepartment';
+// import useCompany from '../../../../hooks/useCompany';
+// import { useParams } from 'react-router-dom';
+// import TypeParams from '../../../../models/params';
+// import useDepartment from '../../../../hooks/useDepartment';
 
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 
 const NewTaskModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen } = props;
+    const { isOpen, setIsOpen, departmentId, projectId, companyId } = props;
     const { register, errors, handleSubmit } = useForm<SubmitTaskType>({});
-    const { company } = useCompany();
+    /*const { company } = useCompany();
     const params = useParams<TypeParams>();
     const { getDepartmentData, department } = useDepartment();
 
@@ -38,17 +41,17 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                 await getDepartmentData(params.company, params.department!);
         };
         handleDepartment();
-    }, [isOpen]);
+    }, [isOpen, department]);*/
 
     const handleCloseModal = () => {
         setIsOpen(false);
     };
     const onSubmit = (data: SubmitTaskType) => {
-        data.departmentId = department!.departmentId;
-        data.projectId = parseInt(params.project!);
+        data.departmentId = departmentId;
+        data.projectId = projectId;
         console.log(data);
         taskApi
-            .create(company!.companyId, data)
+            .create(companyId, data)
             .then(response => {
                 // console.log(response);
                 snackbarUtils.success('Nova tarefa criada com sucesso');

@@ -1,10 +1,19 @@
 import api from '../api';
-import { SubmitTaskType, SubmitResponsible } from '../models/task';
+import {
+    SubmitTaskType,
+    SubmitResponsible,
+    SubmitDeleteTask,
+} from '../models/task';
 import taskUrls from '../urls/task';
 
 const tasksApi = {
     create: (companyId: number, data: SubmitTaskType) =>
         api.post(taskUrls.create + companyId, data),
+    delete: (taskId: number, data: SubmitDeleteTask) =>
+        api.delete(
+            taskUrls.delete +
+                `${taskId}/${data.departmentId}/${data.projectId}/${data.companyId}`
+        ),
     associateResponsible: (
         companyId: number,
         data: SubmitResponsible,

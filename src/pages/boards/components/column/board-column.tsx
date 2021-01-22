@@ -18,6 +18,9 @@ type BoardColumnProps = {
     items: any;
     index: any;
     type?: string;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 
 // Define types for board column content style properties
@@ -59,8 +62,8 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
-    const { AddTask, DeleteColumn, setColumnTitle } = useContext(BoardContext);
-    const { column, items, index } = props;
+    const { DeleteColumn, setColumnTitle } = useContext(BoardContext);
+    const { column, items, index, departmentId, projectId, companyId } = props;
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
 
     return (
@@ -117,6 +120,9 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                             item={item}
                                             index={index}
                                             columnID={column.sessionId}
+                                            departmentId={departmentId}
+                                            projectId={projectId}
+                                            companyId={companyId}
                                         />
                                     ))}
                                     {provided.placeholder}
@@ -129,6 +135,9 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
             <CreateTaskModal
                 isOpen={showCreateTaskModal}
                 setIsOpen={setShowCreateTaskModal}
+                departmentId={departmentId}
+                projectId={projectId}
+                companyId={companyId}
             />
         </>
     );

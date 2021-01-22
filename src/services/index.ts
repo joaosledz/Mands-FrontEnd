@@ -16,7 +16,7 @@ import {
 } from './models/department';
 import { TypeProject, ProjectModel } from './models/project';
 import { PostImageType, ImageErrorType, ImageType } from './models/image';
-import { SubmitTaskType } from './models/task';
+import { SubmitTaskType, SubmitDeleteTask } from './models/task';
 
 import authApi from './useCases/authentication';
 import userApi from './useCases/user';
@@ -56,4 +56,4 @@ export type { TypeProject, ProjectModel };
 // Exportação das models de imagem
 export type { PostImageType, ImageErrorType, ImageType };
 // Exportação das models de Task
-export type { SubmitTaskType };
+export type { SubmitTaskType, SubmitDeleteTask };

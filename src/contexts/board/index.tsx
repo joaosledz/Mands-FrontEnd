@@ -13,10 +13,7 @@ import {
     newBoardData,
 } from '../../utils/data/board';
 // import { v4 as uuidv4 } from 'uuid';
-import getHubConnection, {
-    connectHub,
-    HubConnection,
-} from '../../services/socket';
+import { connectHub, HubConnection } from '../../services/socket';
 import useAuth from '../../hooks/useAuth';
 import { ConvertResponse } from './Functions/convertResponse';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
@@ -158,7 +155,6 @@ export const BoardProvider: React.FC = ({ children }) => {
             try {
                 if (user) {
                     const hubResponse = await connectHub(user.userId);
-
                     setHubConnection(hubResponse);
                 }
             } catch (error) {
@@ -173,15 +169,17 @@ export const BoardProvider: React.FC = ({ children }) => {
     }, [user]);
 
     useEffect(() => {
-        console.log('teste');
         const handleWebSocket = async () => {
             if (hubConnection) {
                 try {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
                     hubConnection.on('TaskSent', task => {
-                        console.log(task);
                         AddTask(task.projectSessionId, task.tasks[0]);
+                    });
+                    hubConnection.on('TaskDeleted', response => {
+                        console.log(response);
+                        // DeleteTask(task.projectSessionId, task.tasks[0]);
                     });
                 } catch (error) {
                     console.log(error);
@@ -190,7 +188,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         };
         handleWebSocket();
         // console.log(params);
-    }, [params, state]);
+    }, [params, state, hubConnection]);
 
     useEffect(() => {
         const getBoardData = async () => {

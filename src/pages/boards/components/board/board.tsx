@@ -1,15 +1,34 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import FabButton from '../../../../components/fabButton';
 import BoardContext from '../../../../contexts/board';
 import { BoardColumn } from '../column/board-column';
+import useCompany from '../../../../hooks/useCompany';
+import { useParams } from 'react-router-dom';
+import TypeParams from '../../../../models/params';
+import useDepartment from '../../../../hooks/useDepartment';
 
 const Board: React.FC = () => {
     const classes = useStyles();
     // Initialize board state with board data
     const { state, setState, AddColumn } = useContext(BoardContext);
+    const { company } = useCompany();
+    const params = useParams<TypeParams>();
+    const { getDepartmentData, department } = useDepartment();
+    //Id do Projeto
+    const projectId = parseInt(params.project!);
+    //Dados do departamento do projeto
+    // const [departmentId, setDepartmentId] = useState(1)
+    useEffect(() => {
+        const handleDepartment = async () => {
+            if (!department)
+                await getDepartmentData(params.company, params.department!);
 
+            // setDepartmentId(department.departmentId)
+        };
+        handleDepartment();
+    }, [department]);
     // Handle drag & drop
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
@@ -138,12 +157,23 @@ const Board: React.FC = () => {
 
                                 // Render the BoardColumn component
                                 return (
-                                    <BoardColumn
-                                        key={column.sessionId}
-                                        column={column}
-                                        items={items}
-                                        index={index}
-                                    />
+                                    <>
+                                        {department && params && company && (
+                                            <BoardColumn
+                                                key={column.sessionId}
+                                                column={column}
+                                                items={items}
+                                                index={index}
+                                                departmentId={
+                                                    department.departmentId
+                                                }
+                                                projectId={parseInt(
+                                                    params.project!
+                                                )}
+                                                companyId={company.companyId}
+                                            />
+                                        )}
+                                    </>
                                 );
                             })}
                         </div>

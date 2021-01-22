@@ -14,3 +14,8 @@ export type SubmitResponsible = {
     departmentId: number;
     projectId: number;
 };
+export type SubmitDeleteTask = {
+    companyId: number;
+    departmentId: number;
+    projectId: number;
+};

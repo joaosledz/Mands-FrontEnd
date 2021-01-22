@@ -28,6 +28,7 @@ export const CompanyProvider: React.FC = ({ children }) => {
                 ...response.data,
                 userPermission: { ...permissionResponse.data },
             };
+            sessionStorage.setItem('@mands:company', JSON.stringify(data));
 
             setCompany(data);
             return Promise.resolve(data);
@@ -40,6 +41,7 @@ export const CompanyProvider: React.FC = ({ children }) => {
     }, []);
 
     const updateCompany = useCallback((data: UserCompanyType) => {
+        sessionStorage.setItem('@mands:company', JSON.stringify(data));
         setCompany(data);
     }, []);
 

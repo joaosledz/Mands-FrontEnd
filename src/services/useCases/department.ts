@@ -58,6 +58,12 @@ const departmentApi = {
             data
         ),
 
+    dissociate: (company_id: number, department_id: number, user_id: number) =>
+        api.delete<void>(
+            departmentUrls.dissociate +
+                `${company_id}/${department_id}/${user_id}`
+        ),
+
     delete: (department_id: number, company_id: number) =>
         api.delete(departmentUrls.base + `${department_id}/${company_id}`),
 };

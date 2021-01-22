@@ -7,6 +7,7 @@ const departmentUrls = {
     create: `${baseUrl}/`,
     verifyUsername: `${baseUrl}/verifyUsername/`,
     associate: `${baseUrl}/associateUsers/`,
+    dissociate: `${baseUrl}/dissociateUser/`,
 };
 
 export default departmentUrls;

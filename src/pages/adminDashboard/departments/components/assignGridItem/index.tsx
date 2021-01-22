@@ -140,6 +140,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                     spacing={3}
                     justify={handleAlign()}
                     className={classes.assignContainer}
+                    style={category === 'team' ? { marginTop: '1rem' } : {}}
                 >
                     {category === 'team'
                         ? !loading

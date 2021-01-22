@@ -4,20 +4,18 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Zoom from '@material-ui/core/Zoom';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
 import { TypeMember, departmentApi } from '../../../../../../services';
-import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
-import Backdrop from '../../../../../../components/backdrop';
-import useStyles from './styles';
 import useCompany from '../../../../../../hooks/useCompany';
 import useDepartment from '../../../../../../hooks/useDepartment';
+import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
+
+import Backdrop from '../../../../../../components/backdrop';
+import DeleteDialog from './deleteDialog';
+import PermissionModal from './permissionModal';
+import useStyles from './styles';
 
 type Props = {
     teammate: TypeMember;
@@ -27,43 +25,45 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
     const classes = useStyles();
     const { company } = useCompany();
     const { department, updateDepartment } = useDepartment();
-    const { name, image, username, surname, userId } = teammate;
+    const { name, image, surname, userId } = teammate;
 
     const [submmiting, setSubmmiting] = useState(false);
-    const [open, setOpen] = useState(false);
+    const [dialogIsOpen, setDialogIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [show, setShow] = useState(false);
 
-    const handleOpen = useCallback(
+    const handleOpenDialog = useCallback(
         (event: React.MouseEvent<HTMLButtonElement>) => {
             event.stopPropagation();
-            setOpen(!open);
+            setDialogIsOpen(!dialogIsOpen);
         },
-        [open]
+        [dialogIsOpen]
     );
+
+    const handleOpenModal = useCallback(() => {
+        setModalIsOpen(!modalIsOpen);
+    }, [modalIsOpen]);
 
     const showRemoveButton = useCallback(() => setShow(true), []);
     const hideRemoveButton = useCallback(() => setShow(false), []);
 
-    const handleRemove = useCallback(
-        async (company_id: number, department_id: number, user_id: number) => {
-            setSubmmiting(true);
-            try {
-                await departmentApi.dissociate(
-                    company_id,
-                    department_id,
-                    user_id
-                );
-                updateDepartment({ ...department! }); // forçar re-renderização do AssignGridItem
-                snackbarUtils.success('Usuário desassociado com sucesso');
-                setOpen(false);
-            } catch (error) {
-                snackbarUtils.error(error.message);
-            } finally {
-                setSubmmiting(false);
-            }
-        },
-        [department, updateDepartment]
-    );
+    const handleRemove = useCallback(async () => {
+        setSubmmiting(true);
+        try {
+            await departmentApi.dissociate(
+                company!.companyId,
+                department!.departmentId,
+                userId
+            );
+            updateDepartment({ ...department! }); // forçar re-renderização do AssignGridItem
+            snackbarUtils.success('Usuário desassociado com sucesso');
+            setDialogIsOpen(false);
+        } catch (error) {
+            snackbarUtils.error(error.message);
+        } finally {
+            setSubmmiting(false);
+        }
+    }, [company, department, updateDepartment, userId]);
 
     return (
         <Fragment>
@@ -75,7 +75,7 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                 sm
                 className={classes.user}
                 component={Button}
-                onClick={() => {}}
+                onClick={handleOpenModal}
                 onMouseOver={showRemoveButton}
                 onMouseLeave={hideRemoveButton}
             >
@@ -87,46 +87,23 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                     <IconButton
                         aria-label="delete"
                         className={classes.removeButton}
-                        onClick={handleOpen}
+                        onClick={handleOpenDialog}
                     >
                         <CloseIcon style={{ fontSize: '1rem' }} />
                     </IconButton>
                 </Zoom>
             </Grid>
-            <Dialog
-                open={open}
-                onClose={handleOpen}
-                aria-labelledby="dialogo-de-confirmação-de-exclusão"
-                aria-describedby="confirme-a-exclusão-desse-usuário-do-departamento"
-            >
-                <DialogTitle>
-                    Deseja realmente retirar @{username} deste departamento?
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        A retirada deste usuário do departamento irá
-                        dessassocia-lo dos projetos e tarefas atrelados a ele.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleOpen} color="primary">
-                        Cancelar
-                    </Button>
-                    <Button
-                        onClick={() =>
-                            handleRemove(
-                                company!.companyId,
-                                department!.departmentId,
-                                userId
-                            )
-                        }
-                        color="primary"
-                        autoFocus
-                    >
-                        Confirmar
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <PermissionModal
+                isOpen={modalIsOpen}
+                user={teammate}
+                handleOpen={handleOpenModal}
+            />
+            <DeleteDialog
+                open={dialogIsOpen}
+                user={teammate}
+                handleOpen={handleOpenDialog}
+                handleRemove={handleRemove}
+            />
         </Fragment>
     );
 };

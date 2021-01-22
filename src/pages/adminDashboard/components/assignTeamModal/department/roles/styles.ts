@@ -8,6 +8,7 @@ const useStyles = makeStyles<Theme>(theme =>
                 textAlign: 'flex-start',
             },
         },
+
         icon: {
             borderRadius: '50%',
             width: 16,
@@ -21,18 +22,18 @@ const useStyles = makeStyles<Theme>(theme =>
                 outline: '2px auto rgba(19,124,189,.6)',
                 outlineOffset: 2,
             },
-            // 'input:hover ~ &': {
-            //     backgroundColor: '#ebf1f5',
-            // },
+
             'input:disabled ~ &': {
                 boxShadow: 'none',
                 background: 'rgba(206,217,224,.5)',
             },
         },
+
         checkedIcon: {
             backgroundColor: '#b3009b',
             backgroundImage:
                 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
+
             '&:before': {
                 display: 'block',
                 width: 16,
@@ -42,21 +43,25 @@ const useStyles = makeStyles<Theme>(theme =>
                 content: '""',
             },
         },
+
         subtitle: {
+            paddingLeft: '21px',
+            color: theme.palette.text.secondary,
+            fontSize: '0.7rem',
+            fontWeight: 300,
             display: 'flex',
             alignSelf: 'begin',
             justifyContent: 'flex-begin',
-            color: theme.palette.text.secondary,
-            fontWeight: 'lighter',
-            fontSize: '0.7rem',
+
             [theme.breakpoints.up('md')]: {
                 fontSize: '0.9rem',
             },
-            paddingLeft: '21px',
         },
+
         divider: {
             margin: theme.spacing(2, 0),
         },
+
         addRole: {
             '&:hover': {
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',

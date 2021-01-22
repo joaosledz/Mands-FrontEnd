@@ -26,6 +26,7 @@ const useStyles = makeStyles<Theme>(theme =>
                 background: 'rgba(170,170,170,0.5)',
             },
         },
+
         paper: {
             width: '100%',
             maxWidth: '40vw',
@@ -56,14 +57,17 @@ const useStyles = makeStyles<Theme>(theme =>
                 fontSize: '1.6rem',
             },
         },
+
         body: {
             position: 'relative',
         },
+
         personContainer: {
             backgroundColor: 'rgba( 191, 63 , 191, 0.5)',
             borderRadius: '20px',
             marginBottom: '5px',
         },
+
         subtitle: {
             display: 'flex',
             alignSelf: 'begin',
@@ -75,6 +79,7 @@ const useStyles = makeStyles<Theme>(theme =>
                 fontSize: '1rem',
             },
         },
+
         subtitle2: {
             display: 'flex',
             alignSelf: 'begin',
@@ -95,6 +100,7 @@ const useStyles = makeStyles<Theme>(theme =>
             width: theme.spacing(3),
             height: theme.spacing(3),
         },
+
         icon: {
             display: 'flex',
             color: theme.palette.primary.light,
@@ -102,11 +108,13 @@ const useStyles = makeStyles<Theme>(theme =>
             marginRight: '4px',
             maxWidth: '20px',
             alignSelf: 'center',
+
             '&:hover': {
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
             },
         },
+
         iconMain: {
             display: 'flex',
             color: theme.palette.primary.light,
@@ -118,6 +126,7 @@ const useStyles = makeStyles<Theme>(theme =>
             maxWidth: '36px',
             alignSelf: 'center',
         },
+
         iconClose: {
             color: theme.palette.text.secondary,
             borderRadius: '20%',
@@ -131,11 +140,12 @@ const useStyles = makeStyles<Theme>(theme =>
                 cursor: 'pointer',
             },
         },
+
         scrollPerson: {
-            // display: 'flex',
             width: '100%',
             padding: '15px 0 15px 15px',
             maxHeight: '250px',
+
             overflowY: 'auto',
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
@@ -154,6 +164,7 @@ const useStyles = makeStyles<Theme>(theme =>
                 background: 'rgba(170,170,170,0.5)',
             },
         },
+
         submitButton: {
             position: 'relative',
             paddingTop: '8px',

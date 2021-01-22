@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 
 import useCompany from '../../hooks/useCompany';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
 import TypeParams from '../../models/params';
+import { AxiosError } from '../../services';
 
 import Header from './components/header';
 import Loading from '../../components/loading/loading';
+import NotFound from '../../pages/404';
 import useStyles from './styles';
 
 type Props = {
@@ -27,21 +29,31 @@ const AppLayout: React.FC<Props> = (props: Props) => {
         setLoading,
     } = useCompany();
 
+    const [notFound, setNotFound] = useState(false);
+
     useEffect(() => {
         const checkCompanyData = async () => {
             if (!params.company) return;
             try {
                 if (!company) await getCompanyData(params.company);
-            } catch (error) {
-                console.error(error);
-                const message = error.message.data;
-                snackbarUtils.error(message ? message : error.message);
+            } catch (err) {
+                const error: AxiosError = err;
+                switch (error.response?.status) {
+                    case 404:
+                        setNotFound(true);
+                        break;
+                    default:
+                        snackbarUtils.error(error.message);
+                        break;
+                }
             } finally {
                 setLoading(false);
             }
         };
         checkCompanyData();
     }, [company, getCompanyData, params, setLoading]);
+
+    if (notFound) return <NotFound />;
 
     return (
         <Box

@@ -4,6 +4,7 @@ import React, {
     Dispatch,
     SetStateAction,
     memo,
+    useCallback,
 } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
@@ -34,19 +35,19 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { isOpen, setIsOpen, allEmployees = [], teamData = [] } = props;
 
-    const [employees] = useState(allEmployees);
+    const [employees, setEmployees] = useState(allEmployees);
     const [team, setTeam] = useState(teamData);
-    const [checkers, setCheckers] = useState<Array<boolean>>([]);
     const [teamIDsState, setTeamIDsState] = useState<Array<number>>([]);
     const [teamIDs, setTeamIDs] = useState<Array<number>>([]);
     const [isDisabled, setIsDisabled] = useState(true);
 
     // useEffect(() => {
-    //     console.log('checkers: ', checkers);
     //     console.log('teamIDs: ', teamIDs);
-    //     console.log(allEmployees);
-    //     console.log(teamData);
-    // }, [teamIDs, checkers]);
+    //     console.log('All: ', allEmployees);
+    //     console.log('team:', teamData);
+    //     console.log('---------------');
+    //     // eslint-disable-next-line
+    // }, [teamIDs]);
 
     useEffect(() => {
         setTeam(teamData);
@@ -54,26 +55,17 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         const fillCheckersArray = () => {
-            const auxArray: Array<boolean> = [];
             const auxIDsArray: Array<number> = [];
             employees.map(employee => {
                 if (team.length !== 0) {
                     if (team.some(e => e.userId === employee.userId)) {
-                        auxArray.push(true);
                         auxIDsArray.push(employee.userId);
                         return null;
-                    } else {
-                        auxArray.push(false);
-                        return null;
-                    }
-                } else {
-                    auxArray.push(false);
-                    return null;
-                }
+                    } else return null;
+                } else return null;
             });
             fillIDsState(auxIDsArray);
             setTeamIDs(auxIDsArray);
-            setCheckers(auxArray);
         };
         fillCheckersArray();
         // eslint-disable-next-line
@@ -89,53 +81,37 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
         handleButtonDisable();
     }, [teamIDs, teamIDsState]);
 
-    const fillIDsState = (data: Array<number>) => {
-        if (teamIDsState.length !== 0) return;
-        else setTeamIDsState(data);
-    };
+    const fillIDsState = useCallback(
+        (data: Array<number>) => {
+            if (teamIDsState.length !== 0) return;
+            else setTeamIDsState(data);
+        },
+        [teamIDsState.length]
+    );
 
-    const handleCloseModal = () => {
+    const handleCloseModal = useCallback(() => {
         setIsOpen(false);
-    };
+    }, [setIsOpen]);
 
-    const handleClearCheckers = () => {
-        if (teamIDs.length !== 0) {
-            const auxArray = [...checkers];
-            auxArray.map((item, index) => {
-                auxArray[index] = false;
-                return null;
-            });
-            setCheckers(auxArray);
-            setTeamIDs([]);
-        } else return;
-    };
+    const handleClearCheckers = useCallback(() => {
+        setTeamIDs([]);
+    }, []);
 
-    const handleCheck = (index: number) => {
-        const auxArray = [...checkers];
-        auxArray[index] = !auxArray[index];
-        setCheckers(auxArray);
-    };
-
-    const handleStoreID = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.checked) {
-            const auxArray = [...teamIDs];
-            auxArray.push(Number(event.target.value));
-            setTeamIDs(auxArray);
-        } else {
-            const auxArray = [...teamIDs];
-            const idIndex = auxArray.indexOf(Number(event.target.value));
-            auxArray.splice(idIndex, 1);
-            setTeamIDs(auxArray);
-        }
-    };
-
-    const handleChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-        index: number
-    ) => {
-        handleCheck(index);
-        handleStoreID(event);
-    };
+    const handleStoreID = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            if (event.target.checked) {
+                const auxArray = [...teamIDs];
+                auxArray.push(Number(event.target.value));
+                setTeamIDs(auxArray);
+            } else {
+                const auxArray = [...teamIDs];
+                const idIndex = auxArray.indexOf(Number(event.target.value));
+                auxArray.splice(idIndex, 1);
+                setTeamIDs(auxArray);
+            }
+        },
+        [teamIDs]
+    );
 
     return (
         <Modal
@@ -163,7 +139,10 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                     >
                         <TimesIcon size={20} />
                     </IconButton>
-                    <SearchButtonTF />
+                    <SearchButtonTF
+                        employees={employees}
+                        setEmployees={setEmployees}
+                    />
                     <Grid
                         container
                         item
@@ -175,7 +154,7 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                         <Grid
                             container
                             item
-                            xs={4}
+                            xs={3}
                             component={Button}
                             onClick={handleClearCheckers}
                             className={classes.clearAssigns}
@@ -184,39 +163,56 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                             <Typography>Limpar Associados</Typography>
                         </Grid>
                         <Grid id="employees" container item xs={12} spacing={3}>
-                            {employees.map((employee, index) => (
-                                <Grid
-                                    key={index}
-                                    container
-                                    item
-                                    alignItems="center"
-                                    xs={12}
-                                    spacing={1}
-                                    component="label"
-                                    htmlFor={`checkbox-${index}`}
-                                >
-                                    <Grid item xs={1}>
-                                        <Checkbox
-                                            id={`checkbox-${index}`}
-                                            color="primary"
-                                            value={employee.userId}
-                                            checked={checkers[index]}
-                                            onChange={event =>
-                                                handleChange(event, index)
-                                            }
-                                        />
+                            {employees.length !== 0 ? (
+                                employees.map((employee, index) => (
+                                    <Grid
+                                        key={index}
+                                        container
+                                        item
+                                        alignItems="center"
+                                        xs={12}
+                                        spacing={1}
+                                        component="label"
+                                        htmlFor={`checkbox-${index}`}
+                                    >
+                                        <Grid item xs={1}>
+                                            <Checkbox
+                                                id={`checkbox-${index}`}
+                                                color="primary"
+                                                value={employee.userId}
+                                                checked={employees.some(
+                                                    employee =>
+                                                        teamIDs.includes(
+                                                            employee.userId
+                                                        )
+                                                )}
+                                                onChange={handleStoreID}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                            <Avatar src={employee.image} />
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={5}
+                                            component={Typography}
+                                        >
+                                            {employee.name} {employee.surname}
+                                        </Grid>
+                                        {/* <Grid
+                                            item
+                                            xs={5}
+                                            component={Typography}
+                                        >
+                                            {employee.role_name}
+                                        </Grid> */}
                                     </Grid>
-                                    <Grid item xs={1}>
-                                        <Avatar src={employee.image} />
-                                    </Grid>
-                                    <Grid item xs={5} component={Typography}>
-                                        {employee.name}
-                                    </Grid>
-                                    <Grid item xs={5} component={Typography}>
-                                        {employee.role_name}
-                                    </Grid>
-                                </Grid>
-                            ))}
+                                ))
+                            ) : (
+                                <Typography id="empty-text">
+                                    Não foi possivel encontrar nenhuma pessoa
+                                </Typography>
+                            )}
                         </Grid>
                     </Grid>
                     <Grid container item justify="center" xs={12}>

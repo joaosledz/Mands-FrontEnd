@@ -42,7 +42,7 @@ const authApi = {
 
     register: async (data: RegisterModel) => {
         try {
-            const response: AxiosResponse<any> = await api.post(
+            const response: AxiosResponse<TypeUser> = await api.post(
                 authUrls.register,
                 data
             );

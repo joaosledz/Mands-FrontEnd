@@ -1,5 +1,8 @@
+const baseUrl = 'depPermission';
+
 const departmentPermissionUrls = {
-    list: 'depPermission/listByDepartment/',
+    list: `${baseUrl}/listByDepartment/`,
+    changeUserPermission: `companyPerm/editUserPerm/`,
 };
 
 export default departmentPermissionUrls;

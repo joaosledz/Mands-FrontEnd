@@ -16,10 +16,8 @@ import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
 import {
     TypeMember,
-    departmentApi,
     departmentPermApi,
     TypeDepartmentPermission,
-    TypeDepAssociateModel,
 } from '../../../../../../../services';
 import useCompany from '../../../../../../../hooks/useCompany';
 import useDepartment from '../../../../../../../hooks/useDepartment';
@@ -40,13 +38,15 @@ type Props = {
 const PermissionModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { company } = useCompany();
-    const { department, updateDepartment } = useDepartment();
+    const { department } = useDepartment();
     const { isOpen, handleOpen, user } = props;
 
     const [submitting, setSubmitting] = useState(false);
-    const [employees, setEmployees] = useState<TypeMember[]>([]);
     const [roles, setRoles] = useState<TypeDepartmentPermission[]>([]);
-    const [selectedValue, setSelectedValue] = useState(0);
+    const [selectedValueState, setSelectedValueState] = useState(
+        user.permissionId
+    );
+    const [selectedValue, setSelectedValue] = useState(user.permissionId);
 
     useEffect(() => {
         const fetchRoles = async (
@@ -65,10 +65,6 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
             fetchRoles(company.companyId, department.departmentId);
     }, [company, department]);
 
-    useEffect(() => {
-        if (roles.length !== 0) setSelectedValue(roles[0].depPermissionId);
-    }, [roles]);
-
     const handleChangeRole = useCallback(
         (event: ChangeEvent<HTMLInputElement>) =>
             setSelectedValue(Number(event.target.value)),
@@ -78,20 +74,13 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
     const handleSubmit = async () => {
         setSubmitting(true);
         try {
-            const data: TypeDepAssociateModel[] = [];
-            employees.forEach(employee => {
-                data.push({
-                    permissionId: selectedValue,
-                    userId: employee.userId,
-                });
-            });
-            await departmentApi.associate(
+            await departmentPermApi.changeUserPermission(
                 company!.companyId,
                 department!.departmentId,
-                data
+                user.userId,
+                selectedValue
             );
-            setEmployees([]);
-            updateDepartment({ ...department! }); // obrigar a re-renderização do AssignGridItem
+            setSelectedValueState(selectedValue);
             snackbarUtils.success('Associação realizada com sucesso');
         } catch (error) {
             snackbarUtils.error(error.message);
@@ -124,7 +113,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
                                     Permissões de {user.name}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={2} justify="flex-end">
+                            <Grid container item xs={2} justify="flex-end">
                                 <CloseIcon
                                     className={classes.iconClose}
                                     onClick={handleOpen}
@@ -159,7 +148,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
                         >
                             <SubmitButton
                                 text="Associar"
-                                disabled={roles.length === 0}
+                                disabled={selectedValue === selectedValueState}
                                 onClick={handleSubmit}
                             />
                         </Grid>

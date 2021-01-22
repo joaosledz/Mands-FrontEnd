@@ -1,4 +1,4 @@
-import React, { useState, Fragment, memo, useEffect } from 'react';
+import React, { useState, Fragment, memo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -6,20 +6,17 @@ import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import {
-    UserCompanyType,
     TypeMember,
     TypeDepartment,
     TypeProject,
-    companyApi,
 } from '../../../../../services';
 import AssignButtonProps from '../assignButton/assignButton';
 import useCompany from '../../../../../hooks/useCompany';
-import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 import AssignButton from '../assignButton';
 import TeamCard from './teamCard';
 import ProjectsCard from './projectsCard';
-import AssignTeamModal from '../../../../../components/assignTeamModal/assignTeamModal';
+import AssignTeamModal from '../../../components/assignTeamModal/department';
 import useStyles from './styles';
 
 type TypeItem = 'team' | 'project';
@@ -37,7 +34,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation<{ department: TypeDepartment }>();
-    const { company, updateCompany } = useCompany();
+    const { company } = useCompany();
     const {
         title,
         category,
@@ -52,27 +49,6 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
     } = props;
 
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
-
-    useEffect(() => {
-        const checkData = async () => {
-            if (company && !company.users) {
-                try {
-                    const response = await companyApi.findAllEmployees(
-                        company.companyId
-                    );
-                    const data: UserCompanyType = {
-                        ...company,
-                        users: [...response.data],
-                    };
-                    updateCompany(data);
-                } catch (error) {
-                    snackbarUtils.error(error.message);
-                }
-            }
-        };
-        if (category === 'team') checkData();
-        // eslint-disable-next-line
-    }, []);
 
     const handleAction = () => {
         // console.log('teamData: ', teamData);
@@ -118,8 +94,8 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         );
 
     const renderSkeleton = (type: TypeItem) =>
-        Array.apply(null, Array(6)).map(() => (
-            <Grid item xs={12} sm={4}>
+        Array.apply(null, Array(6)).map((item, index) => (
+            <Grid key={index} item xs={12} sm={4}>
                 <Skeleton variant="rect" height={type === 'team' ? 64 : 112} />
             </Grid>
         ));
@@ -164,6 +140,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                     spacing={3}
                     justify={handleAlign()}
                     className={classes.assignContainer}
+                    style={category === 'team' ? { marginTop: '1rem' } : {}}
                 >
                     {category === 'team'
                         ? !loading
@@ -179,8 +156,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                 <AssignTeamModal
                     isOpen={showTeamModal}
                     setIsOpen={setShowTeamModal}
-                    allEmployees={company.users!}
-                    teamData={teamData}
+                    selectedValues={teamData}
                 />
             )}
         </Fragment>

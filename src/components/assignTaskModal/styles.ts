@@ -44,9 +44,6 @@ const useStyles = makeStyles<Theme>(theme =>
             '&:hover': {
                 backgroundColor: 'rgba(0,0,0,0.1)',
                 borderRadius: '2rem',
-                '& p': {
-                    textDecoration: 'underline',
-                },
             },
             '& svg': {
                 marginRight: '0.5rem',
@@ -60,7 +57,12 @@ const useStyles = makeStyles<Theme>(theme =>
                 maxHeight: 300,
                 '& p': {
                     color: '#303030',
+                    fontFamily: 'Roboto',
                 },
+                '& #empty-text': {
+                    marginLeft: '2rem',
+                },
+
                 overflowY: 'auto',
                 scrollbarWidth: 'thin',
                 '&::-webkit-scrollbar': {

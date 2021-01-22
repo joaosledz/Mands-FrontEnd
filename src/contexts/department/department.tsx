@@ -40,10 +40,10 @@ export const DepartmentProvider: React.FC = ({ children }) => {
                     company_name,
                     department_name
                 );
-                // sessionStorage.setItem(
-                //     '@Mands:department',
-                //     JSON.stringify(response.data)
-                // );
+                sessionStorage.setItem(
+                    '@mands:department',
+                    JSON.stringify(response.data)
+                );
                 setDepartment(response.data);
                 return Promise.resolve(response.data);
                 // alerta de troca de empresa bem sucedida
@@ -58,7 +58,7 @@ export const DepartmentProvider: React.FC = ({ children }) => {
     );
 
     const updateDepartment = useCallback((data: TypeDepartment) => {
-        // sessionStorage.setItem('@Mands:department', JSON.stringify(data));
+        sessionStorage.setItem('@mands:department', JSON.stringify(data));
         setDepartment(data);
     }, []);
 

@@ -1,5 +1,8 @@
+const baseUrl = 'companyPerm';
+
 const companyPermissionsUrls = {
-    userPermissions: 'companyPerm/byUserCompany/',
+    list: `${baseUrl}/byCompany/`,
+    userPermissions: `${baseUrl}/byUserCompany/`,
 };
 
 export default companyPermissionsUrls;

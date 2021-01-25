@@ -48,7 +48,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         styles,
     } = props;
 
-    const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
+    const [showTeamModal, setShowTeamModal] = useState(true);
 
     const handleAction = () => {
         // console.log('teamData: ', teamData);

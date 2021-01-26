@@ -8,6 +8,8 @@ import {
     TypeDepartment,
     departmentApi,
     projectApi,
+    TypeMember,
+    TypeProject,
 } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
@@ -30,56 +32,19 @@ const Details: React.FC = () => {
     const location = useLocation<LocationProps>();
     const history = useHistory();
     const { company } = useCompany();
-    const { department, updateDepartment } = useDepartment();
+    const { department } = useDepartment();
+
     const [loading, setLoading] = useState(true);
+
+    const [members, setMembers] = useState<TypeMember[]>([]);
+    const [projects, setProjects] = useState<TypeProject[]>([]);
 
     useEffect(() => {
         if (department) document.title = `Departamento - ${department.name}`;
     }, [department]);
 
     useEffect(() => {
-        const getProjectsData = async () => {
-            try {
-                if (company && department) {
-                    const response = await projectApi.findByDepartment(
-                        company.username,
-                        department.name
-                    );
-                    const data: TypeDepartment = {
-                        ...department,
-                        projects: [...response.data],
-                    };
-                    updateDepartment(data);
-                }
-            } catch (error) {
-                snackbarUtils.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        const getEmployeesData = async () => {
-            try {
-                if (company && department) {
-                    const response = await departmentApi.listEmployees(
-                        company.companyId,
-                        department.departmentId
-                    );
-                    const data: TypeDepartment = {
-                        ...department,
-                        members: [...response.data],
-                    };
-                    updateDepartment(data);
-                }
-            } catch (error) {
-                snackbarUtils.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         const getTeamAndProjectsData = async () => {
-            console.log('os dois vazios');
             try {
                 if (company && department) {
                     const teamResponse = departmentApi.listEmployees(
@@ -91,22 +56,13 @@ const Details: React.FC = () => {
                         department.name
                     );
 
-                    const response = await Promise.all([
+                    const [members, projects] = await Promise.all([
                         teamResponse,
                         projectResponse,
                     ]);
 
-                    if (
-                        response[0].data.length !== 0 ||
-                        response[1].data.length !== 0
-                    ) {
-                        const data: TypeDepartment = {
-                            ...department,
-                            projects: [...response[1].data],
-                            members: [...response[0].data],
-                        };
-                        updateDepartment(data);
-                    } else return;
+                    if (members) setMembers(members.data);
+                    if (projects) setProjects(projects.data);
                 }
             } catch (error) {
                 snackbarUtils.error(error.message);
@@ -114,24 +70,8 @@ const Details: React.FC = () => {
                 setLoading(false);
             }
         };
-
-        const checkData = async () => {
-            if (department) {
-                const teamIsEmpty = department.members.length === 0;
-                const projectIsEmpty =
-                    department.projects?.length === 0 || !department.projects;
-
-                if (teamIsEmpty && projectIsEmpty)
-                    await getTeamAndProjectsData();
-                else if (teamIsEmpty) await getEmployeesData();
-                else if (!department.projects || projectIsEmpty)
-                    await getProjectsData();
-                else return setLoading(false);
-            }
-        };
-        checkData();
-        // eslint-disable-next-line
-    }, [department]);
+        getTeamAndProjectsData();
+    }, [company, department]);
 
     return (
         <AdminLayout>
@@ -149,7 +89,7 @@ const Details: React.FC = () => {
                             <TextField
                                 disabled
                                 label="Nome"
-                                value={department?.name}
+                                value={department?.name || ''}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -159,7 +99,7 @@ const Details: React.FC = () => {
                             <TextField
                                 disabled
                                 label="Email"
-                                value={department?.email}
+                                value={department?.email || ''}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -172,7 +112,7 @@ const Details: React.FC = () => {
                             multiline
                             rows={6}
                             label="Descrição"
-                            value={department?.objective}
+                            value={department?.objective || ''}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -189,9 +129,9 @@ const Details: React.FC = () => {
                         title="Equipe:"
                         category="team"
                         description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
-                        teamData={department?.members}
+                        teamData={members}
                         icon="team"
-                        actionIcon="manage"
+                        actionIcon="add"
                         loading={loading}
                     />
                     <AssignGridItem
@@ -199,7 +139,7 @@ const Details: React.FC = () => {
                         category="project"
                         description="Gerencie os projetos deste departamento pelo botão no
                         canto superior direito."
-                        projectData={department?.projects}
+                        projectData={projects}
                         icon="document"
                         actionIcon="add"
                         loading={loading}

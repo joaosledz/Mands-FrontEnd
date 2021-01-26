@@ -8,82 +8,29 @@ import { TypeMember } from '../models/department';
 import companyUrls from '../urls/company';
 
 const companyApi = {
-    list: async () => {
-        try {
-            const response = await api.get<any>(companyUrls.base);
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    list: () => api.get<any>(companyUrls.base),
 
-    show: async (company_username: string) => {
-        try {
-            const response = await api.get<UserCompanyType>(
-                `${companyUrls.base}/${company_username}`
-            );
-            sessionStorage.setItem(
-                '@Mands:CompanyData',
-                JSON.stringify(response.data)
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    show: (company_username: string) =>
+        api.get<UserCompanyType>(`${companyUrls.base}/${company_username}`),
 
-    userCompanies: async () => {
-        try {
-            const response = await api.get<Array<UserCompanyType>>(
-                companyUrls.userCompanies
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    userCompanies: () =>
+        api.get<Array<UserCompanyType>>(companyUrls.userCompanies),
 
     findAllEmployees: (company_id: number) =>
         api.get<Array<TypeMember>>(companyUrls.findAllEmployees + company_id),
 
-    showAllCompanyData: async (company_name: string) => {
-        try {
-            const response = await api.get<UserCompanyType>(
-                companyUrls.showAllCompanyData + company_name
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    showAllCompanyData: (company_name: string) =>
+        api.get<UserCompanyType>(companyUrls.showAllCompanyData + company_name),
 
-    create: async (data: CompanyModel) => {
-        try {
-            const response = await api.post(companyUrls.base, data);
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
-    update: async (companyId: number, data: CompanyUpdateModel) => {
-        try {
-            const response = await api.put(
-                `${companyUrls.base}/${companyId}`,
-                data
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    create: (data: CompanyModel) =>
+        api.post<UserCompanyType>(companyUrls.base, data),
+
+    update: (companyId: number, data: CompanyUpdateModel) =>
+        api.put(`${companyUrls.base}/${companyId}`, data),
+
     delete: (company_id: number) =>
         api.delete(companyUrls.base + `/${company_id}`),
+
     verifyUsername: (username: string) =>
         api.get(companyUrls.verifyUsername + `${username}`),
 };

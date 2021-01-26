@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { UserCompanyType, companyApi, permissionApi } from '../../services';
+import { UserCompanyType, companyApi, companyPermApi } from '../../services';
 
 type TypeCompanyData = {
     company: UserCompanyType | null;
@@ -21,13 +21,14 @@ export const CompanyProvider: React.FC = ({ children }) => {
             const response = await companyApi.showAllCompanyData(
                 company_username
             );
-            const permissionResponse = await permissionApi.userPermissions(
+            const permissionResponse = await companyPermApi.userPermissions(
                 response.data.companyId
             );
             const data: UserCompanyType = {
                 ...response.data,
                 userPermission: { ...permissionResponse.data },
             };
+            sessionStorage.setItem('@mands:company', JSON.stringify(data));
 
             setCompany(data);
             return Promise.resolve(data);
@@ -40,6 +41,7 @@ export const CompanyProvider: React.FC = ({ children }) => {
     }, []);
 
     const updateCompany = useCallback((data: UserCompanyType) => {
+        sessionStorage.setItem('@mands:company', JSON.stringify(data));
         setCompany(data);
     }, []);
 

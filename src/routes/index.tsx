@@ -1,10 +1,11 @@
 import React from 'react';
-import { Switch, Redirect, BrowserRouter } from 'react-router-dom';
+import { Switch, Redirect, BrowserRouter, Route } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 import PublicRoute from './components/publicRoute';
 import PrivateRoute from './components/privateRoute';
 import Loading from '../components/loading/loading';
+import NotFound from '../pages/404';
 
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
@@ -38,6 +39,11 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
+                {signed ? (
+                    <Redirect exact from="/" to="/login" />
+                ) : (
+                    <Redirect exact from="/" to="/escolha-da-empresa" />
+                )}
                 {/* Rotas de Autenticação */}
                 <PublicRoute path="/login" component={Login} exact />
                 <PublicRoute path="/cadastro" component={Register} />
@@ -83,11 +89,7 @@ const Routes = () => {
                 <PrivateRoute path="/quadros" component={Boards} />
                 {/* Rotas do Administrador */}
                 <PrivateRoute path="/admin" component={AdministratorRoutes} />
-                {signed ? (
-                    <Redirect exact from="*" to="/login" />
-                ) : (
-                    <Redirect exact from="*" to="/escolha-da-empresa" />
-                )}
+                <Route component={NotFound} />
             </Switch>
         </BrowserRouter>
     );

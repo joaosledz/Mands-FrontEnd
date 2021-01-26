@@ -18,7 +18,7 @@ import { authApi, TypeUser } from '../../../../services';
 import AuthLayout from '../../../../layout/authLayout/authLayout';
 import SendEmailButton from '../../components/submitButton/submitButton';
 import useStyles, { inputStyle } from './styles';
-import forgotPasswordIllustration from '../../../../assets/forgotPasswordIllustration.svg';
+import forgotPasswordIllustration from '../../../../assets/illustrations/forgotPassword.svg';
 import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const email = 'exemplo@email.com';

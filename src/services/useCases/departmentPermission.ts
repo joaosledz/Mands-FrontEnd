@@ -1,8 +1,21 @@
 import api from '../api';
-import { TypeDepartmentPermission } from '../models/departmentPermission';
+import {
+    TypeDepartmentPermission,
+    TypeDepartmentModel,
+} from '../models/departmentPermission';
 import departmentPermUrls from '../urls/departmentPermission';
 
 const departmentPermissionApi = {
+    create: (
+        company_id: number,
+        department_id: number,
+        data: TypeDepartmentModel
+    ) =>
+        api.post<TypeDepartmentPermission>(
+            departmentPermUrls.create + `${company_id}/${department_id}`,
+            data
+        ),
+
     list: (company_id: number, department_id: number) =>
         api.get<TypeDepartmentPermission[]>(
             departmentPermUrls.list + `${company_id}/${department_id}`

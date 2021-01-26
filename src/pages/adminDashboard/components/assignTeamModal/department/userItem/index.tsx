@@ -6,7 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
 import { TypeMember } from '../../../../../../services';
-import useStyles from '../styles';
+import useStyles from '../../styles';
 
 type Props = {
     person: TypeMember;

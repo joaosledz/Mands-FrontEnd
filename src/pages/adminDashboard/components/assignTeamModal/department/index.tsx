@@ -34,7 +34,7 @@ import SubmitButton from '../../../../../components/mainButton';
 import UserItem from './userItem';
 import Autocomplete from './autocomplete';
 import ChooseRole from './roles';
-import useStyles from './styles';
+import useStyles from '../styles';
 
 type Props = {
     isOpen: boolean;

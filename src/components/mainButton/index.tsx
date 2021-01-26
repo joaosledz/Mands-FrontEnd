@@ -10,14 +10,16 @@ interface Props extends ButtonProps {
     mwt?: number;
     hg?: number;
     text: string;
+    dataCy?: string;
 }
 
 const ButtonComponent: React.FC<Props> = (props: Props) => {
-    const { text, disabled, onClick } = props;
+    const { text, disabled, onClick, dataCy = 'submit-button' } = props;
     const classes = useStyles(props);
 
     return (
         <Button
+            data-cy={dataCy}
             type="submit"
             onClick={onClick}
             disabled={disabled}

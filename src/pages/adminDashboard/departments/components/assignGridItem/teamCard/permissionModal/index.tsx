@@ -25,6 +25,7 @@ import snackbarUtils from '../../../../../../../utils/functions/snackbarUtils';
 
 import SubmitButton from '../../../../../../../components/mainButton';
 import Backdrop from '../../../../../../../components/backdrop';
+import RegisterPermissionModal from '../../../../../permissions/register';
 import ChooseRole from './roles';
 import useStyles from './styles';
 
@@ -41,6 +42,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
     const { department } = useDepartment();
     const { isOpen, handleOpen, user } = props;
 
+    const [permIsOpen, setPermIsOpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [roles, setRoles] = useState<TypeDepartmentPermission[]>([]);
     const [selectedValueState, setSelectedValueState] = useState(
@@ -64,6 +66,9 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
         if (company && department)
             fetchRoles(company.companyId, department.departmentId);
     }, [company, department]);
+
+    const handleOpenPermModal = useCallback(() => setPermIsOpen(true), []);
+    const handleClosePermModal = useCallback(() => setPermIsOpen(false), []);
 
     const handleChangeRole = useCallback(
         (event: ChangeEvent<HTMLInputElement>) =>
@@ -139,6 +144,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
                                 roles={roles}
                                 roleValue={selectedValue}
                                 handleChangeRole={handleChangeRole}
+                                handleOpen={handleOpenPermModal}
                             />
                         </Grid>
                         <Grid
@@ -155,6 +161,10 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </Slide>
             </Modal>
+            <RegisterPermissionModal
+                isOpen={permIsOpen}
+                handleClose={handleClosePermModal}
+            />
         </Fragment>
     );
 };

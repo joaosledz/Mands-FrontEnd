@@ -77,9 +77,11 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                         {...params}
                         label="Procure por usuário, e-mail, ou CPF"
                         placeholder="Pessoas"
+                        // inputProps={{ 'data-cy': 'users-autocomplete' }}
                     />
                 )}
                 noOptionsText={'Nenhuma pessoa disponível foi identificada.'}
+                data-cy="users-autocomplete"
             />
         </div>
     );

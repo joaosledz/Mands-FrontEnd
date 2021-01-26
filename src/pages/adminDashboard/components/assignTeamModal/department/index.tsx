@@ -34,6 +34,7 @@ import SubmitButton from '../../../../../components/mainButton';
 import UserItem from './userItem';
 import Autocomplete from './autocomplete';
 import ChooseRole from './roles';
+import RegisterPermissionModal from '../../../permissions/register';
 import useStyles from './styles';
 
 type Props = {
@@ -47,6 +48,8 @@ const HiringModal: React.FC<Props> = (props: Props) => {
     const { company } = useCompany();
     const { department, updateDepartment } = useDepartment();
     const { isOpen, setIsOpen, selectedValues = [] } = props;
+
+    const [permIsOpen, setPermIsOpen] = useState(false);
 
     const [submitting, setSubmitting] = useState(false);
     const [employees, setEmployees] = useState<TypeMember[]>([]);
@@ -75,6 +78,8 @@ const HiringModal: React.FC<Props> = (props: Props) => {
     }, [roles]);
 
     const handleCloseModal = useCallback(() => setIsOpen(false), [setIsOpen]);
+    const handleOpenPermModal = useCallback(() => setPermIsOpen(true), []);
+    const handleClosePermModal = useCallback(() => setPermIsOpen(false), []);
 
     const handleRemovePerson = useCallback(
         (index: number) => {
@@ -175,14 +180,15 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                         ))}
                                     </Grid>
                                     <Grid
+                                        container
                                         item
-                                        xs={12}
                                         style={{ textAlign: 'left' }}
                                     >
                                         <ChooseRole
                                             roles={roles}
                                             roleValue={selectedValue}
                                             handleChangeRole={handleChangeRole}
+                                            handleOpen={handleOpenPermModal}
                                         />
                                     </Grid>
                                     <Grid
@@ -191,6 +197,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                         className={classes.submitButton}
                                     >
                                         <SubmitButton
+                                            dataCy="submit-button"
                                             text="Associar"
                                             disabled={roles.length === 0}
                                             onClick={handleSubmit}
@@ -202,6 +209,10 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </Slide>
             </Modal>
+            <RegisterPermissionModal
+                isOpen={permIsOpen}
+                handleClose={handleClosePermModal}
+            />
         </Fragment>
     );
 };

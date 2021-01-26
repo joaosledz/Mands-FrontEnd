@@ -4,7 +4,7 @@ import {
     CompanyModel,
     CompanyUpdateModel,
 } from '../models/company';
-import { TypeMember } from '../models/department';
+import { TypeMember, TypeDepAssociateModel } from '../models/department';
 import companyUrls from '../urls/company';
 
 const companyApi = {
@@ -27,6 +27,9 @@ const companyApi = {
 
     update: (companyId: number, data: CompanyUpdateModel) =>
         api.put(`${companyUrls.base}/${companyId}`, data),
+
+    associate: (company_id: number, data: TypeDepAssociateModel[]) =>
+        api.post<void>(companyUrls.associate + company_id, data),
 
     delete: (company_id: number) =>
         api.delete(companyUrls.base + `/${company_id}`),

@@ -29,3 +29,8 @@ export type UserCompanyType = {
     departments?: Array<TypeDepartment>;
     users?: Array<TypeMember>;
 };
+
+export type TypeCompAssociateModel = {
+    permissionId: number;
+    userId: number;
+};

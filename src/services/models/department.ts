@@ -17,7 +17,8 @@ export type TypeMember = {
     email: string;
     cpf: string;
     admission: null;
-    role_name: string;
+    permission: string;
+    permissionId: number;
 };
 
 export type TypeDepartment = {
@@ -30,4 +31,9 @@ export type TypeDepartment = {
     image: string;
     members: Array<TypeMember>;
     projects?: Array<TypeProject>;
+};
+
+export type TypeDepAssociateModel = {
+    permissionId: number;
+    userId: number;
 };

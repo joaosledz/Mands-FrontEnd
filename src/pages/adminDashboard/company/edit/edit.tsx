@@ -24,6 +24,7 @@ import DeleteModal from '../../components/deleteModal/company';
 import useStyles from './styles';
 
 type CompanyModel = {
+    image: File;
     name: string;
     phone: string;
     email: string;
@@ -47,6 +48,10 @@ const CompanyEdit: React.FC = () => {
             : (document.title = 'Carregando...');
         // console.log(company);
     }, [company]);
+
+    useEffect(() => {
+        console.log(formState.dirtyFields);
+    }, [formState]);
 
     const handleEditImage = async (image: File, newData: CompanyModel) => {
         setLoading(true);
@@ -243,10 +248,10 @@ const CompanyEdit: React.FC = () => {
                                     <Grid item xs={12}>
                                         <TextField
                                             defaultValue={company.cnpj}
-                                            disabled
                                             data-cy="company-cnpj"
                                             name="cnpj"
                                             label="CNPJ"
+                                            inputRef={register()}
                                         />
                                     </Grid>
                                 </Grid>
@@ -255,7 +260,6 @@ const CompanyEdit: React.FC = () => {
                                         mt={40}
                                         type="submit"
                                         text="Salvar alterações"
-                                        disabled={!formState.isDirty}
                                     />
                                 </Grid>
                             </Grid>

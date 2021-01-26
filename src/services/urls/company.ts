@@ -6,6 +6,7 @@ const companyUrls = {
     showAllCompanyData: `${baseURL}/getAll/`,
     findAllEmployees: `${baseURL}/findAllEmployees/`,
     verifyUsername: `${baseURL}/VerifyUsername/`,
+    associate: `${baseURL}/associateUser/`,
 };
 
 export default companyUrls;

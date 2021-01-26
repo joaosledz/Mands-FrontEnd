@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -39,10 +39,20 @@ const Projects: React.FC = () => {
         getProjectData();
     }, [params.company, params.department]);
 
+    const handleAlign = useCallback(() => {
+        if (projects?.length === 0) return 'center';
+        else return 'flex-start';
+    }, [projects]);
+
     return (
         <Paper className={classes.container}>
             <Typography className={classes.title}>Projetos:</Typography>
-            <Grid container spacing={3} className={classes.projectsContainer}>
+            <Grid
+                container
+                spacing={3}
+                justify={handleAlign()}
+                className={classes.projectsContainer}
+            >
                 {projects ? (
                     projects.length !== 0 ? (
                         projects.map((project, index) => {

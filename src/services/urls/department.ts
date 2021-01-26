@@ -5,7 +5,9 @@ const departmentUrls = {
     listByCompany: `${baseUrl}/findByCompany/`,
     listEmployees: `${baseUrl}/listAssociatedUsers/`,
     create: `${baseUrl}/`,
-    verifyUsername: `Departments/VerifyUsername/`,
+    verifyUsername: `${baseUrl}/verifyUsername/`,
+    associate: `${baseUrl}/associateUsers/`,
+    dissociate: `${baseUrl}/dissociateUser/`,
 };
 
 export default departmentUrls;

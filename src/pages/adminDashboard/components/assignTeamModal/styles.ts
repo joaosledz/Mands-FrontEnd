@@ -26,6 +26,7 @@ const useStyles = makeStyles<Theme>(theme =>
                 background: 'rgba(170,170,170,0.5)',
             },
         },
+
         paper: {
             width: '100%',
             maxWidth: '40vw',
@@ -56,14 +57,17 @@ const useStyles = makeStyles<Theme>(theme =>
                 fontSize: '1.6rem',
             },
         },
+
         body: {
             position: 'relative',
         },
+
         personContainer: {
             backgroundColor: 'rgba( 191, 63 , 191, 0.5)',
             borderRadius: '20px',
             marginBottom: '5px',
         },
+
         subtitle: {
             display: 'flex',
             alignSelf: 'begin',
@@ -75,13 +79,14 @@ const useStyles = makeStyles<Theme>(theme =>
                 fontSize: '1rem',
             },
         },
+
         subtitle2: {
             display: 'flex',
             alignSelf: 'begin',
             justifyContent: 'flex-begin',
             color: theme.palette.primary.main,
-            // fontWeight: 'bold',
             fontSize: '0.8rem',
+            textDecoration: 'none',
             [theme.breakpoints.up('md')]: {
                 fontSize: '1rem',
             },
@@ -95,6 +100,7 @@ const useStyles = makeStyles<Theme>(theme =>
             width: theme.spacing(3),
             height: theme.spacing(3),
         },
+
         icon: {
             display: 'flex',
             color: theme.palette.primary.light,
@@ -102,11 +108,13 @@ const useStyles = makeStyles<Theme>(theme =>
             marginRight: '4px',
             maxWidth: '20px',
             alignSelf: 'center',
+
             '&:hover': {
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
             },
         },
+
         iconMain: {
             display: 'flex',
             color: theme.palette.primary.light,
@@ -118,6 +126,7 @@ const useStyles = makeStyles<Theme>(theme =>
             maxWidth: '36px',
             alignSelf: 'center',
         },
+
         iconClose: {
             color: theme.palette.text.secondary,
             borderRadius: '20%',
@@ -131,11 +140,12 @@ const useStyles = makeStyles<Theme>(theme =>
                 cursor: 'pointer',
             },
         },
+
         scrollPerson: {
-            // display: 'flex',
             width: '100%',
             padding: '15px 0 15px 15px',
             maxHeight: '250px',
+
             overflowY: 'auto',
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
@@ -154,9 +164,82 @@ const useStyles = makeStyles<Theme>(theme =>
                 background: 'rgba(170,170,170,0.5)',
             },
         },
+
         submitButton: {
             position: 'relative',
             paddingTop: '8px',
+        },
+
+        backdrop: {
+            zIndex: theme.zIndex.modal + 1,
+            color: 'white',
+        },
+
+        root: {
+            '&:hover': {
+                backgroundColor: 'transparent',
+                textAlign: 'flex-start',
+            },
+        },
+
+        radioIcon: {
+            borderRadius: '50%',
+            width: 16,
+            height: 16,
+            boxShadow:
+                'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
+            backgroundColor: '#f5f8fa',
+            backgroundImage:
+                'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',
+            '$root.Mui-focusVisible &': {
+                outline: '2px auto rgba(19,124,189,.6)',
+                outlineOffset: 2,
+            },
+
+            'input:disabled ~ &': {
+                boxShadow: 'none',
+                background: 'rgba(206,217,224,.5)',
+            },
+        },
+
+        checkedIcon: {
+            backgroundColor: '#b3009b',
+            backgroundImage:
+                'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
+
+            '&:before': {
+                display: 'block',
+                width: 16,
+                height: 16,
+                backgroundImage:
+                    'radial-gradient(#fff,#fff 28%,transparent 32%)',
+                content: '""',
+            },
+        },
+
+        roleDescription: {
+            paddingLeft: '21px',
+            color: theme.palette.text.secondary,
+            fontSize: '0.7rem',
+            fontWeight: 300,
+            display: 'flex',
+            alignSelf: 'begin',
+            justifyContent: 'flex-begin',
+
+            [theme.breakpoints.up('md')]: {
+                fontSize: '0.9rem',
+            },
+        },
+
+        divider: {
+            margin: theme.spacing(2, 0),
+        },
+
+        addRole: {
+            '&:hover': {
+                backgroundColor: 'rgba(70, 70, 70, 0.2)',
+                cursor: 'pointer',
+            },
         },
     })
 );

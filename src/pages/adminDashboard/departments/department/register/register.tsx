@@ -115,9 +115,7 @@ const NewDepartment: React.FC = () => {
                                                 color="primary"
                                             >
                                                 <TextField
-                                                    className={
-                                                        classes.textFieldGrid
-                                                    }
+                                                    data-cy="department-name"
                                                     name="name"
                                                     label="Nome"
                                                     error={
@@ -130,6 +128,9 @@ const NewDepartment: React.FC = () => {
                                                               errors?.name
                                                                   ?.message
                                                             : ''
+                                                    }
+                                                    className={
+                                                        classes.textFieldGrid
                                                     }
                                                     inputRef={register({
                                                         required:
@@ -153,9 +154,7 @@ const NewDepartment: React.FC = () => {
                                         </Grid>
                                         <Grid item xs={12} md={12}>
                                             <TextField
-                                                className={
-                                                    classes.textFieldGrid
-                                                }
+                                                data-cy="department-email"
                                                 name="email"
                                                 label="Email"
                                                 error={
@@ -166,6 +165,9 @@ const NewDepartment: React.FC = () => {
                                                         ? '⚠' +
                                                           errors?.email?.message
                                                         : ''
+                                                }
+                                                className={
+                                                    classes.textFieldGrid
                                                 }
                                                 inputRef={register({
                                                     required:
@@ -186,11 +188,9 @@ const NewDepartment: React.FC = () => {
                                             >
                                                 {() => (
                                                     <TextField
-                                                        className={
-                                                            classes.textFieldGrid
-                                                        }
                                                         data-cy="department-phone"
                                                         name="phone"
+                                                        label="Telefone"
                                                         error={
                                                             errors.phone !==
                                                             undefined
@@ -202,7 +202,9 @@ const NewDepartment: React.FC = () => {
                                                                       ?.message
                                                                 : ''
                                                         }
-                                                        label="Telefone"
+                                                        className={
+                                                            classes.textFieldGrid
+                                                        }
                                                         inputRef={register({
                                                             minLength: {
                                                                 value: 15,
@@ -218,8 +220,11 @@ const NewDepartment: React.FC = () => {
 
                                     <Grid item xs={12} md={12}>
                                         <TextField
+                                            data-cy="department-description"
                                             name="objective"
                                             label="Descrição"
+                                            multiline
+                                            rows={5}
                                             error={
                                                 errors.objective !== undefined
                                             }
@@ -229,8 +234,6 @@ const NewDepartment: React.FC = () => {
                                                       errors?.objective?.message
                                                     : ''
                                             }
-                                            multiline
-                                            rows={5}
                                             inputRef={register({
                                                 required:
                                                     'Esse campo é obrigatório',

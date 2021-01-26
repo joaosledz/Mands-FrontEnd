@@ -15,7 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Slide from '@material-ui/core/Slide';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
-import { departmentPermApi } from '../../../../services';
+import { AxiosError, departmentPermApi } from '../../../../services';
 import useCompany from '../../../../hooks/useCompany';
 import useDepartment from '../../../../hooks/useDepartment';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
@@ -120,8 +120,16 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                 updateDepartment({ ...department! }); // Forçar a re-renderização dos cargos
                 snackbarUtils.success('Permissão criada com sucesso');
                 handleClose();
-            } catch (error) {
-                snackbarUtils.error(error.message);
+            } catch (err) {
+                const error: AxiosError = err;
+                switch (error.response?.status) {
+                    case 400:
+                        snackbarUtils.error('Este nome de permissão já existe');
+                        break;
+                    default:
+                        snackbarUtils.error(error.response?.data);
+                        break;
+                }
             }
         },
         [company, department, permissions, handleClose, updateDepartment]
@@ -173,6 +181,7 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                         >
                             <Grid container item>
                                 <TextField
+                                    data-cy="role-name-textfield"
                                     name="name"
                                     label="Nome"
                                     error={errors.name !== undefined}
@@ -204,6 +213,7 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                                         {permissions.map(
                                             (permission, index) => (
                                                 <FormControlLabel
+                                                    data-cy="role-checkbox-label"
                                                     key={permission.label}
                                                     label={permission.label}
                                                     control={
@@ -235,6 +245,7 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                             </Grid>
                             <Grid container justify="center">
                                 <SubmitButton
+                                    dataCy="submit-permission-button"
                                     text="Cadastrar"
                                     disabled={!formState.isDirty || error}
                                     mt={20}

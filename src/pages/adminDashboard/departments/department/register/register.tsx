@@ -13,6 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { DepartmentModel, departmentApi } from '../../../../../services';
 import { validateDeparmentName } from '../validators/validateDepartmentName';
+import formatName from '../functions/formatName';
 import TypeParams from '../../../../../models/params';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
@@ -45,7 +46,6 @@ const NewDepartment: React.FC = () => {
     }, []);
 
     const watchName = watch('name');
-    const formatName = (name: string) => name.split(' ').join('-');
 
     const onSubmit = (data: DepartmentModel) => {
         console.log(image);
@@ -112,7 +112,6 @@ const NewDepartment: React.FC = () => {
                                                 }
                                                 arrow
                                                 placement="top-start"
-                                                color="primary"
                                             >
                                                 <TextField
                                                     data-cy="department-name"

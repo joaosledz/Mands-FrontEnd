@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { /*useLocation,*/ useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import InputMask from 'react-input-mask';
+import { useForm } from 'react-hook-form';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import InputMask from 'react-input-mask';
-import { useForm } from 'react-hook-form';
-// import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import {
-    // TypeDepartment,
-    DepartmentModel,
-    departmentApi,
-} from '../../../../../services';
+import { DepartmentModel, departmentApi } from '../../../../../services';
 import TypeParams from '../../../../../models/params';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
-// import { validateDeparmentName } from '../validators/validateDepartmentName';
+import { validateDeparmentName } from '../validators/validateDepartmentName';
+import formatName from '../functions/formatName';
 
 import AdminLayout from '../../../layout/departmentLayout';
 import SubmitButton from '../../../../../components/mainButton';
@@ -44,31 +42,11 @@ const Edit: React.FC = () => {
         formState,
         setValue,
         reset,
+        watch,
     } = useForm<DepartmentModel>({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
-        // defaultValues: {
-        //     name: department?.name,
-        //     email: department?.email,
-        //     objective: department?.objective,
-        //     phone: department?.phone,
-        // },
-        // resolver: undefined,
-        // context: undefined,
-        // criteriaMode: 'firstError',
-        // shouldFocusError: true,
-        // shouldUnregister: true,
     });
-
-    //Validação de nome de Departamento
-    // const [departmentName, setDepartmentName] = useState(department!.name);
-    // const [open, setOpen] = React.useState(true);
-    // const handleClose = () => {
-    //     setOpen(false);
-    // };
-    // const handleOpen = () => {
-    //     setOpen(true);
-    // };
 
     useEffect(() => {
         if (department) document.title = `${department.name}/edição`;
@@ -104,13 +82,16 @@ const Edit: React.FC = () => {
         if (department) fillDefaultValues();
     }, [department, setValue]);
 
+    const watchName = watch('name');
+
     const formSubmit = async (data: DepartmentModel) => {
         setLoading(true);
         try {
+            const auxData = { ...data, name: formatName(data.name) };
             const response = await departmentApi.update(
                 department!.departmentId,
                 company!.companyId,
-                data
+                auxData
             );
             if (data.name !== department!.name)
                 history.replace(
@@ -119,7 +100,6 @@ const Edit: React.FC = () => {
             // console.log(response.data);
             updateDepartment(response.data);
             snackbarUtils.success('Departamento editado com sucesso');
-            reset();
         } catch (error) {
             snackbarUtils.error(error.message);
         } finally {
@@ -136,14 +116,6 @@ const Edit: React.FC = () => {
                         message="Cancelar edição"
                         page="edit"
                     />
-                    {/* <button
-                        type="button"
-                        onClick={() => {
-                            trigger('name');
-                        }}
-                    >
-                        Trigger
-                    </button> */}
                     <Grid
                         component="form"
                         container
@@ -161,36 +133,52 @@ const Edit: React.FC = () => {
 
                             <Grid container item xs={12} md={8} spacing={3}>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        name="name"
-                                        label="Nome"
-                                        error={errors.name !== undefined}
-                                        helperText={
-                                            errors.name
-                                                ? '⚠' + errors?.name?.message
-                                                : ''
+                                    <Tooltip
+                                        title={`Este departamento será criado como ${
+                                            watchName
+                                                ? formatName(watchName!)
+                                                : null
+                                        }`}
+                                        open={
+                                            watchName
+                                                ? watchName.includes(' ')
+                                                : false
                                         }
-                                        // onChange={() => trigger('name')}
-                                        inputProps={{
-                                            'data-cy': 'department-name',
-                                        }}
-                                        inputRef={register({
-                                            required:
-                                                'Este campo é obrigatório',
-                                            // validate: AwesomeDebouncePromise(
-                                            //     async value => {
-                                            //         return (
-                                            //             (await validateDeparmentName(
-                                            //                 company!.companyId,
-                                            //                 value
-                                            //             )) ||
-                                            //             'Nome de departamento indisponível'
-                                            //         );
-                                            //     },
-                                            //     5
-                                            // ),
-                                        })}
-                                    />
+                                        arrow
+                                        placement="top-start"
+                                    >
+                                        <TextField
+                                            name="name"
+                                            label="Nome"
+                                            error={errors.name !== undefined}
+                                            helperText={
+                                                errors.name
+                                                    ? '⚠' +
+                                                      errors?.name?.message
+                                                    : ''
+                                            }
+                                            inputProps={{
+                                                'data-cy': 'department-name',
+                                            }}
+                                            inputRef={register({
+                                                required:
+                                                    'Este campo é obrigatório',
+                                                validate: AwesomeDebouncePromise(
+                                                    async value => {
+                                                        return (
+                                                            (await validateDeparmentName(
+                                                                company!
+                                                                    .companyId,
+                                                                value
+                                                            )) ||
+                                                            'Nome de departamento indisponível'
+                                                        );
+                                                    },
+                                                    500
+                                                ),
+                                            })}
+                                        />
+                                    </Tooltip>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <InputMask

@@ -40,6 +40,7 @@ const Roles: React.FC<Props> = (props: Props) => {
             <Grid container style={{ marginLeft: '2rem' }}>
                 <Grid item xs={12}>
                     <FormControlLabel
+                        data-cy="role-checkbox-label"
                         value={role.depPermissionId}
                         control={<StyledRadio />}
                         label={role.name}

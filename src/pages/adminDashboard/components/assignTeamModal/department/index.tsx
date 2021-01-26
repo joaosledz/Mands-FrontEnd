@@ -49,7 +49,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
     const { department, updateDepartment } = useDepartment();
     const { isOpen, setIsOpen, selectedValues = [] } = props;
 
-    const [permIsOpen, setPermIsOpen] = useState(true);
+    const [permIsOpen, setPermIsOpen] = useState(false);
 
     const [submitting, setSubmitting] = useState(false);
     const [employees, setEmployees] = useState<TypeMember[]>([]);

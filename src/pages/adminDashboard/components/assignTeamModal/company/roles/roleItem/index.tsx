@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
 import Radio, { RadioProps } from '@material-ui/core/Radio';
 
-import { TypeDepartmentPermission } from '../../../../../../../services';
+import { TypeCompanyPermission } from '../../../../../../../services';
 import useStyles from '../../../styles';
 
 function StyledRadio(props: RadioProps) {
@@ -29,7 +29,7 @@ function StyledRadio(props: RadioProps) {
 }
 
 type Props = {
-    role: TypeDepartmentPermission;
+    role: TypeCompanyPermission;
 };
 
 const Roles: React.FC<Props> = (props: Props) => {
@@ -42,7 +42,7 @@ const Roles: React.FC<Props> = (props: Props) => {
             <Grid container style={{ marginLeft: '2rem' }}>
                 <Grid item xs={12}>
                     <FormControlLabel
-                        value={role.depPermissionId}
+                        value={role.compPermissionId}
                         control={<StyledRadio />}
                         label={role.name}
                     />

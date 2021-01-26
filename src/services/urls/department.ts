@@ -5,7 +5,7 @@ const departmentUrls = {
     listByCompany: `${baseUrl}/findByCompany/`,
     listEmployees: `${baseUrl}/listAssociatedUsers/`,
     create: `${baseUrl}/`,
-    verifyUsername: `${baseUrl}/verifyUsername/`,
+    verifyName: `${baseUrl}/verifyName/`,
     associate: `${baseUrl}/associateUsers/`,
     dissociate: `${baseUrl}/dissociateUser/`,
 };

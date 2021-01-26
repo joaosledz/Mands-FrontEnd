@@ -197,6 +197,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                         className={classes.submitButton}
                                     >
                                         <SubmitButton
+                                            dataCy="submit-button"
                                             text="Associar"
                                             disabled={roles.length === 0}
                                             onClick={handleSubmit}

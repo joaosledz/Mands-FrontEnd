@@ -21,20 +21,18 @@ import { MailSend as MailSendIcon } from '@styled-icons/boxicons-regular';
 
 import {
     TypeMember,
-    departmentApi,
-    departmentPermApi,
-    TypeDepartmentPermission,
-    TypeDepAssociateModel,
+    companyApi,
+    companyPermApi,
+    TypeCompanyPermission,
+    TypeCompAssociateModel,
 } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
-import useDepartment from '../../../../../hooks/useDepartment';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
 import SubmitButton from '../../../../../components/mainButton';
 import UserItem from './userItem';
 import Autocomplete from './autocomplete';
 import ChooseRole from './roles';
-import RegisterPermissionModal from '../../../permissions/register';
 import useStyles from '../styles';
 
 type Props = {
@@ -45,41 +43,29 @@ type Props = {
 
 const HiringModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { company } = useCompany();
-    const { department, updateDepartment } = useDepartment();
+    const { company, updateCompany } = useCompany();
     const { isOpen, setIsOpen, selectedValues = [] } = props;
-
-    const [permIsOpen, setPermIsOpen] = useState(false);
 
     const [submitting, setSubmitting] = useState(false);
     const [employees, setEmployees] = useState<TypeMember[]>([]);
-    const [roles, setRoles] = useState<TypeDepartmentPermission[]>([]);
+    const [roles, setRoles] = useState<TypeCompanyPermission[]>([]);
     const [selectedValue, setSelectedValue] = useState(0);
 
     useEffect(() => {
-        const fetchRoles = async (
-            company_id: number,
-            department_id: number
-        ) => {
+        const fetchRoles = async (company_id: number) => {
             try {
-                const response = await departmentPermApi.list(
-                    company_id,
-                    department_id
-                );
+                const response = await companyPermApi.list(company_id);
                 setRoles(response.data);
             } catch (error) {}
         };
-        if (company && department)
-            fetchRoles(company.companyId, department.departmentId);
-    }, [company, department]);
+        if (company) fetchRoles(company.companyId);
+    }, [company]);
 
     useEffect(() => {
-        if (roles.length !== 0) setSelectedValue(roles[0].depPermissionId);
+        if (roles.length !== 0) setSelectedValue(roles[0].compPermissionId);
     }, [roles]);
 
     const handleCloseModal = useCallback(() => setIsOpen(false), [setIsOpen]);
-    const handleOpenPermModal = useCallback(() => setPermIsOpen(true), []);
-    const handleClosePermModal = useCallback(() => setPermIsOpen(false), []);
 
     const handleRemovePerson = useCallback(
         (index: number) => {
@@ -99,20 +85,16 @@ const HiringModal: React.FC<Props> = (props: Props) => {
     const handleSubmit = async () => {
         setSubmitting(true);
         try {
-            const data: TypeDepAssociateModel[] = [];
+            const data: TypeCompAssociateModel[] = [];
             employees.forEach(employee => {
                 data.push({
                     permissionId: selectedValue,
                     userId: employee.userId,
                 });
             });
-            await departmentApi.associate(
-                company!.companyId,
-                department!.departmentId,
-                data
-            );
+            await companyApi.associate(company!.companyId, data);
             setEmployees([]);
-            updateDepartment({ ...department! }); // obrigar a re-renderização do AssignGridItem
+            updateCompany({ ...company! }); // obrigar a re-renderização do AssignGridItem
             snackbarUtils.success('Associação realizada com sucesso');
         } catch (error) {
             snackbarUtils.error(error.message);
@@ -131,8 +113,8 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                 className={classes.modal}
                 open={isOpen}
                 onClose={handleCloseModal}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
+                aria-labelledby="modal-de-associação-de-um-usuário-a-uma-empresa"
+                aria-describedby="realiza-o-convite-para-uma-empresa"
             >
                 <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
                     <Grid
@@ -152,7 +134,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                             className={classes.title}
                             component={Typography}
                         >
-                            Associe alguém para este departamento
+                            Convide alguém para esta empresa
                         </Grid>
 
                         <Autocomplete
@@ -180,15 +162,14 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                         ))}
                                     </Grid>
                                     <Grid
-                                        container
                                         item
+                                        xs={12}
                                         style={{ textAlign: 'left' }}
                                     >
                                         <ChooseRole
                                             roles={roles}
                                             roleValue={selectedValue}
                                             handleChangeRole={handleChangeRole}
-                                            handleOpen={handleOpenPermModal}
                                         />
                                     </Grid>
                                     <Grid
@@ -197,7 +178,6 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                         className={classes.submitButton}
                                     >
                                         <SubmitButton
-                                            dataCy="submit-button"
                                             text="Associar"
                                             disabled={roles.length === 0}
                                             onClick={handleSubmit}
@@ -209,10 +189,6 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </Slide>
             </Modal>
-            <RegisterPermissionModal
-                isOpen={permIsOpen}
-                handleClose={handleClosePermModal}
-            />
         </Fragment>
     );
 };

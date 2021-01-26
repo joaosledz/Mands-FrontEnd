@@ -37,7 +37,11 @@ const AssignButton: React.FC<Props> = (props: Props) => {
     };
 
     return (
-        <Button className={classes.button} onClick={onClick}>
+        <Button
+            data-cy="assign-button"
+            onClick={onClick}
+            className={classes.button}
+        >
             <Icon />
             <Paper id="paper">
                 <ActionIcon />

@@ -218,6 +218,7 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                                                     label={permission.label}
                                                     control={
                                                         <Checkbox
+                                                            data-cy="role-checkbox"
                                                             color="primary"
                                                             checked={
                                                                 permission.checked

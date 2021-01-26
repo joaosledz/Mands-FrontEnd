@@ -42,6 +42,7 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
                 ))}
                 <Divider variant="fullWidth" className={classes.divider} />
                 <Grid
+                    data-cy="add-role-button"
                     container
                     component={Button}
                     onClick={handleOpen}

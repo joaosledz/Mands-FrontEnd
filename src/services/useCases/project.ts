@@ -25,7 +25,7 @@ const projectApi = {
         project_id: number,
         data: ProjectModel
     ) =>
-        api.put(
+        api.put<TypeProject>(
             projectUrls.update + `${company_id}/${department_id}/${project_id}`,
             data
         ),

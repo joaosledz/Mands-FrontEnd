@@ -33,9 +33,7 @@ const UserProfile: React.FC = () => {
         formData.append('imageData', image);
         setLoading(true);
         try {
-            const response = await imageApi.post(formData);
-            const data = response.data;
-            console.log(data);
+            await imageApi.post(formData);
             handleEditUser(newData);
             SnackbarUtils.success('Imagem de perfil editada com sucesso');
         } catch (error) {
@@ -50,7 +48,7 @@ const UserProfile: React.FC = () => {
             const response = await authApi.update(newData);
 
             const data = response.data;
-            console.log(data);
+            // console.log(data);
             updateUser(data);
 
             setLoading(false);
@@ -191,31 +189,6 @@ const UserProfile: React.FC = () => {
                                                 />
                                             )}
                                         </InputMask>
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            name="email"
-                                            label="Email"
-                                            error={errors.email !== undefined}
-                                            helperText={
-                                                errors.email
-                                                    ? '⚠' +
-                                                      errors?.email?.message
-                                                    : ''
-                                            }
-                                            color="primary"
-                                            defaultValue={user!.email}
-                                            inputRef={register({
-                                                required:
-                                                    'Esse campo é obrigatório',
-                                                pattern: {
-                                                    // eslint-disable-next-line
-                                                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                                    message:
-                                                        'Deve seguir o formato nome@email.com',
-                                                },
-                                            })}
-                                        />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField

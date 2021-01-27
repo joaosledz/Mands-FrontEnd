@@ -1,4 +1,4 @@
-const baseUrl = 'images';
+const baseUrl = 'image';
 
 const imageUrls = {
     main: `${baseUrl}`,

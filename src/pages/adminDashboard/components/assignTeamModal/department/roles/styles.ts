@@ -63,6 +63,11 @@ const useStyles = makeStyles<Theme>(theme =>
         },
 
         addRole: {
+            '& p': {
+                textAlign: 'left',
+                textTransform: 'initial',
+            },
+
             '&:hover': {
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',

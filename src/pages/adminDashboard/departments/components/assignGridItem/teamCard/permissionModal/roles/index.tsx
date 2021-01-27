@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -14,11 +15,12 @@ type Props = {
     roles: TypeDepartmentPermission[];
     roleValue: number;
     handleChangeRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleOpen: () => void;
 };
 
 const ChooseRole: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { roles, roleValue, handleChangeRole } = props;
+    const { roles, roleValue, handleChangeRole, handleOpen } = props;
 
     return (
         <Fragment>
@@ -39,10 +41,14 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
                     <RoleItem key={role.depPermissionId} role={role} />
                 ))}
                 <Divider variant="fullWidth" className={classes.divider} />
-                <Grid container item className={classes.addRole}>
-                    <Grid item xs={1}>
-                        <AddIcon size={20} />
-                    </Grid>
+                <Grid
+                    data-cy="add-role-button"
+                    container
+                    component={Button}
+                    onClick={handleOpen}
+                    className={classes.addRole}
+                >
+                    <Grid item xs={1} component={AddIcon} size={20} />
                     <Grid item xs={11} component={Typography}>
                         Adicionar cargo personalizado
                     </Grid>

@@ -13,17 +13,13 @@ const departmentApi = {
             departmentUrls.base + `${company_name}/${department_name}`
         ),
 
-    listByCompany: async (company_id: number) => {
-        try {
-            const response = await api.get<Array<TypeDepartment>>(
-                departmentUrls.listByCompany + company_id
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    listByCompany: (company_id: number) =>
+        api.get<Array<TypeDepartment>>(
+            departmentUrls.listByCompany + company_id
+        ),
+
+    listByUser: (company_id: number) =>
+        api.get<TypeDepartment[]>(departmentUrls.listByUser + company_id),
 
     listEmployees: (company_id: number, department_id: number) =>
         api.get<Array<TypeMember>>(
@@ -33,9 +29,9 @@ const departmentApi = {
     create: (company_id: number, data: DepartmentModel) =>
         api.post<TypeDepartment>(departmentUrls.create + company_id, data),
 
-    verifyUsername: (company_id: number, name: string) =>
+    verifyName: (company_id: number, name: string) =>
         api.get<TypeDepartment>(
-            departmentUrls.create + `${company_id}/${name}`
+            departmentUrls.verifyName + `${company_id}/${name}`
         ),
 
     update: (

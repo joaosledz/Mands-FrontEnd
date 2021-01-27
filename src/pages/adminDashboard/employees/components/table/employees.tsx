@@ -15,7 +15,7 @@ import Localization from './config/localization';
 import MTableFilterRow from '../filter';
 import tableIcons from './config/icons';
 
-import HiringModal from '../../../components/assignTeamModal/department';
+import HiringModal from '../../../components/assignTeamModal/company';
 import PermissionModal from '../../../../../components/permission/modal';
 import useStyles from './styles';
 // import DeleteCupom from '../../components/Dialogs/DeleteCupom';

@@ -5,11 +5,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import useCompany from '../../../../../hooks/useCompany';
 
-import { UserCompanyType } from '../../../../../services';
+import { TypeCompany } from '../../../../../services';
 import useStyles from './styles';
 
 type Props = {
-    company: UserCompanyType;
+    company: TypeCompany;
 };
 
 const Company: React.FC<Props> = (props: Props) => {

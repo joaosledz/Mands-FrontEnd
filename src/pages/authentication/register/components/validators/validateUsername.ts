@@ -3,7 +3,7 @@ import { authApi } from '../../../../../services';
 
 export const validateUsername = async (
     username: string,
-    setValidUser: Dispatch<SetStateAction<Boolean>>
+    setValidUser: Dispatch<SetStateAction<boolean>>
 ) => {
     let valid = true;
     try {

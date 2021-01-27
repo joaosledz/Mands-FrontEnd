@@ -69,6 +69,7 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
         <Fragment>
             <Backdrop loading={submmiting} />
             <Grid
+                data-cy="user-card-button"
                 container
                 item
                 xs={12}
@@ -85,6 +86,7 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                 </Typography>
                 <Zoom in={show}>
                     <IconButton
+                        data-cy="disassociate-button"
                         aria-label="delete"
                         className={classes.removeButton}
                         onClick={handleOpenDialog}

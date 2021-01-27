@@ -37,7 +37,12 @@ const DeleteDialog: React.FC<Props> = (props: Props) => {
                 <Button onClick={handleOpen} color="primary">
                     Cancelar
                 </Button>
-                <Button onClick={handleRemove} color="primary" autoFocus>
+                <Button
+                    data-cy="confirm-disassociation-button"
+                    onClick={handleRemove}
+                    color="primary"
+                    autoFocus
+                >
                     Confirmar
                 </Button>
             </DialogActions>

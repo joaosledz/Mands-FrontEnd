@@ -7,11 +7,19 @@ const userApi = {
 
     getById: (ImageId: number) => api.get(`${imageUrls.main}/${ImageId}`),
 
-    post: (Image: FormData, company_id?: number) =>
-        api.post<ImageType>(
-            `${imageUrls.associate}/${company_id ? company_id : ''}`,
-            Image
-        ),
+    post: (Image: FormData, company_id?: number, project_id?: number) => {
+        if (project_id)
+            return api.post<ImageType>(
+                imageUrls.associate + `/${company_id}/${project_id}`,
+                Image
+            );
+        else if (company_id)
+            return api.post<ImageType>(
+                imageUrls.associate + `/${company_id}`,
+                Image
+            );
+        else return api.post<ImageType>(imageUrls.associate, Image);
+    },
 
     update: (Image: PostImageType, ImageId: number) =>
         api.put(`${imageUrls.main}/${ImageId}`, Image),

@@ -101,6 +101,8 @@ export const BoardProvider: React.FC = ({ children }) => {
 
     //Funções de Task
     const DeleteTask = (itemID: keyof TypeItem, columnID: keyof TypeColumn) => {
+        console.log(itemID);
+        console.log(columnID);
         const newState = {
             ...state,
         };
@@ -179,7 +181,10 @@ export const BoardProvider: React.FC = ({ children }) => {
                     });
                     hubConnection.on('TaskDeleted', response => {
                         console.log(response);
-                        // DeleteTask(task.projectSessionId, task.tasks[0]);
+                        DeleteTask(
+                            'task_' + response.taskId,
+                            response.sourceSessionId
+                        );
                     });
                 } catch (error) {
                     console.log(error);

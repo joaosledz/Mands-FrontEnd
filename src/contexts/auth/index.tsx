@@ -25,7 +25,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC = ({ children }) => {
     const tokenKey = '@Mands:token';
     const [user, setUser] = useState<TypeUser | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     // const [firstLogin, setFirstLogin] = useState(false);
     // const [haveLogged, setHaveLogged] = useState(true);
 
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC = ({ children }) => {
                 } finally {
                     setLoading(false);
                 }
-            }
+            } else setLoading(false);
         };
         loadStoragedData();
     }, []);

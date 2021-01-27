@@ -6,6 +6,7 @@ const authUrls = {
     register: `${baseUrl}/register`,
     update: 'User/Update',
     confirmAccount: 'account/confirm',
+    resendConfirmEmail: 'account/sendConfirmationEmail',
     changePassword: 'passReset',
     verifyUsername: `/${baseUrl}/VerifyUsername`,
 };

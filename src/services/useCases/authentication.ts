@@ -38,6 +38,9 @@ const authApi = {
             }
         ),
 
+    resendConfirmEmail: (credential: string) =>
+        api.post(authUrls.resendConfirmEmail, { credential }),
+
     recoverPassword: (email: string) =>
         api.post(authUrls.changePassword, {
             email,

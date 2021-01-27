@@ -21,7 +21,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
 import {
-    UserCompanyType,
+    TypeCompany,
     TypeDepartment,
     TypeProject,
     projectApi,
@@ -33,7 +33,7 @@ import useStyles from './styles';
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    company: UserCompanyType;
+    company: TypeCompany;
     department: TypeDepartment;
     project: TypeProject;
 };

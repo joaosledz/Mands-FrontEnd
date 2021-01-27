@@ -20,14 +20,14 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
-import { UserCompanyType, companyApi } from '../../../../services';
+import { TypeCompany, companyApi } from '../../../../services';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
 
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    company: UserCompanyType;
+    company: TypeCompany;
 };
 
 const CompanyDeleteModal: React.FC<Props> = (props: Props) => {

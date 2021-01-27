@@ -1,11 +1,11 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { UserCompanyType, companyApi, companyPermApi } from '../../services';
+import { TypeCompany, companyApi, companyPermApi } from '../../services';
 
 type TypeCompanyData = {
-    company: UserCompanyType | null;
+    company: TypeCompany | null;
     loading: boolean;
-    getCompanyData: (company_username: string) => Promise<UserCompanyType>;
-    updateCompany: (data: UserCompanyType) => void;
+    getCompanyData: (company_username: string) => Promise<TypeCompany>;
+    updateCompany: (data: TypeCompany) => void;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -13,7 +13,7 @@ const CompanyContext = createContext<TypeCompanyData>({} as TypeCompanyData);
 
 export const CompanyProvider: React.FC = ({ children }) => {
     const [loading, setLoading] = useState(true);
-    const [company, setCompany] = useState<UserCompanyType | null>(null);
+    const [company, setCompany] = useState<TypeCompany | null>(null);
 
     const getCompanyData = useCallback(async (company_username: string) => {
         setLoading(true);
@@ -24,7 +24,7 @@ export const CompanyProvider: React.FC = ({ children }) => {
             const permissionResponse = await companyPermApi.userPermissions(
                 response.data.companyId
             );
-            const data: UserCompanyType = {
+            const data: TypeCompany = {
                 ...response.data,
                 userPermission: { ...permissionResponse.data },
             };
@@ -40,7 +40,7 @@ export const CompanyProvider: React.FC = ({ children }) => {
         }
     }, []);
 
-    const updateCompany = useCallback((data: UserCompanyType) => {
+    const updateCompany = useCallback((data: TypeCompany) => {
         sessionStorage.setItem('@mands:company', JSON.stringify(data));
         setCompany(data);
     }, []);

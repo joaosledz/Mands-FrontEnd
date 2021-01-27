@@ -16,7 +16,7 @@ export type CompanyUpdateModel = {
     email: string;
 };
 
-export type UserCompanyType = {
+export type TypeCompany = {
     companyId: number;
     name: string;
     username: string;

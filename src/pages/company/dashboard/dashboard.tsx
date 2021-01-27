@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
-import { UserCompanyType, departmentApi } from '../../../services';
+import { TypeCompany, departmentApi } from '../../../services';
 import useAuth from '../../../hooks/useAuth';
 import useCompany from '../../../hooks/useCompany';
 
@@ -21,12 +21,12 @@ const CompanyDashboard: React.FC = () => {
     const { company, updateCompany, loading, setLoading } = useCompany();
 
     useEffect(() => {
-        const getDepartmentData = async (company: UserCompanyType) => {
+        const getDepartmentData = async (company: TypeCompany) => {
             try {
                 const response = await departmentApi.listByUser(
                     company.companyId
                 );
-                const data: UserCompanyType = {
+                const data: TypeCompany = {
                     ...company,
                     departments: [...response.data],
                 };

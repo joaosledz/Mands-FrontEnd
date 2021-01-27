@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import CNPJValidator from '../../../validators/cnpjValidator';
 import { validateUsername } from './validators/validateUsername';
 import useCompany from '../../../hooks/useCompany';
-import { companyApi, imageApi, UserCompanyType } from '../../../services';
+import { companyApi, imageApi, TypeCompany } from '../../../services';
 import snackbarUtils from '../../../utils/functions/snackbarUtils';
 
 import AppLayout from '../../../layout/appLayout';
@@ -40,7 +40,7 @@ const CompanyRegister: React.FC = () => {
     }, []);
 
     const onSubmit = async (data: CompanyModel) => {
-        let companyData: UserCompanyType = {} as UserCompanyType;
+        let companyData: TypeCompany = {} as TypeCompany;
         const companyModelData = {
             company: { ...data },
         };

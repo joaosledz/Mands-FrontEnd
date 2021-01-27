@@ -1,6 +1,6 @@
 import api from '../api';
 import {
-    UserCompanyType,
+    TypeCompany,
     CompanyModel,
     CompanyUpdateModel,
 } from '../models/company';
@@ -11,19 +11,18 @@ const companyApi = {
     list: () => api.get<any>(companyUrls.base),
 
     show: (company_username: string) =>
-        api.get<UserCompanyType>(`${companyUrls.base}/${company_username}`),
+        api.get<TypeCompany>(`${companyUrls.base}/${company_username}`),
 
-    userCompanies: () =>
-        api.get<Array<UserCompanyType>>(companyUrls.userCompanies),
+    userCompanies: () => api.get<Array<TypeCompany>>(companyUrls.userCompanies),
 
     findAllEmployees: (company_id: number) =>
         api.get<Array<TypeMember>>(companyUrls.findAllEmployees + company_id),
 
     showAllCompanyData: (company_name: string) =>
-        api.get<UserCompanyType>(companyUrls.showAllCompanyData + company_name),
+        api.get<TypeCompany>(companyUrls.showAllCompanyData + company_name),
 
     create: (data: CompanyModel) =>
-        api.post<UserCompanyType>(companyUrls.base, data),
+        api.post<TypeCompany>(companyUrls.base, data),
 
     update: (companyId: number, data: CompanyUpdateModel) =>
         api.put(`${companyUrls.base}/${companyId}`, data),

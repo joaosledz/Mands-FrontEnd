@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { Link, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
@@ -18,6 +18,7 @@ import useQuery from '../../../hooks/useQuery';
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import LogInButton from '../components/submitButton/submitButton';
 import CompanyButton from './components/companyButton';
+import Backdrop from '../../../components/backdrop';
 import ConfirmRegisterModal from '../components/confirmRegisterModal';
 import AccountRegisteredModal from '../components/accountRegisteredModal';
 import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
@@ -25,17 +26,26 @@ import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import useStyles, { inputStyle } from './styles';
 
+type TypeAuthModel = {
+    credential: string;
+    password: string;
+};
+
 const Login: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const query = useQuery();
     const { login } = useAuth();
-    const { register, errors, handleSubmit } = useForm();
+    const { register, errors, handleSubmit, formState, watch } = useForm<
+        TypeAuthModel
+    >();
 
     const [modalIsOpen, setModalIsOpen] = useState({
         confirm: false,
         registered: false,
     });
+
+    const credentialWatch = watch('credential');
 
     useEffect(() => {
         document.title = 'Mands';
@@ -44,32 +54,37 @@ const Login: React.FC = () => {
     useEffect(() => {
         const checkConfirmedParam = () => {
             const confirmed = !!query.get('confirmed');
-            if (confirmed)
-                setModalIsOpen({
-                    ...modalIsOpen,
-                    registered: true,
-                });
+            if (confirmed) handleRegisteredModal();
         };
         checkConfirmedParam();
         // eslint-disable-next-line
     }, []);
 
-    const handleCloseConfirmModal = useCallback(
+    useEffect(() => {
+        const checkConfirmParam = () => {
+            const confirm = !!query.get('confirm');
+            if (confirm) handleConfirmModal();
+        };
+        checkConfirmParam();
+        // eslint-disable-next-line
+    }, []);
+
+    const handleConfirmModal = useCallback(
         () =>
-            setModalIsOpen({
-                ...modalIsOpen,
-                confirm: false,
-            }),
-        [modalIsOpen]
+            setModalIsOpen(value => ({
+                ...value,
+                confirm: !value.confirm,
+            })),
+        []
     );
 
-    const handleCloseRegisteredModal = useCallback(
+    const handleRegisteredModal = useCallback(
         () =>
-            setModalIsOpen({
-                ...modalIsOpen,
-                registered: false,
-            }),
-        [modalIsOpen]
+            setModalIsOpen(value => ({
+                ...value,
+                registered: !value.registered,
+            })),
+        []
     );
 
     const onSubmit = async (data: LoginType) => {
@@ -79,18 +94,19 @@ const Login: React.FC = () => {
             history.replace('/escolha-da-empresa');
         } catch (err) {
             const error: AxiosError = err;
-            console.log(error.response?.status);
+
             switch (error.response?.status) {
                 case 401:
-                    SnackbarUtils.error(
+                    SnackbarUtils.warning(
                         'Credenciais inválidas, verique sua credencial e senha'
                     );
                     break;
                 case 403:
-                    setModalIsOpen({
-                        ...modalIsOpen,
+                    setModalIsOpen(value => ({
+                        ...value,
                         confirm: true,
-                    });
+                    }));
+                    SnackbarUtils.info('Conta pendente de confirmação');
                     break;
                 default:
                     SnackbarUtils.error('Não foi possível efetuar o login');
@@ -100,50 +116,81 @@ const Login: React.FC = () => {
     };
 
     return (
-        <AuthLayout>
-            <Grid container>
-                <Grid item xs={12} sm={6}>
-                    <Box mt={4}>
-                        <Typography
-                            style={{ fontSize: 40, fontWeight: 700 }}
-                            color="primary"
-                        >
-                            Log in
-                        </Typography>
-                        <form
-                            className={classes.form}
-                            onSubmit={handleSubmit(onSubmit)}
-                        >
-                            <Box
-                                display="flex"
-                                flexDirection="column"
-                                marginTop={3}
+        <Fragment>
+            <Backdrop loading={formState.isSubmitting} />
+            <AuthLayout>
+                <Grid container>
+                    <Grid item xs={12} sm={6}>
+                        <Box mt={4}>
+                            <Typography
+                                style={{ fontSize: 40, fontWeight: 700 }}
+                                color="primary"
                             >
-                                <Tooltip
-                                    aria-label="Email, Nome de usuário ou CPF"
-                                    title="Email, Nome de usuário ou CPF"
-                                    arrow
-                                    placement="top"
+                                Log in
+                            </Typography>
+                            <form
+                                className={classes.form}
+                                onSubmit={handleSubmit(onSubmit)}
+                            >
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    marginTop={3}
                                 >
+                                    <Tooltip
+                                        aria-label="Email, Nome de usuário ou CPF"
+                                        title="Email, Nome de usuário ou CPF"
+                                        arrow
+                                        placement="top"
+                                    >
+                                        <TextField
+                                            id="outlined-basic"
+                                            autoFocus
+                                            label="Acesso"
+                                            name="credential"
+                                            error={
+                                                errors.credential !== undefined
+                                            }
+                                            helperText={
+                                                errors.credential
+                                                    ? '⚠' +
+                                                      errors?.credential
+                                                          ?.message
+                                                    : ''
+                                            }
+                                            inputRef={register({
+                                                required:
+                                                    'Esse campo é obrigatório',
+                                            })}
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <UserTieIcon
+                                                        size="20"
+                                                        color="#B03E9F"
+                                                    />
+                                                ),
+                                            }}
+                                            inputProps={{
+                                                style: inputStyle,
+                                            }}
+                                        />
+                                    </Tooltip>
                                     <TextField
+                                        className={classes.input}
                                         id="outlined-basic"
-                                        autoFocus
-                                        label="Acesso"
-                                        name="credential"
-                                        error={errors.credential !== undefined}
+                                        type="password"
+                                        name="password"
+                                        label="Senha"
+                                        error={errors.password !== undefined}
                                         helperText={
-                                            errors.credential
+                                            errors.password
                                                 ? '⚠' +
-                                                  errors?.credential?.message
+                                                  errors?.password?.message
                                                 : ''
                                         }
-                                        inputRef={register({
-                                            required:
-                                                'Esse campo é obrigatório',
-                                        })}
                                         InputProps={{
                                             startAdornment: (
-                                                <UserTieIcon
+                                                <LockIcon
                                                     size="20"
                                                     color="#B03E9F"
                                                 />
@@ -152,106 +199,90 @@ const Login: React.FC = () => {
                                         inputProps={{
                                             style: inputStyle,
                                         }}
+                                        inputRef={register({
+                                            required:
+                                                'Esse campo é obrigatório',
+                                            minLength: {
+                                                value: 6,
+                                                message: 'A senha está curta',
+                                            },
+                                        })}
                                     />
-                                </Tooltip>
-                                <TextField
-                                    className={classes.input}
-                                    id="outlined-basic"
-                                    type="password"
-                                    name="password"
-                                    label="Senha"
-                                    error={errors.password !== undefined}
-                                    helperText={
-                                        errors.password
-                                            ? '⚠' + errors?.password?.message
-                                            : ''
-                                    }
-                                    InputProps={{
-                                        startAdornment: (
-                                            <LockIcon
-                                                size="20"
-                                                color="#B03E9F"
-                                            />
-                                        ),
-                                    }}
-                                    inputProps={{
-                                        style: inputStyle,
-                                    }}
-                                    inputRef={register({
-                                        required: 'Esse campo é obrigatório',
-                                        minLength: {
-                                            value: 6,
-                                            message: 'A senha está curta',
-                                        },
-                                    })}
-                                />
-                            </Box>
-                            <Box mt={2}>
-                                <Link
-                                    to="/esqueci-a-senha"
-                                    className={classes.forgotPasswordButton}
-                                >
-                                    Esqueceu a senha?
-                                </Link>
-                                <LogInButton mt={60} text="Entrar" />
-                            </Box>
-                        </form>
-                    </Box>
-                    <Box
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        mt={8}
-                    >
-                        <Typography className={classes.signUpText}>
-                            Não possui uma conta?
+                                </Box>
+                                <Box mt={2}>
+                                    <Link
+                                        to="/esqueci-a-senha"
+                                        className={classes.forgotPasswordButton}
+                                    >
+                                        Esqueceu a senha?
+                                    </Link>
+                                    <LogInButton mt={60} text="Entrar" />
+                                </Box>
+                            </form>
+                        </Box>
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            alignItems="center"
+                            mt={8}
+                        >
+                            <Typography className={classes.signUpText}>
+                                Não possui uma conta?
+                            </Typography>
+                            <Link
+                                to="/cadastro"
+                                className={classes.signUpButton}
+                            >
+                                Cadastre-se
+                            </Link>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6} className={classes.rightSide}>
+                        <Typography
+                            style={{ fontFamily: 'Roboto', color: '#7A7A7A' }}
+                        >
+                            Ou acesse usando uma das suas contas:
                         </Typography>
-                        <Link to="/cadastro" className={classes.signUpButton}>
-                            Cadastre-se
-                        </Link>
-                    </Box>
-                </Grid>
-                <Grid item xs={12} sm={6} className={classes.rightSide}>
-                    <Typography
-                        style={{ fontFamily: 'Roboto', color: '#7A7A7A' }}
-                    >
-                        Ou acesse usando uma das suas contas:
-                    </Typography>
-                    <Box className={classes.divider} />
-                    <Grid
-                        container
-                        spacing={5}
-                        alignItems="center"
-                        justify="center"
-                        direction="column"
-                    >
-                        <Grid item xs>
-                            <CompanyButton
-                                icon={googleIcon}
-                                company={'Google'}
-                            />
-                        </Grid>
-                        <Grid item xs>
-                            <CompanyButton
-                                icon={microsoftIcon}
-                                company={'Microsoft'}
-                            />
-                        </Grid>
-                        <Grid item xs>
-                            <CompanyButton icon={appleIcon} company={'Apple'} />
+                        <Box className={classes.divider} />
+                        <Grid
+                            container
+                            spacing={5}
+                            alignItems="center"
+                            justify="center"
+                            direction="column"
+                        >
+                            <Grid item xs>
+                                <CompanyButton
+                                    icon={googleIcon}
+                                    company={'Google'}
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <CompanyButton
+                                    icon={microsoftIcon}
+                                    company={'Microsoft'}
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <CompanyButton
+                                    icon={appleIcon}
+                                    company={'Apple'}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            </AuthLayout>
             <ConfirmRegisterModal
                 isOpen={modalIsOpen.confirm}
-                handleClose={handleCloseConfirmModal}
+                handleClose={handleConfirmModal}
+                credential={credentialWatch}
             />
             <AccountRegisteredModal
                 isOpen={modalIsOpen.registered}
-                handleClose={handleCloseRegisteredModal}
+                handleClose={handleRegisteredModal}
             />
-        </AuthLayout>
+        </Fragment>
     );
 };
 

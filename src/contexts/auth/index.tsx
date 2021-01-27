@@ -59,17 +59,14 @@ export const AuthProvider: React.FC = ({ children }) => {
     }, []);
 
     const login = useCallback(async (data: LoginType) => {
-        setLoading(true);
-
         const userData: LoginType = {
             ...data,
             password: encrypt(data.password),
         };
-
-        // console.log(userData);
         try {
             const response = await authApi.login(userData);
             // console.log(response);
+            setLoading(true);
             setUser(response.data.user);
             api.defaults.headers[
                 'Authorization'

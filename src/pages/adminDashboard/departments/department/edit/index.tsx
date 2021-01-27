@@ -41,7 +41,6 @@ const Edit: React.FC = () => {
         handleSubmit,
         formState,
         setValue,
-        reset,
         watch,
     } = useForm<DepartmentModel>({
         mode: 'onSubmit',

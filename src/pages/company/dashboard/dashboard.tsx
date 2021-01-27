@@ -23,7 +23,7 @@ const CompanyDashboard: React.FC = () => {
     useEffect(() => {
         const getDepartmentData = async (company: UserCompanyType) => {
             try {
-                const response = await departmentApi.listByCompany(
+                const response = await departmentApi.listByUser(
                     company.companyId
                 );
                 const data: UserCompanyType = {

@@ -16,7 +16,7 @@ export type CompanyUpdateModel = {
     email: string;
 };
 
-export type UserCompanyType = {
+export type TypeCompany = {
     companyId: number;
     name: string;
     username: string;
@@ -28,4 +28,9 @@ export type UserCompanyType = {
     userPermission?: TypeCompanyPermission;
     departments?: Array<TypeDepartment>;
     users?: Array<TypeMember>;
+};
+
+export type TypeCompAssociateModel = {
+    permissionId: number;
+    userId: number;
 };

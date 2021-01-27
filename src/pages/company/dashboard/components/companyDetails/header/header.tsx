@@ -14,11 +14,11 @@ import { Plus as PlusIcon } from '@styled-icons/entypo';
 import TypeParams from '../../../../../../models/params';
 import SnackbarUtils from '../../../../../../utils/functions/snackbarUtils';
 import useCompany from '../../../../../../hooks/useCompany';
-import { UserCompanyType, companyApi } from '../../../../../../services';
+import { TypeCompany, companyApi } from '../../../../../../services';
 import useStyles from './styles';
 
 type Props = {
-    company: UserCompanyType;
+    company: TypeCompany;
 };
 
 const Header: React.FC<Props> = ({ company }) => {
@@ -29,9 +29,7 @@ const Header: React.FC<Props> = ({ company }) => {
 
     const [loading, setLoading] = useState(true);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [companies, setCompanies] = useState<Array<UserCompanyType> | null>(
-        null
-    );
+    const [companies, setCompanies] = useState<Array<TypeCompany> | null>(null);
 
     useEffect(() => {
         const getAllCompanies = async () => {

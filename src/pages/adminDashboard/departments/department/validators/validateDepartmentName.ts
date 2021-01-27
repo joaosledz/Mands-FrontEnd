@@ -6,7 +6,7 @@ export const validateDeparmentName = async (
 ) => {
     let valid = true;
     try {
-        await departmentApi.verifyUsername(companyId, name);
+        await departmentApi.verifyName(companyId, name);
         valid = true;
     } catch (error) {
         valid = false;

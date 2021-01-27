@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -7,7 +7,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 
-import { ProjectModel, projectApi } from '../../../../../services';
+import { ProjectModel, projectApi, imageApi } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useProject from '../../../../../hooks/useProject';
@@ -22,7 +22,12 @@ import useStyles from './styles';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
-    const { register, errors, handleSubmit, formState, reset } = useForm();
+    const {
+        register,
+        errors,
+        handleSubmit,
+        reset /*, formState */,
+    } = useForm();
     /*<ProjectModel>*/
     const { company } = useCompany();
     const { department } = useDepartment();
@@ -35,15 +40,43 @@ const Edit: React.FC = () => {
         if (project) document.title = `${project.name} - Edição`;
     }, [project]);
 
+    const handleCreateImage = useCallback(
+        async (image: File, company_id: number, project_id: number) => {
+            const formData = new FormData();
+            formData.append('imageData', image);
+            try {
+                const { data: response } = await imageApi.post(
+                    formData,
+                    company_id,
+                    project_id
+                );
+                return response;
+            } catch (error) {
+                console.log(error.message);
+            }
+        },
+        []
+    );
+
     const formSubmit = async (data: ProjectModel) => {
         try {
-            const response = await projectApi.update(
+            const { data: response } = await projectApi.update(
                 company!.companyId,
                 department!.departmentId,
                 project!.projectId,
                 data
             );
-            updateProject(response.data);
+
+            if (image) {
+                const imageResponse = await handleCreateImage(
+                    image,
+                    company!.companyId,
+                    department!.departmentId
+                );
+                const auxProject = { ...response, image: imageResponse!.path };
+                updateProject(auxProject);
+            } else updateProject(response);
+
             reset();
             snackbarUtils.success('Departamento editado com sucesso');
         } catch (error) {
@@ -205,7 +238,7 @@ const Edit: React.FC = () => {
                             <SubmitButton
                                 type="submit"
                                 text="Salvar alterações"
-                                disabled={!formState.isDirty}
+                                // disabled={!image || !formState.isDirty} verificar se o form ou uma imagem mudou, mas ta complexo
                                 mt={20}
                             />
                         </Grid>

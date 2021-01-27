@@ -9,17 +9,29 @@ import IconButton from '@material-ui/core/IconButton';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 import { MailSend as MailIcon } from '@styled-icons/boxicons-regular';
 
+import { authApi } from '../../../../services';
 import MandsLogo from '../../../../assets/logo/mands.png';
 import useStyles from './styles';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 type Props = {
     isOpen: boolean;
     handleClose: () => void;
+    credential: string | undefined;
 };
 
 const ConfirmRegisterModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, handleClose } = props;
+    const { isOpen, handleClose, credential } = props;
+
+    const handleSubmit = async () => {
+        try {
+            await authApi.resendConfirmEmail(credential!);
+            snackbarUtils.success('Email reenviado com sucesso');
+        } catch (error) {
+            snackbarUtils.error('Não foi possível reenviar o email');
+        }
+    };
 
     return (
         <Modal
@@ -75,7 +87,9 @@ const ConfirmRegisterModal: React.FC<Props> = (props: Props) => {
                         justify="center"
                         alignItems="center"
                     >
-                        <Button color="primary">Reenviar email</Button>
+                        <Button color="primary" onClick={handleSubmit}>
+                            Reenviar email
+                        </Button>
                     </Grid>
                 </Grid>
             </Slide>

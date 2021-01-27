@@ -1,12 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import AwesomeDebouncePromise from 'awesome-debounce-promise';
-import { useForm } from 'react-hook-form';
 import { UserCheck as ValidUserIcon } from '@styled-icons/boxicons-regular';
 import { UserX as InvalidUserIcon } from '@styled-icons/boxicons-regular';
 
@@ -17,11 +17,9 @@ import { authApi, RegisterModel } from '../../../services';
 import { validateUsername } from './components/validators/validateUsername';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
-import CropImageInputComponent from '../../../components/cropImage/cropImageInput';
 import Backdrop from '../../../components/backdrop';
 import RegisterButton from '../components/submitButton/submitButton';
 import useStyles from './styles';
-import { useHistory } from 'react-router-dom';
 
 const Register: React.FC = () => {
     const classes = useStyles();
@@ -39,7 +37,6 @@ const Register: React.FC = () => {
         shouldUnregister: true,
     });
 
-    const [image, setImage] = useState<File | undefined>(undefined);
     const [validUser, setValidUser] = useState(false);
 
     useEffect(() => {
@@ -103,6 +100,11 @@ const Register: React.FC = () => {
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
+                                            minLength: {
+                                                value: 3,
+                                                message:
+                                                    'Escreva pelo menos 3 caracteres',
+                                            },
                                         })}
                                     />
                                 </Grid>
@@ -121,6 +123,11 @@ const Register: React.FC = () => {
                                         inputRef={register({
                                             required:
                                                 'Esse campo é obrigatório',
+                                            minLength: {
+                                                value: 3,
+                                                message:
+                                                    'Escreva pelo menos 3 caracteres',
+                                            },
                                         })}
                                     />
                                 </Grid>
@@ -293,13 +300,6 @@ const Register: React.FC = () => {
                                     />
                                 </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid component="aside" item xs={12} md={3}>
-                            <CropImageInputComponent
-                                title="Imagem do Perfil:"
-                                image={image}
-                                setImage={setImage}
-                            />
                         </Grid>
                     </Grid>
                     <RegisterButton mt={60} text="Criar conta" />

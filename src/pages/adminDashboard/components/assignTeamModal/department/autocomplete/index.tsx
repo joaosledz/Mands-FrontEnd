@@ -70,12 +70,14 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                 onChange={(event: any, newValue: Array<TypeMember>) =>
                     setValue(newValue)
                 }
-                getOptionLabel={(option: TypeMember) => option.name}
+                getOptionLabel={(option: TypeMember) =>
+                    `${option.name} ${option.surname}`
+                }
                 defaultValue={[]}
                 renderInput={params => (
                     <TextField
                         {...params}
-                        label="Procure por usuário, e-mail, ou CPF"
+                        label="Procure o nome"
                         placeholder="Pessoas"
                         // inputProps={{ 'data-cy': 'users-autocomplete' }}
                     />

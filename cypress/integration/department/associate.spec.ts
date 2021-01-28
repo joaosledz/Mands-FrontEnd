@@ -4,8 +4,7 @@ const baseUrl = Cypress.env('CYPRESS_API');
 const token = Cypress.env('CYPRESS_TOKEN');
 
 const companyName = 'AzedaEmpresa';
-const departmentName = 'financeiro';
-const depPermId = 151;
+const departmentName = 'telemarketing';
 
 before(() => {
     window.localStorage.setItem('@Mands:token', token);
@@ -38,7 +37,7 @@ describe('Associate an user', () => {
             .type('{enter}');
     });
     it('Should select a role', () => {
-        cy.get(`[ data-cy="role-checkbox-${depPermId}"]`).click();
+        cy.get(`[ data-cy="role-checkbox"]`).first().click();
     });
     it('Should associate an user to the department', () => {
         cy.intercept('POST', `${baseUrl}/${departmentUrls.associate}**`).as(

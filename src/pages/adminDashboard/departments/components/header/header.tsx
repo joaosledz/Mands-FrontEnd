@@ -34,18 +34,20 @@ const Header: React.FC<Props> = (props: Props) => {
                     Departamento - {departmentName}
                 </Typography>
             </Grid>
-            <Grid container item xs={12} md={3} justify="flex-end">
-                <BackButton
-                    message={message}
-                    redirect={
-                        page === 'details'
-                            ? `admin/${params.company}/departamentos`
-                            : `admin/${
-                                  params.company
-                              }/departamentos/${params.department!}/detalhes`
-                    }
-                />
-            </Grid>
+            <Hidden mdDown>
+                <Grid container item xs={12} md={3} justify="flex-end">
+                    <BackButton
+                        message={message}
+                        redirect={
+                            page === 'details'
+                                ? `admin/${params.company}/departamentos`
+                                : `admin/${
+                                      params.company
+                                  }/departamentos/${params.department!}/detalhes`
+                        }
+                    />
+                </Grid>
+            </Hidden>
         </Grid>
     );
 };

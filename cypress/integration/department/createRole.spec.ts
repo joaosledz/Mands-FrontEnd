@@ -5,11 +5,13 @@ const baseUrl = Cypress.env('CYPRESS_API');
 const token = Cypress.env('CYPRESS_TOKEN');
 
 const companyName = 'AzedaEmpresa';
-const departmentName = 'recursos-humanos';
+const departmentName = 'telemarketing';
 
 beforeEach(() => {
     window.localStorage.setItem('@Mands:token', token);
 });
+
+// Necessita ter alguém associado ao departamento
 
 describe('Create a department role by AssignTeamModal', () => {
     it('Should visit the page', () => {

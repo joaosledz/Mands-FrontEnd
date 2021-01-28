@@ -43,7 +43,7 @@ const Roles: React.FC<Props> = (props: Props) => {
                         value={role.depPermissionId}
                         control={<StyledRadio />}
                         label={role.name}
-                        data-cy={`role-checkbox-${role.depPermissionId}`}
+                        data-cy={`role-checkbox`}
                     />
                 </Grid>
                 <Grid

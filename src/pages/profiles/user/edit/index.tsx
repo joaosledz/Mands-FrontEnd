@@ -1,26 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import { useForm } from 'react-hook-form';
 import { validLink } from './components/functions/validLink';
-// import CpfValidator from '../../../validators/cpfValidator';
 import InputMask from 'react-input-mask';
+// import CpfValidator from '../../../validators/cpfValidator';
+
+import { updateModel, authApi, imageApi } from '../../../../services';
+import useAuth from '../../../../hooks/useAuth';
+import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 import AppLayout from '../../../../layout/appLayout';
 import BackButton from '../../../../components/backButton';
 import RegisterButton from '../../../../components/mainButton';
-import useStyles from './styles';
+import Backdrop from '../../../../components/backdrop';
 import CropImageInput from '../../../../components/cropImage/cropImageInput';
-import useAuth from '../../../../hooks/useAuth';
-import { updateModel, authApi, imageApi } from '../../../../services';
-import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
+import useStyles from './styles';
 
 const UserProfile: React.FC = () => {
     const classes = useStyles();
     const { user, updateUser } = useAuth();
-    const { register, errors, handleSubmit } = useForm<updateModel>();
+    const { register, errors, handleSubmit, formState } = useForm<
+        updateModel
+    >();
+
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState<File | undefined>(undefined);
 
@@ -28,45 +33,50 @@ const UserProfile: React.FC = () => {
         document.title = 'Editar Perfil';
     }, []);
 
-    const handleEditImage = async (image: File, newData: updateModel) => {
-        const formData = new FormData();
-        formData.append('imageData', image);
-        setLoading(true);
-        try {
-            await imageApi.post(formData);
-            handleEditUser(newData);
-            SnackbarUtils.success('Imagem de perfil editada com sucesso');
-        } catch (error) {
-            setLoading(false);
-            SnackbarUtils.error('Não foi possível editar a imagem');
-        }
-    };
+    const handleEditUser = useCallback(
+        async (newData: updateModel) => {
+            try {
+                setLoading(true);
+                const { data } = await authApi.update(newData);
+                // console.log(data);
+                updateUser(data);
+                SnackbarUtils.success('Perfil editado com sucesso');
+            } catch (error) {
+                SnackbarUtils.error('Não foi possível editar o perfil');
+            } finally {
+                setLoading(false);
+            }
+        },
+        [updateUser]
+    );
 
-    const handleEditUser = async (newData: updateModel) => {
-        setLoading(true);
-        try {
-            const response = await authApi.update(newData);
-
-            const data = response.data;
-            // console.log(data);
-            updateUser(data);
-
-            setLoading(false);
-            SnackbarUtils.success('Perfil editado com sucesso');
-        } catch (error) {
-            setLoading(false);
-            SnackbarUtils.error('Não foi possível editar o perfil');
-        }
-    };
+    const handleEditImage = useCallback(
+        async (image: File, newData: updateModel) => {
+            const formData = new FormData();
+            formData.append('imageData', image);
+            try {
+                setLoading(true);
+                await imageApi.post(formData);
+                handleEditUser(newData);
+            } catch (error) {
+                SnackbarUtils.error('Não foi possível editar a imagem');
+            }
+        },
+        [handleEditUser]
+    );
+    // por algum motivo, o isDirty da linha 72, só está funcionando corretamente com este console.log
+    console.log(formState.isDirty);
     const onSubmit = (data: updateModel) => {
-        let dataAux;
-        dataAux = validLink(data);
+        const dataAux = validLink(data);
         if (image) handleEditImage(image, dataAux);
-        else handleEditUser(dataAux);
+        else if (formState.isDirty) handleEditUser(dataAux);
+        else SnackbarUtils.info('Modifique algum campo.');
     };
+
     return (
-        <AppLayout>
-            {!loading ? (
+        <Fragment>
+            <Backdrop loading={loading} />
+            <AppLayout>
                 <Paper className={classes.paper}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container justify="center">
@@ -123,7 +133,7 @@ const UserProfile: React.FC = () => {
                                             error={errors.name !== undefined}
                                             helperText={
                                                 errors.name
-                                                    ? '⚠' +
+                                                    ? '⚠ ' +
                                                       errors?.name?.message
                                                     : ''
                                             }
@@ -142,7 +152,7 @@ const UserProfile: React.FC = () => {
                                             error={errors.surname !== undefined}
                                             helperText={
                                                 errors.surname
-                                                    ? '⚠' +
+                                                    ? '⚠ ' +
                                                       errors?.surname?.message
                                                     : ''
                                             }
@@ -171,7 +181,7 @@ const UserProfile: React.FC = () => {
                                                     }
                                                     helperText={
                                                         errors.phone
-                                                            ? '⚠' +
+                                                            ? '⚠ ' +
                                                               errors?.phone
                                                                   ?.message
                                                             : ''
@@ -197,14 +207,19 @@ const UserProfile: React.FC = () => {
                                             error={errors.gitHub !== undefined}
                                             helperText={
                                                 errors.gitHub
-                                                    ? '⚠' +
+                                                    ? '⚠ ' +
                                                       errors?.gitHub?.message
                                                     : ''
                                             }
                                             color="primary"
                                             placeholder="Url do Github"
                                             defaultValue={user!.gitHub}
-                                            inputRef={register({})}
+                                            inputRef={register({
+                                                minLength: {
+                                                    value: 5,
+                                                    message: 'Link muito curto',
+                                                },
+                                            })}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -216,14 +231,19 @@ const UserProfile: React.FC = () => {
                                             }
                                             helperText={
                                                 errors.linkedin
-                                                    ? '⚠' +
+                                                    ? '⚠ ' +
                                                       errors?.linkedin?.message
                                                     : ''
                                             }
                                             color="primary"
                                             placeholder="Url do LinkedIn"
                                             defaultValue={user!.linkedin}
-                                            inputRef={register({})}
+                                            inputRef={register({
+                                                minLength: {
+                                                    value: 5,
+                                                    message: 'Link muito curto',
+                                                },
+                                            })}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
@@ -236,15 +256,18 @@ const UserProfile: React.FC = () => {
                                             }
                                             helperText={
                                                 errors.biography
-                                                    ? '⚠' +
+                                                    ? '⚠ ' +
                                                       errors?.biography?.message
                                                     : ''
                                             }
                                             color="primary"
                                             defaultValue={user!.biography}
                                             inputRef={register({
-                                                required:
-                                                    'Esse campo é obrigatório',
+                                                minLength: {
+                                                    value: 5,
+                                                    message:
+                                                        'Escreva pelo menos 5 caracteres',
+                                                },
                                             })}
                                         />
                                     </Grid>
@@ -252,19 +275,12 @@ const UserProfile: React.FC = () => {
                             </Grid>
                         </Grid>
                         <Grid container justify="center">
-                            <Grid item>
-                                <RegisterButton
-                                    mt={40}
-                                    text="Salvar Alterações"
-                                />
-                            </Grid>
+                            <RegisterButton text="Salvar Alterações" mt={40} />
                         </Grid>
                     </form>
                 </Paper>
-            ) : (
-                <h1>Carregando...</h1>
-            )}
-        </AppLayout>
+            </AppLayout>
+        </Fragment>
     );
 };
 

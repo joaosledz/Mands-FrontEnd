@@ -5,22 +5,21 @@ import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
-import { TypeMember } from '../../../../../../services';
+import { TypeUser } from '../../../../../../services';
 import useStyles from '../../styles';
 
 type Props = {
-    person: TypeMember;
-    index: number;
-    handleRemove: (index: number) => void;
+    person: TypeUser;
+    handleRemove: () => void;
 };
 
 const UserItem: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { person, index = 0, handleRemove } = props;
+    const { person, handleRemove } = props;
     return (
         <Grid container item className={classes.personContainer}>
             <Grid item xs={2}>
-                <Avatar src={person.image} />
+                <Avatar src={person.image?.path} />
             </Grid>
             <Grid container item xs={9} direction="column" justify="flex-start">
                 <Grid item xs={12}>
@@ -53,10 +52,7 @@ const UserItem: React.FC<Props> = (props: Props) => {
                     alignSelf: 'center',
                 }}
             >
-                <CloseIcon
-                    className={classes.icon}
-                    onClick={() => handleRemove(index)}
-                />
+                <CloseIcon className={classes.icon} onClick={handleRemove} />
             </Grid>
         </Grid>
     );

@@ -21,6 +21,7 @@ import { MailSend as MailSendIcon } from '@styled-icons/boxicons-regular';
 
 import {
     TypeMember,
+    TypeUser,
     companyApi,
     companyPermApi,
     TypeCompanyPermission,
@@ -43,11 +44,11 @@ type Props = {
 
 const HiringModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { company, updateCompany } = useCompany();
+    const { company } = useCompany();
     const { isOpen, setIsOpen, selectedValues = [] } = props;
 
     const [submitting, setSubmitting] = useState(false);
-    const [employees, setEmployees] = useState<TypeMember[]>([]);
+    const [employee, setEmployee] = useState<TypeUser | null>(null);
     const [roles, setRoles] = useState<TypeCompanyPermission[]>([]);
     const [selectedValue, setSelectedValue] = useState(0);
 
@@ -67,14 +68,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
 
     const handleCloseModal = useCallback(() => setIsOpen(false), [setIsOpen]);
 
-    const handleRemovePerson = useCallback(
-        (index: number) => {
-            const auxArray = [...employees];
-            auxArray.splice(index, 1);
-            setEmployees(auxArray);
-        },
-        [employees]
-    );
+    const handleRemovePerson = useCallback(() => setEmployee(null), []);
 
     const handleChangeRole = useCallback(
         (event: ChangeEvent<HTMLInputElement>) =>
@@ -85,17 +79,13 @@ const HiringModal: React.FC<Props> = (props: Props) => {
     const handleSubmit = async () => {
         setSubmitting(true);
         try {
-            const data: TypeCompAssociateModel[] = [];
-            employees.forEach(employee => {
-                data.push({
-                    permissionId: selectedValue,
-                    userId: employee.userId,
-                });
+            const data = [] as TypeCompAssociateModel[];
+            data.push({
+                permissionId: selectedValue,
+                userId: employee!.userId,
             });
             await companyApi.associate(company!.companyId, data);
-            setEmployees([]);
-            updateCompany({ ...company! }); // obrigar a re-renderização do AssignGridItem
-            snackbarUtils.success('Associação realizada com sucesso');
+            snackbarUtils.success('Convite enviado');
         } catch (error) {
             snackbarUtils.error(error.message);
         } finally {
@@ -138,28 +128,23 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                         </Grid>
 
                         <Autocomplete
-                            value={employees}
-                            setValue={setEmployees}
+                            value={employee}
+                            setValue={setEmployee}
                             selectedValues={selectedValues}
                         />
-                        {employees.length !== 0 && (
-                            <Grow in={employees.length !== 0} timeout={600}>
+                        {employee && (
+                            <Grow in={!!employee} timeout={600}>
                                 <Grid container>
                                     <Grid
                                         container
                                         className={classes.scrollPerson}
                                         spacing={3}
                                     >
-                                        {employees.map((person, index) => (
-                                            <UserItem
-                                                key={person.userId}
-                                                person={person}
-                                                index={index}
-                                                handleRemove={
-                                                    handleRemovePerson
-                                                }
-                                            />
-                                        ))}
+                                        <UserItem
+                                            key={employee.userId}
+                                            person={employee}
+                                            handleRemove={handleRemovePerson}
+                                        />
                                     </Grid>
                                     <Grid
                                         item

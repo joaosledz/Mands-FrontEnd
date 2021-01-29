@@ -1,85 +1,64 @@
 /* eslint-disable no-use-before-define */
-import React, {
-    Dispatch,
-    SetStateAction,
-    useEffect,
-    useState,
-    memo,
-} from 'react';
+import React, { Dispatch, SetStateAction, useState, memo } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import debounce from 'awesome-debounce-promise';
 
-import { TypeMember, companyApi } from '../../../../../../services';
-import useCompany from '../../../../../../hooks/useCompany';
-import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
+import { TypeMember, TypeUser, userApi } from '../../../../../../services';
 import useStyles from './styles';
 
 type Props = {
-    value: Array<TypeMember>;
-    setValue: Dispatch<SetStateAction<TypeMember[]>>;
+    value: TypeUser | null;
+    setValue: Dispatch<SetStateAction<TypeUser | null>>;
     selectedValues?: TypeMember[];
 };
 
 const Autocompletar: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
 
-    const { company } = useCompany();
-    const { value, setValue, selectedValues = [] } = props;
+    const { value, setValue } = props;
     // const [value, setValue] = React.useState<Array<TypeMember>>();
-    // const [inputValue, setInputValue] = React.useState('');
-    const [employees, setEmployees] = useState<TypeMember[]>([]);
+    const [inputValue, setInputValue] = React.useState('');
+    const [employees, setEmployees] = useState<TypeUser[]>([]);
 
-    useEffect(() => {
-        const fetchEmployees = async () => {
-            if (company) {
-                try {
-                    const {
-                        data: response,
-                    } = await companyApi.findAllEmployees(company.companyId);
-                    if (selectedValues.length === 0) setEmployees(response);
-                    else if (selectedValues.length === response.length) return;
-                    else {
-                        // console.log('all: ', response);
-                        // console.log('selected: ', selectedValues);
-                        const auxData = response.filter(employee =>
-                            selectedValues.some(
-                                selectedEmployee =>
-                                    employee.userId !== selectedEmployee.userId
-                            )
-                        );
-                        // console.log('auxData: ', selectedValues);
-                        setEmployees(auxData);
-                    }
-                } catch (error) {
-                    snackbarUtils.error(error.message);
-                }
-            }
-        };
-        fetchEmployees();
-    }, [company, selectedValues]);
+    const searchUserDebounced = debounce(userApi.show, 500);
+
+    const handleTextChange = async (text: string) => {
+        setInputValue(text);
+        if (inputValue)
+            try {
+                const { data } = await searchUserDebounced(inputValue);
+                const auxData = [{ ...data }];
+                setEmployees(auxData);
+            } catch (error) {}
+    };
 
     return (
         <div className={classes.root}>
             <Autocomplete
                 fullWidth
-                multiple
-                limitTags={2}
                 id="multiple-limit-tags"
                 options={employees}
                 value={value}
-                onChange={(event: any, newValue: Array<TypeMember>) =>
+                onChange={(event: any, newValue: TypeUser | null) =>
                     setValue(newValue)
                 }
-                getOptionLabel={(option: TypeMember) => option.name}
-                defaultValue={[]}
+                onInputChange={(event, newInputValue) =>
+                    handleTextChange(newInputValue)
+                }
+                getOptionLabel={(option: TypeUser) =>
+                    `${option.name} ${option.surname} - ${option.username}`
+                }
                 renderInput={params => (
                     <TextField
                         {...params}
-                        label="Procure por usuário, e-mail, ou CPF"
+                        label="Procure o nome"
                         placeholder="Pessoas"
+                        // inputProps={{ 'data-cy': 'users-autocomplete' }}
                     />
                 )}
                 noOptionsText={'Nenhuma pessoa disponível foi identificada.'}
+                data-cy="users-autocomplete"
             />
         </div>
     );

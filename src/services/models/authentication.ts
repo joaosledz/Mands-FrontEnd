@@ -3,22 +3,13 @@ type TypeUser = {
     name: string;
     surname: string;
     username: string;
-    password: string;
     email: string;
     cpf: string;
-    admission: null;
     phone: string;
     birthday: string;
-    addressId: null;
-    address: null;
     biography: string;
     imageId: number;
-    image: {
-        name: string;
-        path: string;
-        extention: string;
-        size: string;
-    };
+    image: string;
     linkedin: string;
     gitHub: string;
 };

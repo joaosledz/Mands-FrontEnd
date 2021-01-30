@@ -6,7 +6,7 @@ import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid';
 import BoardContext from '../../../../contexts/board';
 import {
     SubmitDeleteTask,
-    SubmitTaskType,
+    // SubmitTaskType,
     taskApi,
 } from '../../../../services';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
@@ -40,8 +40,10 @@ type PopoverProps = {
     companyId: number;
 };
 export default function SimplePopover(props: PopoverProps) {
-    const { itemID, columnID, departmentId, projectId, companyId } = props;
-    const { DeleteTask } = useContext(BoardContext);
+    const { itemID, /*columnID,*/ departmentId, projectId, companyId } = props;
+    const {
+        /*DeleteTask*/
+    } = useContext(BoardContext);
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<any | null>(null);
 

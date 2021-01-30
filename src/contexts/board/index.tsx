@@ -132,6 +132,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         };
         console.log(newState.items);
         //Adicionar ID do item à coluna correspondente
+        console.log(columnID);
         newState.columns[columnID].itemsIds = [
             ...newState.columns[columnID].itemsIds,
             newID,
@@ -177,7 +178,8 @@ export const BoardProvider: React.FC = ({ children }) => {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
                     hubConnection.on('TaskSent', task => {
-                        AddTask(task.projectSessionId, task.tasks[0]);
+                        console.log(task);
+                        AddTask(task.sessionId, task.tasks[0]);
                     });
                     hubConnection.on('TaskDeleted', response => {
                         console.log(response);

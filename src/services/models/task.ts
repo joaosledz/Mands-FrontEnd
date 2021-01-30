@@ -19,3 +19,9 @@ export type SubmitDeleteTask = {
     departmentId: number;
     projectId: number;
 };
+
+export type SubmitChangeSession = {
+    companyId: number;
+    departmentId: number;
+    projectId: number;
+};

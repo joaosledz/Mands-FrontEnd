@@ -3,6 +3,7 @@ import {
     SubmitTaskType,
     SubmitResponsible,
     SubmitDeleteTask,
+    SubmitChangeSession,
 } from '../models/task';
 import taskUrls from '../urls/task';
 
@@ -14,6 +15,11 @@ const tasksApi = {
             taskUrls.delete +
                 `${taskId}/${data.departmentId}/${data.projectId}/${data.companyId}`
         ),
+    changeSession: (
+        taskId: number,
+        sessionId: string,
+        data: SubmitChangeSession
+    ) => api.put(taskUrls.changeSession + `${taskId}/${sessionId}`, data),
     associateResponsible: (
         companyId: number,
         data: SubmitResponsible,

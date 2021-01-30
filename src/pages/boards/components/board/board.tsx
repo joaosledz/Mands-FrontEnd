@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import FabButton from '../../../../components/fabButton';
@@ -8,6 +8,8 @@ import useCompany from '../../../../hooks/useCompany';
 import { useParams } from 'react-router-dom';
 import TypeParams from '../../../../models/params';
 import useDepartment from '../../../../hooks/useDepartment';
+import { SubmitChangeSession, taskApi } from '../../../../services';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const Board: React.FC = () => {
     const classes = useStyles();
@@ -30,10 +32,34 @@ const Board: React.FC = () => {
         handleDepartment();
     }, [department]);
     // Handle drag & drop
+    const ChangeSessionSocket = (itemId: string, sessionId: string) => {
+        if (company && department) {
+            let data: SubmitChangeSession = {
+                companyId: company.companyId,
+                departmentId: department.departmentId,
+                projectId,
+            };
+            taskApi
+                .changeSession(
+                    parseInt(itemId.replace('task_', '')),
+                    sessionId,
+                    data
+                )
+                .then(response => {
+                    console.log(response);
+                    // snackbarUtils.success('Tarefa deletada com sucesso');
+                })
+                .catch(error => {
+                    snackbarUtils.error('Erro ao tentar deletar tarefa');
+                });
+        } else console.log('Dados incompletos de departamento e(ou) empresa');
+    };
+
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
         console.log(state);
-        // console.log(source);
+        console.log(destination);
+        console.log(draggableId);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
@@ -45,7 +71,7 @@ const Board: React.FC = () => {
         ) {
             return;
         }
-
+        //Reposicionando uma coluna
         if (type === 'column') {
             const newColumnOrder = Array.from(state.columnsOrder);
             newColumnOrder.splice(source.index, 1);
@@ -127,6 +153,7 @@ const Board: React.FC = () => {
             };
             // Update the board state with new data
             setState(newState);
+            ChangeSessionSocket(draggableId, destination.droppableId);
         }
     };
 

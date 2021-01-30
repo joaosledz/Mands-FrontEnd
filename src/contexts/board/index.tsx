@@ -169,6 +169,7 @@ export const BoardProvider: React.FC = ({ children }) => {
             };
         };
         handleHubConnection();
+        // eslint-disable-next-line
     }, [user]);
 
     useEffect(() => {
@@ -195,6 +196,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         };
         handleWebSocket();
         // console.log(params);
+        // eslint-disable-next-line
     }, [params, state, hubConnection]);
 
     useEffect(() => {

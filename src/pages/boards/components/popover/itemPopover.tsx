@@ -41,6 +41,7 @@ type PopoverProps = {
 };
 export default function SimplePopover(props: PopoverProps) {
     const { itemID, /*columnID,*/ departmentId, projectId, companyId } = props;
+    // eslint-disable-next-line
     const {
         /*DeleteTask*/
     } = useContext(BoardContext);

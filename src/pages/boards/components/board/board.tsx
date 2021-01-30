@@ -30,6 +30,7 @@ const Board: React.FC = () => {
             // setDepartmentId(department.departmentId)
         };
         handleDepartment();
+        // eslint-disable-next-line
     }, [department]);
     // Handle drag & drop
     const ChangeSessionSocket = (itemId: string, sessionId: string) => {

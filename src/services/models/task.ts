@@ -25,3 +25,11 @@ export type SubmitChangeSession = {
     departmentId: number;
     projectId: number;
 };
+
+export type SubtaskType = {
+    completed: boolean;
+    description: string;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
+};

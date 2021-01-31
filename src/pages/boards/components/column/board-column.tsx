@@ -84,9 +84,13 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                             </Grid>
                             <Grid item xs={8} {...provided.dragHandleProps}>
                                 <MutableInput
+                                    type="column"
                                     value={column.title}
                                     valueSet={setColumnTitle}
                                     id={column.sessionId}
+                                    departmentId={departmentId}
+                                    projectId={projectId}
+                                    companyId={companyId}
                                 />
                             </Grid>
                             <Grid item xs={1}>

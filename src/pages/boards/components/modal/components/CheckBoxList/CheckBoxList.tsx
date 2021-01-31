@@ -78,12 +78,16 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                                 inputProps={{ 'aria-labelledby': labelId }}
                             />
                         </ListItemIcon>
-                        <MultableInput
+                        {/* <MultableInput
+                            type="task"
                             value={task.description}
                             valueSet={handleChangeTitle}
                             id={task.id}
                             inputStyle={classes.taskTitle}
-                        />
+                            departmentId={departmentId}
+                                            projectId={projectId}
+                                            companyId={companyId}
+                        /> */}
 
                         <ListItemSecondaryAction>
                             <IconButton edge="end" aria-label="comments">

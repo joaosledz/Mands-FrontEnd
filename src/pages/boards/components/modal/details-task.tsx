@@ -76,11 +76,12 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         onClick={handleCloseModal}
                     />
                     <Grid item xs={12}>
-                        <MutableInput
+                        {/* <MutableInput
+                            type="task"
                             value={title}
                             valueSet={setTitle}
                             id={item.taskId}
-                        />
+                        /> */}
                     </Grid>
                     {/* DESCRIÇÃO DO ITEM */}
                     <Grid container>
@@ -94,11 +95,12 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        <MutableInput
+                        {/* <MutableInput
+                            type="task_description"
                             value={description}
                             valueSet={setDescription}
                             id={item.taskId}
-                        />
+                        /> */}
                     </Grid>
                     {/* LISTA DE TAREFAS */}
                     <Grid container className={classes.body}>

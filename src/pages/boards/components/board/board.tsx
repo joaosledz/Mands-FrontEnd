@@ -8,7 +8,12 @@ import useCompany from '../../../../hooks/useCompany';
 import { useParams } from 'react-router-dom';
 import TypeParams from '../../../../models/params';
 import useDepartment from '../../../../hooks/useDepartment';
-import { SubmitChangeSession, taskApi } from '../../../../services';
+import {
+    SubmitChangeSession,
+    taskApi,
+    sessionApi,
+    sessionType,
+} from '../../../../services';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const Board: React.FC = () => {
@@ -52,6 +57,27 @@ const Board: React.FC = () => {
                 })
                 .catch(error => {
                     snackbarUtils.error('Erro ao tentar deletar tarefa');
+                });
+        } else console.log('Dados incompletos de departamento e(ou) empresa');
+    };
+
+    const AddSessionSocket = () => {
+        if (company && department) {
+            let data: sessionType = {
+                title: 'Título da nova coluna',
+                description: '',
+                companyId: company.companyId,
+                departmentId: department.departmentId,
+            };
+            sessionApi
+                .create(projectId, data)
+                .then(response => {
+                    console.log(response);
+                    snackbarUtils.success('Session criada com sucesso');
+                    AddColumn();
+                })
+                .catch(error => {
+                    snackbarUtils.error('Erro ao tentar adicionar uma coluna');
                 });
         } else console.log('Dados incompletos de departamento e(ou) empresa');
     };
@@ -211,7 +237,7 @@ const Board: React.FC = () => {
             <FabButton
                 icon="plus"
                 style={classes.fabButton}
-                onClick={AddColumn}
+                onClick={AddSessionSocket}
             />
         </>
     );

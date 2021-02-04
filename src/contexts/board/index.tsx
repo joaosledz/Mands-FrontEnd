@@ -179,15 +179,18 @@ export const BoardProvider: React.FC = ({ children }) => {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
                     hubConnection.on('TaskSent', task => {
-                        console.log(task);
+                        // console.log(task);
                         AddTask(task.sessionId, task.tasks[0]);
                     });
                     hubConnection.on('TaskDeleted', response => {
-                        console.log(response);
+                        // console.log(response);
                         DeleteTask(
                             'task_' + response.taskId,
                             response.sourceSessionId
                         );
+                    });
+                    hubConnection.on('SessionChanged', response => {
+                        console.log(response);
                     });
                 } catch (error) {
                     console.log(error);

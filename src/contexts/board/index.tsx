@@ -178,6 +178,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 try {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
+                    //Canais de /Task
                     hubConnection.on('TaskSent', task => {
                         // console.log(task);
                         AddTask(task.sessionId, task.tasks[0]);
@@ -190,6 +191,16 @@ export const BoardProvider: React.FC = ({ children }) => {
                         );
                     });
                     hubConnection.on('SessionChanged', response => {
+                        console.log(response);
+                    });
+                    //Canais de /Session
+                    hubConnection.on('SessionCreated', response => {
+                        console.log(response);
+                    });
+                    hubConnection.on('SessionUpdated', response => {
+                        console.log(response);
+                    });
+                    hubConnection.on('SessionDeleted', response => {
                         console.log(response);
                     });
                 } catch (error) {

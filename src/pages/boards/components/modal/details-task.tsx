@@ -10,9 +10,10 @@ import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
 import SubmitButton from '../../../../components/mainButton';
 import useStyles from './styles';
-import MutableInput from '../multableInput/multableInput';
+// import MutableInput from '../multableInput/multableInput';
 import { Text as TextIcon } from '@styled-icons/entypo';
 import { InputChecked as CheckedIcon } from '@styled-icons/typicons';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
@@ -26,11 +27,21 @@ type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     item: TypeItem;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 
 const NewTaskModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen, item } = props;
+    const {
+        isOpen,
+        setIsOpen,
+        item,
+        projectId,
+        departmentId,
+        companyId,
+    } = props;
     const [title, setTitle] = useState<string>(item.title);
     const [description, setDescription] = useState<string>(item.description);
     const { UpdateTask } = useContext(BoardContext);
@@ -76,12 +87,13 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         onClick={handleCloseModal}
                     />
                     <Grid item xs={12}>
-                        {/* <MutableInput
+                        {/* <MutableInput*/}
+                        <TextField
                             type="task"
                             value={title}
-                            valueSet={setTitle}
+                            onChange={e => setTitle(e.target.value)}
                             id={item.taskId}
-                        /> */}
+                        />
                     </Grid>
                     {/* DESCRIÇÃO DO ITEM */}
                     <Grid container>
@@ -95,12 +107,13 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        {/* <MutableInput
+                        {/* <MutableInput*/}
+                        <TextField
                             type="task_description"
                             value={description}
-                            valueSet={setDescription}
+                            onChange={e => setDescription(e.target.value)}
                             id={item.taskId}
-                        /> */}
+                        />
                     </Grid>
                     {/* LISTA DE TAREFAS */}
                     <Grid container className={classes.body}>
@@ -115,7 +128,12 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                             </Grid>
                         </Grid>
                         {item.subtasks && (
-                            <CheckBoxList subtasks={item.subtasks} />
+                            <CheckBoxList
+                                subtasks={item.subtasks}
+                                departmentId={departmentId}
+                                projectId={projectId}
+                                companyId={companyId}
+                            />
                         )}
                         {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
 

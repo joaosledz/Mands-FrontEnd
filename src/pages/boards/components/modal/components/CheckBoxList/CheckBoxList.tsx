@@ -17,6 +17,9 @@ type Props = {
         completed: boolean;
         description: string;
     }>;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -40,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CheckBoxList: React.FC<Props> = (props: Props) => {
+    const { projectId, departmentId, companyId } = props;
     const classes = useStyles();
     const [checked, setChecked] = React.useState([0]);
     const [subtasks, setSubTasks] = React.useState(props.subtasks);
@@ -78,16 +82,16 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                                 inputProps={{ 'aria-labelledby': labelId }}
                             />
                         </ListItemIcon>
-                        {/* <MultableInput
+                        <MultableInput
                             type="task"
                             value={task.description}
                             valueSet={handleChangeTitle}
                             id={task.id}
                             inputStyle={classes.taskTitle}
                             departmentId={departmentId}
-                                            projectId={projectId}
-                                            companyId={companyId}
-                        /> */}
+                            projectId={projectId}
+                            companyId={companyId}
+                        />
 
                         <ListItemSecondaryAction>
                             <IconButton edge="end" aria-label="comments">

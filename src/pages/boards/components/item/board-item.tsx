@@ -167,6 +167,9 @@ export const BoardItem = (props: BoardItemProps) => {
                 item={item}
                 isOpen={showNewTaskModal}
                 setIsOpen={setShowNewTaskModal}
+                departmentId={departmentId}
+                projectId={projectId}
+                companyId={companyId}
             />
         </>
     );

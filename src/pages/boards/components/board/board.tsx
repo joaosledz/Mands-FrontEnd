@@ -13,7 +13,9 @@ import {
     taskApi,
     sessionApi,
     sessionType,
+    updateSessionPositionType,
 } from '../../../../services';
+import { TypeBoard } from '../../../../models/boardTypes';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const Board: React.FC = () => {
@@ -81,6 +83,27 @@ const Board: React.FC = () => {
                 });
         } else console.log('Dados incompletos de departamento e(ou) empresa');
     };
+    const MoveColumnSocket = (newState: TypeBoard, oldState: TypeBoard) => {
+        // console.log(newState);
+        console.log(newState.columns);
+        let data: updateSessionPositionType = [];
+        newState.columnsOrder.map((columnId, index) => {
+            // Get id of the current column
+            const column = (state.columns as any)[columnId];
+            data.push({ sessionId: column.sessionId, position: index });
+        });
+        console.log(data);
+        sessionApi
+            .updatePosition(projectId, data)
+            .then(response => {
+                console.log(response);
+                snackbarUtils.success('Posição alterada com sucesso');
+                // AddColumn();
+            })
+            .catch(error => {
+                snackbarUtils.error('Erro ao tentar adicionar uma coluna');
+            });
+    };
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
@@ -108,6 +131,7 @@ const Board: React.FC = () => {
                 ...state,
                 columnsOrder: newColumnOrder,
             };
+            MoveColumnSocket(newState, state);
             setState(newState);
             return;
         }

@@ -107,6 +107,9 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 <Popover
                                     DeleteColumn={DeleteColumn}
                                     columnID={column.sessionId}
+                                    departmentId={departmentId}
+                                    projectId={projectId}
+                                    companyId={companyId}
                                 />
                             </Grid>
                         </Grid>

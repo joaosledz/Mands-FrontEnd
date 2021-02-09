@@ -9,7 +9,11 @@ const tasksApi = {
     create: (projectId: number, data: sessionType) =>
         api.post(sessionUrls.create + projectId, data),
     delete: (sessionId: string, data: deleteSessionType) =>
-        api.delete(sessionUrls.delete + sessionId),
+        api.delete(
+            sessionUrls.delete +
+                sessionId +
+                `/${data.companyId}/${data.departmentId}/${data.projectId}`
+        ),
     update: (projectId: number, sessionId: string, data: sessionType) =>
         api.put(sessionUrls.update + `${projectId}/${sessionId}`, data),
     updatePosition: (projectId: number, data: updateSessionPositionType) =>

@@ -58,7 +58,7 @@ const Board: React.FC = () => {
                     // snackbarUtils.success('Tarefa deletada com sucesso');
                 })
                 .catch(error => {
-                    snackbarUtils.error('Erro ao tentar deletar tarefa');
+                    snackbarUtils.error('Erro ao tentar mover tarefa');
                 });
         } else console.log('Dados incompletos de departamento e(ou) empresa');
     };
@@ -76,7 +76,10 @@ const Board: React.FC = () => {
                 .then(response => {
                     console.log(response);
                     snackbarUtils.success('Session criada com sucesso');
-                    AddColumn();
+                    AddColumn(
+                        response.data.sessionId.toString(),
+                        response.data.position
+                    );
                 })
                 .catch(error => {
                     snackbarUtils.error('Erro ao tentar adicionar uma coluna');
@@ -91,6 +94,7 @@ const Board: React.FC = () => {
             // Get id of the current column
             const column = (state.columns as any)[columnId];
             data.push({ sessionId: column.sessionId, position: index });
+            return data;
         });
         console.log(data);
         sessionApi

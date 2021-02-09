@@ -32,7 +32,7 @@ interface BoardContextData {
     AddTask: (columnID: keyof TypeColumn, task: TaskSocket) => void;
     UpdateTask: (itemID: keyof TypeItem, updatedItem: TypeItem) => void;
     DeleteTask: (itemID: keyof TypeItem, columnID: keyof TypeColumn) => void;
-    AddColumn: () => void;
+    AddColumn: (columnID: string, position: number) => void;
     DeleteColumn: (columnID: keyof TypeColumn) => void;
     setColumnTitle: (title: string, columnID: keyof TypeColumn) => void;
 }
@@ -53,19 +53,19 @@ export const BoardProvider: React.FC = ({ children }) => {
     >(undefined);
 
     //Funções de Coluna
-    const AddColumn = () => {
-        const newID = Math.floor(Math.random() * 100001).toString();
+    const AddColumn = (columnId: string, position: number) => {
         const newState = {
             ...state,
             columns: {
                 ...state.columns,
-                [newID]: {
-                    id: newID,
+                [columnId]: {
+                    sessionId: columnId,
+                    position: position,
                     title: 'Nova Coluna',
                     itemsIds: [],
                 },
             },
-            columnsOrder: [...state.columnsOrder, newID],
+            columnsOrder: [...state.columnsOrder, columnId],
         };
 
         setState(newState);

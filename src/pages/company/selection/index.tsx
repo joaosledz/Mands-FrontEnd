@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { companyApi, UserCompanyType } from '../../../services';
+import { companyApi, TypeCompany } from '../../../services';
 
 import AppLayout from '../../../layout/appLayout';
 import EmptyCompanies from './emptyCompanies';
@@ -10,7 +10,7 @@ import FabButton from '../../../components/fabButton';
 import snackbarUtils from '../../../utils/functions/snackbarUtils';
 
 const CompanySelection: React.FC = () => {
-    const [companies, setCompanies] = useState<Array<UserCompanyType>>([]);
+    const [companies, setCompanies] = useState<Array<TypeCompany>>([]);
     const [loading, setLoading] = useState(true);
     const history = useHistory();
 

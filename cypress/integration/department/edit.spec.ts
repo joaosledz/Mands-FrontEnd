@@ -3,10 +3,8 @@ import departmentUrls from '../../../src/services/urls/department';
 const baseUrl = Cypress.env('CYPRESS_API');
 const token = Cypress.env('CYPRESS_TOKEN');
 
-const companyName = 'guiazedaaaocompany';
-const companyId = 71;
-const departmentName = 'Telemarketing';
-const departmentId = 61;
+const companyName = 'AzedaEmpresa';
+const departmentName = 'vendas';
 
 before(() => {
     window.localStorage.setItem('@Mands:token', token);
@@ -19,7 +17,7 @@ describe('Edit a department', () => {
         );
     });
     it('Should fill the Inputs', () => {
-        // cy.get('[ data-cy="department-name"]').clear().type('Telemarketing');
+        cy.get('[ data-cy="department-name"]').clear().type('Telemarketing');
         cy.get('[data-cy=department-objective]')
             .clear()
             .type('Sou o departamento de Telemarketing');
@@ -29,18 +27,15 @@ describe('Edit a department', () => {
         cy.get('[data-cy=department-phone]').clear().type('71995187312');
     });
     it('Should edit a department', () => {
-        // console.log(authUrls.register);
-        cy.server();
-        cy.route(
-            'PUT',
-            `${baseUrl}/${departmentUrls.base}` + `${departmentId}/${companyId}`
-        ).as('registerDepartment');
+        cy.intercept('PUT', `${baseUrl}/${departmentUrls.base}**`).as(
+            'registerDepartment'
+        );
 
         cy.get('form').submit();
 
-        cy.wait('@registerDepartment').then(resp => {
-            cy.log(JSON.stringify(resp, null, 2));
-            expect(resp.status).be.greaterThan(199).below(300);
+        cy.wait('@registerDepartment').then(({ request, response }) => {
+            cy.log(JSON.stringify(response, null, 2));
+            expect(response.statusCode).be.greaterThan(199).below(300);
         });
     });
 });

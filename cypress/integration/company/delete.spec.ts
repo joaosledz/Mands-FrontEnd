@@ -3,9 +3,8 @@ import companyUrls from '../../../src/services/urls/company';
 const baseUrl = Cypress.env('CYPRESS_API');
 const token = Cypress.env('CYPRESS_TOKEN');
 
-const companyName = 'sdfdfhfhgwer';
-const companyId = 91;
-const securityWord = 'sdfdfhfhgwer';
+const companyName = 'Face';
+const securityWord = 'Face';
 
 before(() => {
     window.localStorage.setItem('@Mands:token', token);
@@ -22,10 +21,9 @@ describe('Delete a company', () => {
         cy.get('[ data-cy="security-word-input"]').type(securityWord);
     });
     it('Should delete the company', () => {
-        cy.intercept(
-            'DELETE',
-            `${baseUrl}/${companyUrls.base}/` + companyId
-        ).as('deleteCompany');
+        cy.intercept('DELETE', `${baseUrl}/${companyUrls.base}/**`).as(
+            'deleteCompany'
+        );
 
         cy.get('[data-cy=company-delete-button]').click();
 

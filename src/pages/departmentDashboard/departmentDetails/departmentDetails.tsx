@@ -17,7 +17,7 @@ const CompanyDetails: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { department } = props;
 
-    // const company: UserCompanyType = useCompany();
+    // const company: TypeCompany = useCompany();
 
     return (
         <Paper className={classes.container}>

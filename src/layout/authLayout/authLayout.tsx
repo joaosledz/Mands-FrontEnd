@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import BackButton from '../../components/backButton';
 import useStyles from './styles';
 
-import logo from '../../assets/logo/logo.svg';
+import logo from '../../assets/logo/logo.png';
 
 type Props = {
     backButtonMessage?: string;

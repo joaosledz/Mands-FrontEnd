@@ -1,5 +1,4 @@
 import api from '../api';
-import { AxiosResponse } from 'axios';
 import {
     LoginType,
     LoginModel,
@@ -10,95 +9,55 @@ import {
 import authUrls from '../urls/authentication';
 
 const authApi = {
-    login: async (data: LoginType) => {
-        try {
-            const response: AxiosResponse<LoginModel> = await api.post(
-                authUrls.login,
-                data
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    login: (data: LoginType) => api.post<LoginModel>(authUrls.login, data),
 
-    me: async (token?: string) => {
-        try {
-            const response: AxiosResponse<TypeUser> = await api.get(
-                authUrls.me,
-                token
-                    ? { headers: { Authorization: `Bearer ${token}` } }
-                    : undefined
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    me: (token?: string) =>
+        api.get<TypeUser>(
+            authUrls.me,
+            token
+                ? { headers: { Authorization: `Bearer ${token}` } }
+                : undefined
+        ),
+
     verifyUsername: (username: string) =>
         api.get(authUrls.verifyUsername + `/${username}`),
 
-    register: async (data: RegisterModel) => {
-        try {
-            const response: AxiosResponse<TypeUser> = await api.post(
-                authUrls.register,
-                data
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    register: (data: RegisterModel) =>
+        api.post<TypeUser>(authUrls.register, data),
 
-    recoverPassword: async (email: string) => {
-        try {
-            const response: AxiosResponse<any> = await api.post(
-                authUrls.changePassword,
-                {
-                    email,
-                }
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+    update: (data: updateModel) => api.put<TypeUser>(authUrls.update, data),
 
-    changePassword: async (password: string, token: string) => {
-        try {
-            const response: AxiosResponse<any> = await api.put(
-                authUrls.changePassword,
-                {
-                    password,
+    confirmAccount: (token: string) =>
+        api.put(
+            authUrls.confirmAccount,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
-    update: async (data: updateModel) => {
-        try {
-            const response: AxiosResponse<TypeUser> = await api.put(
-                authUrls.update,
-                data
-            );
-            return Promise.resolve(response);
-        } catch (error) {
-            console.log(error);
-            return Promise.reject(error);
-        }
-    },
+            }
+        ),
+
+    resendConfirmEmail: (credential: string) =>
+        api.post(authUrls.resendConfirmEmail, { credential }),
+
+    recoverPassword: (email: string) =>
+        api.post(authUrls.changePassword, {
+            email,
+        }),
+
+    changePassword: (password: string, token: string) =>
+        api.put(
+            authUrls.changePassword,
+            {
+                password,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        ),
 };
 
 export default authApi;

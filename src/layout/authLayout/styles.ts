@@ -8,13 +8,20 @@ const useStyles = makeStyles((theme: Theme) =>
             minHeight: '100vh',
             maxWidth: '100%',
             backgroundColor: theme.palette.background.default,
-            padding: '5% 10% 0px',
+            padding: '3% 10% 0px',
             [theme.breakpoints.down('md')]: {
                 padding: '5% 2rem 0px',
             },
         },
 
-        logo: { width: '10%', minWidth: 130, height: 'auto' },
+        logo: {
+            width: '65%',
+            height: 'auto',
+
+            [theme.breakpoints.only('xs')]: {
+                width: '30%',
+            },
+        },
     })
 );
 

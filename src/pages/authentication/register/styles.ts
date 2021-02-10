@@ -63,14 +63,17 @@ const useStyles = makeStyles<Theme>(theme =>
                 textDecoration: 'underline',
             },
         },
+
         iconValidUser: {
             color: 'green',
             width: '22px',
         },
+
         iconInvalidUser: {
             color: 'red',
             width: '22px',
         },
+
         avatarContainer: {
             width: '100%',
             display: 'flex',

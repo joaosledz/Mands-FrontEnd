@@ -14,7 +14,14 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
 
-        logo: { width: '65%', height: 'auto' },
+        logo: {
+            width: '65%',
+            height: 'auto',
+
+            [theme.breakpoints.only('xs')]: {
+                width: '30%',
+            },
+        },
     })
 );
 

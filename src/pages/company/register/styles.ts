@@ -71,6 +71,7 @@ const useStyles = makeStyles<Theme>(theme =>
                 textDecoration: 'underline',
             },
         },
+
         signUpText: {
             font: 'italic 300 16px Roboto',
             color: '#8A8A8A',
@@ -99,6 +100,16 @@ const useStyles = makeStyles<Theme>(theme =>
                 transition: 'all .2s',
                 '&:hover': {},
             },
+        },
+
+        iconValidUser: {
+            color: 'green',
+            width: '22px',
+        },
+
+        iconInvalidUser: {
+            color: 'red',
+            width: '22px',
         },
 
         avatarInputLabel: {

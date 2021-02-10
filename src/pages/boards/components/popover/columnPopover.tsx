@@ -3,6 +3,8 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid';
+import { sessionApi, deleteSessionType } from '../../../../services';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,9 +30,18 @@ const useStyles = makeStyles((theme: Theme) =>
 type PopoverProps = {
     DeleteColumn: any;
     columnID: string;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 export default function SimplePopover(props: PopoverProps) {
-    const { DeleteColumn, columnID } = props;
+    const {
+        DeleteColumn,
+        columnID,
+        departmentId,
+        projectId,
+        companyId,
+    } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<any | null>(null);
 
@@ -40,6 +51,24 @@ export default function SimplePopover(props: PopoverProps) {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleDeleteSession = () => {
+        let data: deleteSessionType = {
+            departmentId,
+            projectId,
+            companyId,
+        };
+        sessionApi
+            .delete(columnID, data)
+            .then(response => {
+                console.log(response);
+                snackbarUtils.success('Session deletada com sucesso');
+                DeleteColumn(columnID);
+            })
+            .catch(error => {
+                snackbarUtils.error('Erro ao tentar adicionar uma coluna');
+            });
     };
 
     const open = Boolean(anchorEl);
@@ -68,9 +97,7 @@ export default function SimplePopover(props: PopoverProps) {
             >
                 <Typography
                     className={classes.typography}
-                    onClick={() => {
-                        DeleteColumn(columnID);
-                    }}
+                    onClick={() => handleDeleteSession()}
                 >
                     Apagar
                 </Typography>

@@ -3,11 +3,9 @@ import departmentUrls from '../../../src/services/urls/department';
 const baseUrl = Cypress.env('CYPRESS_API');
 const token = Cypress.env('CYPRESS_TOKEN');
 
-const companyName = 'guiazedaaaocompany';
-const companyId = 71;
-const departmentName = 'Financeiro';
-const departmentId = 201;
-const securityWord = 'guiazedaaaocompany/Financeiro';
+const companyName = 'AzedaEmpresa';
+const departmentName = 'telemarketing';
+const securityWord = 'AzedaEmpresa/Vendas';
 
 before(() => {
     window.localStorage.setItem('@Mands:token', token);
@@ -26,10 +24,9 @@ describe('Delete a department', () => {
         cy.get('[ data-cy="security-word-input"]').type(securityWord);
     });
     it('Should delete the department', () => {
-        cy.intercept(
-            'DELETE',
-            `${baseUrl}/${departmentUrls.base}` + `${departmentId}/${companyId}`
-        ).as('deleteDepartment');
+        cy.intercept('DELETE', `${baseUrl}/${departmentUrls.base}**`).as(
+            'deleteDepartment'
+        );
 
         cy.get('[data-cy=department-delete-button]').click();
 

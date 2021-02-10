@@ -231,7 +231,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         handleWebSocket();
         // console.log(params);
         // eslint-disable-next-line
-    }, [hubConnection]);
+    }, [state, params, hubConnection]);
 
     useEffect(() => {
         const getBoardData = async () => {

@@ -1,19 +1,119 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import FabButton from '../../../../components/fabButton';
 import BoardContext from '../../../../contexts/board';
 import { BoardColumn } from '../column/board-column';
+import useCompany from '../../../../hooks/useCompany';
+import { useParams } from 'react-router-dom';
+import TypeParams from '../../../../models/params';
+import useDepartment from '../../../../hooks/useDepartment';
+import {
+    SubmitChangeSession,
+    taskApi,
+    sessionApi,
+    sessionType,
+    updateSessionPositionType,
+} from '../../../../services';
+import { TypeBoard } from '../../../../models/boardTypes';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const Board: React.FC = () => {
     const classes = useStyles();
     // Initialize board state with board data
     const { state, setState, AddColumn } = useContext(BoardContext);
+    const { company } = useCompany();
+    const params = useParams<TypeParams>();
+    const { getDepartmentData, department } = useDepartment();
+    //Id do Projeto
+    const projectId = parseInt(params.project!);
+    //Dados do departamento do projeto
+    // const [departmentId, setDepartmentId] = useState(1)
+    useEffect(() => {
+        const handleDepartment = async () => {
+            if (!department)
+                await getDepartmentData(params.company, params.department!);
 
+            // setDepartmentId(department.departmentId)
+        };
+        handleDepartment();
+        // eslint-disable-next-line
+    }, [department]);
     // Handle drag & drop
+    const ChangeSessionSocket = (itemId: string, sessionId: string) => {
+        if (company && department) {
+            let data: SubmitChangeSession = {
+                companyId: company.companyId,
+                departmentId: department.departmentId,
+                projectId,
+            };
+            taskApi
+                .changeSession(
+                    parseInt(itemId.replace('task_', '')),
+                    sessionId,
+                    data
+                )
+                .then(response => {
+                    console.log(response);
+                    // snackbarUtils.success('Tarefa deletada com sucesso');
+                })
+                .catch(error => {
+                    snackbarUtils.error('Erro ao tentar mover tarefa');
+                });
+        } else console.log('Dados incompletos de departamento e(ou) empresa');
+    };
+
+    const AddSessionSocket = () => {
+        if (company && department) {
+            let data: sessionType = {
+                title: 'Título da nova coluna',
+                description: '',
+                companyId: company.companyId,
+                departmentId: department.departmentId,
+            };
+            sessionApi
+                .create(projectId, data)
+                .then(response => {
+                    console.log(response);
+                    snackbarUtils.success('Session criada com sucesso');
+                    AddColumn(
+                        response.data.sessionId.toString(),
+                        response.data.position
+                    );
+                })
+                .catch(error => {
+                    snackbarUtils.error('Erro ao tentar adicionar uma coluna');
+                });
+        } else console.log('Dados incompletos de departamento e(ou) empresa');
+    };
+    const MoveColumnSocket = (newState: TypeBoard, oldState: TypeBoard) => {
+        // console.log(newState);
+        console.log(newState.columns);
+        let data: updateSessionPositionType = [];
+        newState.columnsOrder.map((columnId, index) => {
+            // Get id of the current column
+            const column = (state.columns as any)[columnId];
+            data.push({ sessionId: column.sessionId, position: index });
+            return data;
+        });
+        console.log(data);
+        sessionApi
+            .updatePosition(projectId, data)
+            .then(response => {
+                console.log(response);
+                snackbarUtils.success('Posição alterada com sucesso');
+                // AddColumn();
+            })
+            .catch(error => {
+                snackbarUtils.error('Erro ao tentar adicionar uma coluna');
+            });
+    };
+
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-        console.log(typeof state);
+        console.log(state);
+        console.log(destination);
+        console.log(draggableId);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
@@ -25,7 +125,7 @@ const Board: React.FC = () => {
         ) {
             return;
         }
-
+        //Reposicionando uma coluna
         if (type === 'column') {
             const newColumnOrder = Array.from(state.columnsOrder);
             newColumnOrder.splice(source.index, 1);
@@ -35,6 +135,7 @@ const Board: React.FC = () => {
                 ...state,
                 columnsOrder: newColumnOrder,
             };
+            MoveColumnSocket(newState, state);
             setState(newState);
             return;
         }
@@ -67,7 +168,7 @@ const Board: React.FC = () => {
                 ...state,
                 columns: {
                     ...state.columns,
-                    [newColumnStart.id]: newColumnStart,
+                    [newColumnStart.sessionId]: newColumnStart,
                 },
             };
             // Update the board state with new data
@@ -101,12 +202,13 @@ const Board: React.FC = () => {
                 ...state,
                 columns: {
                     ...state.columns,
-                    [newColumnStart.id]: newColumnStart,
-                    [newColumnFinish.id]: newColumnFinish,
+                    [newColumnStart.sessionId]: newColumnStart,
+                    [newColumnFinish.sessionId]: newColumnFinish,
                 },
             };
             // Update the board state with new data
             setState(newState);
+            ChangeSessionSocket(draggableId, destination.droppableId);
         }
     };
 
@@ -137,12 +239,23 @@ const Board: React.FC = () => {
 
                                 // Render the BoardColumn component
                                 return (
-                                    <BoardColumn
-                                        key={column.id}
-                                        column={column}
-                                        items={items}
-                                        index={index}
-                                    />
+                                    <>
+                                        {department && params && company && (
+                                            <BoardColumn
+                                                key={column.sessionId}
+                                                column={column}
+                                                items={items}
+                                                index={index}
+                                                departmentId={
+                                                    department.departmentId
+                                                }
+                                                projectId={parseInt(
+                                                    params.project!
+                                                )}
+                                                companyId={company.companyId}
+                                            />
+                                        )}
+                                    </>
                                 );
                             })}
                         </div>
@@ -152,7 +265,7 @@ const Board: React.FC = () => {
             <FabButton
                 icon="plus"
                 style={classes.fabButton}
-                onClick={AddColumn}
+                onClick={AddSessionSocket}
             />
         </>
     );

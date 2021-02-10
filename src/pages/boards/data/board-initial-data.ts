@@ -29,7 +29,11 @@ export const initialBoardData = {
                 { id: 'task-7', checked: 'true', title: 'Comprar suprimentos' },
                 { id: 'task-8', checked: 'true', title: 'Comprar suprimentos' },
                 { id: 'task-9', checked: 'true', title: 'Comprar suprimentos' },
-                { id: 'task-10', checked: 'true', title: 'Comprar suprimentos' },
+                {
+                    id: 'task-10',
+                    checked: 'true',
+                    title: 'Comprar suprimentos',
+                },
             ],
         },
         'item-2': {
@@ -70,3 +74,34 @@ export const initialBoardData = {
     },
     columnsOrder: ['column-1', 'column-2', 'column-3'],
 };
+
+export const newBoardData = [
+    {
+        sessionId: 21,
+        position: 1,
+        title: 'Afazeres',
+        description: '',
+        tasks: [
+            {
+                taskId: 11,
+                title: 'Teste',
+                description: 'ola 234 ola',
+                responsible: null,
+            },
+        ],
+    },
+    {
+        sessionId: 11,
+        position: 2,
+        title: 'Em Progresso',
+        description: '',
+        tasks: null,
+    },
+    {
+        sessionId: 1,
+        position: 3,
+        title: 'Finalizado',
+        description: '',
+        tasks: null,
+    },
+];

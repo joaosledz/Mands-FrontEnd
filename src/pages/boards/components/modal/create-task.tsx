@@ -118,6 +118,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                             </Grid>
                             <Grid
                                 container
+                                item
                                 xs={12}
                                 justify="center"
                                 className={classes.submitButtonContainer}

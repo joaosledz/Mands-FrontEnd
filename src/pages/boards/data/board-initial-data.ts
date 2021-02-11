@@ -81,14 +81,7 @@ export const newBoardData = [
         position: 1,
         title: 'Afazeres',
         description: '',
-        tasks: [
-            {
-                taskId: 11,
-                title: 'Teste',
-                description: 'ola 234 ola',
-                responsible: null,
-            },
-        ],
+        tasks: null,
     },
     {
         sessionId: 11,

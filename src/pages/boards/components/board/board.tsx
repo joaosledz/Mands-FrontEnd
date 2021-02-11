@@ -219,6 +219,7 @@ const Board: React.FC = () => {
                     droppableId="all-columns"
                     direction="horizontal"
                     type="column"
+                    key="all-columns"
                 >
                     {provided => (
                         <div
@@ -239,8 +240,8 @@ const Board: React.FC = () => {
 
                                 // Render the BoardColumn component
                                 return (
-                                    <>
-                                        {department && params && company && (
+                                    <React.Fragment key={column.sessionId}>
+                                        {department && params && company ? (
                                             <BoardColumn
                                                 key={column.sessionId}
                                                 column={column}
@@ -254,8 +255,10 @@ const Board: React.FC = () => {
                                                 )}
                                                 companyId={company.companyId}
                                             />
+                                        ) : (
+                                            <div />
                                         )}
-                                    </>
+                                    </React.Fragment>
                                 );
                             })}
                         </div>

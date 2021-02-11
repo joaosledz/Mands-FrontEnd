@@ -3,9 +3,9 @@ import React from 'react';
 import AppLayout from '../../layout/appLayout';
 import useStyles from './styles';
 import Typography from '@material-ui/core/Typography';
-import Board from './components/board/board';
+// import Board from './components/board/board';
 import Grid from '@material-ui/core/Grid';
-import { BoardProvider } from '../../contexts/board';
+// import { BoardProvider } from '../../contexts/board';
 
 const BoardPage: React.FC = () => {
     const classes = useStyles();
@@ -15,9 +15,9 @@ const BoardPage: React.FC = () => {
                 <Typography className={classes.title} variant="h4">
                     Board
                 </Typography>
-                <BoardProvider>
+                {/* <BoardProvider>
                     <Board />
-                </BoardProvider>
+                </BoardProvider> */}
             </Grid>
         </AppLayout>
     );

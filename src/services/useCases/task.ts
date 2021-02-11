@@ -6,7 +6,7 @@ import {
     SubmitChangeSession,
     SubtaskType,
 } from '../models/task';
-import taskUrls from '../urls/task';
+import taskUrls from '../urls/tasks';
 
 const tasksApi = {
     //Taks

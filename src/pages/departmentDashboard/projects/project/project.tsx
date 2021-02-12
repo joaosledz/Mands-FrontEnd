@@ -29,7 +29,7 @@ const Project: React.FC<Props> = (props: Props) => {
                 src={project.image || DefaultDepartmentIcon}
                 alt="Ícone do projeto"
             />
-            <Typography>{project.name}yyyyyyyy</Typography>
+            <Typography>{project.name}</Typography>
         </Link>
     );
 };

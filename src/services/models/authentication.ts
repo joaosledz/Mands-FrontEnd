@@ -24,7 +24,7 @@ type TypeUser = {
 };
 
 type LoginType = {
-    email: string;
+    credential: string;
     password: string;
 };
 

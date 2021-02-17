@@ -7,17 +7,21 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import pt from 'date-fns/locale/pt-BR';
 import { withStyles } from '@material-ui/core/styles';
-import { Key as KeyIcon } from '@styled-icons/ionicons-sharp';
+// import { Key as KeyIcon } from '@styled-icons/ionicons-sharp';
 import { PersonRemove as RemoveUserIcon } from '@styled-icons/material';
-
+// import { projectApi } from '../../../../../services';
 import { TypeEmployee } from '../../../../../models/department';
 import Localization from './config/localization';
 import MTableFilterRow from '../filter';
 import tableIcons from './config/icons';
-
+// import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import HiringModal from '../../../components/assignTeamModal/company';
-import PermissionModal from '../../../../../components/permission/modal';
+// import PermissionModal from '../../../../../components/permission/modal';
 import useStyles from './styles';
+// import useCompany from '../../../../../hooks/useCompany';
+// import { useParams } from 'react-router-dom';
+
+// import TypeParams from '../../../../../models/params';
 // import DeleteCupom from '../../components/Dialogs/DeleteCupom';
 
 type Props = {
@@ -40,11 +44,13 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
         track: {},
     })(Switch);
     const { data } = props;
+    // const params = useParams<TypeParams>();
+    // const { company } = useCompany();
     const tableRef = createRef();
     const [filter, setFilter] = useState<boolean>(false);
-    const [selectedEmployee, setSelectedEmployee] = useState<TypeEmployee>(
-        data[0]
-    );
+    // const [selectedEmployee, setSelectedEmployee] = useState<TypeMember>(
+    //     data[0]
+    // );
     const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilter(!filter);
     };
@@ -58,13 +64,29 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
         setShowHiringModal(true);
     };
     //Permission Modal
-    const [showPermissionModal, setShowPermissionModal] = useState<boolean>(
-        false
-    );
-    const handleOpenPermissionModal = (rowData: TypeEmployee) => {
-        setSelectedEmployee(rowData);
-        setShowPermissionModal(true);
-    };
+    // const [showPermissionModal, setShowPermissionModal] = useState<boolean>(
+    //     false
+    // );
+    // const handleOpenPermissionModal = (rowData: TypeEmployee) => {
+    //     setSelectedEmployee(rowData);
+    //     setShowPermissionModal(true);
+    // };
+    // const getData = () => {
+
+    //     projectApi
+    //         .findByDepartment(company? company.username: params.project!, departmentName)
+    //         .then(response => {
+    //             console.log(response);
+    //         })
+    //         .catch(error => {
+    //             snackbarUtils.error('Erro ao tentar carregar os projetos');
+    //         });
+    // };
+
+    // useEffect(() => {
+    //     getData();
+    // }, [])
+
     return (
         <Fragment>
             <MaterialTable
@@ -133,23 +155,23 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         type: 'string',
                         cellStyle: { textAlign: 'left' },
                     },
-                    {
-                        title: 'Permissões',
-                        filtering: false,
-                        sorting: false,
-                        field: 'url',
-                        width: 20,
-                        render: rowData => (
-                            <Button
-                                className={classes.button}
-                                onClick={() =>
-                                    handleOpenPermissionModal(rowData)
-                                }
-                            >
-                                <KeyIcon size={21} color={'white'} />
-                            </Button>
-                        ),
-                    },
+                    // {
+                    //     title: 'Permissões',
+                    //     filtering: false,
+                    //     sorting: false,
+                    //     field: 'url',
+                    //     width: 20,
+                    //     render: rowData => (
+                    //         <Button
+                    //             className={classes.button}
+                    //             onClick={() =>
+                    //                 handleOpenPermissionModal(rowData)
+                    //             }
+                    //         >
+                    //             <KeyIcon size={21} color={'white'} />
+                    //         </Button>
+                    //     ),
+                    // },
 
                     {
                         title: 'Remover',
@@ -217,11 +239,11 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                 isOpen={showHiringModal}
                 setIsOpen={setShowHiringModal}
             />
-            <PermissionModal
+            {/* <PermissionModal
                 isOpen={showPermissionModal}
                 setIsOpen={setShowPermissionModal}
                 employee={selectedEmployee}
-            />
+            /> */}
         </Fragment>
     );
 };

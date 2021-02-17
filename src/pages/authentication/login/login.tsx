@@ -46,7 +46,7 @@ const Login: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const query = useQuery();
-    const { login } = useAuth();
+    const { login, thirdPartyLogin } = useAuth();
     const { register, errors, handleSubmit, formState, watch } = useForm<
         TypeAuthModel
     >();
@@ -133,7 +133,7 @@ const Login: React.FC = () => {
                 password: data.googleId,
             };
 
-            await login(loginData);
+            await thirdPartyLogin(loginData);
 
             SnackbarUtils.success('Seja bem-vindo');
             history.replace('/escolha-da-empresa');

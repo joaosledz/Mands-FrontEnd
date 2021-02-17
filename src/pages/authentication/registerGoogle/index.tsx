@@ -9,12 +9,13 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { UserCheck as ValidUserIcon } from '@styled-icons/boxicons-regular';
 import { UserX as InvalidUserIcon } from '@styled-icons/boxicons-regular';
+import sha1 from 'sha1';
 
 import CpfValidator from '../../../validators/cpfValidator';
-import encrypt from '../../../utils/functions/encrypt';
 import snackbarUtils from '../../../utils/functions/snackbarUtils';
-import { authApi, RegisterModel } from '../../../services';
+import { authApi, RegisterModel, imageApi, LoginType } from '../../../services';
 import { validateUsername } from './components/validators/validateUsername';
+import useAuth from '../../../hooks/useAuth';
 
 import AuthLayout from '../../../layout/authLayout/authLayout';
 import Backdrop from '../../../components/backdrop';
@@ -37,6 +38,7 @@ type LocationType = {
 const Register: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
+    const { thirdPartyLogin } = useAuth();
     const location = useLocation<LocationType>();
     const { register, errors, handleSubmit, formState, trigger } = useForm<
         RegisterModel
@@ -52,7 +54,7 @@ const Register: React.FC = () => {
     });
 
     const [validUser, setValidUser] = useState(false);
-    const [userdata, setUserData] = useState<undefined | TypeGoogleData>();
+    const [userData, setUserData] = useState<undefined | TypeGoogleData>();
 
     useEffect(() => {
         console.log(validUser);
@@ -63,17 +65,28 @@ const Register: React.FC = () => {
     }, [location]);
 
     const onSubmit = async (data: RegisterModel) => {
-        const userData: RegisterModel = {
+        const registerData: RegisterModel = {
             ...data,
-            name: userdata!.name,
-            email: userdata!.email,
-            surname: userdata!.familyName,
-            password: encrypt(userdata!.googleId),
+            name: userData!.name,
+            email: userData!.email,
+            surname: userData!.familyName,
+            password: sha1(userData!.googleId),
         };
+
+        const loginData: LoginType = {
+            credential: userData!.email,
+            password: userData!.googleId,
+        };
+
         try {
-            await authApi.register(userData);
-            snackbarUtils.success('Email de confirmação enviado');
-            history.push('/login?confirm=true');
+            await authApi.thirdPartyRegister(registerData);
+
+            await thirdPartyLogin(loginData, userData!.imageUrl);
+
+            await imageApi.postThirdParty(userData!.imageUrl);
+
+            snackbarUtils.success('Seja bem-vindo');
+            history.replace('/escolha-da-empresa');
         } catch (error) {
             snackbarUtils.error(error.message);
         }
@@ -82,7 +95,7 @@ const Register: React.FC = () => {
     return (
         <Fragment>
             <Backdrop loading={formState.isSubmitting} />
-            <AuthLayout backButtonMessage="Voltar para o Login" >
+            <AuthLayout backButtonMessage="Voltar para o Login">
                 <Grid
                     component="form"
                     container
@@ -109,7 +122,7 @@ const Register: React.FC = () => {
                             <Grid container item spacing={3}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        value={userdata?.givenName}
+                                        value={userData?.givenName}
                                         disabled
                                         data-cy="user-firstName"
                                         name="name"
@@ -134,7 +147,7 @@ const Register: React.FC = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        value={userdata?.familyName}
+                                        value={userData?.familyName}
                                         disabled
                                         data-cy="user-lastName"
                                         name="surname"
@@ -221,7 +234,7 @@ const Register: React.FC = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        value={userdata?.email}
+                                        value={userData?.email}
                                         disabled
                                         data-cy="user-email"
                                         name="email"

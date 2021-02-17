@@ -17,6 +17,6 @@
     },
     "include": ["src"],
     "files":[
-        "src/models/googleLogin.d.ts"
+        "src/utils/models/googleLogin.d.ts",
       ]
 }

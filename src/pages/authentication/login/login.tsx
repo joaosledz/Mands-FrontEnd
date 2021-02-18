@@ -26,16 +26,27 @@ import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import useStyles, { inputStyle } from './styles';
 
+import GoogleLogin from 'react-google-login';
+
 type TypeAuthModel = {
     credential: string;
     password: string;
+};
+
+type TypeGoogleData = {
+    email: string;
+    familyName: string;
+    givenName: string;
+    googleId: string;
+    imageUrl: string;
+    name: string;
 };
 
 const Login: React.FC = () => {
     const classes = useStyles();
     const history = useHistory();
     const query = useQuery();
-    const { login } = useAuth();
+    const { login, thirdPartyLogin } = useAuth();
     const { register, errors, handleSubmit, formState, watch } = useForm<
         TypeAuthModel
     >();
@@ -100,6 +111,41 @@ const Login: React.FC = () => {
                     SnackbarUtils.warning(
                         'Credenciais inválidas, verique sua credencial e senha'
                     );
+                    break;
+                case 403:
+                    setModalIsOpen(value => ({
+                        ...value,
+                        confirm: true,
+                    }));
+                    SnackbarUtils.info('Conta pendente de confirmação');
+                    break;
+                default:
+                    SnackbarUtils.error('Não foi possível efetuar o login');
+                    break;
+            }
+        }
+    };
+
+    const onGoogleLogin = async (data: TypeGoogleData) => {
+        try {
+            const loginData: LoginType = {
+                credential: data.email,
+                password: data.googleId,
+            };
+
+            await thirdPartyLogin(loginData);
+
+            SnackbarUtils.success('Seja bem-vindo');
+            history.replace('/escolha-da-empresa');
+        } catch (err) {
+            const error: AxiosError = err;
+
+            switch (error.response?.status) {
+                case 401:
+                    history.push({
+                        pathname: '/cadastro-google',
+                        state: { data },
+                    });
                     break;
                 case 403:
                     setModalIsOpen(value => ({
@@ -252,21 +298,40 @@ const Login: React.FC = () => {
                             direction="column"
                         >
                             <Grid item xs>
-                                <CompanyButton
-                                    icon={googleIcon}
-                                    company={'Google'}
+                                <GoogleLogin
+                                    clientId="845723374128-pjov5coumjkfcsqdnoe80fsvkpuab8j3.apps.googleusercontent.com"
+                                    render={renderProps => (
+                                        <CompanyButton
+                                            icon={googleIcon}
+                                            company={'Google'}
+                                            onClick={renderProps.onClick}
+                                            disabled={renderProps.disabled}
+                                        />
+                                    )}
+                                    buttonText="Login"
+                                    onSuccess={({ profileObj }) =>
+                                        onGoogleLogin(profileObj!)
+                                    }
+                                    onFailure={() =>
+                                        SnackbarUtils.error(
+                                            'Não foi possível efetuar o login'
+                                        )
+                                    }
+                                    cookiePolicy={'single_host_origin'}
                                 />
                             </Grid>
                             <Grid item xs>
                                 <CompanyButton
                                     icon={microsoftIcon}
                                     company={'Microsoft'}
+                                    onClick={() => {}}
                                 />
                             </Grid>
                             <Grid item xs>
                                 <CompanyButton
                                     icon={appleIcon}
                                     company={'Apple'}
+                                    onClick={() => {}}
                                 />
                             </Grid>
                         </Grid>

@@ -8,6 +8,7 @@ import {
     TypeUser,
 } from '../../services';
 import encrypt from '../../utils/functions/encrypt';
+import sha1 from 'sha1';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
 // import { connectHub } from '../../services/socket';
 
@@ -15,6 +16,7 @@ type AuthContextData = {
     signed: boolean;
     user: TypeUser | null;
     login(data: LoginType): Promise<LoginModel>;
+    thirdPartyLogin(data: LoginType, imageUrl?: string): Promise<LoginModel>;
     logout(): void;
     loading: boolean;
     updateUser: (data: TypeUser) => void;
@@ -58,6 +60,40 @@ export const AuthProvider: React.FC = ({ children }) => {
         loadStoragedData();
     }, []);
 
+    const thirdPartyLogin = useCallback(
+        async (data: LoginType, imageUrl?: string) => {
+            try {
+                const userData: LoginType = {
+                    ...data,
+                    password: sha1(data.password),
+                };
+                const response = await authApi.login(userData);
+                const newUser = response.data.user;
+                // console.log(response);
+                setLoading(true);
+
+                if (!imageUrl) setUser(response.data.user);
+                else
+                    setUser({
+                        ...newUser,
+                        image: { ...newUser.image, path: imageUrl },
+                    });
+
+                api.defaults.headers[
+                    'Authorization'
+                ] = `Bearer ${response.data.token}`;
+                localStorage.setItem(tokenKey, response.data.token);
+                return Promise.resolve(response.data);
+            } catch (error) {
+                // console.log(error);
+                return Promise.reject(error);
+            } finally {
+                setLoading(false);
+            }
+        },
+        []
+    );
+
     const login = useCallback(async (data: LoginType) => {
         const userData: LoginType = {
             ...data,
@@ -93,7 +129,15 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     return (
         <AuthContext.Provider
-            value={{ signed: !!user, user, updateUser, login, logout, loading }}
+            value={{
+                signed: !!user,
+                user,
+                updateUser,
+                login,
+                thirdPartyLogin,
+                logout,
+                loading,
+            }}
         >
             {children}
         </AuthContext.Provider>

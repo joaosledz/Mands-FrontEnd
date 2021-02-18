@@ -25,6 +25,9 @@ const authApi = {
     register: (data: RegisterModel) =>
         api.post<TypeUser>(authUrls.register, data),
 
+    thirdPartyRegister: (data: RegisterModel) =>
+        api.post<TypeUser>(authUrls.thirdPartyRegister, data),
+
     update: (data: updateModel) => api.put<TypeUser>(authUrls.update, data),
 
     confirmAccount: (token: string) =>

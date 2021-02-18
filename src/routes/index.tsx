@@ -10,6 +10,7 @@ import NotFound from '../pages/404';
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
 import Register from '../pages/authentication/register/register';
+import RegisterGoogle from '../pages/authentication/registerGoogle';
 import ConfirmAccount from '../pages/authentication/confirmAccount/confirmAccount';
 import ForgotPassword from '../pages/authentication/RecoverPassword/forgotPassword/forgotPassword';
 import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPassword/recoveryPassword';
@@ -47,6 +48,10 @@ const Routes = () => {
                 {/* Rotas de Autenticação */}
                 <PublicRoute path="/login" component={Login} exact />
                 <PublicRoute path="/cadastro" component={Register} />
+                <PublicRoute
+                    path="/cadastro-google"
+                    component={RegisterGoogle}
+                />
                 <PublicRoute
                     path="/esqueci-a-senha"
                     component={ForgotPassword}

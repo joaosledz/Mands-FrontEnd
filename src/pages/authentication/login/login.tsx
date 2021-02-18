@@ -27,6 +27,7 @@ import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import useStyles, { inputStyle } from './styles';
 
 import GoogleLogin from 'react-google-login';
+import LinkedinButton from './components/linkedinButton';
 
 type TypeAuthModel = {
     credential: string;
@@ -158,6 +159,27 @@ const Login: React.FC = () => {
                     SnackbarUtils.error('Não foi possível efetuar o login');
                     break;
             }
+        }
+    };
+
+    const onLinkedinLogin = async (data: any) => {
+        try {
+            const code = data.code;
+
+            // const requestParams: URLSearchParams = new URLSearchParams();
+
+            // requestParams.append('grant_type', 'authorization_code');
+            // requestParams.append('code', code);
+            // requestParams.append(
+            //     'redirect_uri',
+            //     `${window.location.origin}/linkedin`
+            // );
+            // requestParams.append('client_id', '81lx5we2omq9xh');
+            // requestParams.append('client_secret', '');
+
+            console.log(code);
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -332,6 +354,16 @@ const Login: React.FC = () => {
                                     icon={appleIcon}
                                     company={'Apple'}
                                     onClick={() => {}}
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <LinkedinButton
+                                    handleSuccess={onLinkedinLogin}
+                                    handleFailure={() =>
+                                        SnackbarUtils.error(
+                                            'Não foi possível efetuar o login'
+                                        )
+                                    }
                                 />
                             </Grid>
                         </Grid>

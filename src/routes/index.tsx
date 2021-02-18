@@ -31,6 +31,8 @@ import Boards from '../pages/boards';
 import AdministratorRoutes from './administrator.routes';
 //#endregion
 
+import linkedInPopUp from '../utils/functions/linkedinPopUp';
+
 const Routes = () => {
     const { loading, signed } = useAuth();
 
@@ -46,6 +48,7 @@ const Routes = () => {
                     <Redirect exact from="/" to="/escolha-da-empresa" />
                 )}
                 {/* Rotas de Autenticação */}
+                <PublicRoute path="/linkedin" component={linkedInPopUp} exact />
                 <PublicRoute path="/login" component={Login} exact />
                 <PublicRoute path="/cadastro" component={Register} />
                 <PublicRoute

@@ -27,6 +27,7 @@ import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import useStyles, { inputStyle } from './styles';
 
 import GoogleLogin from 'react-google-login';
+import GithubButton from './components/githubButton';
 
 type TypeAuthModel = {
     credential: string;
@@ -324,14 +325,24 @@ const Login: React.FC = () => {
                                 <CompanyButton
                                     icon={microsoftIcon}
                                     company={'Microsoft'}
-                                    onClick={() => {}}
                                 />
                             </Grid>
                             <Grid item xs>
                                 <CompanyButton
                                     icon={appleIcon}
                                     company={'Apple'}
-                                    onClick={() => {}}
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <GithubButton
+                                    clientId="16319b8c9137874f787f"
+                                    clientSecret="64cf9336414e9e881453b9c00aab3662e7d24b0d"
+                                    onSuccess={(response: any) =>
+                                        console.log(response)
+                                    }
+                                    onFailure={(response: any) =>
+                                        console.log(response)
+                                    }
                                 />
                             </Grid>
                         </Grid>

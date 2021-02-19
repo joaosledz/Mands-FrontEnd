@@ -24,22 +24,21 @@ import AccountRegisteredModal from '../components/accountRegisteredModal';
 import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
-import githubIcon from '../../../assets/socialMedia/Github.png';
 import useStyles, { inputStyle } from './styles';
 
 import GoogleLogin from 'react-google-login';
-import GithubButton from './components/githubButton';
+import FacebookLogin from './components/facebookButton';
 
 type TypeAuthModel = {
     credential: string;
     password: string;
 };
 
-type TypeGoogleData = {
+type TypeThirdPartyData = {
     email: string;
     familyName: string;
     givenName: string;
-    googleId: string;
+    id: string;
     imageUrl: string;
     name: string;
 };
@@ -128,11 +127,11 @@ const Login: React.FC = () => {
         }
     };
 
-    const onGoogleLogin = async (data: TypeGoogleData) => {
+    const onThirdParty = async (data: TypeThirdPartyData) => {
         try {
             const loginData: LoginType = {
                 credential: data.email,
-                password: data.googleId,
+                password: data.id,
             };
 
             await thirdPartyLogin(loginData);
@@ -145,7 +144,7 @@ const Login: React.FC = () => {
             switch (error.response?.status) {
                 case 401:
                     history.push({
-                        pathname: '/cadastro-google',
+                        pathname: '/cadastro-terceiros',
                         state: { data },
                     });
                     break;
@@ -312,7 +311,14 @@ const Login: React.FC = () => {
                                     )}
                                     buttonText="Login"
                                     onSuccess={({ profileObj }) =>
-                                        onGoogleLogin(profileObj!)
+                                        onThirdParty({
+                                            email: profileObj!.email,
+                                            familyName: profileObj!.familyName,
+                                            givenName: profileObj!.givenName,
+                                            id: profileObj!.googleId,
+                                            imageUrl: profileObj!.imageUrl,
+                                            name: profileObj!.name,
+                                        })
                                     }
                                     onFailure={() =>
                                         SnackbarUtils.error(
@@ -326,32 +332,37 @@ const Login: React.FC = () => {
                                 <CompanyButton
                                     icon={microsoftIcon}
                                     company={'Microsoft'}
+                                    onClick={() => {}}
                                 />
                             </Grid>
                             <Grid item xs>
                                 <CompanyButton
                                     icon={appleIcon}
                                     company={'Apple'}
+                                    onClick={() => {}}
                                 />
                             </Grid>
                             <Grid item xs>
-                                <GithubButton
-                                    clientId="16319b8c9137874f787f"
+                                <FacebookLogin
                                     onSuccess={(response: any) =>
-                                        console.log(response)
+                                        onThirdParty({
+                                            email: response.email,
+                                            familyName: response.name.split(
+                                                ' '
+                                            )[1],
+                                            givenName: response.name.split(
+                                                ' '
+                                            )[0],
+                                            id: response.id,
+                                            imageUrl: response.picture.data.url,
+                                            name: response.name,
+                                        })
                                     }
                                     onFailure={() =>
                                         SnackbarUtils.error(
                                             'Não foi possível efetuar o login'
                                         )
                                     }
-                                    render={renderProps => (
-                                        <CompanyButton
-                                            icon={githubIcon}
-                                            company={'Github'}
-                                            onClick={renderProps.onClick}
-                                        />
-                                    )}
                                 />
                             </Grid>
                         </Grid>

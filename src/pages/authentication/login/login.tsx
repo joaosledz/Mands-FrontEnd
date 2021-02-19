@@ -24,10 +24,12 @@ import AccountRegisteredModal from '../components/accountRegisteredModal';
 import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
+import githubIcon from '../../../assets/socialMedia/Github.png';
 import useStyles, { inputStyle } from './styles';
 
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from './components/facebookButton';
+import GithubLogin from './components/githubButton';
 
 type TypeAuthModel = {
     credential: string;
@@ -363,6 +365,26 @@ const Login: React.FC = () => {
                                             'Não foi possível efetuar o login'
                                         )
                                     }
+                                />
+                            </Grid>
+                            <Grid item xs>
+                                <GithubLogin
+                                    clientId="16319b8c9137874f787f"
+                                    onFailure={() =>
+                                        SnackbarUtils.error(
+                                            'Não foi possível efetuar o login'
+                                        )
+                                    }
+                                    onSuccess={response =>
+                                        console.log(response)
+                                    }
+                                    render={renderProps => (
+                                        <CompanyButton
+                                            icon={githubIcon}
+                                            company={'Github'}
+                                            onClick={renderProps.onClick}
+                                        />
+                                    )}
                                 />
                             </Grid>
                         </Grid>

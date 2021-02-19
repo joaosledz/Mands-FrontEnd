@@ -22,17 +22,17 @@ import Backdrop from '../../../components/backdrop';
 import RegisterButton from '../components/submitButton/submitButton';
 import useStyles from './styles';
 
-type TypeGoogleData = {
+type TypeThirdPartyData = {
     email: string;
     familyName: string;
     givenName: string;
-    googleId: string;
+    id: string;
     imageUrl: string;
     name: string;
 };
 
 type LocationType = {
-    data: TypeGoogleData;
+    data: TypeThirdPartyData;
 };
 
 const Register: React.FC = () => {
@@ -54,7 +54,7 @@ const Register: React.FC = () => {
     });
 
     const [validUser, setValidUser] = useState(false);
-    const [userData, setUserData] = useState<undefined | TypeGoogleData>();
+    const [userData, setUserData] = useState<undefined | TypeThirdPartyData>();
 
     useEffect(() => {
         console.log(validUser);
@@ -70,12 +70,12 @@ const Register: React.FC = () => {
             name: userData!.name,
             email: userData!.email,
             surname: userData!.familyName,
-            password: sha1(userData!.googleId),
+            password: sha1(userData!.id),
         };
 
         const loginData: LoginType = {
             credential: userData!.email,
-            password: userData!.googleId,
+            password: userData!.id,
         };
 
         try {

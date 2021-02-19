@@ -5,7 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Grow from '@material-ui/core/Grow';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import useCompany from '../../../hooks/useCompany';
+import useDepartment from '../../../hooks/useDepartment';
 import TypeParams from '../../../models/params';
 import { TypeProject, projectApi } from '../../../services';
 
@@ -19,25 +20,29 @@ const Projects: React.FC = () => {
 
     const [loading, setLoading] = useState(true);
     const [projects, setProjects] = useState<Array<TypeProject> | null>(null);
-
+    const { company } = useCompany();
+    const { department } = useDepartment();
     useEffect(() => {
         setLoading(true);
+
         const getProjectData = async () => {
-            try {
-                const response = await projectApi.findByUser(
-                    params.company,
-                    params.department!
-                );
-                setProjects(response.data);
-                setLoading(false);
-            } catch (error) {
-                //toast de erro
-                setLoading(false);
+            if (company && department) {
+                try {
+                    const response = await projectApi.findByUser(
+                        company.companyId,
+                        department.departmentId
+                    );
+                    setProjects(response.data);
+                    setLoading(false);
+                } catch (error) {
+                    //toast de erro
+                    setLoading(false);
+                }
             }
         };
 
         getProjectData();
-    }, [params.company, params.department]);
+    }, [company, department]);
 
     const handleAlign = useCallback(() => {
         if (projects?.length === 0) return 'center';

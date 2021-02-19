@@ -5,6 +5,7 @@ import {
     SubmitDeleteTask,
     SubmitChangeSession,
     SubtaskType,
+    updateTaskPositionType,
 } from '../models/task';
 import taskUrls from '../urls/tasks';
 
@@ -34,6 +35,11 @@ const tasksApi = {
         sessionId: string,
         data: SubmitChangeSession
     ) => api.put(taskUrls.changeSession + `${taskId}/${sessionId}`, data),
+    updatePosition: (
+        sessionId: string,
+        projectId: string,
+        data: updateTaskPositionType
+    ) => api.put(taskUrls.updatePosition + `${sessionId}/${projectId}`, data),
     //Dependências
     createDependency: (companyId: number, taskId: string, data: any) =>
         api.post(taskUrls.createDependency + `${companyId}/${taskId}`, data),

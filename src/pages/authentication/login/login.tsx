@@ -24,6 +24,7 @@ import AccountRegisteredModal from '../components/accountRegisteredModal';
 import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
 import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
 import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
+import githubIcon from '../../../assets/socialMedia/Github.png';
 import useStyles, { inputStyle } from './styles';
 
 import GoogleLogin from 'react-google-login';
@@ -336,13 +337,21 @@ const Login: React.FC = () => {
                             <Grid item xs>
                                 <GithubButton
                                     clientId="16319b8c9137874f787f"
-                                    clientSecret="64cf9336414e9e881453b9c00aab3662e7d24b0d"
                                     onSuccess={(response: any) =>
                                         console.log(response)
                                     }
-                                    onFailure={(response: any) =>
-                                        console.log(response)
+                                    onFailure={() =>
+                                        SnackbarUtils.error(
+                                            'Não foi possível efetuar o login'
+                                        )
                                     }
+                                    render={renderProps => (
+                                        <CompanyButton
+                                            icon={githubIcon}
+                                            company={'Github'}
+                                            onClick={renderProps.onClick}
+                                        />
+                                    )}
                                 />
                             </Grid>
                         </Grid>

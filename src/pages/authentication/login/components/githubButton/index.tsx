@@ -1,24 +1,25 @@
 import React from 'react';
 
-import CompanyButton from '../companyButton';
-
-import githubIcon from '../../../../../assets/socialMedia/Github.png';
-
 import { toQuery } from './utils';
 import PopupWindow from './PopupWindow';
 
 interface ButtonProps {
     clientId: string;
-    clientSecret: string;
     onSuccess(data: any): void;
     onFailure(error: any): void;
+    render?:
+        | ((props: {
+              onClick(): void;
+              disabled?: boolean | undefined;
+          }) => JSX.Element)
+        | undefined;
 }
 
 const GithubButton: React.FC<ButtonProps> = ({
     clientId,
-    clientSecret,
     onSuccess,
     onFailure,
+    render,
 }) => {
     const scope: string = 'user:email';
 
@@ -35,18 +36,16 @@ const GithubButton: React.FC<ButtonProps> = ({
         );
 
         popup.then(
-            (data: any) => onSuccess(data),
+            ({ code }: any) => onSuccess(code),
             (error: any) => onFailure(error)
         );
     };
 
-    return (
-        <CompanyButton
-            company="GitHub"
-            icon={githubIcon}
-            onClick={onBtnClick}
-        />
-    );
+    if (render) {
+        return render({ onClick: onBtnClick });
+    }
+
+    return <button onClick={onBtnClick}>Login com github</button>;
 };
 
 export default GithubButton;

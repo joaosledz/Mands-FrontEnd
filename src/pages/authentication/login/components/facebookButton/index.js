@@ -4,10 +4,12 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import facebookIcon from '../../../../../assets/companiesIcons/facebookLogo.svg';
 import CompanyButton from '../companyButton';
 
+import thirdPartyIds from '../../../../../utils/data/thirdPartyIds';
+
 const FacebookButton = ({ onSuccess, onFailure }) => {
     return (
         <FacebookLogin
-            appId="3947509128634052"
+            appId={thirdPartyIds.facebook.client_id}
             callback={response => onSuccess(response)}
             onFailure={onFailure}
             fields="name,email,picture"

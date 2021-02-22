@@ -20,6 +20,13 @@ type AuthContextData = {
     logout(): void;
     loading: boolean;
     updateUser: (data: TypeUser) => void;
+    getGithubAccess: (data: TypeGithub) => Promise<string>;
+};
+
+type TypeGithub = {
+    clientId: string;
+    clientSecret: string;
+    code: string;
 };
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -127,6 +134,22 @@ export const AuthProvider: React.FC = ({ children }) => {
         setUser(data);
     };
 
+    const getGithubAccess = async (data: TypeGithub) => {
+        try {
+            const {
+                data: { access_token },
+            } = await authApi.getGithubAccess(
+                data.clientId,
+                data.clientSecret,
+                data.code
+            );
+            return Promise.resolve(access_token);
+        } catch (err) {
+            console.log(err);
+            return Promise.reject(err);
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -137,6 +160,7 @@ export const AuthProvider: React.FC = ({ children }) => {
                 thirdPartyLogin,
                 logout,
                 loading,
+                getGithubAccess,
             }}
         >
             {children}

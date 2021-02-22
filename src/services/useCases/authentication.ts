@@ -22,6 +22,8 @@ const authApi = {
     verifyUsername: (username: string) =>
         api.get(authUrls.verifyUsername + `/${username}`),
 
+    verifyEmail: (email: string) => api.get(authUrls.verifyEmail + `/${email}`),
+
     register: (data: RegisterModel) =>
         api.post<TypeUser>(authUrls.register, data),
 
@@ -60,6 +62,11 @@ const authApi = {
                     Authorization: `Bearer ${token}`,
                 },
             }
+        ),
+
+    getGithubAccess: (clientId: string, clientSecret: string, code: string) =>
+        api.post(
+            `${authUrls.githubAccess}/${clientId}/${clientSecret}/${code}`
         ),
 };
 

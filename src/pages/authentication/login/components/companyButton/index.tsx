@@ -6,7 +6,7 @@ import { Typography } from '@material-ui/core';
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon: any;
     company: string;
-    onClick(): void;
+    onClick?(): void;
 }
 
 const ButtonComponent: React.FC<ButtonProps> = (

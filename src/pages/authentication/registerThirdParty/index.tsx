@@ -88,7 +88,9 @@ const Register: React.FC = () => {
             snackbarUtils.success('Seja bem-vindo');
             history.replace('/escolha-da-empresa');
         } catch (error) {
-            snackbarUtils.error(error.message);
+            snackbarUtils.error(
+                error.response.data ? error.response.data : error.message
+            );
         }
     };
 

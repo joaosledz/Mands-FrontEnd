@@ -39,7 +39,7 @@ const Roles: React.FC<Props> = (props: Props) => {
     return (
         <Fragment>
             <Divider variant="fullWidth" className={classes.divider} />
-            <Grid container style={{ marginLeft: '2rem' }}>
+            <Grid container style={{ paddingLeft: '2rem' }}>
                 <Grid item xs={12}>
                     <FormControlLabel
                         value={role.compPermissionId}

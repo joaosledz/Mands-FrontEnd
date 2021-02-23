@@ -11,15 +11,35 @@ export type TypeMember = {
     userId: number;
     name: string;
     surname: string;
-    imageId: number;
-    image: string;
+    imageId?: number;
+    image: {
+        imageId: number;
+        path: string;
+        extension: string;
+        name: string;
+        size: string;
+    } | null;
     username: string;
-    email: string;
+    email?: string;
     cpf: string;
-    admission: null;
+    admission?: null;
     permission: string;
     permissionId: number;
 };
+
+// export type TypeEmployee = {
+//     userId: number;
+//     name: string;
+//     surname: string;
+//     // imageId: number;
+//     image?: string;
+//     username: string;
+//     // email: string;
+//     cpf: string;
+//     // admission: null;
+//     permission: string;
+//     permissionId: number;
+// };
 
 export type TypeDepartment = {
     departmentId: number;

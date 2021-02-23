@@ -9,6 +9,7 @@ import RegisterDepartment from '../pages/adminDashboard/departments/department/r
 import DepartmentDetails from '../pages/adminDashboard/departments/department/details';
 import DepartmentEdit from '../pages/adminDashboard/departments/department/edit';
 import Employees from '../pages/adminDashboard/employees';
+import Projects from '../pages/adminDashboard/project';
 
 import RegisterProject from '../pages/adminDashboard/departments/projects/register/register';
 import ProjectDetails from '../pages/adminDashboard/departments/projects/details/details';
@@ -68,6 +69,11 @@ const AdministratorRoutes = () => {
                 exact
                 path={`${path}/:company/funcionarios`}
                 component={Employees}
+            />
+            <Route
+                exact
+                path={`${path}/:company/projetos`}
+                component={Projects}
             />
 
             <Route

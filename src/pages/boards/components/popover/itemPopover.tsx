@@ -4,6 +4,12 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import { EllipsisH as EllipsisIcon } from '@styled-icons/fa-solid';
 import BoardContext from '../../../../contexts/board';
+import {
+    SubmitDeleteTask,
+    // SubmitTaskType,
+    taskApi,
+} from '../../../../services';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -29,10 +35,16 @@ const useStyles = makeStyles((theme: Theme) =>
 type PopoverProps = {
     itemID: string;
     columnID: string;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 export default function SimplePopover(props: PopoverProps) {
-    const { itemID, columnID } = props;
-    const { DeleteTask } = useContext(BoardContext);
+    const { itemID, /*columnID,*/ departmentId, projectId, companyId } = props;
+    // eslint-disable-next-line
+    const {
+        /*DeleteTask*/
+    } = useContext(BoardContext);
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<any | null>(null);
 
@@ -42,6 +54,22 @@ export default function SimplePopover(props: PopoverProps) {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+    const DeleteTaskSocket = () => {
+        let data: SubmitDeleteTask = {
+            companyId,
+            departmentId,
+            projectId,
+        };
+        taskApi
+            .delete(parseInt(itemID.replace('task_', '')), data)
+            .then(response => {
+                // console.log(response);
+                snackbarUtils.success('Tarefa deletada com sucesso');
+            })
+            .catch(error => {
+                snackbarUtils.error('Erro ao tentar deletar tarefa');
+            });
     };
 
     const open = Boolean(anchorEl);
@@ -72,7 +100,7 @@ export default function SimplePopover(props: PopoverProps) {
                 <Typography
                     className={classes.typography}
                     onClick={() => {
-                        DeleteTask(itemID, columnID);
+                        DeleteTaskSocket();
                     }}
                 >
                     Apagar

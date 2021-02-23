@@ -21,7 +21,7 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
     const [inputValue, setInputValue] = React.useState('');
     const [employees, setEmployees] = useState<TypeUser[]>([]);
 
-    const searchUserDebounced = debounce(userApi.show, 500);
+    const searchUserDebounced = debounce(userApi.find, 500);
 
     const handleTextChange = async (text: string) => {
         setInputValue(text);

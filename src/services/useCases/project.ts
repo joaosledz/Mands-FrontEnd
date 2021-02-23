@@ -12,9 +12,9 @@ const projectApi = {
                 `${company_username}/${department_name}`
         ),
 
-    findByUser: (company_username: string, department_name: string) =>
+    findByUser: (companyId: number, departmentId: number) =>
         api.get<Array<TypeProject>>(
-            projectUrls.findByUser + `${company_username}/${department_name}`
+            projectUrls.findByUser + `${companyId}/${departmentId}`
         ),
 
     create: (data: ProjectModel) => api.post(projectUrls.create, data),
@@ -34,6 +34,8 @@ const projectApi = {
         api.delete(
             projectUrls.remove + `${company_id}/${department_id}/${project_id}`
         ),
+    getBoardData: (project_id: number) =>
+        api.get(projectUrls.getBoardData + project_id),
 };
 
 export default projectApi;

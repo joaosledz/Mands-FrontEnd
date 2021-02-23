@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import BoardContext from '../../../../contexts/board';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import MutableInput from '../multableInput/multableInput';
 // Import BoardItem component
 import { BoardItem } from '../item/board-item';
 import Popover from '../popover/columnPopover';
+import CreateTaskModal from '../modal/create-task';
 
 // Define types for board column element properties
 type BoardColumnProps = {
@@ -17,6 +18,9 @@ type BoardColumnProps = {
     items: any;
     index: any;
     type?: string;
+    departmentId: number;
+    projectId: number;
+    companyId: number;
 };
 
 // Define types for board column content style properties
@@ -58,12 +62,13 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
-    const { AddTask, DeleteColumn, setColumnTitle } = useContext(BoardContext);
-    const { column, items, index } = props;
+    const { DeleteColumn, setColumnTitle } = useContext(BoardContext);
+    const { column, items, index, departmentId, projectId, companyId } = props;
+    const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
 
     return (
         <>
-            <Draggable draggableId={column.id} index={index}>
+            <Draggable draggableId={column.sessionId} index={index}>
                 {provided => (
                     <div
                         className={classes.BoardColumnWrapper}
@@ -79,27 +84,36 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                             </Grid>
                             <Grid item xs={8} {...provided.dragHandleProps}>
                                 <MutableInput
+                                    type="column"
                                     value={column.title}
                                     valueSet={setColumnTitle}
-                                    id={column.id}
+                                    id={column.sessionId}
+                                    departmentId={departmentId}
+                                    projectId={projectId}
+                                    companyId={companyId}
                                 />
                             </Grid>
                             <Grid item xs={1}>
-                                <AddIcon
-                                    className={classes.icon}
-                                    onClick={() =>
-                                        AddTask(column.id, 'Texto Novo')
-                                    }
-                                />
+                                {index === 0 && (
+                                    <AddIcon
+                                        className={classes.icon}
+                                        onClick={() =>
+                                            setShowCreateTaskModal(true)
+                                        }
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={1}>
                                 <Popover
                                     DeleteColumn={DeleteColumn}
-                                    columnID={column.id}
+                                    columnID={column.sessionId}
+                                    departmentId={departmentId}
+                                    projectId={projectId}
+                                    companyId={companyId}
                                 />
                             </Grid>
                         </Grid>
-                        <Droppable droppableId={column.id} type="task">
+                        <Droppable droppableId={column.sessionId} type="task">
                             {(provided, snapshot) => (
                                 <BoardColumnContent
                                     {...provided.droppableProps}
@@ -109,10 +123,13 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                     {/* All board items belong into specific column. */}
                                     {items.map((item: any, index: number) => (
                                         <BoardItem
-                                            key={item.id}
+                                            key={item.taskId}
                                             item={item}
                                             index={index}
-                                            columnID={column.id}
+                                            columnID={column.sessionId}
+                                            departmentId={departmentId}
+                                            projectId={projectId}
+                                            companyId={companyId}
                                         />
                                     ))}
                                     {provided.placeholder}
@@ -122,6 +139,13 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                     </div>
                 )}
             </Draggable>
+            <CreateTaskModal
+                isOpen={showCreateTaskModal}
+                setIsOpen={setShowCreateTaskModal}
+                departmentId={departmentId}
+                projectId={projectId}
+                companyId={companyId}
+            />
         </>
     );
 };

@@ -6,6 +6,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
 import { TypeUser } from '../../../../../../services';
+import userIcon from '../../../../../../assets/icons/usericon.svg';
+import { TypeMember } from '../../../../../../services';
 import useStyles from '../../styles';
 
 type Props = {
@@ -19,7 +21,7 @@ const UserItem: React.FC<Props> = (props: Props) => {
     return (
         <Grid container item className={classes.personContainer}>
             <Grid item xs={2}>
-                <Avatar src={person.image?.path} />
+                <Avatar src={person.image?.path || userIcon} />
             </Grid>
             <Grid container item xs={9} direction="column" justify="flex-start">
                 <Grid item xs={12}>

@@ -17,7 +17,8 @@ const projectApi = {
             projectUrls.findByUser + `${company_username}/${department_name}`
         ),
 
-    create: (data: ProjectModel) => api.post(projectUrls.create, data),
+    create: (data: ProjectModel, company_id: number, department_id: number) =>
+        api.post(`${projectUrls.create}${company_id}/${department_id}`, data),
 
     update: (
         company_id: number,

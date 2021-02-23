@@ -37,7 +37,7 @@ const tasksApi = {
     ) => api.put(taskUrls.changeSession + `${taskId}/${sessionId}`, data),
     updatePosition: (
         sessionId: string,
-        projectId: string,
+        projectId: number,
         data: updateTaskPositionType
     ) => api.put(taskUrls.updatePosition + `${sessionId}/${projectId}`, data),
     //Dependências

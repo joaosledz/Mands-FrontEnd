@@ -1,5 +1,4 @@
 import React, { useEffect, useState, memo, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -7,7 +6,6 @@ import Grow from '@material-ui/core/Grow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useCompany from '../../../hooks/useCompany';
 import useDepartment from '../../../hooks/useDepartment';
-import TypeParams from '../../../models/params';
 import { TypeProject, projectApi } from '../../../services';
 
 import Project from './project/project';
@@ -15,7 +13,6 @@ import useStyles from './styles';
 
 const Projects: React.FC = () => {
     const classes = useStyles();
-    const params = useParams<TypeParams>();
     let animationDelay = 50;
 
     const [loading, setLoading] = useState(true);

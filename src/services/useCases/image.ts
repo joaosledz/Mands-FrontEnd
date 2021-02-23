@@ -2,7 +2,7 @@ import api from '../api';
 import { PostImageType, ImageType } from '../models/image';
 import imageUrls from '../urls/image';
 
-const userApi = {
+const imageApi = {
     get: () => api.get(`${imageUrls.main}`),
 
     getById: (ImageId: number) => api.get(`${imageUrls.main}/${ImageId}`),
@@ -31,4 +31,4 @@ const userApi = {
     delete: (ImageId: number) => api.delete(`${imageUrls.main}/${ImageId}`),
 };
 
-export default userApi;
+export default imageApi;

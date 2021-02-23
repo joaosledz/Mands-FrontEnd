@@ -7,6 +7,7 @@ const companyUrls = {
     findAllEmployees: `${baseURL}/findAllEmployees/`,
     verifyUsername: `${baseURL}/VerifyUsername/`,
     associate: `${baseURL}/associateUsers/`,
+    acceptInvite: `${baseURL}/associate`,
 };
 
 export default companyUrls;

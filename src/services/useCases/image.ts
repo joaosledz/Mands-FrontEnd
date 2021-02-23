@@ -21,6 +21,10 @@ const userApi = {
         else return api.post<ImageType>(imageUrls.associate, Image);
     },
 
+    postThirdParty: (image_url: string) => {
+        return api.post(imageUrls.thirdParty, { path: image_url });
+    },
+
     update: (Image: PostImageType, ImageId: number) =>
         api.put(`${imageUrls.main}/${ImageId}`, Image),
 

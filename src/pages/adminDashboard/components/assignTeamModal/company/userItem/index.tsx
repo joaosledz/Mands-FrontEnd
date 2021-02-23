@@ -4,20 +4,19 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
-
-import { TypeUser } from '../../../../../../services';
 import userIcon from '../../../../../../assets/icons/usericon.svg';
 import { TypeMember } from '../../../../../../services';
 import useStyles from '../../styles';
 
 type Props = {
-    person: TypeUser;
-    handleRemove: () => void;
+    person: TypeMember;
+    index: number;
+    handleRemove: (index: number) => void;
 };
 
 const UserItem: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { person, handleRemove } = props;
+    const { person, index = 0, handleRemove } = props;
     return (
         <Grid container item className={classes.personContainer}>
             <Grid item xs={2}>
@@ -54,7 +53,10 @@ const UserItem: React.FC<Props> = (props: Props) => {
                     alignSelf: 'center',
                 }}
             >
-                <CloseIcon className={classes.icon} onClick={handleRemove} />
+                <CloseIcon
+                    className={classes.icon}
+                    onClick={() => handleRemove(index)}
+                />
             </Grid>
         </Grid>
     );

@@ -14,6 +14,7 @@ const userApi = {
             return Promise.reject(error);
         }
     },
+    find: (username: string) => api.get(userUrls.find + username),
 };
 
 export default userApi;

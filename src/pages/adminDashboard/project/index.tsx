@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-
 import employeesData from '../../../utils/data/employeesComplete';
-import TableEmployees from './components/table/employees';
+import TableEmployees from './components/table/project';
 import Layout from '../layout/departmentLayout';
 // import FabButton from '../../../components/fabButton';
 import useStyles from './styles';
@@ -13,11 +12,11 @@ const Departments: React.FC = () => {
     // const history = useHistory();
 
     useEffect(() => {
-        document.title = 'Admin - Funcionários';
+        document.title = 'Admin - Projetos';
     }, []);
 
     return (
-        <Layout title="Funcionários" menu>
+        <Layout title="Projetos" menu>
             <Grid item xs={12} lg={9} className={classes.departmentsContainer}>
                 <TableEmployees data={employeesData} />
             </Grid>

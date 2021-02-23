@@ -8,9 +8,8 @@ import React, {
 } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-
-import { TypeMember, companyApi } from '../../../../../../services';
-import useCompany from '../../../../../../hooks/useCompany';
+import { TypeMember, userApi } from '../../../../../../services';
+// import useCompany from '../../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
 
@@ -23,40 +22,39 @@ type Props = {
 const Autocompletar: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
 
-    const { company } = useCompany();
+    // const { company } = useCompany();
     const { value, setValue, selectedValues = [] } = props;
     // const [value, setValue] = React.useState<Array<TypeMember>>();
     // const [inputValue, setInputValue] = React.useState('');
     const [employees, setEmployees] = useState<TypeMember[]>([]);
-
+    const [inputValue, SetInputValue] = useState<string>();
     useEffect(() => {
         const fetchEmployees = async () => {
-            if (company) {
+            if (inputValue) {
                 try {
-                    const {
-                        data: response,
-                    } = await companyApi.findAllEmployees(company.companyId);
-                    if (selectedValues.length === 0) setEmployees(response);
-                    else if (selectedValues.length === response.length) return;
-                    else {
-                        // console.log('all: ', response);
-                        // console.log('selected: ', selectedValues);
-                        const auxData = response.filter(employee =>
-                            selectedValues.some(
-                                selectedEmployee =>
-                                    employee.userId !== selectedEmployee.userId
-                            )
-                        );
-                        // console.log('auxData: ', selectedValues);
-                        setEmployees(auxData);
-                    }
+                    const { data: response } = await userApi.find(inputValue);
+                    console.log(response);
+                    // if (selectedValues.length === 0) setEmployees(response);
+                    // else if (selectedValues.length === response.length) return;
+                    // else {
+                    // console.log('all: ', response);
+                    // console.log('selected: ', selectedValues);
+                    // const auxData = response.filter(employee =>
+                    //     selectedValues.some(
+                    //         selectedEmployee =>
+                    //             employee.userId !== selectedEmployee.userId
+                    //     )
+                    // );
+                    // console.log('auxData: ', selectedValues);
+                    setEmployees([response]);
+                    // }
                 } catch (error) {
                     snackbarUtils.error(error.message);
                 }
             }
         };
         fetchEmployees();
-    }, [company, selectedValues]);
+    }, [inputValue, selectedValues]);
 
     return (
         <div className={classes.root}>
@@ -67,10 +65,15 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                 id="multiple-limit-tags"
                 options={employees}
                 value={value}
+                onInputChange={(e, value) => {
+                    // console.log(value);
+
+                    SetInputValue(value);
+                }}
                 onChange={(event: any, newValue: Array<TypeMember>) =>
                     setValue(newValue)
                 }
-                getOptionLabel={(option: TypeMember) => option.name}
+                getOptionLabel={(option: TypeMember) => `${option.username}`}
                 defaultValue={[]}
                 renderInput={params => (
                     <TextField

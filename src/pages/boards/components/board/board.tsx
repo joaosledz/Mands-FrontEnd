@@ -14,6 +14,7 @@ import {
     sessionApi,
     sessionType,
     updateSessionPositionType,
+    updateTaskPositionType,
 } from '../../../../services';
 import { TypeBoard } from '../../../../models/boardTypes';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
@@ -109,10 +110,41 @@ const Board: React.FC = () => {
             });
     };
 
+    const MoveTaskSocket = (
+        newState: TypeBoard,
+        oldState: TypeBoard,
+        droppableId: string
+    ) => {
+        // console.log(newState);
+        console.log(newState.columns);
+        let data: updateTaskPositionType = [];
+        newState.columns[droppableId].itemsIds.map(
+            (taskId: string, index: number) => {
+                data.push({
+                    taskId: parseInt(taskId.replace('task_', '')),
+                    position: index,
+                });
+                return data;
+            }
+        );
+        console.log(data);
+        taskApi
+            .updatePosition(droppableId, projectId, data)
+            .then(response => {
+                console.log(response);
+                snackbarUtils.success('Posição alterada com sucesso');
+                // AddColumn();
+            })
+            .catch(error => {
+                setState(oldState);
+                snackbarUtils.error('Erro ao tentar adicionar uma coluna');
+            });
+    };
+
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
         console.log(state);
-        console.log(destination);
+        console.log('destination:', destination);
         console.log(draggableId);
         // Do nothing if item is dropped outside the list
         if (!destination) {
@@ -171,8 +203,10 @@ const Board: React.FC = () => {
                     [newColumnStart.sessionId]: newColumnStart,
                 },
             };
+
             // Update the board state with new data
             setState(newState);
+            MoveTaskSocket(newState, state, destination.droppableId);
         } else {
             // Moving items from one list to another
             // Get all item ids in source list

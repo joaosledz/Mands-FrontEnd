@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { TypeProject, projectApi, ProjectModel, imageApi } from '../../services';
+import { TypeProject, projectApi, ProjectModel } from '../../services';
 
 type TypeProjectData = {
     project: TypeProject | null;

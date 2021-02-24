@@ -6,13 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import { useHistory } from 'react-router-dom';
 
+import Backdrop from '../../../../../components/backdrop';
 import AppLayout from '../../../../../layout/appLayout';
 import BackButton from '../../../../../components/backButton';
 import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
 import useStyles from './styles';
 
-import { ProjectModel, TypeProject } from '../../../../../services';
+import { ProjectModel } from '../../../../../services';
 
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
@@ -32,7 +33,7 @@ const NewProject: React.FC = () => {
     const history = useHistory();
     const { company } = useCompany();
     const { department } = useDepartment();
-    const { createProject } = useProject();
+    const { createProject, loading } = useProject();
     const [formValues, setFormValues] = useState<ProjectModel>({
         project: {
             budget: 0,
@@ -63,7 +64,7 @@ const NewProject: React.FC = () => {
                     },
                 };
 
-                const project: TypeProject = await createProject(
+                await createProject(
                     data,
                     company.companyId,
                     department.departmentId,
@@ -128,6 +129,7 @@ const NewProject: React.FC = () => {
 
     return (
         <AppLayout>
+            <Backdrop loading={loading} />
             <Paper className={classes.container}>
                 <Grid container>
                     <Hidden mdDown>

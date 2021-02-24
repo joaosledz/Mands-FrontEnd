@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { TypeProject, projectApi, ProjectModel } from '../../services';
+import { TypeProject, projectApi, ProjectModel, imageApi } from '../../services';
 
 type TypeProjectData = {
     project: TypeProject | null;
@@ -70,9 +70,16 @@ export const ProjectProvider: React.FC = ({ children }) => {
                     department_id
                 );
 
-                if (!image) return response.data.project;
-                //Implementar envio de imagem
-                return response.data.project;
+                const project: TypeProject = response.data.project;
+
+                if (!image) return project;
+
+                const formData = new FormData();
+                formData.append('imageData', image);
+
+                await imageApi.post(formData, company_id, project.projectId);
+
+                return project;
             } catch (error) {
                 console.log(error);
                 return Promise.reject(error);

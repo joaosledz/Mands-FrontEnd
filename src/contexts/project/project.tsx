@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { TypeProject, projectApi } from '../../services';
+import { TypeProject, projectApi, ProjectModel, imageApi } from '../../services';
 
 type TypeProjectData = {
     project: TypeProject | null;
@@ -7,6 +7,12 @@ type TypeProjectData = {
     getProjectData: (project_id: number) => Promise<TypeProject>;
     updateProject: (data: TypeProject) => void;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    createProject: (
+        data: ProjectModel,
+        company_id: number,
+        department_id: number,
+        image?: File
+    ) => Promise<TypeProject>;
 };
 
 const ProjectContext = createContext<TypeProjectData>({} as TypeProjectData);
@@ -49,6 +55,41 @@ export const ProjectProvider: React.FC = ({ children }) => {
         setProject(data);
     }, []);
 
+    const createProject = useCallback(
+        async (
+            data: ProjectModel,
+            company_id: number,
+            department_id: number,
+            image?: File
+        ) => {
+            setLoading(true);
+            try {
+                const response = await projectApi.create(
+                    data,
+                    company_id,
+                    department_id
+                );
+
+                const project: TypeProject = response.data.project;
+
+                // if (!image) return project;
+
+                // const formData = new FormData();
+                // formData.append('imageData', image);
+
+                // await imageApi.post(formData, company_id, project.projectId);
+
+                return project;
+            } catch (error) {
+                console.log(error);
+                return Promise.reject(error);
+            } finally {
+                setLoading(false);
+            }
+        },
+        []
+    );
+
     return (
         <ProjectContext.Provider
             value={{
@@ -57,6 +98,7 @@ export const ProjectProvider: React.FC = ({ children }) => {
                 getProjectData,
                 setLoading,
                 updateProject,
+                createProject,
             }}
         >
             {children}

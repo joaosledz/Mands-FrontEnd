@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
-
+import userIcon from '../../../../../../assets/icons/usericon.svg';
 import { TypeMember } from '../../../../../../services';
 import useStyles from '../../styles';
 
@@ -20,7 +20,7 @@ const UserItem: React.FC<Props> = (props: Props) => {
     return (
         <Grid container item className={classes.personContainer}>
             <Grid item xs={2}>
-                <Avatar src={person.image} />
+                <Avatar src={person.image?.path || userIcon} />
             </Grid>
             <Grid container item xs={9} direction="column" justify="flex-start">
                 <Grid item xs={12}>

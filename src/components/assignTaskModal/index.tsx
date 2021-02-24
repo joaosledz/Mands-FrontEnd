@@ -23,6 +23,7 @@ import arraysEquals from '../../utils/functions/arraysEquals';
 import SearchButtonTF from './searchButtonTF/searchButtonTF';
 import SubmitButton from '../mainButton';
 import useStyles from './styles';
+import userIcon from '../../assets/icons/usericon.svg';
 
 type Props = {
     isOpen: boolean;
@@ -190,7 +191,12 @@ const AssignTeamModal: React.FC<Props> = (props: Props) => {
                                             />
                                         </Grid>
                                         <Grid item xs={1}>
-                                            <Avatar src={employee.image} />
+                                            <Avatar
+                                                src={
+                                                    employee.image?.path ||
+                                                    userIcon
+                                                }
+                                            />
                                         </Grid>
                                         <Grid
                                             item

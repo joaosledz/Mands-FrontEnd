@@ -12,12 +12,13 @@ const projectApi = {
                 `${company_username}/${department_name}`
         ),
 
-    findByUser: (company_username: string, department_name: string) =>
+    findByUser: (companyId: number, departmentId: number) =>
         api.get<Array<TypeProject>>(
-            projectUrls.findByUser + `${company_username}/${department_name}`
+            projectUrls.findByUser + `${companyId}/${departmentId}`
         ),
 
-    create: (data: ProjectModel) => api.post(projectUrls.create, data),
+    create: (data: ProjectModel, company_id: number, department_id: number) =>
+        api.post(`${projectUrls.create}${company_id}/${department_id}`, data),
 
     update: (
         company_id: number,

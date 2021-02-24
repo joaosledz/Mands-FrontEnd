@@ -33,3 +33,8 @@ export type SubtaskType = {
     projectId: number;
     companyId: number;
 };
+
+export type updateTaskPositionType = Array<{
+    taskId: number;
+    position: number;
+}>;

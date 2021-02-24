@@ -10,6 +10,7 @@ import NotFound from '../pages/404';
 //#region Rotas de autenticação
 import Login from '../pages/authentication/login/login';
 import Register from '../pages/authentication/register/register';
+import RegisterThirdParty from '../pages/authentication/registerThirdParty';
 import ConfirmAccount from '../pages/authentication/confirmAccount/confirmAccount';
 import ForgotPassword from '../pages/authentication/RecoverPassword/forgotPassword/forgotPassword';
 import RecoveryPassword from '../pages/authentication/RecoverPassword/recoveryPassword/recoveryPassword';
@@ -22,6 +23,7 @@ import OtherProfile from '../pages/profiles/other/other';
 import CompanySelection from '../pages/company/selection';
 import CompanyRegister from '../pages/company/register/register';
 import CompanyDashboard from '../pages/company/dashboard/dashboard';
+import AcceptCompanyInvite from '../pages/company/acceptInvite/acceptInvite';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
 //#endregion
@@ -47,6 +49,10 @@ const Routes = () => {
                 {/* Rotas de Autenticação */}
                 <PublicRoute path="/login" component={Login} exact />
                 <PublicRoute path="/cadastro" component={Register} />
+                <PublicRoute
+                    path="/cadastro-terceiros"
+                    component={RegisterThirdParty}
+                />
                 <PublicRoute
                     path="/esqueci-a-senha"
                     component={ForgotPassword}
@@ -76,6 +82,10 @@ const Routes = () => {
                 <PrivateRoute
                     path="/cadastrar-empresa"
                     component={CompanyRegister}
+                />
+                <PrivateRoute
+                    path="/aceitar-convite-empresa"
+                    component={AcceptCompanyInvite}
                 />
                 <PrivateRoute
                     path="/dashboard/:company"

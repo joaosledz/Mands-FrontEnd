@@ -61,7 +61,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 [columnId]: {
                     sessionId: columnId,
                     position: position,
-                    title: 'Nova Coluna',
+                    title: 'Título da nova coluna',
                     itemsIds: [],
                 },
             },
@@ -179,49 +179,64 @@ export const BoardProvider: React.FC = ({ children }) => {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
                     //Canais de /Task
-                    hubConnection.on('TaskSent', task => {
-                        // console.log(task);
-                        AddTask(task.sessionId, task.tasks[0]);
+                    hubConnection.on('TaskSent', response => {
+                        console.log(response);
+                        // AddTask(task.sessionId, task.tasks[0]);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('TaskUpdated', response => {
                         console.log(response);
                     });
                     hubConnection.on('TaskDeleted', response => {
                         // console.log(response);
-                        DeleteTask(
-                            'task_' + response.taskId,
-                            response.sourceSessionId
-                        );
+                        // DeleteTask(
+                        //     'task_' + response.taskId,
+                        //     response.sourceSessionId
+                        // );
+                        setState(ConvertResponse(response));
+                    });
+                    hubConnection.on('TaskUpdatePosition', response => {
+                        console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('ResponsibleAssociated', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('SessionChanged', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
 
                     // Canais de /Subtask
                     hubConnection.on('SubtaskCreated', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('SubtaskUpdated', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('SubtaskDeleted', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     //Canais de /Session
                     hubConnection.on('SessionCreated', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('SessionUpdated', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('SessionDeleted', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('SessionPosUpdated', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                 } catch (error) {
                     console.log(error);
@@ -231,7 +246,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         handleWebSocket();
         // console.log(params);
         // eslint-disable-next-line
-    }, [state, params, hubConnection]);
+    }, [hubConnection]);
 
     useEffect(() => {
         const getBoardData = async () => {
@@ -239,7 +254,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 const response = await projectApi.getBoardData(
                     parseInt(params.project!)
                 );
-                // console.log(response.data);
+                console.log(response.data);
                 setState(ConvertResponse(response.data));
             } catch (error) {
                 snackbarUtils.error(error.message);

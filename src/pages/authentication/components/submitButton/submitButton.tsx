@@ -14,11 +14,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon?: string;
 }
 
-type ButtonIcon = {
+type ButtonIconType = {
     icon: string | undefined;
 };
 
-const ButtonIcon: React.FC<ButtonIcon> = ({ icon }) => {
+const ButtonIcon: React.FC<ButtonIconType> = ({ icon }) => {
     switch (icon) {
         case 'email':
             return <EmailIcon size="28" color="white" />;

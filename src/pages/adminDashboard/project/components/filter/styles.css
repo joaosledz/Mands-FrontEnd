@@ -1,0 +1,7 @@
+.MuiTableRow-root {
+    background-color: #f5f5f5;
+    color: inherit;
+    display: table-row;
+    outline: 0;
+    vertical-align: middle;
+}

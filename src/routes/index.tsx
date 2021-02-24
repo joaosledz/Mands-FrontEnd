@@ -23,6 +23,7 @@ import OtherProfile from '../pages/profiles/other/other';
 import CompanySelection from '../pages/company/selection';
 import CompanyRegister from '../pages/company/register/register';
 import CompanyDashboard from '../pages/company/dashboard/dashboard';
+import AcceptCompanyInvite from '../pages/company/acceptInvite/acceptInvite';
 import DepartmentDashboard from '../pages/departmentDashboard/departmentDashboard';
 import Boards from '../pages/boards';
 //#endregion
@@ -81,6 +82,10 @@ const Routes = () => {
                 <PrivateRoute
                     path="/cadastrar-empresa"
                     component={CompanyRegister}
+                />
+                <PrivateRoute
+                    path="/aceitar-convite-empresa"
+                    component={AcceptCompanyInvite}
                 />
                 <PrivateRoute
                     path="/dashboard/:company"

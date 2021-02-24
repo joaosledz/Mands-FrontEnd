@@ -4,13 +4,15 @@ import { Paper, Modal, Grid, Typography, Avatar } from '@material-ui/core';
 import SubmitButton from '../mainButton';
 import useStyles from './styles';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
-import { TypeEmployee } from '../../models/department';
+// import { TypeEmployee } from '../../models/department';
+import userIcon from '../../assets/icons/usericon.svg';
+import { TypeMember } from '../../services';
 import ChooseRole from './components/role/radio';
 
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    employee: TypeEmployee;
+    employee: TypeMember;
 };
 
 const HiringModal: React.FC<Props> = (props: Props) => {
@@ -45,58 +47,60 @@ const HiringModal: React.FC<Props> = (props: Props) => {
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
         >
-            <>
-                <Grid
-                    container
-                    component={Paper}
-                    className={classes.paper}
-                    spacing={4}
-                >
-                    <CloseIcon
-                        className={classes.iconClose}
-                        onClick={handleCloseModal}
-                    />
-
-                    <Grid
-                        item
-                        xs={12}
-                        className={classes.title}
-                        component={Typography}
-                    >
-                        Permissões de {employee.name}
-                    </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        className={classes.title}
-                        component={Typography}
-                    >
-                        <Avatar
-                            variant="rounded"
-                            src={employee.image}
-                            className={classes.largeAvatar}
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} style={{ textAlign: 'left' }}>
-                        <ChooseRole
-                            roleValue={roleValue}
-                            handleChangeRole={handleChangeRole}
-                        />
-                    </Grid>
+            {employee && (
+                <>
                     <Grid
                         container
-                        justify="center"
-                        className={classes.submitButton}
+                        component={Paper}
+                        className={classes.paper}
+                        spacing={4}
                     >
-                        <SubmitButton
-                            text="Salvar"
-                            // disabled={!itemChanged}
-                            onClick={handleSubmit}
+                        <CloseIcon
+                            className={classes.iconClose}
+                            onClick={handleCloseModal}
                         />
+
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.title}
+                            component={Typography}
+                        >
+                            Permissões de {employee.name}
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            className={classes.title}
+                            component={Typography}
+                        >
+                            <Avatar
+                                variant="rounded"
+                                src={employee.image?.path || userIcon}
+                                className={classes.largeAvatar}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} style={{ textAlign: 'left' }}>
+                            <ChooseRole
+                                roleValue={roleValue}
+                                handleChangeRole={handleChangeRole}
+                            />
+                        </Grid>
+                        <Grid
+                            container
+                            justify="center"
+                            className={classes.submitButton}
+                        >
+                            <SubmitButton
+                                text="Salvar"
+                                // disabled={!itemChanged}
+                                onClick={handleSubmit}
+                            />
+                        </Grid>
                     </Grid>
-                </Grid>
-            </>
+                </>
+            )}
         </Modal>
     );
 };

@@ -8,6 +8,7 @@ const tasksUrls = {
     associateResponsible: `${tasksUrl}/AssociateResponsible/`,
     //Deslocamento
     changeSession: `${tasksUrl}/ChangeSession/`,
+    updatePosition: `${tasksUrl}/UpdatePosition/`,
     //Dependencia entre tasks
     createDependency: `${tasksUrl}/CreateDependency/`,
     deleteDependency: `${tasksUrl}/DeleteDependency/`,

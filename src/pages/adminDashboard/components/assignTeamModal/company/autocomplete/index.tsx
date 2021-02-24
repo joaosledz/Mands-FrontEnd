@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, {
     Dispatch,
     SetStateAction,
@@ -7,6 +6,7 @@ import React, {
     memo,
 } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import debounce from 'awesome-debounce-promise';
 import TextField from '@material-ui/core/TextField';
 import { TypeMember, userApi } from '../../../../../../services';
 // import useCompany from '../../../../../../hooks/useCompany';
@@ -21,13 +21,24 @@ type Props = {
 
 const Autocompletar: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-
+    const searchUserDebounced = debounce(userApi.find, 500);
     // const { company } = useCompany();
     const { value, setValue, selectedValues = [] } = props;
     // const [value, setValue] = React.useState<Array<TypeMember>>();
     // const [inputValue, setInputValue] = React.useState('');
     const [employees, setEmployees] = useState<TypeMember[]>([]);
-    const [inputValue, SetInputValue] = useState<string>();
+    const [inputValue, setInputValue] = useState<string>();
+
+    const handleTextChange = async (text: string) => {
+        setInputValue(text);
+        if (inputValue)
+            try {
+                const { data } = await searchUserDebounced(inputValue);
+                const auxData = [{ ...data }];
+                setEmployees(auxData);
+            } catch (error) {}
+    };
+
     useEffect(() => {
         const fetchEmployees = async () => {
             if (inputValue) {
@@ -67,12 +78,15 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                 value={value}
                 onInputChange={(e, value) => {
                     // console.log(value);
-
-                    SetInputValue(value);
+                    handleTextChange(value);
+                    // setInputValue(value);
                 }}
                 onChange={(event: any, newValue: Array<TypeMember>) =>
                     setValue(newValue)
                 }
+                // onInputChange={(event, newInputValue) =>
+                //     handleTextChange(newInputValue)
+                // }
                 getOptionLabel={(option: TypeMember) => `${option.username}`}
                 defaultValue={[]}
                 renderInput={params => (

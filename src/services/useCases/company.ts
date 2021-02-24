@@ -30,6 +30,17 @@ const companyApi = {
     associate: (company_id: number, data: TypeDepAssociateModel[]) =>
         api.post<void>(companyUrls.associate + company_id, data),
 
+    acceptInvite: (token: string) =>
+        api.post<void>(
+            companyUrls.acceptInvite,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        ),
+
     delete: (company_id: number) =>
         api.delete(companyUrls.base + `/${company_id}`),
 

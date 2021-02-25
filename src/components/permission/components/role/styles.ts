@@ -63,6 +63,12 @@ const useStyles = makeStyles<Theme>(theme =>
                 cursor: 'pointer',
             },
         },
+        role: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
     })
 );
 

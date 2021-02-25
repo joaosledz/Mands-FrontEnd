@@ -61,7 +61,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 [columnId]: {
                     sessionId: columnId,
                     position: position,
-                    title: 'Nova Coluna',
+                    title: 'Título da nova coluna',
                     itemsIds: [],
                 },
             },
@@ -193,6 +193,10 @@ export const BoardProvider: React.FC = ({ children }) => {
                         //     'task_' + response.taskId,
                         //     response.sourceSessionId
                         // );
+                        setState(ConvertResponse(response));
+                    });
+                    hubConnection.on('TaskUpdatePosition', response => {
+                        console.log(response);
                         setState(ConvertResponse(response));
                     });
                     hubConnection.on('ResponsibleAssociated', response => {

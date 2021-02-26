@@ -18,8 +18,8 @@ import useCompany from '../../../../../hooks/useCompany';
 import HiringModal from '../../../components/assignTeamModal/company';
 import PermissionModal from '../../../../../components/permission/modal';
 import useStyles from './styles';
-import userIcon from '../../../../../assets/icons/usericon.svg';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
+import Avatar from '@material-ui/core/Avatar';
 // import DeleteCupom from '../../components/Dialogs/DeleteCupom';
 
 type Props = {
@@ -123,12 +123,8 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                 sorting: false,
                                 filtering: false,
                                 render: data => (
-                                    <img
-                                        src={data.image?.path || userIcon}
-                                        style={{
-                                            width: 50,
-                                            borderRadius: '50%',
-                                        }}
+                                    <Avatar
+                                        src={data.image?.path || undefined}
                                         alt="Imagem"
                                     />
                                 ),

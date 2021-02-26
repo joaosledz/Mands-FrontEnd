@@ -28,7 +28,7 @@ const getStoragedProject = () => {
 export const ProjectProvider: React.FC = ({ children }) => {
     const projectData = getStoragedProject();
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [project, setProject] = useState<TypeProject | null>(projectData);
 
     const getProjectData = useCallback(async (project_id: number) => {

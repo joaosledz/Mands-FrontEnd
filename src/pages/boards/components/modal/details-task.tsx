@@ -22,6 +22,8 @@ import Team from './components/Chips/Chips';
 import BoardContext from '../../../../contexts/board';
 import employeesData from '../../../../utils/data/employees';
 import { TypeItem } from '../../../../models/boardTypes';
+import { taskApi, SubmitTaskType } from '../../../../services';
+import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 type Props = {
     isOpen: boolean;
@@ -42,9 +44,9 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
         departmentId,
         companyId,
     } = props;
-    const [title, setTitle] = useState<string>(item.title);
-    const [description, setDescription] = useState<string>(item.description);
-    const { UpdateTask } = useContext(BoardContext);
+    // const [title, setTitle] = useState<string>(item.title);
+    // const [description, setDescription] = useState<string>(item.description);
+    const { /*UpdateTask,*/ state, setTaskFields } = useContext(BoardContext);
 
     const [teamData, setTeamData] = useState(employeesData);
 
@@ -53,16 +55,34 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     const handleCloseModal = () => {
         setIsOpen(false);
     };
-    const handleSubmit = () => {
-        let UpdatedItem = {
-            id: item.taskId,
-            title: title,
-            tag: 'Financeiro',
-            tagColor: 'green',
-            members: ['Raiane Souza', 'Josefa Oliveira'],
-            tasks: [],
+    //Necessário remodelar
+    const updateTaskAPI = (title: string) => {
+        let data: SubmitTaskType = {
+            departmentId,
+            projectId,
+            title,
         };
-        UpdateTask(item.taskId, UpdatedItem);
+        taskApi
+            .update(companyId, item.taskId.replace('task_', ''), data)
+            .then(response => {
+                // console.log(response);
+                snackbarUtils.success('Tarefa editada com sucesso');
+            })
+            .catch(error => {
+                // snackbarUtils.error('Erro ao tentar deletar tarefa');
+            });
+    };
+
+    const handleSubmit = () => {
+        // let UpdatedItem = {
+        //     id: item.taskId,
+        //     title: title,
+        //     tag: 'Financeiro',
+        //     tagColor: 'green',
+        //     members: ['Raiane Souza', 'Josefa Oliveira'],
+        //     tasks: [],
+        // };
+        // UpdateTask(item.taskId, UpdatedItem);
         handleCloseModal();
     };
 
@@ -82,6 +102,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                     className={classes.paper}
                     spacing={4}
                 >
+                    {/* {JSON.stringify(state.items[item.taskId].description)} */}
                     <CloseIcon
                         className={classes.iconClose}
                         onClick={handleCloseModal}
@@ -90,8 +111,16 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         {/* <MutableInput*/}
                         <TextField
                             type="task"
-                            value={title}
-                            onChange={e => setTitle(e.target.value)}
+                            value={state.items[item.taskId].title}
+                            // onChange={e => setTitle(e.target.value)}
+                            onChange={e =>
+                                setTaskFields(
+                                    e.target.value,
+                                    item.taskId,
+                                    'title'
+                                )
+                            }
+                            onBlur={e => updateTaskAPI(e.target.value)}
                             id={item.taskId}
                         />
                     </Grid>
@@ -110,8 +139,14 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         {/* <MutableInput*/}
                         <TextField
                             type="task_description"
-                            value={description}
-                            onChange={e => setDescription(e.target.value)}
+                            value={state.items[item.taskId].description}
+                            onChange={e =>
+                                setTaskFields(
+                                    e.target.value,
+                                    item.taskId,
+                                    'description'
+                                )
+                            }
                             id={item.taskId}
                         />
                     </Grid>

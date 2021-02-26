@@ -1,12 +1,22 @@
 export type SubmitTaskType = {
-    sessionId?: number;
+    //sessionId: number;
     departmentId: number;
     projectId: number;
-    title: string;
+    title?: string;
     description?: string;
+    completed?: boolean;
+    progress?: boolean;
     initialDate?: Date;
     finalDate?: Date;
     cost?: number;
+    dependency?: Array<{
+        type: number;
+        headId: number;
+    }>;
+    subtasks?: Array<{
+        description: string;
+    }>;
+    tagId?: number;
 };
 
 export type SubmitResponsible = {

@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const CheckBoxList: React.FC<Props> = (props: Props) => {
     const { projectId, departmentId, companyId } = props;
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([0]);
     const [subtasks, setSubTasks] = React.useState(props.subtasks);
+    const [checked, setChecked] = React.useState([0]);
 
     const handleToggle = (value: number) => () => {
         const currentIndex = checked.indexOf(value);
@@ -68,15 +68,17 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
 
     return (
         <List className={classes.root} dense={true}>
-            {subtasks.map((task: TypeSubTask, index: number) => {
-                const labelId = `checkbox-list-label-${task.id}`;
+            {subtasks.map((subtask: TypeSubTask, index: number) => {
+                const labelId = `checkbox-list-label-${subtask.id}`;
 
                 return (
-                    <ListItem key={task.id} role={undefined} button>
+                    <ListItem key={subtask.id} role={undefined} button>
                         <ListItemIcon onClick={handleToggle(index)}>
                             <Checkbox
                                 edge="start"
-                                checked={checked.indexOf(index) !== -1}
+                                // checked={checked.indexOf(index) !== -1}
+                                // checked={subtask.completed}
+                                defaultChecked={subtask.completed}
                                 tabIndex={-1}
                                 disableRipple
                                 inputProps={{ 'aria-labelledby': labelId }}
@@ -84,9 +86,9 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                         </ListItemIcon>
                         <MultableInput
                             type="task"
-                            value={task.description}
+                            value={subtask.description}
                             valueSet={handleChangeTitle}
-                            id={task.id}
+                            id={subtask.id}
                             inputStyle={classes.taskTitle}
                             departmentId={departmentId}
                             projectId={projectId}

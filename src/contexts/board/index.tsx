@@ -35,6 +35,11 @@ interface BoardContextData {
     AddColumn: (columnID: string, position: number) => void;
     DeleteColumn: (columnID: keyof TypeColumn) => void;
     setColumnTitle: (title: string, columnID: keyof TypeColumn) => void;
+    setTaskFields: (
+        title: string,
+        taskId: keyof TypeItem,
+        field: string
+    ) => void;
 }
 
 const BoardContext = createContext<BoardContextData>({} as BoardContextData);
@@ -95,6 +100,17 @@ export const BoardProvider: React.FC = ({ children }) => {
     const setColumnTitle = (title: string, columnID: keyof TypeColumn) => {
         const newState = { ...state };
         newState.columns[columnID].title = title;
+
+        setState(newState);
+    };
+
+    const setTaskFields = (
+        title: string,
+        taskId: keyof TypeItem,
+        field: string
+    ) => {
+        const newState = { ...state };
+        newState.items[taskId][field] = title;
 
         setState(newState);
     };
@@ -186,6 +202,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                     });
                     hubConnection.on('TaskUpdated', response => {
                         console.log(response);
+                        setState(ConvertResponse(response));
                     });
                     hubConnection.on('TaskDeleted', response => {
                         // console.log(response);
@@ -276,6 +293,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 AddColumn,
                 DeleteColumn,
                 setColumnTitle,
+                setTaskFields,
             }}
         >
             {children}

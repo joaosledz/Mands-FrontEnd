@@ -6,11 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Slide from '@material-ui/core/Slide';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
@@ -24,29 +22,6 @@ import FingerprintIcon from '../../../../assets/icons/fingerprint.svg';
 import Backdrop from '../../../../components/backdrop';
 import SubmitButton from '../../../../components/mainButton';
 import useStyles from './styles';
-
-// const permissionsModel = [
-//     {
-//         label: 'Editar Empresa',
-//         checked: false,
-//     },
-//     {
-//         label: 'Convidar Pessoas',
-//         checked: false,
-//     },
-//     {
-//         label: 'Retirar Pessoas',
-//         checked: false,
-//     },
-//     {
-//         label: 'Departamento',
-//         checked: false,
-//     },
-//     {
-//         label: 'Projeto',
-//         checked: false,
-//     },
-// ];
 
 const permissionsModel = [
     {
@@ -67,6 +42,10 @@ const permissionsModel = [
     },
     {
         label: 'Projeto',
+        checked: false,
+    },
+    {
+        label: 'Permissão',
         checked: false,
     },
 ];
@@ -109,7 +88,7 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                 inviteUser: permissions[2].checked,
                 deleteUser: permissions[3].checked,
                 project: permissions[4].checked,
-                permission: false,
+                permission: permissions[5].checked,
             };
             try {
                 await departmentPermApi.create(
@@ -134,9 +113,6 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
         },
         [company, department, permissions, handleClose, updateDepartment]
     );
-
-    const error =
-        permissions.filter(permission => permission.checked).length < 1;
 
     return (
         <Modal
@@ -201,14 +177,7 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                                 />
                             </Grid>
                             <Grid container item>
-                                <FormControl
-                                    component="fieldset"
-                                    required
-                                    error={error}
-                                >
-                                    <FormLabel component="legend">
-                                        Permissões
-                                    </FormLabel>
+                                <FormControl component="fieldset" required>
                                     <FormGroup style={{ maxHeight: '60%' }}>
                                         {permissions.map(
                                             (permission, index) => (
@@ -239,16 +208,13 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                                             )
                                         )}
                                     </FormGroup>
-                                    <FormHelperText>
-                                        Escolha pelo menos 1
-                                    </FormHelperText>
                                 </FormControl>
                             </Grid>
                             <Grid container justify="center">
                                 <SubmitButton
                                     dataCy="submit-permission-button"
                                     text="Cadastrar"
-                                    disabled={!formState.isDirty || error}
+                                    disabled={!formState.isDirty}
                                     mt={20}
                                     hg={40}
                                     mw={200}

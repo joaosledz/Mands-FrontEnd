@@ -3,7 +3,7 @@ const baseUrl = 'depPermission';
 const departmentPermissionUrls = {
     list: `${baseUrl}/listByDepartment/`,
     create: `${baseUrl}/create/`,
-    changeUserPermission: `companyPerm/editUserPerm/`,
+    changeUserPermission: `${baseUrl}/editUserPerm/`,
 };
 
 export default departmentPermissionUrls;

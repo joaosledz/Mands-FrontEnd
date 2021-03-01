@@ -14,6 +14,7 @@ import TypeParams from '../../../../models/params';
 import { companyApi, imageApi } from '../../../../services';
 import useCompany from '../../../../hooks/useCompany';
 import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
+import cnpjValidator from '../../../../validators/cnpjValidator';
 
 import AppLayout from '../../../../layout/appLayout';
 import BackButton from '../../../../components/backButton';
@@ -28,6 +29,7 @@ type CompanyModel = {
     name: string;
     phone: string;
     email: string;
+    cnpj: string;
 };
 
 const CompanyEdit: React.FC = () => {
@@ -257,7 +259,18 @@ const CompanyEdit: React.FC = () => {
                                             data-cy="company-cnpj"
                                             name="cnpj"
                                             label="CNPJ"
-                                            inputRef={register()}
+                                            inputRef={register({
+                                                validate: value =>
+                                                    cnpjValidator(value) ===
+                                                        true || 'CNPJ inválido',
+                                            })}
+                                            error={errors.cnpj !== undefined}
+                                            helperText={
+                                                errors.cnpj
+                                                    ? '⚠' +
+                                                      errors?.cnpj?.message
+                                                    : ''
+                                            }
                                         />
                                     </Grid>
                                 </Grid>

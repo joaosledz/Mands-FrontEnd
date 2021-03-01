@@ -46,11 +46,11 @@ const CompanyEdit: React.FC = () => {
         company
             ? (document.title = `Empresa - ${company?.name}`)
             : (document.title = 'Carregando...');
-        // console.log(company);
+        console.log(company);
     }, [company]);
 
     useEffect(() => {
-        console.log(formState.dirtyFields);
+        //console.log(formState.dirtyFields);
     }, [formState]);
 
     const handleEditImage = async (image: File, newData: CompanyModel) => {
@@ -213,7 +213,7 @@ const CompanyEdit: React.FC = () => {
                                     <Grid item xs={12}>
                                         <ReactInputMask
                                             mask={'(99) 99999-9999'}
-                                            maskChar="_"
+                                            // maskChar="_"
                                             defaultValue={company.phone}
                                         >
                                             {() => (
@@ -240,6 +240,12 @@ const CompanyEdit: React.FC = () => {
                                                             message:
                                                                 'O número está incompleto',
                                                         },
+                                                        validate: value =>
+                                                            value.replaceAll(
+                                                                '_',
+                                                                ''
+                                                            ).length === 15 ||
+                                                            'O número está incompleto',
                                                     })}
                                                 />
                                             )}

@@ -268,6 +268,12 @@ const Register: React.FC = () => {
                                                         message:
                                                             'O número está incompleto',
                                                     },
+                                                    validate: value =>
+                                                        value.replaceAll(
+                                                            '_',
+                                                            ''
+                                                        ).length === 15 ||
+                                                        'O número está incompleto',
                                                 })}
                                             />
                                         )}

@@ -14,7 +14,6 @@ import useStyles from './styles';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
 
-import userIcon from '../../assets/icons/usericon.svg';
 import {
     TypeMember,
     companyPermApi,
@@ -135,7 +134,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                             >
                                 <Avatar
                                     variant="rounded"
-                                    src={employee.image?.path || userIcon}
+                                    src={employee.image?.path || undefined}
                                     className={classes.largeAvatar}
                                 />
                             </Grid>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Delete as DeleteIcon } from '@styled-icons/material';
 import MultableInput from '../../../multableInput/multableInput';
 import { TypeSubTask } from '../../../../../../models/boardTypes';
+import BoardContext from '../../../../../../contexts/board';
 
 type Props = {
     subtasks: Array<{
@@ -20,6 +21,7 @@ type Props = {
     departmentId: number;
     projectId: number;
     companyId: number;
+    taskId: string;
 };
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,22 +45,34 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const CheckBoxList: React.FC<Props> = (props: Props) => {
-    const { projectId, departmentId, companyId } = props;
+    const { projectId, departmentId, companyId, taskId } = props;
     const classes = useStyles();
     const [subtasks, setSubTasks] = React.useState(props.subtasks);
-    const [checked, setChecked] = React.useState([0]);
+    // const [checked, setChecked] = React.useState([0]);
+    const { state, setState } = useContext(BoardContext);
+    // const handleToggle = (value: number) => () => {
+    //     console.log(value);
+    //     const currentIndex = checked.indexOf(value);
+    //     const newChecked = [...checked];
 
-    const handleToggle = (value: number) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
+    //     if (currentIndex === -1) {
+    //         newChecked.push(value);
+    //     } else {
+    //         newChecked.splice(currentIndex, 1);
+    //     }
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
+    //     setChecked(newChecked);
+    // };
+    const handleToggle = (
+        // value: number,
+        index: number
+    ) => {
+        const newState = { ...state };
+        newState.items[taskId].subtasks[index].completed = !newState.items[
+            taskId
+        ].subtasks[index].completed;
 
-        setChecked(newChecked);
+        setState(newState);
     };
     const handleChangeTitle = (title: string, id: string) => {
         let AuxTasks = [...subtasks];
@@ -73,12 +87,15 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
 
                 return (
                     <ListItem key={subtask.id} role={undefined} button>
-                        <ListItemIcon onClick={handleToggle(index)}>
+                        <ListItemIcon onClick={() => handleToggle(index)}>
                             <Checkbox
                                 edge="start"
                                 // checked={checked.indexOf(index) !== -1}
-                                // checked={subtask.completed}
-                                defaultChecked={subtask.completed}
+                                checked={
+                                    state.items[taskId].subtasks[index]
+                                        .completed
+                                }
+                                // defaultChecked={subtask.completed}
                                 tabIndex={-1}
                                 disableRipple
                                 inputProps={{ 'aria-labelledby': labelId }}

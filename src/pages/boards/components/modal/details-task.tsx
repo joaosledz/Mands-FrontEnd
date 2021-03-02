@@ -11,7 +11,7 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import SubmitButton from '../../../../components/mainButton';
+// import SubmitButton from '../../../../components/mainButton';
 import useStyles from './styles';
 // import MutableInput from '../multableInput/multableInput';
 import { Text as TextIcon } from '@styled-icons/entypo';
@@ -75,18 +75,18 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
             });
     };
 
-    const handleSubmit = () => {
-        // let UpdatedItem = {
-        //     id: item.taskId,
-        //     title: title,
-        //     tag: 'Financeiro',
-        //     tagColor: 'green',
-        //     members: ['Raiane Souza', 'Josefa Oliveira'],
-        //     tasks: [],
-        // };
-        // UpdateTask(item.taskId, UpdatedItem);
-        handleCloseModal();
-    };
+    // const handleSubmit = () => {
+    // let UpdatedItem = {
+    //     id: item.taskId,
+    //     title: title,
+    //     tag: 'Financeiro',
+    //     tagColor: 'green',
+    //     members: ['Raiane Souza', 'Josefa Oliveira'],
+    //     tasks: [],
+    // };
+    // UpdateTask(item.taskId, UpdatedItem);
+    // handleCloseModal();
+    // };
 
     return (
         <Modal
@@ -171,13 +171,14 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 departmentId={departmentId}
                                 projectId={projectId}
                                 companyId={companyId}
+                                taskId={item.taskId}
                             />
                         )}
                         {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
 
                         <Team teamData={teamData} setTeamData={setTeamData} />
                     </Grid>
-                    <Grid
+                    {/* <Grid
                         container
                         justify="center"
                         className={classes.submitButton}
@@ -187,7 +188,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                             // disabled={!itemChanged}
                             onClick={handleSubmit}
                         />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </>
         </Modal>

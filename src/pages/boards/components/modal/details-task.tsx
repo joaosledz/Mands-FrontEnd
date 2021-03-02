@@ -56,11 +56,13 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
         setIsOpen(false);
     };
     //Necessário remodelar
-    const updateTaskAPI = (title: string) => {
+    const updateTaskAPI = () => {
         let data: SubmitTaskType = {
             departmentId,
             projectId,
-            title,
+            title: state.items[item.taskId].title,
+            description: state.items[item.taskId].description,
+            // [fieldName]: fieldContent,
         };
         taskApi
             .update(companyId, item.taskId.replace('task_', ''), data)
@@ -120,7 +122,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                     'title'
                                 )
                             }
-                            onBlur={e => updateTaskAPI(e.target.value)}
+                            onBlur={() => updateTaskAPI()}
                             id={item.taskId}
                         />
                     </Grid>
@@ -147,6 +149,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                     'description'
                                 )
                             }
+                            onBlur={() => updateTaskAPI()}
                             id={item.taskId}
                         />
                     </Grid>

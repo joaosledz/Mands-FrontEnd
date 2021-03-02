@@ -2,7 +2,7 @@
 export type TypeMembers = Array<string>;
 
 export type TypeSubTask = {
-    id: string;
+    subtaskId: string;
     completed: boolean;
     description: string;
 };

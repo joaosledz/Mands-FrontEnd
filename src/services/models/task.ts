@@ -36,12 +36,21 @@ export type SubmitChangeSession = {
     projectId: number;
 };
 
-export type SubtaskType = {
+export type UpdateSubtaskType = {
     completed: boolean;
     description: string;
     departmentId: number;
     projectId: number;
     companyId: number;
+};
+export type CreateSubtaskType = {
+    subtasks: [
+        {
+            description: string;
+        }
+    ];
+    departmentId: number;
+    projectId: number;
 };
 
 export type updateTaskPositionType = Array<{

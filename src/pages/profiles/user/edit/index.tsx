@@ -22,7 +22,7 @@ import useStyles from './styles';
 const UserProfile: React.FC = () => {
     const classes = useStyles();
     const { user, updateUser } = useAuth();
-    const { register, errors, handleSubmit, formState, setError } = useForm<
+    const { register, errors, handleSubmit, formState } = useForm<
         updateModel
     >();
 
@@ -67,23 +67,11 @@ const UserProfile: React.FC = () => {
     // por algum motivo, o isDirty da linha 72, só está funcionando corretamente com este console.log
     console.log(formState.isDirty);
     const onSubmit = (data: updateModel) => {
-        handleErrors(data);
         const dataAux = validLink(data);
 
         if (image) handleEditImage(image, dataAux);
         else if (formState.isDirty) handleEditUser(dataAux);
         else SnackbarUtils.info('Modifique algum campo.');
-    };
-
-    const handleErrors = (data: updateModel) => {
-        if (!data.gitHub.includes('github.com/') && data.gitHub.length !== 0)
-            setError('gitHub', { message: 'Link inválido' });
-
-        if (
-            !data.linkedin.includes('linkedin.com/in/') &&
-            data.linkedin.length !== 0
-        )
-            setError('linkedin', { message: 'Link inválido' });
     };
 
     return (
@@ -232,6 +220,10 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
+                                                validate: value =>
+                                                    value.includes(
+                                                        'github.com/'
+                                                    ) || 'Link inválido',
                                             })}
                                         />
                                     </Grid>
@@ -256,6 +248,10 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
+                                                validate: value =>
+                                                    value.includes(
+                                                        'linkedin.com/in/'
+                                                    ) || 'Link inválido',
                                             })}
                                         />
                                     </Grid>

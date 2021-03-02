@@ -10,6 +10,7 @@ import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import { useForm } from 'react-hook-form';
 import { UserCheck as ValidUserIcon } from '@styled-icons/boxicons-regular';
 import { UserX as InvalidUserIcon } from '@styled-icons/boxicons-regular';
+import { useHistory } from 'react-router-dom';
 
 import CNPJValidator from '../../../validators/cnpjValidator';
 import { validateUsername } from './validators/validateUsername';
@@ -35,6 +36,7 @@ type CompanyModel = {
 const CompanyRegister: React.FC = () => {
     const classes = useStyles();
     const { updateCompany } = useCompany();
+    const history = useHistory();
     const { register, errors, handleSubmit, formState } = useForm<
         CompanyModel
     >();
@@ -72,6 +74,7 @@ const CompanyRegister: React.FC = () => {
             }
 
             updateCompany(companyData);
+            history.goBack();
             snackbarUtils.success('Empresa criada com sucesso');
         } catch (error) {
             snackbarUtils.error(error.message);

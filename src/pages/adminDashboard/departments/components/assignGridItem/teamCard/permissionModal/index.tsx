@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Slide from '@material-ui/core/Slide';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
-import userIcon from '../../../../../../../assets/icons/usericon.svg';
 import {
     TypeMember,
     departmentPermApi,
@@ -128,7 +127,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
 
                         <Grid id="avatar-container" container justify="center">
                             <Avatar
-                                src={user.image?.path || userIcon}
+                                src={user.image?.path || undefined}
                                 variant="rounded"
                                 alt={user.name}
                                 className={classes.avatar}

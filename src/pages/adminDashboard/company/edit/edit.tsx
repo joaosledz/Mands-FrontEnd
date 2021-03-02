@@ -14,6 +14,7 @@ import TypeParams from '../../../../models/params';
 import { companyApi, imageApi } from '../../../../services';
 import useCompany from '../../../../hooks/useCompany';
 import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
+import cnpjValidator from '../../../../validators/cnpjValidator';
 
 import AppLayout from '../../../../layout/appLayout';
 import BackButton from '../../../../components/backButton';
@@ -28,6 +29,7 @@ type CompanyModel = {
     name: string;
     phone: string;
     email: string;
+    cnpj: string;
 };
 
 const CompanyEdit: React.FC = () => {
@@ -46,11 +48,11 @@ const CompanyEdit: React.FC = () => {
         company
             ? (document.title = `Empresa - ${company?.name}`)
             : (document.title = 'Carregando...');
-        // console.log(company);
+        console.log(company);
     }, [company]);
 
     useEffect(() => {
-        console.log(formState.dirtyFields);
+        //console.log(formState.dirtyFields);
     }, [formState]);
 
     const handleEditImage = async (image: File, newData: CompanyModel) => {
@@ -213,7 +215,7 @@ const CompanyEdit: React.FC = () => {
                                     <Grid item xs={12}>
                                         <ReactInputMask
                                             mask={'(99) 99999-9999'}
-                                            maskChar="_"
+                                            // maskChar="_"
                                             defaultValue={company.phone}
                                         >
                                             {() => (
@@ -240,6 +242,12 @@ const CompanyEdit: React.FC = () => {
                                                             message:
                                                                 'O número está incompleto',
                                                         },
+                                                        validate: value =>
+                                                            value.replaceAll(
+                                                                '_',
+                                                                ''
+                                                            ).length === 15 ||
+                                                            'O número está incompleto',
                                                     })}
                                                 />
                                             )}
@@ -251,7 +259,18 @@ const CompanyEdit: React.FC = () => {
                                             data-cy="company-cnpj"
                                             name="cnpj"
                                             label="CNPJ"
-                                            inputRef={register()}
+                                            inputRef={register({
+                                                validate: value =>
+                                                    cnpjValidator(value) ===
+                                                        true || 'CNPJ inválido',
+                                            })}
+                                            error={errors.cnpj !== undefined}
+                                            helperText={
+                                                errors.cnpj
+                                                    ? '⚠' +
+                                                      errors?.cnpj?.message
+                                                    : ''
+                                            }
                                         />
                                     </Grid>
                                 </Grid>

@@ -68,6 +68,7 @@ const UserProfile: React.FC = () => {
     console.log(formState.isDirty);
     const onSubmit = (data: updateModel) => {
         const dataAux = validLink(data);
+
         if (image) handleEditImage(image, dataAux);
         else if (formState.isDirty) handleEditUser(dataAux);
         else SnackbarUtils.info('Modifique algum campo.');
@@ -219,6 +220,10 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
+                                                validate: value =>
+                                                    value.includes(
+                                                        'github.com/'
+                                                    ) || 'Link inválido',
                                             })}
                                         />
                                     </Grid>
@@ -243,6 +248,10 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
+                                                validate: value =>
+                                                    value.includes(
+                                                        'linkedin.com/in/'
+                                                    ) || 'Link inválido',
                                             })}
                                         />
                                     </Grid>

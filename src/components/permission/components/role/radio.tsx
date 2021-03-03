@@ -1,41 +1,26 @@
 import React from 'react';
-import clsx from 'clsx';
-import Radio, { RadioProps } from '@material-ui/core/Radio';
 import {
     Grid,
     Typography,
     RadioGroup,
-    FormControlLabel,
     FormLabel,
     Divider,
 } from '@material-ui/core';
 import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 import useStyles from './styles';
+import { TypeCompanyPermission } from '../../../../services';
 
-// Inspired by blueprintjs
-function StyledRadio(props: RadioProps) {
-    const classes = useStyles();
+import RoleItem from './roleItem';
 
-    return (
-        <Radio
-            className={classes.root}
-            disableRipple
-            color="default"
-            checkedIcon={
-                <span className={clsx(classes.icon, classes.checkedIcon)} />
-            }
-            icon={<span className={classes.icon} />}
-            {...props}
-        />
-    );
-}
 type Props = {
-    roleValue: string;
+    roleValue: number;
     handleChangeRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleOpen: () => void;
+    roles: TypeCompanyPermission[];
 };
 const ChooseRole: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { roleValue, handleChangeRole } = props;
+    const { roleValue, handleChangeRole, handleOpen, roles } = props;
 
     return (
         <>
@@ -48,42 +33,9 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
                 name="cargos"
                 onChange={handleChangeRole}
             >
-                <Divider variant="fullWidth" className={classes.divider} />
-                <Grid container>
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                            value="funcionario"
-                            control={<StyledRadio />}
-                            label="Funcionário"
-                        />
-                    </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        component={Typography}
-                        className={clsx(classes.subtitle)}
-                    >
-                        Cargo simples sem permissões de alterações
-                    </Grid>
-                </Grid>
-                <Divider variant="fullWidth" className={classes.divider} />
-                <Grid container>
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                            value="gerente"
-                            control={<StyledRadio />}
-                            label="Gerente"
-                        />
-                    </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        component={Typography}
-                        className={clsx(classes.subtitle)}
-                    >
-                        Permite a edição de departamentos
-                    </Grid>
-                </Grid>
+                {roles.map(role => (
+                    <RoleItem key={role.compPermissionId} role={role} />
+                ))}
                 <Divider variant="fullWidth" className={classes.divider} />
                 <Grid container item className={classes.addRole}>
                     <Grid item xs={1}>
@@ -94,6 +46,7 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
                         xs={11}
                         component={Typography}
                         style={{ textAlign: 'left' }}
+                        onClick={handleOpen}
                     >
                         Adicionar cargo personalizado
                     </Grid>

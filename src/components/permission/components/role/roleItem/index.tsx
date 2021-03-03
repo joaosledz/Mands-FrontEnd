@@ -1,16 +1,16 @@
 import React, { Fragment, memo, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Divider from '@material-ui/core/Divider';
 import Radio, { RadioProps } from '@material-ui/core/Radio';
-import Popper from '@material-ui/core/Popper';
-import Fade from '@material-ui/core/Fade';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
+import Popper from '@material-ui/core/Popper';
+import Fade from '@material-ui/core/Fade';
+import Typography from '@material-ui/core/Typography';
 
-import { TypeDepartmentPermission } from '../../../../../../../../../services';
+import { TypeCompanyPermission } from '../../../../../services';
 import useStyles from '../styles';
 
 function StyledRadio(props: RadioProps) {
@@ -31,7 +31,7 @@ function StyledRadio(props: RadioProps) {
 }
 
 type Props = {
-    role: TypeDepartmentPermission;
+    role: TypeCompanyPermission;
 };
 
 const Roles: React.FC<Props> = (props: Props) => {
@@ -54,12 +54,14 @@ const Roles: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         let aux: string[] = [];
-        if (role.deleteDepartment) aux.push('Deletar departamento');
-        if (role.editDepartment) aux.push('Editar departamento');
-        if (role.inviteUser) aux.push('Convidar Pessoas');
-        if (role.deleteUser) aux.push('Remover Pessoas');
+        if (role.acceptUser) aux.push('Aceitar Usuário');
+        if (role.deleteUser) aux.push('Remover Usuário');
+        if (role.department) aux.push('Departamento');
         if (role.project) aux.push('Projeto');
-        if (role.permission) aux.push('Permissão');
+        if (role.editCompany) aux.push('Editar Empresa');
+        if (role.resetPIN) aux.push('Resetar PIN');
+        if (role.seePIN) aux.push('Ver PIN');
+        if (role.event) aux.push('Evento');
 
         if (aux.length === 0) aux.push('Não possui permissões');
         setPermissions(aux);
@@ -68,11 +70,10 @@ const Roles: React.FC<Props> = (props: Props) => {
     return (
         <Fragment>
             <Divider variant="fullWidth" className={classes.divider} />
-            <Grid container style={{ paddingLeft: '2rem' }}>
+            <Grid container>
                 <Grid item xs={12} className={classes.role}>
                     <FormControlLabel
-                        data-cy="role-checkbox-label"
-                        value={role.depPermissionId}
+                        value={role.compPermissionId}
                         control={<StyledRadio />}
                         label={role.name}
                     />

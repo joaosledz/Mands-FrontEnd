@@ -73,6 +73,23 @@ const useStyles = makeStyles<Theme>(theme =>
                 cursor: 'pointer',
             },
         },
+
+        role: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        paper: {
+            backgroundColor: '#FFF',
+            padding: theme.spacing(1),
+            borderRadius: 10,
+            boxShadow:
+                'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
+        },
+        popper: {
+            zIndex: 2000,
+        },
     })
 );
 

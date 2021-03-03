@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
+import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -13,9 +14,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Slide from '@material-ui/core/Slide';
 import { Times as TimesIcon } from '@styled-icons/fa-solid';
 
-import { AxiosError, departmentPermApi } from '../../../../services';
+import { AxiosError, companyPermApi } from '../../../../services';
 import useCompany from '../../../../hooks/useCompany';
-import useDepartment from '../../../../hooks/useDepartment';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 import FingerprintIcon from '../../../../assets/icons/fingerprint.svg';
@@ -25,19 +25,15 @@ import useStyles from './styles';
 
 const permissionsModel = [
     {
-        label: 'Editar Departamento',
+        label: 'Aceitar Usuário',
         checked: false,
     },
     {
-        label: 'Deletar Departamento',
+        label: 'Remover Usuário',
         checked: false,
     },
     {
-        label: 'Convidar Pessoas',
-        checked: false,
-    },
-    {
-        label: 'Retirar Pessoas',
+        label: 'Departamento',
         checked: false,
     },
     {
@@ -45,7 +41,19 @@ const permissionsModel = [
         checked: false,
     },
     {
-        label: 'Permissão',
+        label: 'Editar Empresa',
+        checked: false,
+    },
+    {
+        label: 'Resetar PIN',
+        checked: false,
+    },
+    {
+        label: 'Ver PIN',
+        checked: false,
+    },
+    {
+        label: 'Evento',
         checked: false,
     },
 ];
@@ -61,8 +69,7 @@ type Props = {
 
 const RegisterPermission: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { company } = useCompany();
-    const { department, updateDepartment } = useDepartment();
+    const { company, updateCompany } = useCompany();
     const { register, errors, handleSubmit, formState } = useForm<
         PermissionModel
     >();
@@ -83,20 +90,19 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
         async (data: PermissionModel) => {
             const auxData = {
                 name: data.name,
-                editDepartment: permissions[0].checked,
-                deleteDepartment: permissions[1].checked,
-                inviteUser: permissions[2].checked,
-                deleteUser: permissions[3].checked,
-                project: permissions[4].checked,
-                permission: permissions[5].checked,
+                acceptUser: permissions[0].checked,
+                deleteUser: permissions[1].checked,
+                department: permissions[2].checked,
+                project: permissions[3].checked,
+                editCompany: permissions[4].checked,
+                resetPIN: permissions[5].checked,
+                seePIN: permissions[6].checked,
+                event: permissions[7].checked,
+                permission: false,
             };
             try {
-                await departmentPermApi.create(
-                    company!.companyId,
-                    department!.departmentId,
-                    auxData
-                );
-                updateDepartment({ ...department! }); // Forçar a re-renderização dos cargos
+                await companyPermApi.create(company!.companyId, auxData);
+                updateCompany({ ...company! }); // Forçar a re-renderização dos cargos
                 snackbarUtils.success('Permissão criada com sucesso');
                 handleClose();
             } catch (err) {
@@ -111,7 +117,7 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                 }
             }
         },
-        [company, department, permissions, handleClose, updateDepartment]
+        [company, permissions, handleClose, updateCompany]
     );
 
     return (
@@ -178,6 +184,9 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
                             </Grid>
                             <Grid container item>
                                 <FormControl component="fieldset" required>
+                                    <FormLabel component="legend">
+                                        Permissões
+                                    </FormLabel>
                                     <FormGroup style={{ maxHeight: '60%' }}>
                                         {permissions.map(
                                             (permission, index) => (

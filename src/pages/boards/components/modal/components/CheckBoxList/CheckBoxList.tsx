@@ -14,7 +14,7 @@ import { TypeSubTask } from '../../../../../../models/boardTypes';
 import BoardContext from '../../../../../../contexts/board';
 import { taskApi } from '../../../../../../services';
 import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
-import company from '../../../../../company/selection/companySelection/company';
+// import company from '../../../../../company/selection/companySelection/company';
 
 type Props = {
     subtasks: Array<{
@@ -152,9 +152,9 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                             updateSubtaskAPI={updateSubtaskAPI}
                             id={subtask.subtaskId}
                             inputStyle={classes.taskTitle}
-                            departmentId={departmentId}
-                            projectId={projectId}
-                            companyId={companyId}
+                            // departmentId={departmentId}
+                            // projectId={projectId}
+                            // companyId={companyId}
                         />
 
                         <ListItemSecondaryAction>

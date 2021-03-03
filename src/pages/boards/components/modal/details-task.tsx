@@ -11,6 +11,7 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 // import SubmitButton from '../../../../components/mainButton';
 import useStyles from './styles';
 // import MutableInput from '../multableInput/multableInput';
@@ -22,8 +23,13 @@ import Team from './components/Chips/Chips';
 import BoardContext from '../../../../contexts/board';
 import employeesData from '../../../../utils/data/employees';
 import { TypeItem } from '../../../../models/boardTypes';
-import { taskApi, SubmitTaskType } from '../../../../services';
+import {
+    taskApi,
+    SubmitTaskType,
+    CreateSubtaskType,
+} from '../../../../services';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
+import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 
 type Props = {
     isOpen: boolean;
@@ -49,7 +55,8 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     const { /*UpdateTask,*/ state, setTaskFields } = useContext(BoardContext);
 
     const [teamData, setTeamData] = useState(employeesData);
-
+    const [newSubtask, setNewSubtask] = useState<string>('');
+    const [showCreateSubtask, setShowCreateSubtask] = useState(false);
     useEffect(() => {}, [isOpen]);
 
     const handleCloseModal = () => {
@@ -74,19 +81,27 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                 // snackbarUtils.error('Erro ao tentar deletar tarefa');
             });
     };
-
-    // const handleSubmit = () => {
-    // let UpdatedItem = {
-    //     id: item.taskId,
-    //     title: title,
-    //     tag: 'Financeiro',
-    //     tagColor: 'green',
-    //     members: ['Raiane Souza', 'Josefa Oliveira'],
-    //     tasks: [],
-    // };
-    // UpdateTask(item.taskId, UpdatedItem);
-    // handleCloseModal();
-    // };
+    const createSubtaskAPI = () => {
+        console.log(newSubtask);
+        let data: CreateSubtaskType = {
+            subtasks: [
+                {
+                    description: newSubtask,
+                },
+            ],
+            departmentId,
+            projectId,
+        };
+        taskApi
+            .createSubtask(companyId, item.taskId.replace('task_', ''), data)
+            .then(response => {
+                setShowCreateSubtask(false);
+                snackbarUtils.success('Tarefa criada com sucesso');
+            })
+            .catch(error => {
+                snackbarUtils.error('Erro ao tentar criar tarefa');
+            });
+    };
 
     return (
         <Modal
@@ -102,7 +117,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                     container
                     component={Paper}
                     className={classes.paper}
-                    spacing={4}
+                    spacing={3}
                 >
                     {/* {JSON.stringify(state.items[item.taskId].description)} */}
                     <CloseIcon
@@ -112,7 +127,6 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                     <Grid item xs={12}>
                         {/* <MutableInput*/}
                         <TextField
-                            type="task"
                             value={state.items[item.taskId].title}
                             // onChange={e => setTitle(e.target.value)}
                             onChange={e =>
@@ -123,7 +137,6 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 )
                             }
                             onBlur={() => updateTaskAPI()}
-                            id={item.taskId}
                         />
                     </Grid>
                     {/* DESCRIÇÃO DO ITEM */}
@@ -138,9 +151,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        {/* <MutableInput*/}
                         <TextField
-                            type="task_description"
                             value={state.items[item.taskId].description}
                             onChange={e =>
                                 setTaskFields(
@@ -150,21 +161,38 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 )
                             }
                             onBlur={() => updateTaskAPI()}
-                            id={item.taskId}
                         />
                     </Grid>
                     {/* LISTA DE TAREFAS */}
-                    <Grid container className={classes.body}>
-                        <Grid container item xs={12}>
-                            <Grid item xs={1}>
-                                <CheckedIcon className={classes.icon} />
-                            </Grid>
-                            <Grid item xs={11}>
+                    {/* <Grid container item className={classes.body}> */}
+                    <Grid container>
+                        <Grid item xs={1}>
+                            <CheckedIcon className={classes.icon} />
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography className={classes.subtitle}>
+                                Tarefas
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            item
+                            xs={3}
+                            onClick={() => setShowCreateSubtask(true)}
+                            className={classes.button}
+                        >
+                            <Grid item xs={9}>
                                 <Typography className={classes.subtitle}>
-                                    Tarefas
+                                    Nova tarefa
                                 </Typography>
                             </Grid>
+                            <Grid item xs={3}>
+                                <AddIcon className={classes.icon} />
+                            </Grid>
                         </Grid>
+                    </Grid>
+
+                    <Grid container item xs={12}>
                         {item.subtasks && (
                             <CheckBoxList
                                 subtasks={item.subtasks}
@@ -174,10 +202,22 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 taskId={item.taskId}
                             />
                         )}
-                        {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
-
-                        <Team teamData={teamData} setTeamData={setTeamData} />
                     </Grid>
+                    {showCreateSubtask && (
+                        <Grid container item xs={12}>
+                            <TextField
+                                value={newSubtask}
+                                onChange={e => setNewSubtask(e.target.value)}
+                            />
+                            <Button onClick={() => createSubtaskAPI()}>
+                                Adicionar
+                            </Button>
+                        </Grid>
+                    )}
+                    {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
+
+                    <Team teamData={teamData} setTeamData={setTeamData} />
+                    {/* </Grid> */}
                     {/* <Grid
                         container
                         justify="center"

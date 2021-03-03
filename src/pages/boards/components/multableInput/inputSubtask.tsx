@@ -3,17 +3,17 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import TextField from '@material-ui/core/TextareaAutosize';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './styles';
-import { sessionApi, sessionType } from '../../../../services';
-import snackbarUtils from '../../../../utils/functions/snackbarUtils';
+// import { sessionApi, sessionType } from '../../../../services';
+// import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 type Props = {
     value: string;
     valueSet: any;
     id: any;
     inputStyle?: string;
-    companyId: number;
-    projectId: number;
-    departmentId: number;
+    // companyId: number;
+    // projectId: number;
+    // departmentId: number;
     index: number;
     updateSubtaskAPI: (index: number) => void;
 };
@@ -23,9 +23,9 @@ const MutableInput: React.FC<Props> = ({
     valueSet,
     id,
     inputStyle,
-    companyId,
-    departmentId,
-    projectId,
+    // companyId,
+    // departmentId,
+    // projectId,
     index,
     updateSubtaskAPI,
 }) => {
@@ -51,24 +51,6 @@ const MutableInput: React.FC<Props> = ({
     const handleInputChange = (e: any) => {
         valueSet(e.target.value.trimStart(), index);
     };
-
-    // const updateSessionSocket = (title: string) => {
-    //     let data: sessionType = {
-    //         title,
-    //         description: '',
-    //         companyId,
-    //         departmentId,
-    //     };
-    //     sessionApi
-    //         .update(projectId, id, data)
-    //         .then(response => {
-    //             console.log(response);
-    //             snackbarUtils.success('Session atualizada com sucesso');
-    //         })
-    //         .catch(error => {
-    //             snackbarUtils.error('Erro ao tentar editar o título');
-    //         });
-    // };
 
     return (
         <OutsideClickHandler onOutsideClick={() => handleKeyPress('outside')}>

@@ -49,14 +49,9 @@ const CompanyRegister: React.FC = () => {
 
     const onSubmit = async (data: CompanyModel) => {
         let companyData: TypeCompany = {} as TypeCompany;
-        const companyModelData = {
-            company: { ...data },
-        };
 
         try {
-            const { data: response } = await companyApi.create(
-                companyModelData
-            );
+            const { data: response } = await companyApi.create(data);
 
             companyData = {
                 ...response,

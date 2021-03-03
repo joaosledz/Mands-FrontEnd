@@ -29,6 +29,7 @@ import {
 interface BoardContextData {
     state: TypeBoard;
     setState: Dispatch<SetStateAction<TypeBoard>>;
+    loading: boolean;
     AddTask: (columnID: keyof TypeColumn, task: TaskSocket) => void;
     UpdateTask: (itemID: keyof TypeItem, updatedItem: TypeItem) => void;
     DeleteTask: (itemID: keyof TypeItem, columnID: keyof TypeColumn) => void;
@@ -50,6 +51,7 @@ export const BoardProvider: React.FC = ({ children }) => {
     const [state, setState] = useState<TypeBoard>(
         ConvertResponse(newBoardData)
     );
+    const [loading, setLoading] = useState<boolean>(true);
     const { user } = useAuth();
     const params = useParams<TypeParams>();
 
@@ -273,6 +275,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 );
                 console.log(response.data);
                 setState(ConvertResponse(response.data));
+                setLoading(false);
             } catch (error) {
                 snackbarUtils.error(error.message);
             }
@@ -287,6 +290,7 @@ export const BoardProvider: React.FC = ({ children }) => {
             value={{
                 state,
                 setState,
+                loading,
                 AddTask,
                 UpdateTask,
                 DeleteTask,

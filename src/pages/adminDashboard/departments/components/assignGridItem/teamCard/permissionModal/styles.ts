@@ -2,6 +2,30 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles<Theme>(theme =>
     createStyles({
+        modal: {
+            // Scroll
+            top: '0px',
+            position: 'fixed',
+            height: '100%',
+            maxHeight: '100vh',
+            overflowY: 'auto',
+            scrollbarWidth: 'thin',
+            '&::-webkit-scrollbar': {
+                width: '8px',
+                marginLeft: '12px',
+            },
+            /* Track */
+            '&::-webkit-scrollbar-track': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+            },
+            /* Handle */
+            '&::-webkit-scrollbar-thumb': {
+                WebkitBorderRadius: '10px',
+                borderRadius: '10px',
+                background: 'rgba(170,170,170,0.5)',
+            },
+        },
         paper: {
             width: '100%',
             maxWidth: '30vw',
@@ -17,8 +41,12 @@ const useStyles = makeStyles<Theme>(theme =>
             textAlign: 'center',
 
             [theme.breakpoints.down('md')]: {
-                maxWidth: '90vw',
-                padding: '2rem 0.2rem',
+                maxWidth: '40vw',
+                //padding: '2rem 0.2rem',
+            },
+            [theme.breakpoints.down('sm')]: {
+                maxWidth: '60vw',
+                //padding: '2rem 0.2rem',
             },
 
             '& h1': {

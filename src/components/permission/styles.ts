@@ -28,7 +28,7 @@ const useStyles = makeStyles<Theme>(theme =>
         },
         paper: {
             width: '100%',
-            maxWidth: '40vw',
+            maxWidth: '30vw',
             padding: '2rem 1rem',
             boxShadow: theme.shadows[5],
 
@@ -41,23 +41,42 @@ const useStyles = makeStyles<Theme>(theme =>
             textAlign: 'center',
 
             [theme.breakpoints.down('md')]: {
-                maxWidth: '90vw',
-                padding: '2rem 0.2rem',
+                maxWidth: '40vw',
+                //padding: '2rem 0.2rem',
+            },
+            [theme.breakpoints.down('sm')]: {
+                maxWidth: '60vw',
+                //padding: '2rem 0.2rem',
+            },
+
+            '& h1': {
+                color: theme.palette.primary.main,
+                fontWeight: 'bold',
+                fontSize: '1.2rem',
+
+                [theme.breakpoints.up('md')]: {
+                    fontSize: '1.6rem',
+                },
+            },
+
+            '& #avatar-container': {
+                margin: theme.spacing(3, 0),
             },
         },
-        title: {
-            display: 'flex',
-            alignSelf: 'center',
-            justifyContent: 'center',
-            color: theme.palette.primary.main,
-            fontWeight: 'bold',
-            fontSize: '1.2rem',
-            [theme.breakpoints.up('md')]: {
-                fontSize: '1.6rem',
-            },
+
+        avatar: {
+            width: theme.spacing(14),
+            height: theme.spacing(14),
         },
+
         body: {
             position: 'relative',
+        },
+
+        personContainer: {
+            backgroundColor: 'rgba( 191, 63 , 191, 0.5)',
+            borderRadius: '20px',
+            marginBottom: '5px',
         },
 
         subtitle: {
@@ -71,18 +90,18 @@ const useStyles = makeStyles<Theme>(theme =>
                 fontSize: '1rem',
             },
         },
+
         subtitle2: {
             display: 'flex',
             alignSelf: 'begin',
             justifyContent: 'flex-begin',
             color: theme.palette.primary.main,
-            // fontWeight: 'bold',
             fontSize: '0.8rem',
+            textDecoration: 'none',
             [theme.breakpoints.up('md')]: {
                 fontSize: '1rem',
             },
             '&:hover': {
-                // backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
             },
         },
@@ -91,11 +110,7 @@ const useStyles = makeStyles<Theme>(theme =>
             width: theme.spacing(3),
             height: theme.spacing(3),
         },
-        largeAvatar: {
-            width: theme.spacing(20),
-            height: theme.spacing(20),
-            boxShadow: theme.shadows[5],
-        },
+
         icon: {
             display: 'flex',
             color: theme.palette.primary.light,
@@ -103,11 +118,13 @@ const useStyles = makeStyles<Theme>(theme =>
             marginRight: '4px',
             maxWidth: '20px',
             alignSelf: 'center',
+
             '&:hover': {
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
             },
         },
+
         iconMain: {
             display: 'flex',
             color: theme.palette.primary.light,
@@ -119,24 +136,23 @@ const useStyles = makeStyles<Theme>(theme =>
             maxWidth: '36px',
             alignSelf: 'center',
         },
+
         iconClose: {
             color: theme.palette.text.secondary,
             borderRadius: '20%',
             marginRight: '4px',
             width: '2rem',
-            position: 'absolute',
-            right: '5px',
-            top: '5px',
             '&:hover': {
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
             },
         },
+
         scrollPerson: {
-            // display: 'flex',
             width: '100%',
             padding: '15px 0 15px 15px',
             maxHeight: '250px',
+
             overflowY: 'auto',
             scrollbarWidth: 'thin',
             '&::-webkit-scrollbar': {
@@ -155,6 +171,7 @@ const useStyles = makeStyles<Theme>(theme =>
                 background: 'rgba(170,170,170,0.5)',
             },
         },
+
         submitButton: {
             position: 'relative',
             paddingTop: '8px',

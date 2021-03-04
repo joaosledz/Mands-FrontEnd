@@ -23,8 +23,6 @@ import Backdrop from '../../../components/backdrop';
 import ConfirmRegisterModal from '../components/confirmRegisterModal';
 import AccountRegisteredModal from '../components/accountRegisteredModal';
 import googleIcon from '../../../assets/companiesIcons/googleLogo.svg';
-import microsoftIcon from '../../../assets/companiesIcons/microsoftLogo.svg';
-import appleIcon from '../../../assets/companiesIcons/appleLogo.svg';
 import githubIcon from '../../../assets/socialMedia/Github.png';
 import useStyles, { inputStyle } from './styles';
 
@@ -387,20 +385,6 @@ const Login: React.FC = () => {
                                         )
                                     }
                                     cookiePolicy={'single_host_origin'}
-                                />
-                            </Grid>
-                            <Grid item xs>
-                                <CompanyButton
-                                    icon={microsoftIcon}
-                                    company={'Microsoft'}
-                                    onClick={() => {}}
-                                />
-                            </Grid>
-                            <Grid item xs>
-                                <CompanyButton
-                                    icon={appleIcon}
-                                    company={'Apple'}
-                                    onClick={() => {}}
                                 />
                             </Grid>
                             <Grid item xs>

@@ -102,6 +102,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
                 onClose={handleOpen}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
+                className={classes.modal}
             >
                 <Slide direction="up" in={isOpen} mountOnEnter unmountOnExit>
                     <Grid

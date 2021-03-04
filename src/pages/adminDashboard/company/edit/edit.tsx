@@ -62,7 +62,6 @@ const CompanyEdit: React.FC = () => {
             formData.append('imageData', image);
 
             await imageApi.post(formData, company!.companyId);
-            // console.log(data);
             handleEditCompany(newData);
             // SnackbarUtils.success('Imagem de perfil editada com sucesso');
         } catch (error) {
@@ -75,12 +74,12 @@ const CompanyEdit: React.FC = () => {
     const handleEditCompany = async (newData: CompanyModel) => {
         setLoading(true);
         try {
-            const response = await companyApi.update(
+            const { data } = await companyApi.update(
                 company!.companyId,
                 newData
             );
-            // console.log(response.data);
-            updateCompany(response.data);
+
+            updateCompany({ ...data, imagePath: data.image.path });
             SnackbarUtils.success('Empresa editada com sucesso');
         } catch (error) {
             SnackbarUtils.error('Não foi possível editar a empresa');

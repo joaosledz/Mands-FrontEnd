@@ -16,8 +16,12 @@ const useStyles = makeStyles<Theme>(theme =>
             textAlign: 'center',
 
             [theme.breakpoints.down('md')]: {
-                maxWidth: '90vw',
-                padding: '2rem 0.2rem',
+                maxWidth: '35vw',
+                //padding: '2rem 0.2rem',
+            },
+            [theme.breakpoints.down('sm')]: {
+                maxWidth: '50vw',
+                //padding: '2rem 0.2rem',
             },
 
             '& h1': {

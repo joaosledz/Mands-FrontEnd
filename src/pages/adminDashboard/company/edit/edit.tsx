@@ -93,6 +93,14 @@ const CompanyEdit: React.FC = () => {
         else handleEditCompany(data);
     };
 
+    const validateCnpj = (value: string) => {
+        if (value.length > 0) {
+            if (cnpjValidator(value)) return true;
+            else return 'CNPJ inválido';
+        }
+        return true;
+    };
+
     return (
         <Fragment>
             <Backdrop className={classes.backdrop} open={loading}>
@@ -253,24 +261,33 @@ const CompanyEdit: React.FC = () => {
                                         </ReactInputMask>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <TextField
-                                            defaultValue={company.cnpj}
-                                            data-cy="company-cnpj"
-                                            name="cnpj"
-                                            label="CNPJ"
-                                            inputRef={register({
-                                                validate: value =>
-                                                    cnpjValidator(value) ===
-                                                        true || 'CNPJ inválido',
-                                            })}
-                                            error={errors.cnpj !== undefined}
-                                            helperText={
-                                                errors.cnpj
-                                                    ? '⚠' +
-                                                      errors?.cnpj?.message
-                                                    : ''
-                                            }
-                                        />
+                                        <ReactInputMask
+                                            mask={'99.999.999/9999-99'}
+                                            maskChar="_"
+                                        >
+                                            {() => (
+                                                <TextField
+                                                    defaultValue={company.cnpj}
+                                                    data-cy="company-cnpj"
+                                                    name="cnpj"
+                                                    label="CNPJ"
+                                                    error={
+                                                        errors.cnpj !==
+                                                        undefined
+                                                    }
+                                                    helperText={
+                                                        errors.cnpj
+                                                            ? '⚠ ' +
+                                                              errors?.cnpj
+                                                                  ?.message
+                                                            : ''
+                                                    }
+                                                    inputRef={register({
+                                                        validate: validateCnpj,
+                                                    })}
+                                                />
+                                            )}
+                                        </ReactInputMask>
                                     </Grid>
                                 </Grid>
                                 <Grid container justify="center">

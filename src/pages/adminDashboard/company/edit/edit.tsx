@@ -264,10 +264,10 @@ const CompanyEdit: React.FC = () => {
                                         <ReactInputMask
                                             mask={'99.999.999/9999-99'}
                                             maskChar="_"
+                                            defaultValue={company.cnpj}
                                         >
                                             {() => (
                                                 <TextField
-                                                    defaultValue={company.cnpj}
                                                     data-cy="company-cnpj"
                                                     name="cnpj"
                                                     label="CNPJ"

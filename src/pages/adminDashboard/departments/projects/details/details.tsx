@@ -70,6 +70,7 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -80,6 +81,7 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -91,6 +93,7 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -102,6 +105,7 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                     </Grid>
@@ -115,6 +119,7 @@ const RegisterProject: React.FC = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            className={classes.textField}
                         />
                     </Grid>
                     <Grid

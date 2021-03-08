@@ -1,4 +1,4 @@
-import React /* , { useState } */ from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -7,11 +7,12 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import { AddUser as AddUserIcon } from '@styled-icons/entypo';
 import { Groups as TeamIcon } from '@styled-icons/material';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { Add as AddIcon } from '@styled-icons/ionicons-outline';
+import useStyles from './styles';
 
 // import employeesData from '../../../../../../utils/data/employees';
 import { TypeTeam } from '../../../../../../models/department';
-// import AssignTeamModal from '../../../../../../components/assignTeamModal/assignTeamModal'
+import AssignTeamModal from '../../../../../adminDashboard/components/assignTeamModal/project';
 
 type Props = {
     teamData: Array<TypeTeam>;
@@ -22,11 +23,12 @@ const ChipsList: React.FC<Props> = (props: Props) => {
     const { teamData } = props;
     const history = useHistory();
     const classes = useStyles();
+    // const [showAddMember, setShowAddMember] = useState(false);
     // const [allEmployees] = useState(employeesData);
-    // const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
+    const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
     //   const [editable, setEditable] = useState<boolean>(false);
     const handleAssignTeamModal = () => {
-        // setShowTeamModal(true);
+        setShowTeamModal(true);
     };
     const handleDelete = (index: number) => {
         console.info('You clicked the delete icon.');
@@ -44,6 +46,22 @@ const ChipsList: React.FC<Props> = (props: Props) => {
                 className={classes.subtitle}
             >
                 Responsáveis
+            </Grid>
+            <Grid
+                container
+                item
+                xs={3}
+                onClick={() => setShowTeamModal(true)}
+                className={classes.button}
+            >
+                <Grid item xs={9}>
+                    <Typography className={classes.subtitle}>
+                        Nova tarefa
+                    </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                    <AddIcon className={classes.icon} />
+                </Grid>
             </Grid>
             <div className={classes.root}>
                 {teamData.map((employee, index) => (
@@ -63,55 +81,15 @@ const ChipsList: React.FC<Props> = (props: Props) => {
                 </Box>
             </div>
 
-            {/* <AssignTeamModal
-                    teamData={teamData}
-                    allEmployees={allEmployees}
-                    isOpen={showTeamModal}
-                    setIsOpen={setShowTeamModal}
-                /> */}
+            {/* {!disabled && category === 'team' && company && ( */}
+            <AssignTeamModal
+                isOpen={showTeamModal}
+                setIsOpen={setShowTeamModal}
+                selectedValues={[]}
+            />
+            {/* )} */}
         </Grid>
     );
 };
 
 export default ChipsList;
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex',
-            justifyContent: 'left',
-            flexWrap: 'wrap',
-            '& > *': {
-                margin: theme.spacing(0.5),
-            },
-        },
-        icon: {
-            color: theme.palette.primary.light,
-            borderRadius: '20%',
-            marginRight: '4px',
-            maxWidth: '28px',
-        },
-        addTeamIcon: {
-            color: theme.palette.primary.light,
-            borderRadius: '20%',
-            marginRight: '4px',
-            width: '20px',
-            height: 'auto',
-            display: 'inline-flex',
-            '&:hover': {
-                backgroundColor: 'rgba(70, 70, 70, 0.2)',
-                cursor: 'pointer',
-            },
-        },
-        subtitle: {
-            display: 'flex',
-            alignSelf: 'begin',
-            color: theme.palette.primary.light,
-            fontWeight: 'lighter',
-            fontSize: '0.8rem',
-            [theme.breakpoints.up('md')]: {
-                fontSize: '1rem',
-            },
-        },
-    })
-);

@@ -46,6 +46,9 @@ const companyApi = {
 
     verifyUsername: (username: string) =>
         api.get(companyUrls.verifyUsername + `${username}`),
+
+    removeEmployee: (company_id: number, employee_id: number) =>
+        api.delete(`${companyUrls.base}/${company_id}/${employee_id}`),
 };
 
 export default companyApi;

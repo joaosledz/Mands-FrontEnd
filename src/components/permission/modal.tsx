@@ -8,11 +8,19 @@ import React, {
     Fragment,
 } from 'react';
 
-import { Paper, Modal, Grid, Typography, Avatar } from '@material-ui/core';
+import {
+    Paper,
+    Modal,
+    Grid,
+    Typography,
+    Avatar,
+    Slide,
+} from '@material-ui/core';
 import SubmitButton from '../mainButton';
 import useStyles from './styles';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import snackbarUtils from '../../utils/functions/snackbarUtils';
+import Backdrop from '../backdrop';
 
 import {
     TypeMember,
@@ -97,54 +105,63 @@ const HiringModal: React.FC<Props> = (props: Props) => {
 
     return (
         <Fragment>
+            <Backdrop loading={loading} />
             <Modal
-                className={classes.modal}
                 open={isOpen}
                 onClose={handleCloseModal}
-                // style={{ paddingTop: '5%', minHeight: '400px' }}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
+                className={classes.modal}
             >
                 {employee && (
-                    <>
+                    <Slide
+                        direction="up"
+                        in={isOpen}
+                        mountOnEnter
+                        unmountOnExit
+                    >
                         <Grid
                             container
                             component={Paper}
                             className={classes.paper}
-                            spacing={4}
+                            spacing={3}
                         >
-                            <CloseIcon
-                                className={classes.iconClose}
-                                onClick={handleCloseModal}
-                            />
-
-                            <Grid
-                                item
-                                xs={12}
-                                className={classes.title}
-                                component={Typography}
-                            >
-                                Permissões de {employee.name}
+                            <Grid container alignItems="center">
+                                <Grid item xs={2} />
+                                <Grid container item xs={8} justify="center">
+                                    <Typography variant="h1">
+                                        Permissões de {employee.name}
+                                    </Typography>
+                                </Grid>
+                                <Grid container item xs={2} justify="flex-end">
+                                    <CloseIcon
+                                        className={classes.iconClose}
+                                        onClick={handleCloseModal}
+                                    />
+                                </Grid>
                             </Grid>
                             <Grid
-                                item
-                                xs={12}
-                                className={classes.title}
-                                component={Typography}
+                                id="avatar-container"
+                                container
+                                justify="center"
                             >
                                 <Avatar
-                                    variant="rounded"
                                     src={employee.image?.path || undefined}
-                                    className={classes.largeAvatar}
+                                    variant="rounded"
+                                    alt={employee.name}
+                                    className={classes.avatar}
                                 />
                             </Grid>
-
-                            <Grid item xs={12} style={{ textAlign: 'left' }}>
+                            <Grid
+                                container
+                                justify="center"
+                                style={{ textAlign: 'left' }}
+                            >
                                 <ChooseRole
+                                    roles={roles}
                                     roleValue={roleValue}
                                     handleChangeRole={handleChangeRole}
                                     handleOpen={handleOpenPermModal}
-                                    roles={roles}
                                 />
                             </Grid>
                             <Grid
@@ -162,7 +179,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                 />
                             </Grid>
                         </Grid>
-                    </>
+                    </Slide>
                 )}
             </Modal>
             <RegisterPermissionModal

@@ -20,9 +20,11 @@ const useStyles = makeStyles<Theme>(theme =>
             color: theme.palette.primary.light,
             borderRadius: '20%',
             marginRight: '4px',
-            width: '20px',
+            width: '25px',
             height: 'auto',
             display: 'inline-flex',
+            alignItems: 'center',
+            justifyItems: 'center',
             '&:hover': {
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
@@ -36,6 +38,14 @@ const useStyles = makeStyles<Theme>(theme =>
             fontSize: '0.8rem',
             [theme.breakpoints.up('md')]: {
                 fontSize: '1rem',
+            },
+        },
+        notFoundText: {
+            color: theme.palette.text.secondary,
+            fontWeight: 'lighter',
+            fontSize: '0.7rem',
+            [theme.breakpoints.up('md')]: {
+                fontSize: '0.9rem',
             },
         },
         button: {

@@ -193,7 +193,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                     </Grid>
 
                     <Grid container item xs={12}>
-                        {item.subtasks && (
+                        {item.subtasks ? (
                             <CheckBoxList
                                 subtasks={item.subtasks}
                                 departmentId={departmentId}
@@ -201,6 +201,15 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 companyId={companyId}
                                 taskId={item.taskId}
                             />
+                        ) : (
+                            <Grid
+                                xs={12}
+                                item
+                                component={Typography}
+                                className={classes.notFoundText}
+                            >
+                                Ainda não há tarefas
+                            </Grid>
                         )}
                     </Grid>
                     {showCreateSubtask && (
@@ -216,7 +225,11 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                     )}
                     {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
 
-                    <Team teamData={teamData} setTeamData={setTeamData} />
+                    <Team
+                        teamData={teamData}
+                        setTeamData={setTeamData}
+                        taskId={item.taskId}
+                    />
                     {/* </Grid> */}
                     {/* <Grid
                         container

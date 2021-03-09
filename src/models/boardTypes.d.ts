@@ -6,6 +6,14 @@ export type TypeSubTask = {
     completed: boolean;
     description: string;
 };
+export type TypeResponsible = {
+    id: number;
+    name: string;
+    surname: string;
+    username: string;
+    email: string;
+    cpf: string;
+};
 
 export type TypeItem = Object<
     string,
@@ -19,7 +27,7 @@ export type TypeItem = Object<
             label: string;
             color: string;
         } | null;
-        responsible: Array<string>;
+        responsible: Array<TypeResponsible>;
         subtasks: [
             {
                 completed: boolean;

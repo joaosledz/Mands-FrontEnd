@@ -79,6 +79,14 @@ const useStyles = makeStyles<Theme>(theme =>
                 fontSize: '1rem',
             },
         },
+        notFoundText: {
+            color: theme.palette.text.secondary,
+            fontWeight: 'lighter',
+            fontSize: '0.7rem',
+            [theme.breakpoints.up('md')]: {
+                fontSize: '0.9rem',
+            },
+        },
         teamText: {
             paddingLeft: '0.8rem',
             display: 'flex',

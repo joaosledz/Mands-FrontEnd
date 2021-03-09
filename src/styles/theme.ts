@@ -8,12 +8,12 @@ const theme = createMuiTheme({
             dark: '#661558',
             contrastText: '#FFF',
         },
-        // secondary: {
-        //     //   light: '#ff7961',
-        //     main: '#B03E9F',
-        //     //   dark: '#ba000d',
-        //     //   contrastText: '#000',
-        // },
+        secondary: {
+            //   light: '#ff7961',
+            main: '#B03E9F',
+            //   dark: '#ba000d',
+            //   contrastText: '#000',
+        },
         text: {
             secondary: '#606060',
         },
@@ -28,6 +28,10 @@ const theme = createMuiTheme({
         MuiTextField: {
             variant: 'outlined',
             fullWidth: true,
+        },
+        MuiChip: {
+            variant: 'outlined',
+            color: 'secondary',
         },
         // MuiInput: {
         //     variant: 'standard',

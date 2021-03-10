@@ -61,6 +61,7 @@ const CompanyDetails: React.FC = () => {
                                                 defaultValue={company?.name}
                                                 label="Nome"
                                                 disabled
+                                                className={classes.textField}
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
@@ -68,6 +69,7 @@ const CompanyDetails: React.FC = () => {
                                                 label="Nome de Usuário"
                                                 defaultValue={company?.username}
                                                 disabled
+                                                className={classes.textField}
                                             />
                                         </Grid>
                                     </Grid>
@@ -77,17 +79,17 @@ const CompanyDetails: React.FC = () => {
                                                 label="Email"
                                                 defaultValue={company?.email}
                                                 disabled
+                                                className={classes.textField}
                                             />
                                         </Grid>
-                                        <Grid
-                                            item
-                                            xs={12}
-                                            sm={6}
-                                            component={TextField}
-                                            label="Telefone"
-                                            defaultValue={company?.phone}
-                                            disabled
-                                        />
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                label="Telefone"
+                                                defaultValue={company?.phone}
+                                                disabled
+                                                className={classes.textField}
+                                            />
+                                        </Grid>
                                     </Grid>
                                     <Grid container item spacing={3}>
                                         <Grid item xs={12} sm={6}>
@@ -95,6 +97,7 @@ const CompanyDetails: React.FC = () => {
                                                 label="CNPJ"
                                                 defaultValue={company?.cnpj}
                                                 disabled
+                                                className={classes.textField}
                                             />
                                         </Grid>
                                     </Grid>

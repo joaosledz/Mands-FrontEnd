@@ -74,6 +74,22 @@ const UserProfile: React.FC = () => {
         else SnackbarUtils.info('Modifique algum campo.');
     };
 
+    const validateLinkedin = (value: string) => {
+        if (value.length > 0) {
+            if (value.includes('linkedin.com/in/')) return true;
+            else return 'link inválido';
+        }
+        return true;
+    };
+
+    const validateGithub = (value: string) => {
+        if (value.length > 0) {
+            if (value.includes('github.com/')) return true;
+            else return 'link inválido';
+        }
+        return true;
+    };
+
     return (
         <Fragment>
             <Backdrop loading={loading} />
@@ -220,10 +236,7 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
-                                                validate: value =>
-                                                    value.includes(
-                                                        'github.com/'
-                                                    ) || 'Link inválido',
+                                                validate: validateGithub,
                                             })}
                                         />
                                     </Grid>
@@ -248,10 +261,7 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
-                                                validate: value =>
-                                                    value.includes(
-                                                        'linkedin.com/in/'
-                                                    ) || 'Link inválido',
+                                                validate: validateLinkedin,
                                             })}
                                         />
                                     </Grid>

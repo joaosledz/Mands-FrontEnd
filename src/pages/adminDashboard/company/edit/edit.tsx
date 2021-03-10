@@ -190,6 +190,7 @@ const CompanyEdit: React.FC = () => {
                                             data-cy="company-username"
                                             name="username"
                                             label="Nome de Usuário"
+                                            className={classes.textField}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>

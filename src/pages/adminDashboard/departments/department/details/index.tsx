@@ -93,6 +93,7 @@ const Details: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -103,6 +104,7 @@ const Details: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                     </Grid>
@@ -116,6 +118,7 @@ const Details: React.FC = () => {
                             InputLabelProps={{
                                 shrink: true,
                             }}
+                            className={classes.textField}
                         />
                     </Grid>
                 </Grid>

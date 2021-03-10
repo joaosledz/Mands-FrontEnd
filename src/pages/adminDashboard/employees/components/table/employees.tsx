@@ -51,8 +51,21 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
         setFilter(!filter);
     };
 
-    const handleRemove = (id: number, name: string) => {
-        console.log(`Funcionário ${name} deletado (id: ${id})`);
+    const handleRemove = async (id: number, name: string) => {
+        try {
+            console.log(`Funcionário ${name} deletado (id: ${id})`);
+
+            await companyApi.removeEmployee(company!.companyId, id);
+
+            const aux: TypeMember[] = [];
+            data!.forEach(item => {
+                if (item.userId !== id) aux.push(item);
+            });
+            setData(aux);
+        } catch (err) {
+            console.log(err);
+            snackbarUtils.error('Não foi possível remover usuário');
+        }
     };
     //Hiring Modal
     const [showHiringModal, setShowHiringModal] = useState<boolean>(false);

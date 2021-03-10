@@ -97,6 +97,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
             .then(response => {
                 setShowCreateSubtask(false);
                 snackbarUtils.success('Tarefa criada com sucesso');
+                setNewSubtask('');
             })
             .catch(error => {
                 snackbarUtils.error('Erro ao tentar criar tarefa');

@@ -49,6 +49,9 @@ const companyApi = {
 
     removeEmployee: (company_id: number, employee_id: number) =>
         api.delete(`${companyUrls.base}/${company_id}/${employee_id}`),
+
+    quitCompany: (company_id: number) =>
+        api.delete(`${companyUrls.quitCompany}${company_id}`),
 };
 
 export default companyApi;

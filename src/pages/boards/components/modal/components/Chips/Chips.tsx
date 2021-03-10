@@ -72,11 +72,18 @@ const ChipsList: React.FC<Props> = (props: Props) => {
                                 avatar={
                                     <Avatar
                                         alt={
-                                            employee.name
-                                        } /*src={employee.image}*/
+                                            employee.name +
+                                            ' ' +
+                                            employee.surname
+                                        }
+                                        src={employee.image?.path || undefined}
                                     />
                                 }
-                                label={employee.name.split(' ', 1)}
+                                label={
+                                    employee.name.split(' ', 1) +
+                                    ' ' +
+                                    employee.surname.split(' ', 1)
+                                }
                                 onClick={() => history.push('/perfil')}
                                 onDelete={() => handleDelete(index)}
                                 variant="outlined"

@@ -13,6 +13,13 @@ export type TypeResponsible = {
     username: string;
     email: string;
     cpf: string;
+    image: {
+        imageId: number;
+        path: string;
+        extension: string;
+        name: string;
+        size: number;
+    } | null;
 };
 
 export type TypeItem = Object<

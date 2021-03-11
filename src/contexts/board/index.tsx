@@ -189,73 +189,32 @@ export const BoardProvider: React.FC = ({ children }) => {
         handleHubConnection();
         // eslint-disable-next-line
     }, [user]);
-
+    const channels = [
+        'TaskSent',
+        'TaskUpdated',
+        'TaskDeleted',
+        'TaskUpdatePosition',
+        'ResponsibleAssociated',
+        'SessionChanged',
+        'SubtaskCreated',
+        'SubtaskUpdated',
+        'SubtaskDeleted',
+        'SessionCreated',
+        'SessionUpdated',
+        'SessionDeleted',
+        'SessionPosUpdated',
+    ];
     useEffect(() => {
         const handleWebSocket = async () => {
             if (hubConnection) {
                 try {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
-                    //Canais de /Task
-                    hubConnection.on('TaskSent', response => {
-                        console.log(response);
-                        // AddTask(task.sessionId, task.tasks[0]);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('TaskUpdated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('TaskDeleted', response => {
-                        // console.log(response);
-                        // DeleteTask(
-                        //     'task_' + response.taskId,
-                        //     response.sourceSessionId
-                        // );
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('TaskUpdatePosition', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('ResponsibleAssociated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionChanged', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-
-                    // Canais de /Subtask
-                    hubConnection.on('SubtaskCreated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SubtaskUpdated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SubtaskDeleted', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    //Canais de /Session
-                    hubConnection.on('SessionCreated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionUpdated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionDeleted', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionPosUpdated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
+                    channels.map(channel => {
+                        hubConnection.on(channel, response => {
+                            console.log(response);
+                            setState(ConvertResponse(response));
+                        });
                     });
                 } catch (error) {
                     console.log(error);

@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             justifyContent: 'center',
             '& img': {
-                width: 75,
+                width: '70%',
+                margin: 'auto',
             },
         },
 

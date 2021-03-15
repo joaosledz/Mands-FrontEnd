@@ -14,12 +14,12 @@ import useStyles from './styles';
 
 type Props = {
     layoutStyles?: string;
-    loading?: boolean | Array<boolean>;
+    loading?: Array<boolean>;
     children: React.ReactNode;
 };
 
 const AppLayout: React.FC<Props> = (props: Props) => {
-    const { layoutStyles, loading = false, children } = props;
+    const { layoutStyles, loading = [false], children } = props;
     const classes = useStyles();
     const params = useParams<TypeParams>();
     const {
@@ -65,17 +65,7 @@ const AppLayout: React.FC<Props> = (props: Props) => {
             }
         >
             <Header />
-            {typeof loading === 'boolean' ? (
-                !loading || !innerLoading ? (
-                    children
-                ) : (
-                    <Loading />
-                )
-            ) : loading.includes(true) && innerLoading ? (
-                <Loading />
-            ) : (
-                children
-            )}
+            {innerLoading || loading.includes(true) ? <Loading /> : children}
         </Box>
     );
 };

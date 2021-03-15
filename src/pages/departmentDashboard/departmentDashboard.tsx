@@ -57,7 +57,7 @@ const DepartmentDashboard: React.FC = () => {
     if (notFound) return <NotFound />;
 
     return (
-        <AppLayout loading={loading}>
+        <AppLayout loading={[loading]}>
             {department && (
                 <Box className={classes.container}>
                     <Header jobTitle={'Gerente'} />

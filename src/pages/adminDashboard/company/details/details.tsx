@@ -25,7 +25,7 @@ const CompanyDetails: React.FC = () => {
     }, [company]);
 
     return (
-        <AppLayout loading={loading}>
+        <AppLayout loading={[loading]}>
             <AdminLayout title="Empresa">
                 <Grid item xs={12} lg={10}>
                     <Paper elevation={3} className={classes.paper}>

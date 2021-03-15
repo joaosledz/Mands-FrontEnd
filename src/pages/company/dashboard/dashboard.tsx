@@ -53,7 +53,7 @@ const CompanyDashboard: React.FC = () => {
     }, [company, updateCompany, setLoading]);
 
     return (
-        <AppLayout loading={loading}>
+        <AppLayout loading={[loading]}>
             <Box className={classes.container}>
                 <Grid container component="section">
                     <Grid item xs={12}>

@@ -31,7 +31,7 @@ const CompanySelection: React.FC = () => {
     }, []);
 
     return (
-        <AppLayout loading={loading}>
+        <AppLayout loading={[loading]}>
             {companies.length !== 0 ? (
                 <Companies companies={companies} />
             ) : (

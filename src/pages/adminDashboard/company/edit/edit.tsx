@@ -106,7 +106,7 @@ const CompanyEdit: React.FC = () => {
             <Backdrop className={classes.backdrop} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <AppLayout loading={companyLoading}>
+            <AppLayout loading={[companyLoading]}>
                 <Paper elevation={3} className={classes.paper}>
                     <Grid
                         container

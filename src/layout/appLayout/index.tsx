@@ -33,8 +33,8 @@ const AppLayout: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         const checkCompanyData = async () => {
-            if (!params.company) return;
             try {
+                if (!params.company) return;
                 if (!company) await getCompanyData(params.company);
             } catch (err) {
                 const error: AxiosError = err;
@@ -52,6 +52,10 @@ const AppLayout: React.FC<Props> = (props: Props) => {
         };
         checkCompanyData();
     }, [company, getCompanyData, params, setLoading]);
+
+    useEffect(() => {
+        console.log({ loading, innerLoading });
+    }, [loading, innerLoading]);
 
     if (notFound) return <NotFound />;
 

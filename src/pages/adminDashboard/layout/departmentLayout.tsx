@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import TypeParams from '../../../models/params';
 import useCompany from '../../../hooks/useCompany';
@@ -24,8 +24,15 @@ const DepartmentLayout: React.FC<Props> = ({
     children,
 }) => {
     const params = useParams<TypeParams>();
+    const {
+        location: { pathname },
+    } = useHistory();
     const { company } = useCompany();
-    const { getDepartmentData, loading: departmentLoading } = useDepartment();
+    const {
+        getDepartmentData,
+        loading: depLoading,
+        setLoading: setDepLoading,
+    } = useDepartment();
     const { loading: projectLoading } = useProject();
     const [loading, setLoading] = useState(true);
 
@@ -34,6 +41,13 @@ const DepartmentLayout: React.FC<Props> = ({
     useEffect(() => {
         const checkCompanyData = async () => {
             try {
+                console.log('try');
+                if (
+                    pathname === '/admin/AzedaEmpresa/departamentos' ||
+                    pathname === '/admin/AzedaEmpresa/funcionarios'
+                )
+                    return;
+
                 const userCompPermission = company?.userPermission;
 
                 const {
@@ -55,18 +69,21 @@ const DepartmentLayout: React.FC<Props> = ({
                     await getDepartmentData(params.company, params.department!);
                 else setHaspermission(false);
             } catch (error) {
+                console.log('catch');
                 setHaspermission(false);
             } finally {
+                console.log('finnaly');
                 setLoading(false);
+                setDepLoading(false);
             }
         };
         if (company) checkCompanyData();
-    }, [company, params, getDepartmentData]);
+    }, [company, params, getDepartmentData, pathname, setDepLoading]);
 
     if (!hasPermission) return <NotFound />;
 
     return (
-        <AppLayout loading={[loading, departmentLoading, projectLoading]}>
+        <AppLayout loading={[loading, depLoading, projectLoading]}>
             {menu ? (
                 <Layout title={title}>{children}</Layout>
             ) : (

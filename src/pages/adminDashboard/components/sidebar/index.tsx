@@ -50,7 +50,10 @@ const SideBar: React.FC<Props> = (props: Props) => {
                             keepMounted: true, // Better open performance on mobile.
                         }}
                     >
-                        <DrawerComponent logo={company?.imagePath} />
+                        <DrawerComponent
+                            logo={company?.imagePath}
+                            company={company}
+                        />
                     </Drawer>
                 </Hidden>
                 <Hidden mdDown implementation="css">

@@ -71,7 +71,9 @@ const CompanyDashboard: React.FC = () => {
                     {company ? (
                         <Fragment>
                             <Grid item xs={12} md={6}>
-                                {company.userPermission?.editCompany && (
+                                {(company.userPermission?.editCompany ||
+                                    company.userPermission?.acceptUser ||
+                                    company.userPermission?.department) && (
                                     <ManageCompanyButton company={company} />
                                 )}
                                 <Departments

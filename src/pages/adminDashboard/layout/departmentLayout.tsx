@@ -40,16 +40,8 @@ const DepartmentLayout: React.FC<Props> = ({
 
     useEffect(() => {
         const checkCompanyData = async () => {
+            const userCompPermission = company?.userPermission;
             try {
-                console.log('try');
-                if (
-                    pathname === '/admin/AzedaEmpresa/departamentos' ||
-                    pathname === '/admin/AzedaEmpresa/funcionarios'
-                )
-                    return;
-
-                const userCompPermission = company?.userPermission;
-
                 const {
                     data: { departmentId },
                 } = await departmentApi.show(
@@ -58,19 +50,26 @@ const DepartmentLayout: React.FC<Props> = ({
                 );
 
                 const {
-                    data: { depPermissionId },
+                    data: { editDepartment },
                 } = await departmentPermApi.getUserPermissions(departmentId);
+
+                console.log({ userCompPermission, editDepartment });
 
                 if (
                     userCompPermission?.department ||
                     userCompPermission?.editCompany ||
-                    depPermissionId
+                    editDepartment
                 )
                     await getDepartmentData(params.company, params.department!);
                 else setHaspermission(false);
             } catch (error) {
                 console.log('catch');
-                setHaspermission(false);
+                if (
+                    userCompPermission?.department ||
+                    userCompPermission?.editCompany
+                )
+                    await getDepartmentData(params.company, params.department!);
+                else setHaspermission(false);
             } finally {
                 console.log('finnaly');
                 setLoading(false);

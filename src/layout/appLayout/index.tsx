@@ -53,10 +53,6 @@ const AppLayout: React.FC<Props> = (props: Props) => {
         checkCompanyData();
     }, [company, getCompanyData, params, setLoading]);
 
-    useEffect(() => {
-        console.log({ loading, innerLoading });
-    }, [loading, innerLoading]);
-
     if (notFound) return <NotFound />;
 
     return (

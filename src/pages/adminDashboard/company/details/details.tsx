@@ -104,15 +104,21 @@ const CompanyDetails: React.FC = () => {
                     </Grid>
                 </Paper>
             </Grid>
-            <FabButton
-                title="Configurar"
-                icon="settings"
-                onClick={() =>
-                    history.push(
-                        handleEditURL(location.pathname, '/detalhes', '/edicao')
-                    )
-                }
-            />
+            {company?.userPermission?.editCompany && (
+                <FabButton
+                    title="Configurar"
+                    icon="settings"
+                    onClick={() =>
+                        history.push(
+                            handleEditURL(
+                                location.pathname,
+                                '/detalhes',
+                                '/edicao'
+                            )
+                        )
+                    }
+                />
+            )}
         </Layout>
     );
 };

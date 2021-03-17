@@ -64,7 +64,11 @@ const SideBar: React.FC<Props> = (props: Props) => {
                         variant="permanent"
                         open
                     >
-                        <DrawerComponent logo={company?.imagePath} divider />
+                        <DrawerComponent
+                            logo={company?.imagePath}
+                            divider
+                            company={company}
+                        />
                     </Drawer>
                 </Hidden>
             </nav>

@@ -79,7 +79,9 @@ const CompanyDashboard: React.FC = () => {
                                 <Departments
                                     departments={company.departments}
                                     containerStyles={
-                                        company.userPermission?.editCompany
+                                        company.userPermission?.editCompany ||
+                                        company.userPermission?.acceptUser ||
+                                        company.userPermission?.department
                                             ? classes.departments
                                             : undefined
                                     }

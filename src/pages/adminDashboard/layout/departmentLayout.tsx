@@ -50,10 +50,15 @@ const DepartmentLayout: React.FC<Props> = ({
                 );
 
                 const {
-                    data: { editDepartment },
+                    data: { editDepartment, deleteUser, project },
                 } = await departmentPermApi.getUserPermissions(departmentId);
 
-                if (userCompPermission?.department || editDepartment)
+                if (
+                    userCompPermission?.department ||
+                    editDepartment ||
+                    deleteUser ||
+                    project
+                )
                     await getDepartmentData(params.company, params.department!);
                 else setHaspermission(false);
             } catch (error) {

@@ -48,10 +48,11 @@ const Header: React.FC<Props> = (props: Props) => {
                 const departmentId = department.departmentId;
                 const userCompPerm = company?.userPermission?.department;
                 const {
-                    data: { editDepartment },
+                    data: { editDepartment, deleteUser, project },
                 } = await departmentPermApi.getUserPermissions(departmentId);
 
-                if (userCompPerm || editDepartment) setEditPerm(true);
+                if (userCompPerm || editDepartment || deleteUser || project)
+                    setEditPerm(true);
             } catch (err) {
                 console.log(err);
             }

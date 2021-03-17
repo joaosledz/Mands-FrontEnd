@@ -25,27 +25,15 @@ import useStyles from './styles';
 
 const permissionsModel = [
     {
-        label: 'Editar Departamento',
+        label: 'Gerenciar Departamento',
         checked: false,
     },
     {
-        label: 'Deletar Departamento',
+        label: 'Gerenciar Projetos',
         checked: false,
     },
     {
-        label: 'Convidar Pessoas',
-        checked: false,
-    },
-    {
-        label: 'Retirar Pessoas',
-        checked: false,
-    },
-    {
-        label: 'Projeto',
-        checked: false,
-    },
-    {
-        label: 'Permissão',
+        label: 'Gerenciar Usuários',
         checked: false,
     },
 ];
@@ -84,11 +72,11 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
             const auxData = {
                 name: data.name,
                 editDepartment: permissions[0].checked,
-                deleteDepartment: permissions[1].checked,
+                deleteDepartment: permissions[0].checked,
                 inviteUser: permissions[2].checked,
-                deleteUser: permissions[3].checked,
-                project: permissions[4].checked,
-                permission: permissions[5].checked,
+                deleteUser: permissions[2].checked,
+                project: permissions[1].checked,
+                permission: permissions[2].checked,
             };
             try {
                 await departmentPermApi.create(

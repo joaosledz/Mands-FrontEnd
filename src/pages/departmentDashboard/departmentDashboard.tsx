@@ -19,7 +19,12 @@ import useStyles from './styles';
 const DepartmentDashboard: React.FC = () => {
     const classes = useStyles();
     const params = useParams<TypeParams>();
-    const { department, getDepartmentData, loading } = useDepartment();
+    const {
+        department,
+        getDepartmentData,
+        loading,
+        setLoading,
+    } = useDepartment();
 
     const [notFound, setNotFound] = useState(false);
 
@@ -47,6 +52,8 @@ const DepartmentDashboard: React.FC = () => {
                             snackbarUtils.error(error.message);
                             break;
                     }
+                } finally {
+                    setLoading(false);
                 }
             }
         };

@@ -26,8 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         descriptionContainer: {
-            marginTop: '1rem',
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.down('md')]: {
                 padding: '0 5.2rem 0 1rem',
             },
         },

@@ -126,18 +126,20 @@ const Details: React.FC = () => {
                             />
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            disabled
-                            multiline
-                            rows={6}
-                            label="Descrição"
-                            value={department?.objective || ''}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            className={classes.textField}
-                        />
+                    <Grid spacing={3} container item xs={12} md={6}>
+                        <Grid item xs={12}>
+                            <TextField
+                                disabled
+                                multiline
+                                rows={6}
+                                label="Descrição"
+                                value={department?.objective || ''}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                className={classes.textField}
+                            />
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid

@@ -21,8 +21,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
             transition: 'all .1s',
 
-            '& img': {
-                maxWidth: '30%',
+            [theme.breakpoints.up('md')]: {
+                '& img': {
+                    maxWidth: '30%',
+                },
+            },
+
+            [theme.breakpoints.down('sm')]: {
+                '& img': {
+                    maxWidth: '10%',
+                },
             },
 
             '& p': {

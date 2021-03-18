@@ -16,6 +16,7 @@ const tasksUrls = {
     createSubtask: `${tasksUrl}/CreateSubtask/`,
     updateSubtask: `${tasksUrl}/UpdateSubtask/`,
     deleteSubtask: `${tasksUrl}/DeleteSubtask/`,
+    updatePositionSubtask: `${tasksUrl}/UpdatePositionSubTask/`,
 };
 
 export default tasksUrls;

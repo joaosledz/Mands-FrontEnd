@@ -203,6 +203,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         'SessionUpdated',
         'SessionDeleted',
         'SessionPosUpdated',
+        'SubTaskUpdatePosition',
     ];
     useEffect(() => {
         const handleWebSocket = async () => {
@@ -210,7 +211,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 try {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
-                    channels.map(channel => {
+                    channels.forEach(channel => {
                         hubConnection.on(channel, response => {
                             console.log(response);
                             setState(ConvertResponse(response));

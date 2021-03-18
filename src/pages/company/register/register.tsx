@@ -76,6 +76,14 @@ const CompanyRegister: React.FC = () => {
         }
     };
 
+    const validateCnpj = (value: string) => {
+        if (value.length > 0) {
+            if (CNPJValidator(value)) return true;
+            else return 'CNPJ inválido';
+        }
+        return true;
+    };
+
     return (
         <Fragment>
             <Backdrop loading={formState.isSubmitting} />
@@ -279,12 +287,7 @@ const CompanyRegister: React.FC = () => {
                                                             : ''
                                                     }
                                                     inputRef={register({
-                                                        validate: {
-                                                            cnpjInvalido: value =>
-                                                                CNPJValidator(
-                                                                    value
-                                                                ),
-                                                        },
+                                                        validate: validateCnpj,
                                                     })}
                                                 />
                                             )}

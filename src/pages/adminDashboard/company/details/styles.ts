@@ -26,6 +26,19 @@ const useStyles = makeStyles<Theme>(theme =>
                 paddingBottom: '1rem',
             },
         },
+        textField: {
+            '& input:disabled': {
+                color: '#727273',
+            },
+            '& .MuiOutlinedInput-root': {
+                '&.Mui-disabled fieldset': {
+                    borderColor: '#727273',
+                },
+            },
+            '& label.Mui-disabled': {
+                color: '#727273',
+            },
+        },
     })
 );
 

@@ -1,12 +1,22 @@
 export type SubmitTaskType = {
-    sessionId?: number;
+    //sessionId: number;
     departmentId: number;
     projectId: number;
-    title: string;
+    title?: string;
     description?: string;
+    completed?: boolean;
+    progress?: boolean;
     initialDate?: Date;
     finalDate?: Date;
     cost?: number;
+    dependency?: Array<{
+        type: number;
+        headId: number;
+    }>;
+    subtasks?: Array<{
+        description: string;
+    }>;
+    tagId?: number;
 };
 
 export type SubmitResponsible = {
@@ -26,12 +36,21 @@ export type SubmitChangeSession = {
     projectId: number;
 };
 
-export type SubtaskType = {
+export type UpdateSubtaskType = {
     completed: boolean;
     description: string;
     departmentId: number;
     projectId: number;
     companyId: number;
+};
+export type CreateSubtaskType = {
+    subtasks: [
+        {
+            description: string;
+        }
+    ];
+    departmentId: number;
+    projectId: number;
 };
 
 export type updateTaskPositionType = Array<{

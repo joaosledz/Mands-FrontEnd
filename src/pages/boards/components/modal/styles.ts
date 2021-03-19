@@ -4,28 +4,27 @@ const useStyles = makeStyles<Theme>(theme =>
     createStyles({
         modal: {
             // Scroll
-                top: '0px',
-                position: 'fixed',
-                height: '100%',
-                maxHeight: '100vh',
-                overflowY: 'auto',
-                scrollbarWidth: 'thin',
-                '&::-webkit-scrollbar': {
+            top: '0px',
+            position: 'fixed',
+            height: '100%',
+            maxHeight: '100vh',
+            overflowY: 'auto',
+            scrollbarWidth: 'thin',
+            '&::-webkit-scrollbar': {
                 width: '8px',
                 marginLeft: '12px',
-                },
-                /* Track */
-                '&::-webkit-scrollbar-track': {
+            },
+            /* Track */
+            '&::-webkit-scrollbar-track': {
                 WebkitBorderRadius: '10px',
                 borderRadius: '10px',
-                },
-                /* Handle */
-                '&::-webkit-scrollbar-thumb': {
+            },
+            /* Handle */
+            '&::-webkit-scrollbar-thumb': {
                 WebkitBorderRadius: '10px',
                 borderRadius: '10px',
                 background: 'rgba(170,170,170,0.5)',
-                },
-            
+            },
         },
         paper: {
             // height: '100%',
@@ -47,38 +46,45 @@ const useStyles = makeStyles<Theme>(theme =>
                 maxWidth: '90vw',
                 padding: '2rem 0.2rem',
             },
-            
         },
-        body: { 
-                position: 'relative',
-                // maxHeight: '70vh',
-                //Scroll
-                // overflowY: 'auto',
-                // scrollbarWidth: 'thin',
-                // '&::-webkit-scrollbar': {
-                // width: '8px',
-                // marginLeft: '12px',
-                // },
-                // /* Track */
-                // '&::-webkit-scrollbar-track': {
-                // WebkitBorderRadius: '10px',
-                // borderRadius: '10px',
-                // },
-                // /* Handle */
-                // '&::-webkit-scrollbar-thumb': {
-                // WebkitBorderRadius: '10px',
-                // borderRadius: '10px',
-                // background: 'rgba(170,170,170,0.5)',
-                // },
+        body: {
+            position: 'relative',
+            // maxHeight: '70vh',
+            //Scroll
+            // overflowY: 'auto',
+            // scrollbarWidth: 'thin',
+            // '&::-webkit-scrollbar': {
+            // width: '8px',
+            // marginLeft: '12px',
+            // },
+            // /* Track */
+            // '&::-webkit-scrollbar-track': {
+            // WebkitBorderRadius: '10px',
+            // borderRadius: '10px',
+            // },
+            // /* Handle */
+            // '&::-webkit-scrollbar-thumb': {
+            // WebkitBorderRadius: '10px',
+            // borderRadius: '10px',
+            // background: 'rgba(170,170,170,0.5)',
+            // },
         },
         subtitle: {
             display: 'flex',
             alignSelf: 'begin',
             color: theme.palette.primary.light,
-            fontWeight: 'lighter',
+            fontWeight: 'bold',
             fontSize: '0.8rem',
             [theme.breakpoints.up('md')]: {
                 fontSize: '1rem',
+            },
+        },
+        notFoundText: {
+            color: theme.palette.text.secondary,
+            fontWeight: 'lighter',
+            fontSize: '0.7rem',
+            [theme.breakpoints.up('md')]: {
+                fontSize: '0.9rem',
             },
         },
         teamText: {
@@ -94,7 +100,14 @@ const useStyles = makeStyles<Theme>(theme =>
         smallAvatar: {
             width: theme.spacing(3),
             height: theme.spacing(3),
-          },
+        },
+        button: {
+            '&:hover': {
+                transform: 'scale(1.1)',
+                transitionDuration: '0.2s',
+            },
+            cursor: 'pointer',
+        },
         icon: {
             color: theme.palette.primary.light,
             borderRadius: '20%',
@@ -113,6 +126,19 @@ const useStyles = makeStyles<Theme>(theme =>
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
             },
+        },
+        iconCancel: {
+            color: 'red',
+            borderRadius: '20%',
+            marginRight: '4px',
+            width: '2rem',
+            right: '5px',
+            top: '5px',
+            '&:hover': {
+                transform: 'scale(1.1)',
+                transitionDuration: '0.2s',
+            },
+            cursor: 'pointer',
         },
         submitButton: {
             position: 'relative',

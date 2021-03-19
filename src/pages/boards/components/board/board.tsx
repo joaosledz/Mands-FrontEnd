@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import FabButton from '../../../../components/fabButton';
@@ -18,11 +18,12 @@ import {
 } from '../../../../services';
 import { TypeBoard } from '../../../../models/boardTypes';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
+import Backdrop from '../../../../components/backdrop';
 
 const Board: React.FC = () => {
     const classes = useStyles();
     // Initialize board state with board data
-    const { state, setState, AddColumn } = useContext(BoardContext);
+    const { state, setState, AddColumn, loading } = useContext(BoardContext);
     const { company } = useCompany();
     const params = useParams<TypeParams>();
     const { getDepartmentData, department } = useDepartment();
@@ -247,64 +248,82 @@ const Board: React.FC = () => {
     };
 
     return (
-        <>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable
-                    droppableId="all-columns"
-                    direction="horizontal"
-                    type="column"
-                    key="all-columns"
-                >
-                    {provided => (
-                        <div
-                            className={classes.boardElements}
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
+        <Fragment>
+            {loading ? (
+                <Backdrop loading={loading} />
+            ) : (
+                <Fragment>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable
+                            droppableId="all-columns"
+                            direction="horizontal"
+                            type="column"
+                            key="all-columns"
                         >
-                            {/* Get all columns in the order specified in 'board-initial-data.ts' */}
-                            {state.columnsOrder.map((columnId, index) => {
-                                // Get id of the current column
-                                const column = (state.columns as any)[columnId];
+                            {provided => (
+                                <div
+                                    className={classes.boardElements}
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {/* Get all columns in the order specified in 'board-initial-data.ts' */}
+                                    {state.columnsOrder.map(
+                                        (columnId, index) => {
+                                            // Get id of the current column
+                                            const column = (state.columns as any)[
+                                                columnId
+                                            ];
 
-                                // Get item belonging to the current column
-                                const items = column.itemsIds.map(
-                                    (itemId: string) =>
-                                        (state.items as any)[itemId]
-                                );
+                                            // Get item belonging to the current column
+                                            const items = column.itemsIds.map(
+                                                (itemId: string) =>
+                                                    (state.items as any)[itemId]
+                                            );
 
-                                // Render the BoardColumn component
-                                return (
-                                    <React.Fragment key={column.sessionId}>
-                                        {department && params && company ? (
-                                            <BoardColumn
-                                                key={column.sessionId}
-                                                column={column}
-                                                items={items}
-                                                index={index}
-                                                departmentId={
-                                                    department.departmentId
-                                                }
-                                                projectId={parseInt(
-                                                    params.project!
-                                                )}
-                                                companyId={company.companyId}
-                                            />
-                                        ) : (
-                                            <div />
-                                        )}
-                                    </React.Fragment>
-                                );
-                            })}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
-            <FabButton
-                icon="plus"
-                style={classes.fabButton}
-                onClick={AddSessionSocket}
-            />
-        </>
+                                            // Render the BoardColumn component
+                                            return (
+                                                <React.Fragment
+                                                    key={column.sessionId}
+                                                >
+                                                    {department &&
+                                                    params &&
+                                                    company ? (
+                                                        <BoardColumn
+                                                            key={
+                                                                column.sessionId
+                                                            }
+                                                            column={column}
+                                                            items={items}
+                                                            index={index}
+                                                            departmentId={
+                                                                department.departmentId
+                                                            }
+                                                            projectId={parseInt(
+                                                                params.project!
+                                                            )}
+                                                            companyId={
+                                                                company.companyId
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <div />
+                                                    )}
+                                                </React.Fragment>
+                                            );
+                                        }
+                                    )}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
+                    <FabButton
+                        icon="plus"
+                        style={classes.fabButton}
+                        onClick={AddSessionSocket}
+                    />
+                </Fragment>
+            )}
+        </Fragment>
     );
 };
 export default Board;

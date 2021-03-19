@@ -54,6 +54,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
             .create(companyId, data)
             .then(response => {
                 // console.log(response);
+                handleCloseModal();
                 snackbarUtils.success('Nova tarefa criada com sucesso');
             })
             .catch(error => {

@@ -30,14 +30,22 @@ const useStyles = makeStyles<Theme>(theme =>
             borderRadius: '50%',
             background: '#2B7D5B',
             alignSelf: 'center',
-            marginTop: '5px',
             //Text
-            fontFamily: 'Roboto',
-            fontWeight: 'lighter',
-            fontSize: '20px',
+            fontFamily: "'Roboto Slab'",
+            fontWeight: 'normal',
+            fontSize: '1.1 rem',
             textAlign: 'center',
             color: 'white',
         },
+
+        // numbers: {
+        //     //Text
+        //     fontFamily: "'Roboto'",
+        //     fontWeight: 'normal',
+        //     fontSize: '20px',
+        //     textAlign: 'center',
+        //     color: 'white',
+        // },
         BoardColumnWrapper: {
             flex: '1',
             padding: '8px',
@@ -46,7 +54,7 @@ const useStyles = makeStyles<Theme>(theme =>
             minWidth: '300px',
             height: '70vh',
             borderRadius: '4px',
-            
+
             '& + &': {
                 marginLeft: '12px',
             },

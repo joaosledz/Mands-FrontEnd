@@ -49,7 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: 69,
 
             '& h2': {
-                marginBottom: '1rem',
+                paddingTop: '3rem',
+                paddingBottom: '1rem',
                 fontSize: '1.8rem',
                 fontWeight: 400,
                 color: theme.palette.text.secondary,

@@ -7,7 +7,12 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 
-import { ProjectModel, projectApi, imageApi } from '../../../../../services';
+import {
+    ProjectModel,
+    projectApi,
+    imageApi,
+    TypeEmployee,
+} from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useProject from '../../../../../hooks/useProject';
@@ -19,6 +24,7 @@ import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
 import DeleteModal from '../../../components/deleteModal/project';
 import useStyles from './styles';
+import ManageUsersCard from './manageUsers';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
@@ -35,10 +41,37 @@ const Edit: React.FC = () => {
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [image, setImage] = useState<File | undefined>();
+    const [employees, setEmployees] = useState<TypeEmployee[]>([]);
+
+    const getEmployees = async () => {
+        try {
+            const { data } = await projectApi.getEmployees(project!.projectId);
+            setEmployees(data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     useEffect(() => {
-        if (project) document.title = `${project.name} - Edição`;
+        const getEmployeesAux = async () => {
+            try {
+                const { data } = await projectApi.getEmployees(
+                    project!.projectId
+                );
+                setEmployees(data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        if (project) {
+            document.title = `${project.name} - Edição`;
+            getEmployeesAux();
+        }
     }, [project]);
+
+    useEffect(() => {
+        console.log(department);
+    }, [department]);
 
     const handleCreateImage = useCallback(
         async (image: File, company_id: number, project_id: number) => {
@@ -250,7 +283,16 @@ const Edit: React.FC = () => {
                             justify="flex-end"
                             className={classes.rightSide}
                         >
-                            <Grid container component={Typography} variant="h2">
+                            <ManageUsersCard
+                                team={employees}
+                                handleAdd={getEmployees}
+                            />
+                            <Grid
+                                container
+                                component={Typography}
+                                variant="h2"
+                                id="danger-zone-title"
+                            >
                                 Área Perigosa
                             </Grid>
                             <Grid id="danger-zone-container" container>

@@ -109,18 +109,20 @@ const RegisterProject: React.FC = () => {
                             />
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} md={4}>
-                        <TextField
-                            disabled
-                            multiline
-                            rows={5}
-                            label="Descrição"
-                            value={project?.description}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            className={classes.textField}
-                        />
+                    <Grid container item xs={12} md={4} spacing={3}>
+                        <Grid item xs={12}>
+                            <TextField
+                                disabled
+                                multiline
+                                rows={5}
+                                label="Descrição"
+                                value={project?.description}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                className={classes.textField}
+                            />
+                        </Grid>
                     </Grid>
                     <Grid
                         item

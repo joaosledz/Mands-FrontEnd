@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
         rightSide: {
             marginBottom: 69,
 
-            '& h2': {
+            '& #danger-zone-title': {
                 marginBottom: '1rem',
                 fontSize: '1.8rem',
                 fontWeight: 400,
@@ -70,18 +70,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 margin: theme.spacing(1, 0),
                 fontSize: '1rem',
                 color: theme.palette.text.secondary,
-            },
-
-            '& button': {
-                marginTop: '1rem',
-                textTransform: 'initial',
-                color: '#CD2A2A',
-                transition: 'all .2s',
-
-                '&:hover': {
-                    color: theme.palette.primary.contrastText,
-                    backgroundColor: '#CD2A2A',
-                },
             },
 
             [theme.breakpoints.only('xs')]: {

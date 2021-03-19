@@ -1,5 +1,5 @@
 import api from '../api';
-import { TypeProject, ProjectModel } from '../models/project';
+import { TypeProject, ProjectModel, TypeUserPerm } from '../models/project';
 import projectUrls from '../urls/project';
 
 const projectApi = {
@@ -35,8 +35,23 @@ const projectApi = {
         api.delete(
             projectUrls.remove + `${company_id}/${department_id}/${project_id}`
         ),
+
     getBoardData: (project_id: number) =>
         api.get(projectUrls.getBoardData + project_id),
+
+    getEmployees: (project_id: number) =>
+        api.get(projectUrls.getEmployees + project_id),
+
+    associateEmployees: (
+        project_id: number,
+        company_id: number,
+        department_id: number,
+        data: Array<TypeUserPerm>
+    ) =>
+        api.post(
+            `${projectUrls.associateUsers}/${company_id}/${department_id}/${project_id}`,
+            data
+        ),
 };
 
 export default projectApi;

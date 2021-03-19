@@ -8,7 +8,7 @@ import Chip from '@material-ui/core/Chip';
 // import { AddUser as AddUserIcon } from '@styled-icons/entypo';
 import { Groups as TeamIcon } from '@styled-icons/material';
 import { Add as AddIcon } from '@styled-icons/ionicons-outline';
-import useStyles from './styles';
+import useStyles from '../../styles';
 import BoardContext from '../../../../../../contexts/board';
 // import employeesData from '../../../../../../utils/data/employees';
 import { TypeTeam } from '../../../../../../models/department';

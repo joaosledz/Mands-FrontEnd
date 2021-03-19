@@ -214,7 +214,12 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         )}
                     </Grid>
                     {showCreateSubtask && (
-                        <Grid container item xs={12}>
+                        <Grid
+                            container
+                            item
+                            xs={12}
+                            style={{ paddingTop: '0px' }}
+                        >
                             <TextField
                                 value={newSubtask}
                                 onChange={e => setNewSubtask(e.target.value)}
@@ -222,6 +227,10 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                             <Button onClick={() => createSubtaskAPI()}>
                                 Adicionar
                             </Button>
+                            <CloseIcon
+                                className={classes.iconCancel}
+                                onClick={() => setShowCreateSubtask(false)}
+                            />
                         </Grid>
                     )}
                     {/* LISTA DE RESPONSÁVEIS PELO ITEM */}

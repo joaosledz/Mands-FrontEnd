@@ -123,12 +123,17 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
     };
 
     return (
-        <List className={classes.root} dense={true}>
+        <List className={classes.root} dense={true} style={{ padding: '0px' }}>
             {subtasks.map((subtask: TypeSubTask, index: number) => {
                 const labelId = `checkbox-list-label-${subtask.subtaskId}`;
 
                 return (
-                    <ListItem key={subtask.subtaskId} role={undefined} button>
+                    <ListItem
+                        key={subtask.subtaskId}
+                        role={undefined}
+                        button
+                        style={{ padding: '0px 0px 0px 5px' }}
+                    >
                         <ListItemIcon onClick={() => handleToggle(index)}>
                             <Checkbox
                                 edge="start"

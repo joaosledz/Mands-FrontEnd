@@ -73,7 +73,7 @@ const useStyles = makeStyles<Theme>(theme =>
             display: 'flex',
             alignSelf: 'begin',
             color: theme.palette.primary.light,
-            fontWeight: 'lighter',
+            fontWeight: 'bold',
             fontSize: '0.8rem',
             [theme.breakpoints.up('md')]: {
                 fontSize: '1rem',
@@ -126,6 +126,19 @@ const useStyles = makeStyles<Theme>(theme =>
                 backgroundColor: 'rgba(70, 70, 70, 0.2)',
                 cursor: 'pointer',
             },
+        },
+        iconCancel: {
+            color: 'red',
+            borderRadius: '20%',
+            marginRight: '4px',
+            width: '2rem',
+            right: '5px',
+            top: '5px',
+            '&:hover': {
+                transform: 'scale(1.1)',
+                transitionDuration: '0.2s',
+            },
+            cursor: 'pointer',
         },
         submitButton: {
             position: 'relative',

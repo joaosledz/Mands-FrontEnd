@@ -134,7 +134,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                             className={classes.title}
                             component={Typography}
                         >
-                            Adicione um membro para este projeto
+                            Atribua a alguém este cartão
                         </Grid>
 
                         <Autocomplete

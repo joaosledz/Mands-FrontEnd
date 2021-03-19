@@ -6,14 +6,12 @@ import React, {
     memo,
 } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-// import debounce from 'awesome-debounce-promise';
+import debounce from 'awesome-debounce-promise';
 import TextField from '@material-ui/core/TextField';
-import { TypeMember, departmentApi } from '../../../../../../services';
+import { TypeMember, userApi } from '../../../../../../services';
 // import useCompany from '../../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
-import useCompany from '../../../../../../hooks/useCompany';
-import useDepartment from '../../../../../../hooks/useDepartment';
 
 type Props = {
     value: Array<TypeMember>;
@@ -23,59 +21,51 @@ type Props = {
 
 const Autocompletar: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    // const searchUserDebounced = debounce(departmentApi.listEmployees, 500);
+    const searchUserDebounced = debounce(userApi.find, 500);
     // const { company } = useCompany();
     const { value, setValue, selectedValues = [] } = props;
-    const { company } = useCompany();
-    const { department } = useDepartment();
     // const [value, setValue] = React.useState<Array<TypeMember>>();
     // const [inputValue, setInputValue] = React.useState('');
     const [employees, setEmployees] = useState<TypeMember[]>([]);
-    // const [inputValue, setInputValue] = useState<string>();
+    const [inputValue, setInputValue] = useState<string>();
 
-    // const handleTextChange = async (text: string) => {
-    //     setInputValue(text);
-    //     if (company && department)
-    //         try {
-    //             const { data } = await searchUserDebounced(companyId, departmentId);
-    //             const auxData = [{ ...data }];
-    //             setEmployees(auxData);
-    //         } catch (error) {}
-    // };
+    const handleTextChange = async (text: string) => {
+        setInputValue(text);
+        if (inputValue)
+            try {
+                const { data } = await searchUserDebounced(inputValue);
+                const auxData = [{ ...data }];
+                setEmployees(auxData);
+            } catch (error) {}
+    };
 
     useEffect(() => {
-        console.log(selectedValues);
         const fetchEmployees = async () => {
-            if (department && company) {
+            if (inputValue) {
                 try {
-                    const {
-                        data: response,
-                    } = await departmentApi.listEmployees(
-                        company.companyId,
-                        department.departmentId
-                    );
+                    const { data: response } = await userApi.find(inputValue);
                     console.log(response);
-                    if (selectedValues.length === 0) setEmployees(response);
-                    else if (selectedValues.length === response.length) return;
-                    else {
-                        console.log('all: ', response);
-                        console.log('selected: ', selectedValues);
-                        const auxData = response.filter(employee =>
-                            selectedValues.some(
-                                selectedEmployee =>
-                                    employee.userId !== selectedEmployee.userId
-                            )
-                        );
-                        console.log('auxData: ', selectedValues);
-                        setEmployees(auxData);
-                    }
+                    // if (selectedValues.length === 0) setEmployees(response);
+                    // else if (selectedValues.length === response.length) return;
+                    // else {
+                    // console.log('all: ', response);
+                    // console.log('selected: ', selectedValues);
+                    // const auxData = response.filter(employee =>
+                    //     selectedValues.some(
+                    //         selectedEmployee =>
+                    //             employee.userId !== selectedEmployee.userId
+                    //     )
+                    // );
+                    // console.log('auxData: ', selectedValues);
+                    setEmployees([response]);
+                    // }
                 } catch (error) {
                     snackbarUtils.error(error.message);
                 }
             }
         };
         fetchEmployees();
-    }, [department, company, selectedValues]);
+    }, [inputValue, selectedValues]);
 
     return (
         <div className={classes.root}>
@@ -86,11 +76,11 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                 id="multiple-limit-tags"
                 options={employees}
                 value={value}
-                // onInputChange={(e, value) => {
-                //     // console.log(value);
-                //     handleTextChange(value);
-                //     // setInputValue(value);
-                // }}
+                onInputChange={(e, value) => {
+                    // console.log(value);
+                    handleTextChange(value);
+                    // setInputValue(value);
+                }}
                 onChange={(event: any, newValue: Array<TypeMember>) =>
                     setValue(newValue)
                 }
@@ -98,7 +88,7 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                 //     handleTextChange(newInputValue)
                 // }
                 getOptionLabel={(option: TypeMember) => `${option.username}`}
-                // defaultValue={selectedValues}
+                defaultValue={[]}
                 renderInput={params => (
                     <TextField
                         {...params}

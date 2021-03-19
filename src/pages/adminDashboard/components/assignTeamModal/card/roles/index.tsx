@@ -29,7 +29,7 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
                 Cargos
             </FormLabel>
             {roles.length === 0 && (
-                <Typography>Este projeto não possui cargos</Typography>
+                <Typography>Este departamento não possui cargos</Typography>
             )}
             <RadioGroup
                 value={roleValue}

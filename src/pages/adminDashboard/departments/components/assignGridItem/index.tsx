@@ -1,6 +1,6 @@
 import React, { useState, Fragment, memo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
+import Grid, { GridSize } from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -17,17 +17,22 @@ import AssignButton from '../assignButton';
 import TeamCard from './teamCard';
 import ProjectsCard from './projectsCard';
 import AssignTeamModal from '../../../components/assignTeamModal/department';
+import AssignTeamProjectModal from '../../../components/assignTeamModal/project';
 import useStyles from './styles';
 
 type TypeItem = 'team' | 'project';
+type TypeSubCategory = 'teamProject';
 interface Props extends AssignButtonProps {
     title: string;
     category: TypeItem;
+    subcategory?: TypeSubCategory;
     description: string;
     teamData?: Array<TypeMember>;
     projectData?: Array<TypeProject>;
     loading: boolean;
     styles?: string;
+    xs?: boolean | GridSize;
+    md?: boolean | GridSize;
 }
 
 const AssignGridItem: React.FC<Props> = (props: Props) => {
@@ -38,6 +43,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
     const {
         title,
         category,
+        subcategory,
         description,
         icon,
         teamData = [],
@@ -46,6 +52,8 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
         disabled,
         loading,
         styles,
+        xs,
+        md,
     } = props;
 
     const [showTeamModal, setShowTeamModal] = useState(false);
@@ -107,8 +115,8 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                 container
                 direction="column"
                 item
-                xs={12}
-                md={5}
+                xs={xs || 12}
+                md={md || 5}
                 spacing={3}
                 className={
                     styles
@@ -152,8 +160,15 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                 </Grid>
             </Grid>
 
-            {!disabled && category === 'team' && company && (
+            {!disabled && category === 'team' && company && !subcategory && (
                 <AssignTeamModal
+                    isOpen={showTeamModal}
+                    setIsOpen={setShowTeamModal}
+                    selectedValues={teamData}
+                />
+            )}
+            {subcategory && (
+                <AssignTeamProjectModal
                     isOpen={showTeamModal}
                     setIsOpen={setShowTeamModal}
                     selectedValues={teamData}

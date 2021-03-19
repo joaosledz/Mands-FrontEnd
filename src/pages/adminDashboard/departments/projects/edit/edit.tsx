@@ -7,7 +7,12 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 
-import { ProjectModel, projectApi, imageApi } from '../../../../../services';
+import {
+    ProjectModel,
+    projectApi,
+    imageApi,
+    TypeMember,
+} from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useProject from '../../../../../hooks/useProject';
@@ -19,6 +24,7 @@ import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
 import DeleteModal from '../../../components/deleteModal/project';
 import useStyles from './styles';
+import AssignGridItem from '../../../departments/components/assignGridItem';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
@@ -32,12 +38,14 @@ const Edit: React.FC = () => {
     const { company } = useCompany();
     const { department } = useDepartment();
     const { project, updateProject } = useProject();
+    const [members, setMembers] = useState<TypeMember[]>([]);
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [image, setImage] = useState<File | undefined>();
 
     useEffect(() => {
         if (project) document.title = `${project.name} - Edição`;
+        console.log(project);
     }, [project]);
 
     const handleCreateImage = useCallback(
@@ -84,6 +92,25 @@ const Edit: React.FC = () => {
             snackbarUtils.error(error.message);
         }
     };
+    useEffect(() => {
+        const getTeamAndData = async () => {
+            try {
+                if (project) {
+                    const teamResponse = projectApi.getEmployees(
+                        project.projectId
+                    );
+                    const [membersAux] = await Promise.all([teamResponse]);
+                    console.log(membersAux.data);
+                    setMembers(membersAux.data);
+                }
+            } catch (error) {
+                snackbarUtils.error(error.message);
+            } finally {
+                // setLoading(false);
+            }
+        };
+        getTeamAndData();
+    }, [project]);
 
     return (
         <ProjectLayout>
@@ -96,6 +123,7 @@ const Edit: React.FC = () => {
                     <Grid container item xs={12} sm={4} justify="center">
                         <Typography variant="h1" className={classes.title}>
                             Projeto - {project?.name}
+                            {/* #{project?.projectId} */}
                         </Typography>
                     </Grid>
 
@@ -244,6 +272,17 @@ const Edit: React.FC = () => {
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} md={5}>
+                        <AssignGridItem
+                            title="Equipe:"
+                            category="team"
+                            subcategory="teamProject"
+                            description="Gerencie os membros deste projeto pelo botão no canto superior direito."
+                            teamData={members}
+                            icon="team"
+                            actionIcon="add"
+                            loading={false}
+                            md={12}
+                        />
                         <Grid
                             container
                             direction="column"

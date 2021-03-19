@@ -35,6 +35,9 @@ const projectApi = {
         api.delete(
             projectUrls.remove + `${company_id}/${department_id}/${project_id}`
         ),
+    getEmployees: (project_id: number) =>
+        api.get(projectUrls.getEmployees + project_id),
+
     getBoardData: (project_id: number) =>
         api.get(projectUrls.getBoardData + project_id),
 };

@@ -148,7 +148,8 @@ const Details: React.FC = () => {
                     justify="space-around"
                     spacing={3}
                 >
-                    {permissions?.deleteUser && (
+                    {(permissions?.deleteUser ||
+                        company?.userPermission?.department) && (
                         <AssignGridItem
                             title="Equipe:"
                             category="team"
@@ -160,7 +161,8 @@ const Details: React.FC = () => {
                         />
                     )}
 
-                    {permissions?.project && (
+                    {(permissions?.project ||
+                        company?.userPermission?.department) && (
                         <AssignGridItem
                             title="Projetos:"
                             category="project"

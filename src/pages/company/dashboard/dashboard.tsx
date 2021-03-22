@@ -26,6 +26,7 @@ const CompanyDashboard: React.FC = () => {
                 const response = await departmentApi.listByUser(
                     company.companyId
                 );
+
                 const data: TypeCompany = {
                     ...company,
                     departments: [...response.data],

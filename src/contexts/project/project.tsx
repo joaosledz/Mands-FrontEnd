@@ -1,8 +1,14 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { TypeProject, projectApi, ProjectModel } from '../../services';
+import {
+    TypeProject,
+    projectApi,
+    ProjectModel,
+    TypeEmployee,
+} from '../../services';
 
 type TypeProjectData = {
     project: TypeProject | null;
+    employees: TypeEmployee[];
     loading: boolean;
     getProjectData: (project_id: number) => Promise<TypeProject>;
     updateProject: (data: TypeProject) => void;
@@ -13,6 +19,7 @@ type TypeProjectData = {
         department_id: number,
         image?: File
     ) => Promise<TypeProject>;
+    getEmployees: (project_id: number) => Promise<TypeEmployee[]>;
 };
 
 const ProjectContext = createContext<TypeProjectData>({} as TypeProjectData);
@@ -30,6 +37,7 @@ export const ProjectProvider: React.FC = ({ children }) => {
 
     const [loading, setLoading] = useState(false);
     const [project, setProject] = useState<TypeProject | null>(projectData);
+    const [employees, setEmployees] = useState<TypeEmployee[]>([]);
 
     const getProjectData = useCallback(async (project_id: number) => {
         setLoading(true);
@@ -90,15 +98,29 @@ export const ProjectProvider: React.FC = ({ children }) => {
         []
     );
 
+    const getEmployees = useCallback(async (project_id: number) => {
+        try {
+            const { data } = await projectApi.getEmployees(project_id);
+            setEmployees(data);
+            return data;
+        } catch (err) {
+            console.log(err);
+            return Promise.reject(err);
+        } finally {
+        }
+    }, []);
+
     return (
         <ProjectContext.Provider
             value={{
                 project,
+                employees,
                 loading,
                 getProjectData,
                 setLoading,
                 updateProject,
                 createProject,
+                getEmployees,
             }}
         >
             {children}

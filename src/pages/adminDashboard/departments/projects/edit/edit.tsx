@@ -7,12 +7,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 
-import {
-    ProjectModel,
-    projectApi,
-    imageApi,
-    TypeEmployee,
-} from '../../../../../services';
+import { ProjectModel, projectApi, imageApi } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useProject from '../../../../../hooks/useProject';
@@ -28,50 +23,28 @@ import ManageUsersCard from './manageUsers';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
-    const {
-        register,
-        errors,
-        handleSubmit,
-        reset /*, formState */,
-    } = useForm();
-    /*<ProjectModel>*/
+    const { register, errors, handleSubmit, reset } = useForm();
+
     const { company } = useCompany();
     const { department } = useDepartment();
-    const { project, updateProject } = useProject();
+    const { project, updateProject, employees, getEmployees } = useProject();
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [image, setImage] = useState<File | undefined>();
-    const [employees, setEmployees] = useState<TypeEmployee[]>([]);
-
-    const getEmployees = async () => {
-        try {
-            const { data } = await projectApi.getEmployees(project!.projectId);
-            setEmployees(data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
     useEffect(() => {
-        const getEmployeesAux = async () => {
+        const action = async () => {
             try {
-                const { data } = await projectApi.getEmployees(
-                    project!.projectId
-                );
-                setEmployees(data);
+                await getEmployees(project!.projectId);
             } catch (err) {
                 console.log(err);
             }
         };
         if (project) {
             document.title = `${project.name} - Edição`;
-            getEmployeesAux();
+            action();
         }
-    }, [project]);
-
-    useEffect(() => {
-        console.log(department);
-    }, [department]);
+    }, [project, getEmployees]);
 
     const handleCreateImage = useCallback(
         async (image: File, company_id: number, project_id: number) => {
@@ -283,10 +256,7 @@ const Edit: React.FC = () => {
                             justify="flex-end"
                             className={classes.rightSide}
                         >
-                            <ManageUsersCard
-                                team={employees}
-                                handleAdd={getEmployees}
-                            />
+                            <ManageUsersCard team={employees} />
                             <Grid
                                 container
                                 component={Typography}

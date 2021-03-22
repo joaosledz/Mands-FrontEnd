@@ -52,6 +52,16 @@ const projectApi = {
             `${projectUrls.associateUsers}/${company_id}/${department_id}/${project_id}`,
             data
         ),
+
+    removeEmployee: (
+        company_id: number,
+        department_id: number,
+        project_id: number,
+        employee_id: number
+    ) =>
+        api.delete(
+            `${projectUrls.desassociateUser}/${company_id}/${department_id}/${project_id}/${employee_id}`
+        ),
 };
 
 export default projectApi;

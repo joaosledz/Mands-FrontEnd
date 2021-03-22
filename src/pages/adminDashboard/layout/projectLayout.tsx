@@ -1,40 +1,66 @@
-import React, { useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import DepartmentLayout from '../layout/departmentLayout';
+import NotFound from '../../404';
 
 import TypeParams from '../../../models/params';
 import useCompany from '../../../hooks/useCompany';
+import useDepartment from '../../../hooks/useDepartment';
 import useProject from '../../../hooks/useProject';
-import SnackbarUtils from '../../../utils/functions/snackbarUtils';
+
+import { departmentPermApi, projectPermApi } from '../../../services';
 
 const ProjectLayout: React.FC = ({ children }) => {
-    const history = useHistory();
     const params = useParams<TypeParams>();
     const { company } = useCompany();
-    const { project, getProjectData, setLoading } = useProject();
+    const { department } = useDepartment();
+    const { getProjectData, setLoading } = useProject();
+
+    const [hasPermission, setHaspermission] = useState(true);
 
     useEffect(() => {
         const checkProjectData = async () => {
-            if (company)
-                if (company.userPermission!.project) {
-                    try {
-                        if (project) {
-                            if (Number(params.project) !== project.projectId)
-                                await getProjectData(Number(params.project));
-                            else setLoading(false);
-                        } else await getProjectData(Number(params.project));
-                    } catch (error) {
-                        SnackbarUtils.error(error.message);
-                    }
-                } else {
-                    SnackbarUtils.warning('Você não possui permissão');
-                    history.push('/');
-                }
+            const compPermission = company!.userPermission;
+            const permissions = [];
+
+            try {
+                setLoading(true);
+                permissions.push(compPermission);
+
+                const { data } = await departmentPermApi.getUserPermissions(
+                    department!.departmentId
+                );
+
+                permissions.push(data);
+
+                const {
+                    data: { editProject },
+                } = await projectPermApi.getUserPerm(Number(params.project));
+
+                if (compPermission?.project || data.project || editProject)
+                    await getProjectData(Number(params.project));
+                else setHaspermission(false);
+            } catch (err) {
+                permissions.forEach(permission => {
+                    if (!permission.project) setHaspermission(false);
+                });
+                if (hasPermission) await getProjectData(Number(params.project));
+            } finally {
+                setLoading(false);
+            }
         };
-        checkProjectData();
-        // eslint-disable-next-line
-    }, [company]);
+        if (company && department) checkProjectData();
+    }, [
+        company,
+        department,
+        getProjectData,
+        hasPermission,
+        params.project,
+        setLoading,
+    ]);
+
+    if (!hasPermission) return <NotFound />;
 
     return <DepartmentLayout>{children}</DepartmentLayout>;
 };

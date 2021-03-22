@@ -33,12 +33,12 @@ export type TypeEmployee = {
     surname: string;
     cpf: string;
     // imageId: number;
-    // image?: string;
+    image?: string;
     // username: string;
     // email: string;
     // admission: null;
     // permission: string;
-    // permissionId: number;
+    permissionId: number;
 };
 
 export type TypeDepartment = {

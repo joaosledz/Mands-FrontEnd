@@ -50,7 +50,7 @@ const projectPermApi = {
         newPerm_id: number
     ) =>
         api.put(
-            `${urls.list}/${company_id}/${department_id}/${project_id}/${user_id}/${newPerm_id}`
+            `${urls.changeUserPerm}/${company_id}/${department_id}/${project_id}/${user_id}/${newPerm_id}`
         ),
 };
 

@@ -83,7 +83,10 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                 onMouseOver={showRemoveButton}
                 onMouseLeave={hideRemoveButton}
             >
-                <Avatar src={undefined} style={{ marginRight: '1rem' }} />
+                <Avatar
+                    src={teammate.image || undefined}
+                    style={{ marginRight: '1rem' }}
+                />
                 <Typography>
                     {name} {surname}
                 </Typography>
@@ -98,11 +101,11 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                     </IconButton>
                 </Zoom>
             </Grid>
-            {/* <PermissionModal
+            <PermissionModal
                 isOpen={modalIsOpen}
                 user={teammate}
                 handleOpen={handleOpenModal}
-            /> */}
+            />
             <DeleteDialog
                 open={dialogIsOpen}
                 user={teammate}

@@ -10,7 +10,7 @@ import Fade from '@material-ui/core/Fade';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
-import { TypeDepartmentPermission } from '../../../../../../../../../../services';
+import { TypeProjectPermission } from '../../../../../../../../../../services';
 import useStyles from '../styles';
 
 function StyledRadio(props: RadioProps) {
@@ -31,7 +31,7 @@ function StyledRadio(props: RadioProps) {
 }
 
 type Props = {
-    role: TypeDepartmentPermission;
+    role: TypeProjectPermission;
 };
 
 const Roles: React.FC<Props> = (props: Props) => {
@@ -54,9 +54,10 @@ const Roles: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         let aux: string[] = [];
-        if (role.editDepartment) aux.push('Gerenciar Departamento');
-        if (role.inviteUser) aux.push('Gerenciar Usuários');
-        if (role.project) aux.push('Gerenciar Projetos');
+        if (role.editProject) aux.push('Gerenciar Projeto');
+        if (role.session) aux.push('Gerenciar Sessions');
+        if (role.task) aux.push('Gerenciar Tasks');
+        if (role.createTemplate) aux.push('Gerenciar Templates');
 
         if (aux.length === 0) aux.push('Não possui permissões');
         setPermissions(aux);
@@ -69,7 +70,7 @@ const Roles: React.FC<Props> = (props: Props) => {
                 <Grid item xs={12} className={classes.role}>
                     <FormControlLabel
                         data-cy="role-checkbox-label"
-                        value={role.depPermissionId}
+                        value={role.projPermissionId}
                         control={<StyledRadio />}
                         label={role.name}
                     />

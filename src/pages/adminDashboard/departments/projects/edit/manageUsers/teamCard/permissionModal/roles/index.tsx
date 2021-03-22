@@ -7,12 +7,12 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Divider from '@material-ui/core/Divider';
 import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 
-import { TypeDepartmentPermission } from '../../../../../../../../../services';
+import { TypeProjectPermission } from '../../../../../../../../../services';
 import RoleItem from './roleItem';
 import useStyles from './styles';
 
 type Props = {
-    roles: TypeDepartmentPermission[];
+    roles: TypeProjectPermission[];
     roleValue: number;
     handleChangeRole: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleOpen: () => void;
@@ -38,7 +38,7 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
                 style={{ width: '100%' }}
             >
                 {roles.map(role => (
-                    <RoleItem key={role.depPermissionId} role={role} />
+                    <RoleItem key={role.projPermissionId} role={role} />
                 ))}
                 <Divider variant="fullWidth" className={classes.divider} />
                 <Grid

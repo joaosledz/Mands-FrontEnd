@@ -14,36 +14,37 @@ import Avatar from '@material-ui/core/Avatar';
 import Slide from '@material-ui/core/Slide';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import {
-    TypeMember,
-    departmentPermApi,
-    TypeDepartmentPermission,
+    TypeEmployee,
+    projectPermApi,
+    TypeProjectPermission,
 } from '../../../../../../../../services';
 import useCompany from '../../../../../../../../hooks/useCompany';
 import useDepartment from '../../../../../../../../hooks/useDepartment';
+import useProject from '../../../../../../../../hooks/useProject';
 import snackbarUtils from '../../../../../../../../utils/functions/snackbarUtils';
 
 import SubmitButton from '../../../../../../../../components/mainButton';
 import Backdrop from '../../../../../../../../components/backdrop';
-import RegisterPermissionModal from '../../../../../../permissions/register';
+import RegisterPermissionModal from './register';
 import ChooseRole from './roles';
 import useStyles from './styles';
 
 type Props = {
     isOpen: boolean;
     handleOpen: () => void;
-    selectedValues?: TypeMember[];
-    user: TypeMember;
+    user: TypeEmployee;
 };
 
 const PermissionModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { company } = useCompany();
     const { department } = useDepartment();
+    const { project, getEmployees } = useProject();
     const { isOpen, handleOpen, user } = props;
 
     const [permIsOpen, setPermIsOpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
-    const [roles, setRoles] = useState<TypeDepartmentPermission[]>([]);
+    const [roles, setRoles] = useState<TypeProjectPermission[]>([]);
     const [selectedValueState, setSelectedValueState] = useState(
         user.permissionId
     );
@@ -52,19 +53,25 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         const fetchRoles = async (
             company_id: number,
-            department_id: number
+            department_id: number,
+            peroject_id: number
         ) => {
             try {
-                const response = await departmentPermApi.list(
+                const response = await projectPermApi.list(
                     company_id,
-                    department_id
+                    department_id,
+                    peroject_id
                 );
                 setRoles(response.data);
             } catch (error) {}
         };
-        if (company && department)
-            fetchRoles(company.companyId, department.departmentId);
-    }, [company, department]);
+        if (company && department && project)
+            fetchRoles(
+                company.companyId,
+                department.departmentId,
+                project.projectId
+            );
+    }, [company, department, project]);
 
     const handleOpenPermModal = useCallback(() => setPermIsOpen(true), []);
     const handleClosePermModal = useCallback(() => setPermIsOpen(false), []);
@@ -78,13 +85,15 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
     const handleSubmit = async () => {
         setSubmitting(true);
         try {
-            await departmentPermApi.changeUserPermission(
+            await projectPermApi.changeUserPerm(
                 company!.companyId,
                 department!.departmentId,
+                project!.projectId,
                 user.userId,
                 selectedValue
             );
             setSelectedValueState(selectedValue);
+            await getEmployees(project!.projectId);
             snackbarUtils.success('Associação realizada com sucesso');
         } catch (error) {
             snackbarUtils.error(error.message);
@@ -128,7 +137,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
 
                         <Grid id="avatar-container" container justify="center">
                             <Avatar
-                                src={user.image?.path || undefined}
+                                src={user.image || undefined}
                                 variant="rounded"
                                 alt={user.name}
                                 className={classes.avatar}

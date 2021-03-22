@@ -36,14 +36,13 @@ type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     selectedValues?: TypeMember[];
-    handleAdd(): void;
 };
 
 const HiringModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { company } = useCompany();
     const { department } = useDepartment();
-    const { project } = useProject();
+    const { project, getEmployees } = useProject();
     const { isOpen, setIsOpen, selectedValues = [] } = props;
 
     const [submitting, setSubmitting] = useState(false);
@@ -74,6 +73,8 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                 department!.departmentId,
                 data
             );
+
+            await getEmployees(project!.projectId);
             snackbarUtils.success('Associação realizada com sucesso');
         } catch (error) {
             snackbarUtils.error(error.message);

@@ -10,9 +10,8 @@ import AddUserModal from './addUser';
 
 type Props = {
     team: TypeEmployee[];
-    handleAdd(): void;
 };
-const ManageUsersCard: React.FC<Props> = ({ team, handleAdd }) => {
+const ManageUsersCard: React.FC<Props> = ({ team }) => {
     const classes = useStyles();
 
     const [addModal, setAddModal] = useState(false);
@@ -37,11 +36,7 @@ const ManageUsersCard: React.FC<Props> = ({ team, handleAdd }) => {
                     <TeamCard teammate={teammate} />
                 ))}
             </Grid>
-            <AddUserModal
-                isOpen={addModal}
-                setIsOpen={setAddModal}
-                handleAdd={handleAdd}
-            />
+            <AddUserModal isOpen={addModal} setIsOpen={setAddModal} />
         </Fragment>
     );
 };

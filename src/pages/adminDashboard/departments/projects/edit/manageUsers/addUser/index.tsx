@@ -1,10 +1,12 @@
 import React, {
     useState,
+    useEffect,
     Dispatch,
     SetStateAction,
     memo,
     useCallback,
     Fragment,
+    ChangeEvent,
 } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
@@ -21,6 +23,8 @@ import {
     projectApi,
     TypeMember,
     TypeUserPerm,
+    TypeProjectPermission,
+    projectPermApi,
 } from '../../../../../../../services';
 import useCompany from '../../../../../../../hooks/useCompany';
 import useDepartment from '../../../../../../../hooks/useDepartment';
@@ -31,6 +35,8 @@ import SubmitButton from '../../../../../../../components/mainButton';
 import UserItem from './userItem';
 import Autocomplete from './autocomplete';
 import useStyles from './styles';
+import ChooseRole from '../teamCard/permissionModal/roles';
+import RegisterPermissionModal from '../teamCard/permissionModal/register';
 
 type Props = {
     isOpen: boolean;
@@ -45,10 +51,42 @@ const HiringModal: React.FC<Props> = (props: Props) => {
     const { project, getEmployees } = useProject();
     const { isOpen, setIsOpen, selectedValues = [] } = props;
 
+    const [permIsOpen, setPermIsOpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [employees, setEmployees] = useState<TypeMember[]>([]);
+    const [roles, setRoles] = useState<TypeProjectPermission[]>([]);
+    const [selectedValue, setSelectedValue] = useState(0);
 
     const handleCloseModal = useCallback(() => setIsOpen(false), [setIsOpen]);
+    const handleOpenPermModal = useCallback(() => setPermIsOpen(true), []);
+    const handleClosePermModal = useCallback(() => setPermIsOpen(false), []);
+
+    useEffect(() => {
+        const fetchRoles = async (
+            company_id: number,
+            department_id: number,
+            peroject_id: number
+        ) => {
+            try {
+                const response = await projectPermApi.list(
+                    company_id,
+                    department_id,
+                    peroject_id
+                );
+                setRoles(response.data);
+            } catch (error) {}
+        };
+        if (company && department && project)
+            fetchRoles(
+                company.companyId,
+                department.departmentId,
+                project.projectId
+            );
+    }, [company, department, project]);
+
+    useEffect(() => {
+        if (roles.length !== 0) setSelectedValue(roles[0].projPermissionId);
+    }, [roles]);
 
     const handleRemovePerson = useCallback(
         (index: number) => {
@@ -59,12 +97,21 @@ const HiringModal: React.FC<Props> = (props: Props) => {
         [employees]
     );
 
+    const handleChangeRole = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) =>
+            setSelectedValue(Number(event.target.value)),
+        []
+    );
+
     const handleSubmit = async () => {
         setSubmitting(true);
         try {
             const data: Array<TypeUserPerm> = [];
             employees.forEach(employee => {
-                data.push({ permissionId: 1, userId: employee.userId });
+                data.push({
+                    permissionId: selectedValue,
+                    userId: employee.userId,
+                });
             });
 
             await projectApi.associateEmployees(
@@ -141,7 +188,18 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                                             />
                                         ))}
                                     </Grid>
-
+                                    <Grid
+                                        container
+                                        item
+                                        style={{ textAlign: 'left' }}
+                                    >
+                                        <ChooseRole
+                                            roles={roles}
+                                            roleValue={selectedValue}
+                                            handleChangeRole={handleChangeRole}
+                                            handleOpen={handleOpenPermModal}
+                                        />
+                                    </Grid>
                                     <Grid
                                         container
                                         justify="center"
@@ -160,6 +218,10 @@ const HiringModal: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </Slide>
             </Modal>
+            <RegisterPermissionModal
+                isOpen={permIsOpen}
+                handleClose={handleClosePermModal}
+            />
         </Fragment>
     );
 };

@@ -21,23 +21,56 @@ const useStyles = makeStyles((theme: Theme) =>
 
             transition: 'all .1s',
 
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.up('lg')]: {
                 '& img': {
                     maxWidth: '30%',
                 },
-            },
-
-            [theme.breakpoints.down('sm')]: {
-                '& img': {
-                    maxWidth: '10%',
+                '& p': {
+                    marginTop: '0.5rem',
+                    color: theme.palette.primary.contrastText,
+                    fontSize: '1.2rem',
+                    fontWeight: 300,
+                    textAlign: 'center',
                 },
             },
 
-            '& p': {
-                marginTop: '0.5rem',
-                color: theme.palette.primary.contrastText,
-                fontSize: '1.1rem',
-                fontWeight: 300,
+            [theme.breakpoints.only('md')]: {
+                '& img': {
+                    maxWidth: '30%',
+                },
+                '& p': {
+                    marginTop: '0.5rem',
+                    color: theme.palette.primary.contrastText,
+                    fontSize: '0.8rem',
+                    fontWeight: 300,
+                    textAlign: 'center',
+                },
+            },
+
+            [theme.breakpoints.only('sm')]: {
+                '& img': {
+                    maxWidth: '10%',
+                },
+                '& p': {
+                    marginTop: '0.5rem',
+                    color: theme.palette.primary.contrastText,
+                    fontSize: '1.1rem',
+                    fontWeight: 300,
+                    textAlign: 'center',
+                },
+            },
+
+            [theme.breakpoints.only('xs')]: {
+                '& img': {
+                    maxWidth: '10%',
+                },
+                '& p': {
+                    marginTop: '0.5rem',
+                    color: theme.palette.primary.contrastText,
+                    fontSize: '1.1rem',
+                    fontWeight: 300,
+                    textAlign: 'center',
+                },
             },
 
             '&:hover': {

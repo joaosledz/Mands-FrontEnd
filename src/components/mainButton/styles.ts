@@ -22,6 +22,10 @@ const useStyles = makeStyles<Theme, ButtonProps>(theme =>
             alignItems: 'center',
             textAlign: 'center',
             justifyContent: 'center',
+
+            [theme.breakpoints.down('sm')]: {
+                marginBottom: props => props.mt,
+            },
         },
 
         button: {

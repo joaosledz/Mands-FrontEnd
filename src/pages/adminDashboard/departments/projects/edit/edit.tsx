@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -20,11 +21,13 @@ import CropImageInput from '../../../../../components/cropImage/cropImageInput';
 import DeleteModal from '../../../components/deleteModal/project';
 import useStyles from './styles';
 import ManageUsersCard from './manageUsers';
+import TypeParams from '../../../../../models/params';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
     const { register, errors, handleSubmit, reset } = useForm();
 
+    const params = useParams<TypeParams>();
     const { company } = useCompany();
     const { department } = useDepartment();
     const { project, updateProject, employees, getEmployees } = useProject();
@@ -241,12 +244,40 @@ const Edit: React.FC = () => {
                         </Grid>
 
                         <Grid container justify="center">
-                            <SubmitButton
-                                type="submit"
-                                text="Salvar alterações"
-                                // disabled={!image || !formState.isDirty} verificar se o form ou uma imagem mudou, mas ta complexo
-                                mt={20}
-                            />
+                            <Grid
+                                container
+                                item
+                                sm={12}
+                                md={6}
+                                justify="center"
+                            >
+                                <SubmitButton
+                                    type="submit"
+                                    text="Salvar alterações"
+                                    // disabled={!image || !formState.isDirty} verificar se o form ou uma imagem mudou, mas ta complexo
+                                    mt={20}
+                                />
+                            </Grid>
+                            <Grid
+                                container
+                                item
+                                sm={12}
+                                md={6}
+                                justify="center"
+                            >
+                                <Button
+                                    component={Link}
+                                    to={`/${params.company}/${params.department}/quadro/${params.project}`}
+                                    className={[
+                                        classes.button,
+                                        classes.baseButton,
+                                    ].join(' ')}
+                                >
+                                    <Typography className={classes.buttonText}>
+                                        Ir para o projeto
+                                    </Typography>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} md={5}>

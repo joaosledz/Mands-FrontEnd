@@ -41,8 +41,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         taskTitle: {
             color: theme.palette.primary.main,
-            fontWeight: 'lighter',
-            fontFamily: 'Arvo',
+            fontWeight: 'normal',
+            fontFamily: "'Roboto Slab'",
+            fontSize: '0.9rem',
         },
         members: {
             borderTop: '1px solid #cccccc',

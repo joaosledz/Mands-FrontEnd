@@ -40,7 +40,6 @@ export const ProjectProvider: React.FC = ({ children }) => {
     const [employees, setEmployees] = useState<TypeEmployee[]>([]);
 
     const getProjectData = useCallback(async (project_id: number) => {
-        setLoading(true);
         try {
             const response = await projectApi.show(project_id);
             sessionStorage.setItem(
@@ -54,7 +53,6 @@ export const ProjectProvider: React.FC = ({ children }) => {
             console.log(error);
             return Promise.reject(error);
         } finally {
-            setLoading(false);
         }
     }, []);
 

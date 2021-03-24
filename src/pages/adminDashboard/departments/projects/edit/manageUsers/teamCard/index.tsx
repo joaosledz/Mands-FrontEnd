@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Zoom from '@material-ui/core/Zoom';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 
-import { TypeEmployee, projectApi } from '../../../../../../../services';
+import { TypeMember, projectApi } from '../../../../../../../services';
 import useCompany from '../../../../../../../hooks/useCompany';
 import useDepartment from '../../../../../../../hooks/useDepartment';
 import useProject from '../../../../../../../hooks/useProject';
@@ -18,7 +18,7 @@ import PermissionModal from './permissionModal';
 import useStyles from './styles';
 
 type Props = {
-    teammate: TypeEmployee;
+    teammate: TypeMember;
 };
 
 const TeamCard: React.FC<Props> = ({ teammate }) => {
@@ -84,7 +84,7 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                 onMouseLeave={hideRemoveButton}
             >
                 <Avatar
-                    src={teammate.image || undefined}
+                    src={teammate.image?.path || undefined}
                     style={{ marginRight: '1rem' }}
                 />
                 <Typography>

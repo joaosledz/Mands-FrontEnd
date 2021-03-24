@@ -19,7 +19,7 @@ import { Text as TextIcon } from '@styled-icons/entypo';
 import { InputChecked as CheckedIcon } from '@styled-icons/typicons';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import CheckBoxList from './components/CheckBoxList/CheckBoxList';
-import Team from './components/Chips/Chips';
+import Team from './components/Responsibles';
 import BoardContext from '../../../../contexts/board';
 import employeesData from '../../../../utils/data/employees';
 import { TypeItem } from '../../../../models/boardTypes';

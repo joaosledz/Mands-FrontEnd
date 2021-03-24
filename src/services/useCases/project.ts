@@ -1,5 +1,10 @@
 import api from '../api';
-import { TypeProject, ProjectModel, TypeUserPerm } from '../models/project';
+import {
+    TypeProject,
+    ProjectModel,
+    TypeUserPerm,
+    TypeEmployee,
+} from '../index';
 import projectUrls from '../urls/project';
 
 const projectApi = {
@@ -39,8 +44,8 @@ const projectApi = {
     getBoardData: (project_id: number) =>
         api.get(projectUrls.getBoardData + project_id),
 
-    getEmployees: (project_id: number) =>
-        api.get(projectUrls.getEmployees + project_id),
+    getEmployees: (project_id: number | string) =>
+        api.get<TypeEmployee[]>(projectUrls.getEmployees + project_id),
 
     associateEmployees: (
         project_id: number,

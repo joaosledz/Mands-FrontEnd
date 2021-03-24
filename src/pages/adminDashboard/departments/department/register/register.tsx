@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Lottie from 'lottie-react';
 import InputMask from 'react-input-mask';
@@ -14,7 +13,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { DepartmentModel, departmentApi } from '../../../../../services';
 import { validateDeparmentName } from '../validators/validateDepartmentName';
 import formatName from '../functions/formatName';
-import TypeParams from '../../../../../models/params';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
@@ -28,7 +26,6 @@ import useStyles from './styles';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
-    const params = useParams<TypeParams>();
     const [image, setImage] = useState<string | undefined>('');
     const [phone, setPhone] = useState<string>('');
     const { register, errors, handleSubmit, watch, reset, formState } = useForm<
@@ -72,10 +69,7 @@ const NewDepartment: React.FC = () => {
                             </Typography>
                         </Grid>
                         <Grid container item xs={12} md={4} justify="flex-end">
-                            <BackButton
-                                message="Voltar para os departamentos"
-                                redirect={`admin/${params.company}/departamentos`}
-                            />
+                            <BackButton message="Voltar" />
                         </Grid>
                     </Grid>
                     <Grid container xs={12} md={12}>

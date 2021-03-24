@@ -124,6 +124,18 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: 16,
             letterSpacing: 2.5,
         },
+
+        deleteButton: {
+            marginTop: '1rem',
+            textTransform: 'initial',
+            color: '#CD2A2A',
+            transition: 'all .2s',
+
+            '&:hover': {
+                color: theme.palette.primary.contrastText,
+                backgroundColor: '#CD2A2A',
+            },
+        },
     })
 );
 

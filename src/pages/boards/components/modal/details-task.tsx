@@ -52,7 +52,9 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     } = props;
     // const [title, setTitle] = useState<string>(item.title);
     // const [description, setDescription] = useState<string>(item.description);
-    const { /*UpdateTask,*/ state, setTaskFields } = useContext(BoardContext);
+    const { /*UpdateTask,*/ state, setTaskFields, permissions } = useContext(
+        BoardContext
+    );
 
     const [teamData, setTeamData] = useState(employeesData);
     const [newSubtask, setNewSubtask] = useState<string>('');
@@ -125,20 +127,36 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         className={classes.iconClose}
                         onClick={handleCloseModal}
                     />
+                    <Grid container>
+                        <Grid item xs={1}>
+                            <TextIcon className={classes.icon} />
+                        </Grid>
+                        <Grid item xs={11}>
+                            <Typography className={classes.subtitle}>
+                                Título da tarefa
+                            </Typography>
+                        </Grid>
+                    </Grid>
                     <Grid item xs={12}>
                         {/* <MutableInput*/}
-                        <TextField
-                            value={state.items[item.taskId].title}
-                            // onChange={e => setTitle(e.target.value)}
-                            onChange={e =>
-                                setTaskFields(
-                                    e.target.value,
-                                    item.taskId,
-                                    'title'
-                                )
-                            }
-                            onBlur={() => updateTaskAPI()}
-                        />
+                        {permissions.task ? (
+                            <TextField
+                                value={state.items[item.taskId].title}
+                                // onChange={e => setTitle(e.target.value)}
+                                onChange={e =>
+                                    setTaskFields(
+                                        e.target.value,
+                                        item.taskId,
+                                        'title'
+                                    )
+                                }
+                                onBlur={() => updateTaskAPI()}
+                            />
+                        ) : (
+                            <Typography className={classes.title}>
+                                {state.items[item.taskId].title}
+                            </Typography>
+                        )}
                     </Grid>
                     {/* DESCRIÇÃO DO ITEM */}
                     <Grid container>
@@ -152,17 +170,26 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            value={state.items[item.taskId].description}
-                            onChange={e =>
-                                setTaskFields(
-                                    e.target.value,
-                                    item.taskId,
-                                    'description'
-                                )
-                            }
-                            onBlur={() => updateTaskAPI()}
-                        />
+                        {permissions.task ? (
+                            <TextField
+                                multiline
+                                rowsMax={5}
+                                value={state.items[item.taskId].description}
+                                // onChange={e => setTitle(e.target.value)}
+                                onChange={e =>
+                                    setTaskFields(
+                                        e.target.value,
+                                        item.taskId,
+                                        'description'
+                                    )
+                                }
+                                onBlur={() => updateTaskAPI()}
+                            />
+                        ) : (
+                            <Typography className={classes.description}>
+                                {state.items[item.taskId].description}
+                            </Typography>
+                        )}
                     </Grid>
                     {/* LISTA DE TAREFAS */}
                     {/* <Grid container item className={classes.body}> */}
@@ -170,27 +197,31 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         <Grid item xs={1}>
                             <CheckedIcon className={classes.icon} />
                         </Grid>
-                        <Grid item xs={8}>
+                        <Grid item xs={7}>
                             <Typography className={classes.subtitle}>
-                                Tarefas
+                                Subtarefas
                             </Typography>
                         </Grid>
-                        <Grid
-                            container
-                            item
-                            xs={3}
-                            onClick={() => setShowCreateSubtask(true)}
-                            className={classes.button}
-                        >
-                            <Grid item xs={9}>
-                                <Typography className={classes.subtitle}>
-                                    Nova tarefa
-                                </Typography>
+                        {permissions.task ? (
+                            <Grid
+                                container
+                                item
+                                xs={4}
+                                onClick={() => setShowCreateSubtask(true)}
+                                className={classes.button}
+                            >
+                                <Grid item xs={9}>
+                                    <Typography className={classes.subtitle}>
+                                        Nova subtarefa
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <AddIcon className={classes.icon} />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={3}>
-                                <AddIcon className={classes.icon} />
-                            </Grid>
-                        </Grid>
+                        ) : (
+                            <Grid xs={4} />
+                        )}
                     </Grid>
 
                     <Grid container item xs={12}>

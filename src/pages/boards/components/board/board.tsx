@@ -3,6 +3,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import FabButton from '../../../../components/fabButton';
 import BoardContext from '../../../../contexts/board';
+import authContext from '../../../../contexts/auth';
 import { BoardColumn } from '../column/board-column';
 import useCompany from '../../../../hooks/useCompany';
 import { useParams } from 'react-router-dom';
@@ -16,11 +17,12 @@ import {
     sessionType,
     updateSessionPositionType,
     updateTaskPositionType,
+    TypeMember,
 } from '../../../../services';
 import { TypeBoard } from '../../../../models/boardTypes';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import Backdrop from '../../../../components/backdrop';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Board: React.FC = () => {
     const classes = useStyles();
@@ -33,6 +35,7 @@ const Board: React.FC = () => {
         setPermissions,
         permissions,
     } = useContext(BoardContext);
+    const { user } = useContext(authContext);
     const { company } = useCompany();
     const params = useParams<TypeParams>();
     const { getDepartmentData, department, userPermDep } = useDepartment();
@@ -46,6 +49,20 @@ const Board: React.FC = () => {
         task: true,
         taskResponsible: true,
         createTemplate: true,
+    };
+    //Verifica se o usuário tem permissão para mover determinada task
+    const verifyResponsibles = (taskId: string) => {
+        if (user && state.items[taskId].responsibles) {
+            console.log(taskId);
+            console.log(user.username);
+            let edit = false;
+            state.items[taskId].responsibles.forEach(
+                (responsible: TypeMember) => {
+                    if (responsible.username === user.username) edit = true;
+                }
+            );
+            return edit;
+        }
     };
     //Dados do departamento do projeto
     // const [departmentId, setDepartmentId] = useState(1)
@@ -201,17 +218,22 @@ const Board: React.FC = () => {
         }
         //Reposicionando uma coluna
         if (type === 'column') {
-            const newColumnOrder = Array.from(state.columnsOrder);
-            newColumnOrder.splice(source.index, 1);
-            newColumnOrder.splice(destination.index, 0, draggableId);
+            if (permissions.session) {
+                const newColumnOrder = Array.from(state.columnsOrder);
+                newColumnOrder.splice(source.index, 1);
+                newColumnOrder.splice(destination.index, 0, draggableId);
 
-            const newState = {
-                ...state,
-                columnsOrder: newColumnOrder,
-            };
-            MoveColumnSocket(newState, state);
-            setState(newState);
-            return;
+                const newState = {
+                    ...state,
+                    columnsOrder: newColumnOrder,
+                };
+                MoveColumnSocket(newState, state);
+                setState(newState);
+                return;
+            } else {
+                snackbarUtils.error('Sem permissão para reordenar colunas');
+                return;
+            }
         }
 
         // Find column from which the item was dragged from
@@ -222,69 +244,81 @@ const Board: React.FC = () => {
 
         // Moving items in the same list
         if (columnStart === columnFinish) {
-            // Get all item ids in currently active list
-            const newItemsIds = Array.from(columnStart.itemsIds);
+            if (permissions.task) {
+                // Get all item ids in currently active list
+                const newItemsIds = Array.from(columnStart.itemsIds);
 
-            // Remove the id of dragged item from its original position
-            newItemsIds.splice(source.index, 1);
+                // Remove the id of dragged item from its original position
+                newItemsIds.splice(source.index, 1);
 
-            // Insert the id of dragged item to the new position
-            newItemsIds.splice(destination.index, 0, draggableId);
+                // Insert the id of dragged item to the new position
+                newItemsIds.splice(destination.index, 0, draggableId);
 
-            // Create new, updated, object with data for columns
-            const newColumnStart = {
-                ...columnStart,
-                itemsIds: newItemsIds,
-            };
+                // Create new, updated, object with data for columns
+                const newColumnStart = {
+                    ...columnStart,
+                    itemsIds: newItemsIds,
+                };
 
-            // Create new board state with updated data for columns
-            const newState = {
-                ...state,
-                columns: {
-                    ...state.columns,
-                    [newColumnStart.sessionId]: newColumnStart,
-                },
-            };
+                // Create new board state with updated data for columns
+                const newState = {
+                    ...state,
+                    columns: {
+                        ...state.columns,
+                        [newColumnStart.sessionId]: newColumnStart,
+                    },
+                };
 
-            // Update the board state with new data
-            setState(newState);
-            MoveTaskSocket(newState, state, destination.droppableId);
+                // Update the board state with new data
+                setState(newState);
+                MoveTaskSocket(newState, state, destination.droppableId);
+            } else {
+                snackbarUtils.error('Sem permissão para reordenar tarefas');
+                return;
+            }
         } else {
-            // Moving items from one list to another
-            // Get all item ids in source list
-            const newStartItemsIds = Array.from(columnStart.itemsIds);
+            let edit = verifyResponsibles(draggableId);
+            console.log(edit);
+            if (permissions.task || edit) {
+                // Moving items from one list to another
+                // Get all item ids in source list
+                const newStartItemsIds = Array.from(columnStart.itemsIds);
 
-            // Remove the id of dragged item from its original position
-            newStartItemsIds.splice(source.index, 1);
+                // Remove the id of dragged item from its original position
+                newStartItemsIds.splice(source.index, 1);
 
-            // Create new, updated, object with data for source column
-            const newColumnStart = {
-                ...columnStart,
-                itemsIds: newStartItemsIds,
-            };
-            // Get all item ids in destination list
-            const newFinishItemsIds = Array.from(columnFinish.itemsIds);
+                // Create new, updated, object with data for source column
+                const newColumnStart = {
+                    ...columnStart,
+                    itemsIds: newStartItemsIds,
+                };
+                // Get all item ids in destination list
+                const newFinishItemsIds = Array.from(columnFinish.itemsIds);
 
-            // Insert the id of dragged item to the new position in destination list
-            newFinishItemsIds.splice(destination.index, 0, draggableId);
+                // Insert the id of dragged item to the new position in destination list
+                newFinishItemsIds.splice(destination.index, 0, draggableId);
 
-            // Create new, updated, object with data for destination column
-            const newColumnFinish = {
-                ...columnFinish,
-                itemsIds: newFinishItemsIds,
-            };
-            // Create new board state with updated data for both, source and destination columns
-            const newState = {
-                ...state,
-                columns: {
-                    ...state.columns,
-                    [newColumnStart.sessionId]: newColumnStart,
-                    [newColumnFinish.sessionId]: newColumnFinish,
-                },
-            };
-            // Update the board state with new data
-            setState(newState);
-            ChangeSessionSocket(draggableId, destination.droppableId);
+                // Create new, updated, object with data for destination column
+                const newColumnFinish = {
+                    ...columnFinish,
+                    itemsIds: newFinishItemsIds,
+                };
+                // Create new board state with updated data for both, source and destination columns
+                const newState = {
+                    ...state,
+                    columns: {
+                        ...state.columns,
+                        [newColumnStart.sessionId]: newColumnStart,
+                        [newColumnFinish.sessionId]: newColumnFinish,
+                    },
+                };
+                // Update the board state with new data
+                setState(newState);
+                ChangeSessionSocket(draggableId, destination.droppableId);
+            } else {
+                snackbarUtils.error('Sem permissão para mover tarefas');
+                return;
+            }
         }
     };
 

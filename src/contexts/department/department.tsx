@@ -76,7 +76,8 @@ export const DepartmentProvider: React.FC = ({ children }) => {
                 setLoading(false);
             }
         },
-        [department]
+        // eslint-disable-next-line
+        []
     );
 
     const updateDepartment = useCallback((data: TypeDepartment) => {

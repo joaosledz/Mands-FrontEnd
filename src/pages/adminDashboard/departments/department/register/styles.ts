@@ -67,6 +67,11 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.primary.main,
             '&:before': { content: "'⚠ '" },
         },
+        animationContainer: {
+            [theme.breakpoints.down('sm')]: {
+                display: 'none',
+            },
+        },
     })
 );
 

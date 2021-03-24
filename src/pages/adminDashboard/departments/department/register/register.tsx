@@ -264,7 +264,12 @@ const NewDepartment: React.FC = () => {
                                 </Grid>
                             </form>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid
+                            item
+                            xs={12}
+                            md={4}
+                            className={classes.animationContainer}
+                        >
                             <Lottie animationData={departmentAnimation} />
                         </Grid>
                     </Grid>

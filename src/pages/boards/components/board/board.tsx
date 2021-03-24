@@ -56,8 +56,8 @@ const Board: React.FC = () => {
     // Handle drag & drop
     //Get de Permissões
     useEffect(() => {
-        if (company && department && params.project!) {
-            const fetchPermissions = async (company_id: number) => {
+        if (company && department && params.project) {
+            const fetchPermissions = async () => {
                 try {
                     if (
                         company.userPermission?.project ||
@@ -72,9 +72,16 @@ const Board: React.FC = () => {
                     }
                 } catch (error) {}
             };
-            fetchPermissions(company.companyId);
+            fetchPermissions();
         }
-    }, [company, department, params.project!]);
+    }, [
+        company,
+        department,
+        params.project,
+        gerente,
+        setPermissions,
+        userPermDep.project,
+    ]);
     //
     const ChangeSessionSocket = (itemId: string, sessionId: string) => {
         if (company && department) {

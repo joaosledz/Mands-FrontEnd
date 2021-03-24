@@ -12,8 +12,10 @@ import useStyles from '../../styles';
 import BoardContext from '../../../../../../contexts/board';
 // import employeesData from '../../../../../../utils/data/employees';
 import { TypeTeam } from '../../../../../../models/department';
-import AssignTeamModal from '../../../../../adminDashboard/components/assignTeamModal/project';
+// import { taskApi } from '../../../../../../services';
+import AssignTeamModal from './assignResponsible.tsx';
 import { TypeResponsible } from '../../../../../../models/boardTypes';
+// import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
 
 type Props = {
     teamData: Array<TypeTeam>;
@@ -30,10 +32,21 @@ const ChipsList: React.FC<Props> = (props: Props) => {
     // const [allEmployees] = useState(employeesData);
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
     //   const [editable, setEditable] = useState<boolean>(false);
-    const handleDelete = (index: number) => {
+    const handleDelete = async (index: number) => {
         console.info('You clicked the delete icon.');
-    };
 
+        //         if (department && company && params.project) {
+        // try {
+        //     const { data: response } = await taskApi.deleteResponsible(
+        //         params.project
+        //     );
+        //     console.log(response);
+        //     }
+        // } catch (error) {
+        //     snackbarUtils.error(error.message);
+        // }
+        // }
+    };
     return (
         <Grid container>
             <Grid item xs={1}>
@@ -112,6 +125,7 @@ const ChipsList: React.FC<Props> = (props: Props) => {
                 isOpen={showTeamModal}
                 setIsOpen={setShowTeamModal}
                 selectedValues={[]}
+                taskId={parseInt(taskId.replace('task_', ''))}
             />
             {/* )} */}
         </Grid>

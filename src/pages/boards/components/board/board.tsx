@@ -53,8 +53,6 @@ const Board: React.FC = () => {
     //Verifica se o usuário tem permissão para mover determinada task
     const verifyResponsibles = (taskId: string) => {
         if (user && state.items[taskId].responsibles) {
-            console.log(taskId);
-            console.log(user.username);
             let edit = false;
             state.items[taskId].responsibles.forEach(
                 (responsible: TypeMember) => {
@@ -79,7 +77,6 @@ const Board: React.FC = () => {
     // Handle drag & drop
     //Get de Permissões
     useEffect(() => {
-        console.log('Entrou');
         if (company && department && params.project) {
             const fetchPermissions = async () => {
                 try {
@@ -114,13 +111,15 @@ const Board: React.FC = () => {
                     data
                 )
                 .then(response => {
-                    console.log(response);
                     // snackbarUtils.success('Tarefa deletada com sucesso');
                 })
                 .catch(error => {
                     snackbarUtils.error('Erro ao tentar mover tarefa');
                 });
-        } else console.log('Dados incompletos de departamento e(ou) empresa');
+        } else
+            snackbarUtils.error(
+                'Dados incompletos de departamento e(ou) empresa'
+            );
     };
 
     const AddSessionSocket = () => {
@@ -134,7 +133,6 @@ const Board: React.FC = () => {
             sessionApi
                 .create(projectId, data)
                 .then(response => {
-                    console.log(response);
                     snackbarUtils.success('Session criada com sucesso');
                     AddColumn(
                         response.data.sessionId.toString(),
@@ -144,11 +142,12 @@ const Board: React.FC = () => {
                 .catch(error => {
                     snackbarUtils.error('Erro ao tentar adicionar uma coluna');
                 });
-        } else console.log('Dados incompletos de departamento e(ou) empresa');
+        } else
+            snackbarUtils.error(
+                'Dados incompletos de departamento e(ou) empresa'
+            );
     };
     const MoveColumnSocket = (newState: TypeBoard, oldState: TypeBoard) => {
-        // console.log(newState);
-        console.log(newState.columns);
         let data: updateSessionPositionType = [];
         newState.columnsOrder.map((columnId, index) => {
             // Get id of the current column
@@ -156,11 +155,9 @@ const Board: React.FC = () => {
             data.push({ sessionId: column.sessionId, position: index });
             return data;
         });
-        console.log(data);
         sessionApi
             .updatePosition(projectId, data)
             .then(response => {
-                console.log(response);
                 snackbarUtils.success('Posição alterada com sucesso');
                 // AddColumn();
             })
@@ -174,8 +171,6 @@ const Board: React.FC = () => {
         oldState: TypeBoard,
         droppableId: string
     ) => {
-        // console.log(newState);
-        console.log(newState.columns);
         let data: updateTaskPositionType = [];
         newState.columns[droppableId].itemsIds.map(
             (taskId: string, index: number) => {
@@ -186,11 +181,9 @@ const Board: React.FC = () => {
                 return data;
             }
         );
-        console.log(data);
         taskApi
             .updatePosition(droppableId, projectId, data)
             .then(response => {
-                console.log(response);
                 snackbarUtils.success('Posição alterada com sucesso');
                 // AddColumn();
             })
@@ -202,9 +195,6 @@ const Board: React.FC = () => {
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-        console.log(state);
-        console.log('destination:', destination);
-        console.log(draggableId);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
@@ -278,7 +268,6 @@ const Board: React.FC = () => {
             }
         } else {
             let edit = verifyResponsibles(draggableId);
-            console.log(edit);
             if (permissions.task || edit) {
                 // Moving items from one list to another
                 // Get all item ids in source list

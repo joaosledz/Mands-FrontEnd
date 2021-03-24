@@ -3,12 +3,12 @@ import {
     TypeProject,
     projectApi,
     ProjectModel,
-    TypeMember,
+    TypeEmployee,
 } from '../../services';
 
 type TypeProjectData = {
     project: TypeProject | null;
-    employees: TypeMember[];
+    employees: TypeEmployee[];
     loading: boolean;
     getProjectData: (project_id: number) => Promise<TypeProject>;
     updateProject: (data: TypeProject) => void;
@@ -19,7 +19,7 @@ type TypeProjectData = {
         department_id: number,
         image?: File
     ) => Promise<TypeProject>;
-    getEmployees: (project_id: number) => Promise<TypeMember[]>;
+    getEmployees: (project_id: number) => Promise<TypeEmployee[]>;
 };
 
 const ProjectContext = createContext<TypeProjectData>({} as TypeProjectData);
@@ -37,7 +37,7 @@ export const ProjectProvider: React.FC = ({ children }) => {
 
     const [loading, setLoading] = useState(false);
     const [project, setProject] = useState<TypeProject | null>(projectData);
-    const [employees, setEmployees] = useState<TypeMember[]>([]);
+    const [employees, setEmployees] = useState<TypeEmployee[]>([]);
 
     const getProjectData = useCallback(async (project_id: number) => {
         try {

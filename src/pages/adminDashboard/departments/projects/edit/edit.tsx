@@ -319,6 +319,7 @@ const Edit: React.FC = () => {
                                     onClick={() =>
                                         setOpenDeleteModal(!openDeleteModal)
                                     }
+                                    className={classes.deleteButton}
                                 >
                                     Deletar este projeto
                                 </Grid>

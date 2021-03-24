@@ -12,6 +12,7 @@ import {
     SubmitChangeSession,
     taskApi,
     sessionApi,
+    projectPermApi,
     sessionType,
     updateSessionPositionType,
     updateTaskPositionType,
@@ -23,12 +24,23 @@ import Backdrop from '../../../../components/backdrop';
 const Board: React.FC = () => {
     const classes = useStyles();
     // Initialize board state with board data
-    const { state, setState, AddColumn, loading } = useContext(BoardContext);
+    const { state, setState, AddColumn, loading, setPermissions } = useContext(
+        BoardContext
+    );
     const { company } = useCompany();
     const params = useParams<TypeParams>();
-    const { getDepartmentData, department } = useDepartment();
+    const { getDepartmentData, department, userPermDep } = useDepartment();
     //Id do Projeto
     const projectId = parseInt(params.project!);
+    const gerente = {
+        name: 'Gerente',
+        editProject: true,
+        deleteProject: true,
+        session: true,
+        task: true,
+        taskResponsible: true,
+        createTemplate: true,
+    };
     //Dados do departamento do projeto
     // const [departmentId, setDepartmentId] = useState(1)
     useEffect(() => {
@@ -42,6 +54,28 @@ const Board: React.FC = () => {
         // eslint-disable-next-line
     }, [department]);
     // Handle drag & drop
+    //Get de Permissões
+    useEffect(() => {
+        if (company && department && params.project!) {
+            const fetchPermissions = async (company_id: number) => {
+                try {
+                    if (
+                        company.userPermission?.project ||
+                        userPermDep.project
+                    ) {
+                        setPermissions(gerente);
+                    } else {
+                        const { data } = await projectPermApi.getUserPerm(
+                            params.project!
+                        );
+                        setPermissions(data);
+                    }
+                } catch (error) {}
+            };
+            fetchPermissions(company.companyId);
+        }
+    }, [company, department, params.project!]);
+    //
     const ChangeSessionSocket = (itemId: string, sessionId: string) => {
         if (company && department) {
             let data: SubmitChangeSession = {

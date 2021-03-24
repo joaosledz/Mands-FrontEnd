@@ -1,8 +1,14 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { TypeDepartment, departmentApi } from '../../services';
+import {
+    TypeDepartment,
+    departmentApi,
+    departmentPermApi,
+    TypeDepartmentPermission,
+} from '../../services';
 
 type TypeDepartmentData = {
     department: TypeDepartment | null;
+    userPermDep: TypeDepartmentPermission;
     loading: boolean;
     getDepartmentData: (
         company_name: string,
@@ -31,11 +37,27 @@ export const DepartmentProvider: React.FC = ({ children }) => {
     const [department, setDepartment] = useState<TypeDepartment | null>(
         /* departmentData */ null
     );
+    const [userPermDep, setUserPermDep] = useState<TypeDepartmentPermission>({
+        depPermissionId: 1,
+        name: 'Sem permissão',
+        editDepartment: false,
+        deleteDepartment: false,
+        project: false,
+        inviteUser: false,
+        deleteUser: false,
+        permission: false,
+    });
 
     const getDepartmentData = useCallback(
         async (company_name: string, department_name: string) => {
             setLoading(true);
             try {
+                if (department) {
+                    const { data } = await departmentPermApi.getUserPermissions(
+                        department.departmentId
+                    );
+                    setUserPermDep(data);
+                }
                 const response = await departmentApi.show(
                     company_name,
                     department_name
@@ -54,7 +76,7 @@ export const DepartmentProvider: React.FC = ({ children }) => {
                 setLoading(false);
             }
         },
-        []
+        [department]
     );
 
     const updateDepartment = useCallback((data: TypeDepartment) => {
@@ -70,6 +92,7 @@ export const DepartmentProvider: React.FC = ({ children }) => {
                 setLoading,
                 getDepartmentData,
                 updateDepartment,
+                userPermDep,
             }}
         >
             {children}

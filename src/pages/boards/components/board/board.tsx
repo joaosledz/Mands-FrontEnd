@@ -20,13 +20,19 @@ import {
 import { TypeBoard } from '../../../../models/boardTypes';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import Backdrop from '../../../../components/backdrop';
+import { Link, useLocation } from 'react-router-dom';
 
 const Board: React.FC = () => {
     const classes = useStyles();
     // Initialize board state with board data
-    const { state, setState, AddColumn, loading, setPermissions } = useContext(
-        BoardContext
-    );
+    const {
+        state,
+        setState,
+        AddColumn,
+        loading,
+        setPermissions,
+        permissions,
+    } = useContext(BoardContext);
     const { company } = useCompany();
     const params = useParams<TypeParams>();
     const { getDepartmentData, department, userPermDep } = useDepartment();
@@ -351,11 +357,26 @@ const Board: React.FC = () => {
                             )}
                         </Droppable>
                     </DragDropContext>
-                    <FabButton
-                        icon="plus"
-                        style={classes.fabButton}
-                        onClick={AddSessionSocket}
-                    />
+
+                    {permissions.session && (
+                        <FabButton
+                            icon="plus"
+                            title="Nova Coluna"
+                            style={classes.fabButton}
+                            onClick={AddSessionSocket}
+                        />
+                    )}
+                    {permissions.editProject && (
+                        <Link
+                            to={`/admin/${params.company}/departamentos/${params.department}/projeto/${params.project}/edicao`}
+                        >
+                            <FabButton
+                                icon="settings"
+                                title="Gerenciar Projeto"
+                                style={classes.fabButtonConfig}
+                            />
+                        </Link>
+                    )}
                 </Fragment>
             )}
         </Fragment>

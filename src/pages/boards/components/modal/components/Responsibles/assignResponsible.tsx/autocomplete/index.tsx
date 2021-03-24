@@ -8,7 +8,7 @@ import React, {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 // import debounce from 'awesome-debounce-promise';
 import TextField from '@material-ui/core/TextField';
-import { TypeMember, projectApi } from '../../../../../../../../services';
+import { TypeEmployee, projectApi } from '../../../../../../../../services';
 // import useCompany from '../../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../../../../utils/functions/snackbarUtils';
 import useStyles from './styles';
@@ -18,9 +18,9 @@ import { useParams } from 'react-router-dom';
 import TypeParams from '../../../../../../../../models/params';
 
 type Props = {
-    value: Array<TypeMember>;
-    setValue: Dispatch<SetStateAction<TypeMember[]>>;
-    selectedValues?: TypeMember[];
+    value: Array<TypeEmployee>;
+    setValue: Dispatch<SetStateAction<TypeEmployee[]>>;
+    selectedValues?: TypeEmployee[];
 };
 
 const Autocompletar: React.FC<Props> = (props: Props) => {
@@ -31,9 +31,9 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
     const { value, setValue, selectedValues = [] } = props;
     const { company } = useCompany();
     const { department } = useDepartment();
-    // const [value, setValue] = React.useState<Array<TypeMember>>();
+    // const [value, setValue] = React.useState<Array<TypeEmployee>>();
     // const [inputValue, setInputValue] = React.useState('');
-    const [employees, setEmployees] = useState<TypeMember[]>([]);
+    const [employees, setEmployees] = useState<TypeEmployee[]>([]);
     // const [inputValue, setInputValue] = useState<string>();
 
     // const handleTextChange = async (text: string) => {
@@ -91,13 +91,13 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                 //     handleTextChange(value);
                 //     // setInputValue(value);
                 // }}
-                onChange={(event: any, newValue: Array<TypeMember>) =>
+                onChange={(event: any, newValue: Array<TypeEmployee>) =>
                     setValue(newValue)
                 }
                 // onInputChange={(event, newInputValue) =>
                 //     handleTextChange(newInputValue)
                 // }
-                getOptionLabel={(option: TypeMember) => `${option.name}`}
+                getOptionLabel={(option: TypeEmployee) => `${option.name}`}
                 // defaultValue={selectedValues}
                 renderInput={params => (
                     <TextField

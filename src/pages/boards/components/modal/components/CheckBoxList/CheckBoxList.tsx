@@ -16,7 +16,6 @@ import AuthContext from '../../../../../../contexts/auth';
 import { taskApi, TypeMember } from '../../../../../../services';
 import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
 import Typography from '@material-ui/core/Typography';
-// import company from '../../../../../company/selection/companySelection/company';
 
 type Props = {
     subtasks: Array<{
@@ -53,16 +52,15 @@ const useStyles = makeStyles((theme: Theme) =>
 const CheckBoxList: React.FC<Props> = (props: Props) => {
     const { projectId, departmentId, companyId, taskId, subtasks } = props;
     const classes = useStyles();
-    // const [subtasks, setSubTasks] = React.useState(props.subtasks);
-    // const [checked, setChecked] = React.useState([0]);
     const { state, setState, permissions } = useContext(BoardContext);
     const { user } = useContext(AuthContext);
     const [edit, setEdit] = useState(false);
 
     const verifyResponsibles = () => {
-        if (user && state.items[taskId].responsible) {
-            state.items[taskId].responsible.forEach(
+        if (user && state.items[taskId].responsibles) {
+            state.items[taskId].responsibles.forEach(
                 (responsible: TypeMember) => {
+                    console.log(responsible.username, user.username);
                     if (responsible.username === user.username) setEdit(true);
                 }
             );
@@ -72,12 +70,11 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
         verifyResponsibles();
         // eslint-disable-next-line
     }, [user, state]);
-
     const handleToggle = (
         // value: number,
         index: number
     ) => {
-        if (permissions.task) {
+        if (permissions.task || edit) {
             let newState = { ...state };
             newState.items[taskId].subtasks[index].completed = !newState.items[
                 taskId
@@ -145,7 +142,7 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                         <ListItemIcon onClick={() => handleToggle(index)}>
                             <Checkbox
                                 edge="start"
-                                disabled={!permissions.task}
+                                disabled={!(permissions.task || edit)}
                                 // checked={checked.indexOf(index) !== -1}
                                 checked={
                                     state.items[taskId].subtasks[index]
@@ -157,7 +154,7 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                                 inputProps={{ 'aria-labelledby': labelId }}
                             />
                         </ListItemIcon>
-                        {permissions.task || edit ? (
+                        {permissions.task ? (
                             <MultableInput
                                 index={index}
                                 value={

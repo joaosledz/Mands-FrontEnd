@@ -133,7 +133,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         </Grid>
                         <Grid item xs={11}>
                             <Typography className={classes.subtitle}>
-                                Título da tarefa
+                                Título da Tarefa
                             </Typography>
                         </Grid>
                     </Grid>

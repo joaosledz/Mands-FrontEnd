@@ -14,7 +14,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Slide from '@material-ui/core/Slide';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import {
-    TypeMember,
+    TypeEmployee,
     projectPermApi,
     TypeProjectPermission,
 } from '../../../../../../../../services';
@@ -32,7 +32,7 @@ import useStyles from './styles';
 type Props = {
     isOpen: boolean;
     handleOpen: () => void;
-    user: TypeMember;
+    user: TypeEmployee;
 };
 
 const PermissionModal: React.FC<Props> = (props: Props) => {
@@ -137,7 +137,7 @@ const PermissionModal: React.FC<Props> = (props: Props) => {
 
                         <Grid id="avatar-container" container justify="center">
                             <Avatar
-                                src={user.image?.path || undefined}
+                                src={user.image || undefined}
                                 variant="rounded"
                                 alt={user.name}
                                 className={classes.avatar}

@@ -2,14 +2,14 @@ import React, { useState, Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import { TypeMember } from '../../../../../../services';
+import { TypeEmployee } from '../../../../../../services';
 import AssignButton from '../../../components/assignButton';
 import TeamCard from './teamCard';
 import useStyles from './styles';
 import AddUserModal from './addUser';
 
 type Props = {
-    team: TypeMember[];
+    team: TypeEmployee[];
 };
 const ManageUsersCard: React.FC<Props> = ({ team }) => {
     const classes = useStyles();

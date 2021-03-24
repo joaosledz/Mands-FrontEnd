@@ -5,11 +5,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import { TypeMember } from '../../../../../../../../services';
+import { TypeEmployee } from '../../../../../../../../services';
 
 type Props = {
     open: boolean;
-    user: TypeMember;
+    user: TypeEmployee;
     handleOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
     handleRemove: () => Promise<void>;
 };
@@ -29,8 +29,8 @@ const DeleteDialog: React.FC<Props> = (props: Props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    A retirada deste usuário do projeto irá desassocia-lo do
-                    projeto e tarefas atreladas a ele.
+                    A retirada deste usuário do projeto irá desassocia-lo
+                    do projeto e tarefas atreladas a ele.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

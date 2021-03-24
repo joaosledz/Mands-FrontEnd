@@ -16,7 +16,7 @@ import useCompany from '../../../../hooks/useCompany';
 import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
 import cnpjValidator from '../../../../validators/cnpjValidator';
 
-import AppLayout from '../../../../layout/appLayout';
+import AppLayout from '../../layout/companyLayout';
 import BackButton from '../../../../components/backButton';
 import CropImageInput from '../../../../components/cropImage/cropImageInput';
 import SubmitButton from '../../../../components/mainButton';
@@ -38,7 +38,7 @@ const CompanyEdit: React.FC = () => {
     const { register, errors, handleSubmit, formState } = useForm<
         CompanyModel
     >();
-    const { company, updateCompany, loading: companyLoading } = useCompany();
+    const { company, updateCompany } = useCompany();
 
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState<File | undefined>(undefined);
@@ -106,7 +106,7 @@ const CompanyEdit: React.FC = () => {
             <Backdrop className={classes.backdrop} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <AppLayout loading={companyLoading}>
+            <AppLayout>
                 <Paper elevation={3} className={classes.paper}>
                     <Grid
                         container

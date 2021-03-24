@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
@@ -13,17 +13,46 @@ import Routes from './utils/routes';
 import TypeParams from '../../../../../../models/params';
 import useStyles from './styles';
 
+import { IRoutes } from './models/iRoutes';
+import { TypeCompany } from '../../../../../../services';
+
 type Props = {
     logo: string | undefined;
     divider?: boolean;
+    company?: TypeCompany | null;
 };
 
 const Drawer: React.FC<Props> = (props: Props) => {
-    const { logo, divider } = props;
+    const { logo, divider, company } = props;
     const classes = useStyles();
     const params = useParams<TypeParams>();
 
     const [page] = useState(window.location.href.split('/')[5]);
+
+    const [possibleRoutes, setRoutes] = useState<IRoutes>([]);
+
+    useEffect(() => {
+        if (!company) return;
+
+        const userPerms = company.userPermission;
+        const aux: IRoutes = [];
+
+        Routes.forEach(route => {
+            switch (route.name) {
+                default:
+                    aux.push(route);
+                    break;
+                case 'Departamentos':
+                    if (userPerms?.department) aux.push(route);
+                    break;
+                case 'Funcionários':
+                    if (userPerms?.acceptUser) aux.push(route);
+                    break;
+            }
+        });
+
+        setRoutes(aux);
+    }, [company]);
 
     return (
         <Box className={classes.drawer}>
@@ -34,7 +63,7 @@ const Drawer: React.FC<Props> = (props: Props) => {
                 <Divider variant="middle" className={classes.divider} />
             )}
             <List>
-                {Routes.map(route => (
+                {possibleRoutes.map(route => (
                     <ListItem
                         button
                         component={Link}

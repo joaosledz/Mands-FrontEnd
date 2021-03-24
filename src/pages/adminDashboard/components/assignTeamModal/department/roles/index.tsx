@@ -27,7 +27,7 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
             <Grid container>
                 <FormLabel
                     component="legend"
-                    style={{ paddingLeft: '21px', margin: '1rem 0rem' }}
+                    style={{ paddingLeft: '21px', padding: '1rem 0rem' }}
                 >
                     Cargos
                 </FormLabel>

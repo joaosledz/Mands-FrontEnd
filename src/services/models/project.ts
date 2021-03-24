@@ -19,3 +19,8 @@ export type TypeProject = {
     imageId: number;
     image: string;
 };
+
+export type TypeUserPerm = {
+    userId: number;
+    permissionId: number;
+};

@@ -25,27 +25,15 @@ import useStyles from './styles';
 
 const permissionsModel = [
     {
-        label: 'Aceitar Usuário',
+        label: 'Gerenciar Empresa',
         checked: false,
     },
     {
-        label: 'Remover Usuário',
+        label: 'Gerenciar Usuários',
         checked: false,
     },
     {
-        label: 'Departamento',
-        checked: false,
-    },
-    {
-        label: 'Projeto',
-        checked: false,
-    },
-    {
-        label: 'Editar Empresa',
-        checked: false,
-    },
-    {
-        label: 'Resetar PIN',
+        label: 'Gerenciar Departamentos',
         checked: false,
     },
     {
@@ -53,9 +41,13 @@ const permissionsModel = [
         checked: false,
     },
     {
-        label: 'Evento',
+        label: 'Resetar PIN',
         checked: false,
     },
+    // {
+    //     label: 'Evento',
+    //     checked: false,
+    // },
 ];
 
 type PermissionModel = {
@@ -90,15 +82,15 @@ const RegisterPermission: React.FC<Props> = (props: Props) => {
         async (data: PermissionModel) => {
             const auxData = {
                 name: data.name,
-                acceptUser: permissions[0].checked,
+                editCompany: permissions[0].checked,
+                acceptUser: permissions[1].checked,
                 deleteUser: permissions[1].checked,
                 department: permissions[2].checked,
-                project: permissions[3].checked,
-                editCompany: permissions[4].checked,
-                resetPIN: permissions[5].checked,
-                seePIN: permissions[6].checked,
-                event: permissions[7].checked,
-                permission: false,
+                project: false,
+                resetPIN: permissions[3].checked,
+                seePIN: permissions[4].checked,
+                event: false,
+                permission: permissions[1].checked,
             };
             try {
                 await companyPermApi.create(company!.companyId, auxData);

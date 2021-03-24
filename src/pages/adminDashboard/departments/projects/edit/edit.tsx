@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -7,12 +8,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import { useForm } from 'react-hook-form';
 
-import {
-    ProjectModel,
-    projectApi,
-    imageApi,
-    TypeMember,
-} from '../../../../../services';
+import { ProjectModel, projectApi, imageApi } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useProject from '../../../../../hooks/useProject';
@@ -24,29 +20,34 @@ import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
 import DeleteModal from '../../../components/deleteModal/project';
 import useStyles from './styles';
-import AssignGridItem from '../../../departments/components/assignGridItem';
+import ManageUsersCard from './manageUsers';
+import TypeParams from '../../../../../models/params';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
-    const {
-        register,
-        errors,
-        handleSubmit,
-        reset /*, formState */,
-    } = useForm();
-    /*<ProjectModel>*/
+    const { register, errors, handleSubmit, reset } = useForm();
+
+    const params = useParams<TypeParams>();
     const { company } = useCompany();
     const { department } = useDepartment();
-    const { project, updateProject } = useProject();
-    const [members, setMembers] = useState<TypeMember[]>([]);
+    const { project, updateProject, employees, getEmployees } = useProject();
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [image, setImage] = useState<File | undefined>();
 
     useEffect(() => {
-        if (project) document.title = `${project.name} - Edição`;
-        console.log(project);
-    }, [project]);
+        const action = async () => {
+            try {
+                await getEmployees(project!.projectId);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        if (project) {
+            document.title = `${project.name} - Edição`;
+            action();
+        }
+    }, [project, getEmployees]);
 
     const handleCreateImage = useCallback(
         async (image: File, company_id: number, project_id: number) => {
@@ -92,25 +93,6 @@ const Edit: React.FC = () => {
             snackbarUtils.error(error.message);
         }
     };
-    useEffect(() => {
-        const getTeamAndData = async () => {
-            try {
-                if (project) {
-                    const teamResponse = projectApi.getEmployees(
-                        project.projectId
-                    );
-                    const [membersAux] = await Promise.all([teamResponse]);
-                    console.log(membersAux.data);
-                    setMembers(membersAux.data);
-                }
-            } catch (error) {
-                snackbarUtils.error(error.message);
-            } finally {
-                // setLoading(false);
-            }
-        };
-        getTeamAndData();
-    }, [project]);
 
     return (
         <ProjectLayout>
@@ -123,7 +105,6 @@ const Edit: React.FC = () => {
                     <Grid container item xs={12} sm={4} justify="center">
                         <Typography variant="h1" className={classes.title}>
                             Projeto - {project?.name}
-                            {/* #{project?.projectId} */}
                         </Typography>
                     </Grid>
 
@@ -263,33 +244,56 @@ const Edit: React.FC = () => {
                         </Grid>
 
                         <Grid container justify="center">
-                            <SubmitButton
-                                type="submit"
-                                text="Salvar alterações"
-                                // disabled={!image || !formState.isDirty} verificar se o form ou uma imagem mudou, mas ta complexo
-                                mt={20}
-                            />
+                            <Grid
+                                container
+                                item
+                                sm={12}
+                                md={6}
+                                justify="center"
+                            >
+                                <SubmitButton
+                                    type="submit"
+                                    text="Salvar alterações"
+                                    // disabled={!image || !formState.isDirty} verificar se o form ou uma imagem mudou, mas ta complexo
+                                    mt={20}
+                                />
+                            </Grid>
+                            <Grid
+                                container
+                                item
+                                sm={12}
+                                md={6}
+                                justify="center"
+                            >
+                                <Button
+                                    component={Link}
+                                    to={`/${params.company}/${params.department}/quadro/${params.project}`}
+                                    className={[
+                                        classes.button,
+                                        classes.baseButton,
+                                    ].join(' ')}
+                                >
+                                    <Typography className={classes.buttonText}>
+                                        Ir para o projeto
+                                    </Typography>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} md={5}>
-                        <AssignGridItem
-                            title="Equipe:"
-                            category="team"
-                            subcategory="teamProject"
-                            description="Gerencie os membros deste projeto pelo botão no canto superior direito."
-                            teamData={members}
-                            icon="team"
-                            actionIcon="add"
-                            loading={false}
-                            md={12}
-                        />
                         <Grid
                             container
                             direction="column"
                             justify="flex-end"
                             className={classes.rightSide}
                         >
-                            <Grid container component={Typography} variant="h2">
+                            <ManageUsersCard team={employees} />
+                            <Grid
+                                container
+                                component={Typography}
+                                variant="h2"
+                                id="danger-zone-title"
+                            >
                                 Área Perigosa
                             </Grid>
                             <Grid id="danger-zone-container" container>

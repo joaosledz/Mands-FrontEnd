@@ -54,14 +54,13 @@ const Roles: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         let aux: string[] = [];
-        if (role.acceptUser) aux.push('Aceitar Usuário');
-        if (role.deleteUser) aux.push('Remover Usuário');
-        if (role.department) aux.push('Departamento');
-        if (role.project) aux.push('Projeto');
-        if (role.editCompany) aux.push('Editar Empresa');
-        if (role.resetPIN) aux.push('Resetar PIN');
+
+        if (role.editCompany) aux.push('Gerenciar Empresa');
+        if (role.acceptUser) aux.push('Gerenciar Usuários');
+        if (role.department) aux.push('Gerenciar Departamentos');
         if (role.seePIN) aux.push('Ver PIN');
-        if (role.event) aux.push('Evento');
+        if (role.resetPIN) aux.push('Resetar PIN');
+        //if (role.event) aux.push('Evento');
 
         if (aux.length === 0) aux.push('Não possui permissões');
         setPermissions(aux);

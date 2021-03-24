@@ -74,7 +74,7 @@ const Register: React.FC = () => {
     const onSubmit = async (data: RegisterModel) => {
         const registerData: RegisterModel = {
             ...data,
-            name: userData!.name,
+            name: userData!.givenName,
             email: userData!.email,
             surname: userData!.familyName,
             password: sha1(userData!.id),

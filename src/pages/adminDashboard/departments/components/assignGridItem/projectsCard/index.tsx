@@ -25,7 +25,7 @@ const ProjectsCard: React.FC<Props> = ({ project }) => {
         if (baseURL.includes(pages[0])) baseURL = baseURL.split(pages[0])[0];
         else baseURL = baseURL.split(pages[1])[0];
 
-        const url = `${baseURL}/projeto/${projectId}/detalhes`;
+        const url = `${baseURL}/projeto/${projectId}/edicao`;
         return url;
     };
 

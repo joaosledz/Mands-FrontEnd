@@ -7,7 +7,9 @@ const projectUrls = {
     create: `${projectUrl}/create/`,
     update: `${projectUrl}/update/`,
     remove: `${projectUrl}/delete/`,
-    getEmployees: `${projectUrl}/GetEmployees/`,
+    getEmployees: `${projectUrl}/getemployees/`,
+    associateUsers: `${projectUrl}/AssociateUsers`,
+    desassociateUser: `${projectUrl}/DeleteUserAssociation`,
     //Board Data
     getBoardData: `${projectUrl}/GetSessionsAndTasks/`,
 };

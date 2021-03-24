@@ -20,6 +20,7 @@ import PermissionModal from '../../../../../components/permission/modal';
 import useStyles from './styles';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import Avatar from '@material-ui/core/Avatar';
+import RemoveUserModal from '../removeUserModal';
 // import DeleteCupom from '../../components/Dialogs/DeleteCupom';
 
 type Props = {
@@ -51,22 +52,6 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
         setFilter(!filter);
     };
 
-    const handleRemove = async (id: number, name: string) => {
-        try {
-            console.log(`Funcionário ${name} deletado (id: ${id})`);
-
-            await companyApi.removeEmployee(company!.companyId, id);
-
-            const aux: TypeMember[] = [];
-            data!.forEach(item => {
-                if (item.userId !== id) aux.push(item);
-            });
-            setData(aux);
-        } catch (err) {
-            console.log(err);
-            snackbarUtils.error('Não foi possível remover usuário');
-        }
-    };
     //Hiring Modal
     const [showHiringModal, setShowHiringModal] = useState<boolean>(false);
     const handleOpenHiringModal = () => {
@@ -79,6 +64,21 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const handleOpenPermissionModal = (rowData: TypeMember) => {
         setSelectedEmployee(rowData);
         setShowPermissionModal(true);
+    };
+    //Remove user modal
+    const [showRemoveModal, setShowRemoveModal] = useState<boolean>(false);
+    const handleOpenRemoveModal = (rowData: TypeMember) => {
+        setSelectedEmployee(rowData);
+        setShowRemoveModal(true);
+    };
+    const handleRemove = (member: TypeMember) => {
+        const aux: Array<TypeMember> = [];
+
+        data!.forEach(item => {
+            if (item.userId !== member.userId) aux.push(item);
+        });
+
+        setData(aux);
     };
 
     const getData = () => {
@@ -199,10 +199,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                     <Button
                                         className={classes.button}
                                         onClick={() =>
-                                            handleRemove(
-                                                rowData.userId,
-                                                rowData.name
-                                            )
+                                            handleOpenRemoveModal(rowData)
                                         }
                                     >
                                         <RemoveUserIcon
@@ -274,6 +271,13 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         isOpen={showPermissionModal}
                         setIsOpen={setShowPermissionModal}
                         employee={selectedEmployee!}
+                    />
+                    <RemoveUserModal
+                        company={company}
+                        isOpen={showRemoveModal}
+                        member={selectedEmployee}
+                        onRemove={handleRemove}
+                        setIsOpen={setShowRemoveModal}
                     />
                 </Fragment>
             )}

@@ -31,6 +31,9 @@ const departmentPermissionApi = {
             departmentPermUrls.changeUserPermission +
                 `${company_id}/${department_id}/${user_id}/${permission_id}`
         ),
+
+    getUserPermissions: (department_id: number) =>
+        api.get(departmentPermUrls.getUserPermissions + department_id),
 };
 
 export default departmentPermissionApi;

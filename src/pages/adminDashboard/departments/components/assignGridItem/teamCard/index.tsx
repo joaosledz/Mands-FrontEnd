@@ -72,7 +72,9 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                 container
                 item
                 xs={12}
-                sm
+                sm={6}
+                md={12}
+                lg={6}
                 className={classes.user}
                 component={Button}
                 onClick={handleOpenModal}

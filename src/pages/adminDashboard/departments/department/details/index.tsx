@@ -10,6 +10,8 @@ import {
     projectApi,
     TypeMember,
     TypeProject,
+    departmentPermApi,
+    TypeDepartmentPermission,
 } from '../../../../../services';
 import useCompany from '../../../../../hooks/useCompany';
 import useDepartment from '../../../../../hooks/useDepartment';
@@ -38,6 +40,22 @@ const Details: React.FC = () => {
 
     const [members, setMembers] = useState<TypeMember[]>([]);
     const [projects, setProjects] = useState<TypeProject[]>([]);
+    const [permissions, setPermissions] = useState<TypeDepartmentPermission>();
+
+    useEffect(() => {
+        const getPermissions = async () => {
+            try {
+                const { data } = await departmentPermApi.getUserPermissions(
+                    department!.departmentId
+                );
+                setPermissions(data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        if (department) getPermissions();
+    }, [department]);
 
     useEffect(() => {
         if (department) document.title = `Departamento - ${department.name}`;
@@ -108,18 +126,20 @@ const Details: React.FC = () => {
                             />
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextField
-                            disabled
-                            multiline
-                            rows={6}
-                            label="Descrição"
-                            value={department?.objective || ''}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            className={classes.textField}
-                        />
+                    <Grid spacing={3} container item xs={12} md={6}>
+                        <Grid item xs={12}>
+                            <TextField
+                                disabled
+                                multiline
+                                rows={6}
+                                label="Descrição"
+                                value={department?.objective || ''}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                className={classes.textField}
+                            />
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid
@@ -128,41 +148,50 @@ const Details: React.FC = () => {
                     justify="space-around"
                     spacing={3}
                 >
-                    <AssignGridItem
-                        title="Equipe:"
-                        category="team"
-                        description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
-                        teamData={members}
-                        icon="team"
-                        actionIcon="add"
-                        loading={loading}
-                    />
-                    <AssignGridItem
-                        title="Projetos:"
-                        category="project"
-                        description="Gerencie os projetos deste departamento pelo botão no
+                    {(permissions?.deleteUser ||
+                        company?.userPermission?.department) && (
+                        <AssignGridItem
+                            title="Equipe:"
+                            category="team"
+                            description="Gerencie os funcionários deste departamento pelo botão no canto superior direito."
+                            teamData={members}
+                            icon="team"
+                            actionIcon="add"
+                            loading={loading}
+                        />
+                    )}
+
+                    {(permissions?.project ||
+                        company?.userPermission?.department) && (
+                        <AssignGridItem
+                            title="Projetos:"
+                            category="project"
+                            description="Gerencie os projetos deste departamento pelo botão no
                         canto superior direito."
-                        projectData={projects}
-                        icon="document"
-                        actionIcon="add"
-                        loading={loading}
-                        styles={classes.projectAssignGridItem}
-                    />
+                            projectData={projects}
+                            icon="document"
+                            actionIcon="add"
+                            loading={loading}
+                            styles={classes.projectAssignGridItem}
+                        />
+                    )}
                 </Grid>
-                <FabButton
-                    title="Configurar"
-                    icon="settings"
-                    onClick={() =>
-                        history.push(
-                            handleEditURL(
-                                location.pathname,
-                                '/detalhes',
-                                '/edicao'
-                            ),
-                            department
-                        )
-                    }
-                />
+                {permissions?.editDepartment && (
+                    <FabButton
+                        title="Configurar"
+                        icon="settings"
+                        onClick={() =>
+                            history.push(
+                                handleEditURL(
+                                    location.pathname,
+                                    '/detalhes',
+                                    '/edicao'
+                                ),
+                                department
+                            )
+                        }
+                    />
+                )}
             </Paper>
         </AdminLayout>
     );

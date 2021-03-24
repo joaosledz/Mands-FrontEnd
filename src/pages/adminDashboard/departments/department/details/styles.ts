@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
             margin: ' 1rem 2rem 0',
-            padding: '2rem',
+            padding: '3rem 2rem',
 
             [theme.breakpoints.only('xs')]: {
                 margin: '0.5rem',
@@ -26,8 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         descriptionContainer: {
-            marginTop: '1rem',
-            [theme.breakpoints.up('md')]: {
+            [theme.breakpoints.down('md')]: {
                 padding: '0 5.2rem 0 1rem',
             },
         },

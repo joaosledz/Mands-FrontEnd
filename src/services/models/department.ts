@@ -27,19 +27,19 @@ export type TypeMember = {
     permissionId: number;
 };
 
-// export type TypeEmployee = {
-//     userId: number;
-//     name: string;
-//     surname: string;
-//     // imageId: number;
-//     image?: string;
-//     username: string;
-//     // email: string;
-//     cpf: string;
-//     // admission: null;
-//     permission: string;
-//     permissionId: number;
-// };
+export type TypeEmployee = {
+    userId: number;
+    name: string;
+    surname: string;
+    cpf: string;
+    // imageId: number;
+    image?: string;
+    // username: string;
+    // email: string;
+    // admission: null;
+    // permission: string;
+    permissionId: number;
+};
 
 export type TypeDepartment = {
     departmentId: number;

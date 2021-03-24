@@ -46,7 +46,15 @@ const CompanySelection: React.FC<Props> = (props: Props) => {
             </Grid>
             <Grid container justify="center" spacing={3}>
                 {data?.map(item => (
-                    <Grid key={item.companyId} item xs={12} sm={4} md={3}>
+                    <Grid
+                        key={item.companyId}
+                        item
+                        xs={12}
+                        sm={5}
+                        md={3}
+                        lg={2}
+                        xl={2}
+                    >
                         <Company
                             company={item}
                             onQuit={() => openQuitModal(item)}

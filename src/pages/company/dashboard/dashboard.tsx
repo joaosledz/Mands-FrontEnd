@@ -26,6 +26,7 @@ const CompanyDashboard: React.FC = () => {
                 const response = await departmentApi.listByUser(
                     company.companyId
                 );
+
                 const data: TypeCompany = {
                     ...company,
                     departments: [...response.data],
@@ -53,7 +54,7 @@ const CompanyDashboard: React.FC = () => {
     }, [company, updateCompany, setLoading]);
 
     return (
-        <AppLayout loading={loading}>
+        <AppLayout loading={[loading]}>
             <Box className={classes.container}>
                 <Grid container component="section">
                     <Grid item xs={12}>
@@ -71,13 +72,17 @@ const CompanyDashboard: React.FC = () => {
                     {company ? (
                         <Fragment>
                             <Grid item xs={12} md={6}>
-                                {company.userPermission?.editCompany && (
+                                {(company.userPermission?.editCompany ||
+                                    company.userPermission?.acceptUser ||
+                                    company.userPermission?.department) && (
                                     <ManageCompanyButton company={company} />
                                 )}
                                 <Departments
                                     departments={company.departments}
                                     containerStyles={
-                                        company.userPermission?.editCompany
+                                        company.userPermission?.editCompany ||
+                                        company.userPermission?.acceptUser ||
+                                        company.userPermission?.department
                                             ? classes.departments
                                             : undefined
                                     }

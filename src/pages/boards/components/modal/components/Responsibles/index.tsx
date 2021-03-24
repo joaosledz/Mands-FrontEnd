@@ -124,7 +124,7 @@ const ChipsList: React.FC<Props> = (props: Props) => {
             <AssignTeamModal
                 isOpen={showTeamModal}
                 setIsOpen={setShowTeamModal}
-                selectedValues={[]}
+                selectedValues={state.items[taskId].responsibles || []}
                 taskId={parseInt(taskId.replace('task_', ''))}
             />
             {/* )} */}

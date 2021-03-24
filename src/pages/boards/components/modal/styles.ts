@@ -109,7 +109,7 @@ const useStyles = makeStyles<Theme>(theme =>
         },
         notFoundText: {
             color: theme.palette.text.secondary,
-            fontWeight: 'lighter',
+            fontWeight: 'normal',
             fontSize: '0.7rem',
             [theme.breakpoints.up('md')]: {
                 fontSize: '0.9rem',

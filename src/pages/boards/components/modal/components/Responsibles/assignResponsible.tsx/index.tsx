@@ -19,7 +19,7 @@ import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import { MailSend as MailSendIcon } from '@styled-icons/boxicons-regular';
 
 import {
-    TypeMember,
+    TypeEmployee,
     taskApi,
     SubmitResponsible,
 } from '../../../../../../../services';
@@ -39,7 +39,7 @@ import useStyles from './styles';
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    selectedValues?: TypeMember[];
+    selectedValues?: TypeEmployee[];
     taskId: number;
 };
 
@@ -51,7 +51,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
     const { isOpen, setIsOpen, selectedValues = [], taskId } = props;
 
     const [submitting, setSubmitting] = useState(false);
-    const [employees, setEmployees] = useState<TypeMember[]>([]);
+    const [employees, setEmployees] = useState<TypeEmployee[]>([]);
 
     const handleCloseModal = useCallback(() => setIsOpen(false), [setIsOpen]);
 

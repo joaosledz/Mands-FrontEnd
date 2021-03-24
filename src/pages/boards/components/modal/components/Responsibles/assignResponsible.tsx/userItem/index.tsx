@@ -4,11 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
-import { TypeMember } from '../../../../../../../../services';
+import { TypeEmployee } from '../../../../../../../../services';
 import useStyles from '../styles';
 
 type Props = {
-    person: TypeMember;
+    person: TypeEmployee;
     index: number;
     handleRemove: (index: number) => void;
 };
@@ -19,7 +19,7 @@ const UserItem: React.FC<Props> = (props: Props) => {
     return (
         <Grid container item className={classes.personContainer}>
             <Grid item xs={2}>
-                <Avatar src={person.image?.path || undefined} />
+                <Avatar src={person.image || undefined} />
             </Grid>
             <Grid container item xs={9} direction="column" justify="flex-start">
                 <Grid item xs={12}>
@@ -27,7 +27,7 @@ const UserItem: React.FC<Props> = (props: Props) => {
                         {person.name} {person.surname}
                     </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <Tooltip
                         title="Visitar perfil"
                         arrow
@@ -43,7 +43,7 @@ const UserItem: React.FC<Props> = (props: Props) => {
                             @{person.username}
                         </Typography>
                     </Tooltip>
-                </Grid>
+                </Grid> */}
             </Grid>
             <Grid
                 item

@@ -1,11 +1,11 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import SnackbarUtils from '../../../utils/functions/snackbarUtils';
 
-import { TypeCompany, departmentApi } from '../../../services';
+import { TypeCompany, TypeDepartment, departmentApi } from '../../../services';
 import useAuth from '../../../hooks/useAuth';
 import useCompany from '../../../hooks/useCompany';
 
@@ -19,38 +19,26 @@ const CompanyDashboard: React.FC = () => {
     const classes = useStyles();
     const { user } = useAuth();
     const { company, updateCompany, loading, setLoading } = useCompany();
+    const [departments, setDepartments] = useState<TypeDepartment[]>([]);
 
     useEffect(() => {
         const getDepartmentData = async (company: TypeCompany) => {
             try {
+                setLoading(true);
                 const response = await departmentApi.listByUser(
                     company.companyId
                 );
-
-                const data: TypeCompany = {
-                    ...company,
-                    departments: [...response.data],
-                };
-                updateCompany(data);
-
-                return data;
+                setDepartments(response.data);
             } catch (error) {
                 SnackbarUtils.error(error.message);
             } finally {
                 setLoading(false);
             }
         };
+        if (!company) return;
 
-        const checkCompanyData = () => {
-            if (company) {
-                document.title = `Dashboard - ${company.username}`;
-                if (!company.departments) {
-                    setLoading(true);
-                    getDepartmentData(company);
-                } else setLoading(false);
-            }
-        };
-        checkCompanyData();
+        document.title = `Dashboard - ${company.username}`;
+        getDepartmentData(company);
     }, [company, updateCompany, setLoading]);
 
     return (
@@ -78,7 +66,7 @@ const CompanyDashboard: React.FC = () => {
                                     <ManageCompanyButton company={company} />
                                 )}
                                 <Departments
-                                    departments={company.departments}
+                                    departments={departments}
                                     containerStyles={
                                         company.userPermission?.editCompany ||
                                         company.userPermission?.acceptUser ||

@@ -11,10 +11,9 @@ const projectApi = {
     show: (project_id: number) =>
         api.get<TypeProject>(projectUrls.show + project_id),
 
-    findByDepartment: (company_username: string, department_name: string) =>
+    findByDepartment: (department_id: number) =>
         api.get<Array<TypeProject>>(
-            projectUrls.findByDepartment +
-                `${company_username}/${department_name}`
+            projectUrls.findByDepartment + `${department_id}`
         ),
 
     findByUser: (companyId: number, departmentId: number) =>

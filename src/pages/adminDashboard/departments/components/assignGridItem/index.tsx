@@ -49,7 +49,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
     } = props;
 
     const [showTeamModal, setShowTeamModal] = useState(false);
-
+    
     const handleAction = () => {
         // console.log('teamData: ', teamData);
         const handleProjectURL = () => {

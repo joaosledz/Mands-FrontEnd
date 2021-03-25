@@ -6,7 +6,7 @@ const projectUrls = {
     delete: `${baseUrl}/create`,
     list: `${baseUrl}/listByProject`,
     getUserPerm: `${baseUrl}/listByUser`,
-    changeUserPerm: `companyPerm/EditUserPerm`,
+    changeUserPerm: `${baseUrl}/EditUserPerm`,
 };
 
 export default projectUrls;

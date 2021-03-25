@@ -4,6 +4,7 @@ import {
     projectApi,
     ProjectModel,
     TypeEmployee,
+    imageApi,
 } from '../../services';
 
 type TypeProjectData = {
@@ -78,12 +79,12 @@ export const ProjectProvider: React.FC = ({ children }) => {
 
                 const project: TypeProject = response.data.project;
 
-                // if (!image) return project;
+                if (!image) return project;
 
-                // const formData = new FormData();
-                // formData.append('imageData', image);
+                const formData = new FormData();
+                formData.append('imageData', image);
 
-                // await imageApi.post(formData, company_id, project.projectId);
+                await imageApi.post(formData, company_id, project.projectId);
 
                 return project;
             } catch (error) {

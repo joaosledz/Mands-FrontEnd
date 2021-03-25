@@ -30,6 +30,17 @@ const tasksApi = {
             taskUrls.associateResponsible + `${companyId}/${taskId}`,
             data
         ),
+    deleteResponsible: (
+        companyId: number,
+        taskId: number,
+        departmentId: number,
+        userId: number,
+        projectId: number
+    ) =>
+        api.delete(
+            taskUrls.deleteResponsible +
+                `${companyId}/${taskId}/${departmentId}/${projectId}/${userId}`
+        ),
     //Deslocamento
     changeSession: (
         taskId: number,

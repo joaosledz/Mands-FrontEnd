@@ -6,12 +6,17 @@ const useStyles = makeStyles<Theme>(theme =>
     createStyles({
         title: {
             fontFamily: 'Roboto Slab',
-            marginBottom: '12px',
+            // marginBottom: '12px',
+            textAlign: 'justify',
             display: 'flex',
             alignSelf: 'begin',
             color: '#707070',
-            fontWeight: 'lighter',
-            fontSize: '1.3rem',
+            fontWeight: 'bold',
+            fontSize: '1.0rem',
+            width: '100%',
+            height: '100%',
+            overflowWrap: 'anywhere',
+            resize: 'none',
         },
         icon: {
             color: '#6E6E6E',

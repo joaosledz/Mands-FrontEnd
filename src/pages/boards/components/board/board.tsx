@@ -1,36 +1,70 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect, Fragment, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import FabButton from '../../../../components/fabButton';
 import BoardContext from '../../../../contexts/board';
+import authContext from '../../../../contexts/auth';
 import { BoardColumn } from '../column/board-column';
 import useCompany from '../../../../hooks/useCompany';
+import useDepartment from '../../../../hooks/useDepartment';
 import { useParams } from 'react-router-dom';
 import TypeParams from '../../../../models/params';
-import useDepartment from '../../../../hooks/useDepartment';
 import {
     SubmitChangeSession,
     taskApi,
     sessionApi,
-    sessionType,
+    projectPermApi,
+    // sessionType,
     updateSessionPositionType,
     updateTaskPositionType,
+    TypeMember,
 } from '../../../../services';
 import { TypeBoard } from '../../../../models/boardTypes';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import Backdrop from '../../../../components/backdrop';
+import { Link } from 'react-router-dom';
+import CreateSessionModal from '../modal/create-session';
 
 const Board: React.FC = () => {
     const classes = useStyles();
     // Initialize board state with board data
-    const { state, setState, AddColumn, loading } = useContext(BoardContext);
+    const {
+        state,
+        setState,
+        // AddColumn,
+        loading,
+        setPermissions,
+        permissions,
+    } = useContext(BoardContext);
+    const { user } = useContext(authContext);
     const { company } = useCompany();
     const params = useParams<TypeParams>();
-    const { getDepartmentData, department } = useDepartment();
+    const { getDepartmentData, department, userPermDep } = useDepartment();
+    const [showCreateSessionModal, setShowCreateSessionModal] = useState(false);
     //Id do Projeto
     const projectId = parseInt(params.project!);
+    const gerente = {
+        name: 'Gerente',
+        editProject: true,
+        deleteProject: true,
+        session: true,
+        task: true,
+        taskResponsible: true,
+        createTemplate: true,
+    };
+    //Verifica se o usuário tem permissão para mover determinada task
+    const verifyResponsibles = (taskId: string) => {
+        if (user && state.items[taskId].responsibles) {
+            let edit = false;
+            state.items[taskId].responsibles.forEach(
+                (responsible: TypeMember) => {
+                    if (responsible.username === user.username) edit = true;
+                }
+            );
+            return edit;
+        }
+    };
     //Dados do departamento do projeto
-    // const [departmentId, setDepartmentId] = useState(1)
     useEffect(() => {
         const handleDepartment = async () => {
             if (!department)
@@ -42,6 +76,28 @@ const Board: React.FC = () => {
         // eslint-disable-next-line
     }, [department]);
     // Handle drag & drop
+    //Get de Permissões
+    useEffect(() => {
+        if (company && department && params.project) {
+            const fetchPermissions = async () => {
+                try {
+                    if (
+                        company.userPermission?.project ||
+                        userPermDep.project
+                    ) {
+                        setPermissions(gerente);
+                    } else {
+                        const { data } = await projectPermApi.getUserPerm(
+                            params.project!
+                        );
+                        setPermissions(data);
+                    }
+                } catch (error) {}
+            };
+            fetchPermissions();
+        }
+        // eslint-disable-next-line
+    }, [company, department, params.project]);
     const ChangeSessionSocket = (itemId: string, sessionId: string) => {
         if (company && department) {
             let data: SubmitChangeSession = {
@@ -56,41 +112,43 @@ const Board: React.FC = () => {
                     data
                 )
                 .then(response => {
-                    console.log(response);
                     // snackbarUtils.success('Tarefa deletada com sucesso');
                 })
                 .catch(error => {
                     snackbarUtils.error('Erro ao tentar mover tarefa');
                 });
-        } else console.log('Dados incompletos de departamento e(ou) empresa');
+        } else
+            snackbarUtils.error(
+                'Dados incompletos de departamento e(ou) empresa'
+            );
     };
 
-    const AddSessionSocket = () => {
-        if (company && department) {
-            let data: sessionType = {
-                title: 'Título da nova coluna',
-                description: '',
-                companyId: company.companyId,
-                departmentId: department.departmentId,
-            };
-            sessionApi
-                .create(projectId, data)
-                .then(response => {
-                    console.log(response);
-                    snackbarUtils.success('Session criada com sucesso');
-                    AddColumn(
-                        response.data.sessionId.toString(),
-                        response.data.position
-                    );
-                })
-                .catch(error => {
-                    snackbarUtils.error('Erro ao tentar adicionar uma coluna');
-                });
-        } else console.log('Dados incompletos de departamento e(ou) empresa');
-    };
+    // const AddSessionSocket = () => {
+    //     if (company && department) {
+    //         let data: sessionType = {
+    //             title: 'Título da nova coluna',
+    //             description: '',
+    //             companyId: company.companyId,
+    //             departmentId: department.departmentId,
+    //         };
+    //         sessionApi
+    //             .create(projectId, data)
+    //             .then(response => {
+    //                 snackbarUtils.success('Session criada com sucesso');
+    //                 AddColumn(
+    //                     response.data.sessionId.toString(),
+    //                     response.data.position
+    //                 );
+    //             })
+    //             .catch(error => {
+    //                 snackbarUtils.error('Erro ao tentar adicionar uma coluna');
+    //             });
+    //     } else
+    //         snackbarUtils.error(
+    //             'Dados incompletos de departamento e(ou) empresa'
+    //         );
+    // };
     const MoveColumnSocket = (newState: TypeBoard, oldState: TypeBoard) => {
-        // console.log(newState);
-        console.log(newState.columns);
         let data: updateSessionPositionType = [];
         newState.columnsOrder.map((columnId, index) => {
             // Get id of the current column
@@ -98,11 +156,9 @@ const Board: React.FC = () => {
             data.push({ sessionId: column.sessionId, position: index });
             return data;
         });
-        console.log(data);
         sessionApi
             .updatePosition(projectId, data)
             .then(response => {
-                console.log(response);
                 snackbarUtils.success('Posição alterada com sucesso');
                 // AddColumn();
             })
@@ -116,8 +172,6 @@ const Board: React.FC = () => {
         oldState: TypeBoard,
         droppableId: string
     ) => {
-        // console.log(newState);
-        console.log(newState.columns);
         let data: updateTaskPositionType = [];
         newState.columns[droppableId].itemsIds.map(
             (taskId: string, index: number) => {
@@ -128,11 +182,9 @@ const Board: React.FC = () => {
                 return data;
             }
         );
-        console.log(data);
         taskApi
             .updatePosition(droppableId, projectId, data)
             .then(response => {
-                console.log(response);
                 snackbarUtils.success('Posição alterada com sucesso');
                 // AddColumn();
             })
@@ -144,9 +196,6 @@ const Board: React.FC = () => {
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId, type } = result;
-        console.log(state);
-        console.log('destination:', destination);
-        console.log(draggableId);
         // Do nothing if item is dropped outside the list
         if (!destination) {
             return;
@@ -160,17 +209,22 @@ const Board: React.FC = () => {
         }
         //Reposicionando uma coluna
         if (type === 'column') {
-            const newColumnOrder = Array.from(state.columnsOrder);
-            newColumnOrder.splice(source.index, 1);
-            newColumnOrder.splice(destination.index, 0, draggableId);
+            if (permissions.session) {
+                const newColumnOrder = Array.from(state.columnsOrder);
+                newColumnOrder.splice(source.index, 1);
+                newColumnOrder.splice(destination.index, 0, draggableId);
 
-            const newState = {
-                ...state,
-                columnsOrder: newColumnOrder,
-            };
-            MoveColumnSocket(newState, state);
-            setState(newState);
-            return;
+                const newState = {
+                    ...state,
+                    columnsOrder: newColumnOrder,
+                };
+                MoveColumnSocket(newState, state);
+                setState(newState);
+                return;
+            } else {
+                snackbarUtils.error('Sem permissão para reordenar colunas');
+                return;
+            }
         }
 
         // Find column from which the item was dragged from
@@ -181,69 +235,80 @@ const Board: React.FC = () => {
 
         // Moving items in the same list
         if (columnStart === columnFinish) {
-            // Get all item ids in currently active list
-            const newItemsIds = Array.from(columnStart.itemsIds);
+            if (permissions.task) {
+                // Get all item ids in currently active list
+                const newItemsIds = Array.from(columnStart.itemsIds);
 
-            // Remove the id of dragged item from its original position
-            newItemsIds.splice(source.index, 1);
+                // Remove the id of dragged item from its original position
+                newItemsIds.splice(source.index, 1);
 
-            // Insert the id of dragged item to the new position
-            newItemsIds.splice(destination.index, 0, draggableId);
+                // Insert the id of dragged item to the new position
+                newItemsIds.splice(destination.index, 0, draggableId);
 
-            // Create new, updated, object with data for columns
-            const newColumnStart = {
-                ...columnStart,
-                itemsIds: newItemsIds,
-            };
+                // Create new, updated, object with data for columns
+                const newColumnStart = {
+                    ...columnStart,
+                    itemsIds: newItemsIds,
+                };
 
-            // Create new board state with updated data for columns
-            const newState = {
-                ...state,
-                columns: {
-                    ...state.columns,
-                    [newColumnStart.sessionId]: newColumnStart,
-                },
-            };
+                // Create new board state with updated data for columns
+                const newState = {
+                    ...state,
+                    columns: {
+                        ...state.columns,
+                        [newColumnStart.sessionId]: newColumnStart,
+                    },
+                };
 
-            // Update the board state with new data
-            setState(newState);
-            MoveTaskSocket(newState, state, destination.droppableId);
+                // Update the board state with new data
+                setState(newState);
+                MoveTaskSocket(newState, state, destination.droppableId);
+            } else {
+                snackbarUtils.error('Sem permissão para reordenar tarefas');
+                return;
+            }
         } else {
-            // Moving items from one list to another
-            // Get all item ids in source list
-            const newStartItemsIds = Array.from(columnStart.itemsIds);
+            let edit = verifyResponsibles(draggableId);
+            if (permissions.task || edit) {
+                // Moving items from one list to another
+                // Get all item ids in source list
+                const newStartItemsIds = Array.from(columnStart.itemsIds);
 
-            // Remove the id of dragged item from its original position
-            newStartItemsIds.splice(source.index, 1);
+                // Remove the id of dragged item from its original position
+                newStartItemsIds.splice(source.index, 1);
 
-            // Create new, updated, object with data for source column
-            const newColumnStart = {
-                ...columnStart,
-                itemsIds: newStartItemsIds,
-            };
-            // Get all item ids in destination list
-            const newFinishItemsIds = Array.from(columnFinish.itemsIds);
+                // Create new, updated, object with data for source column
+                const newColumnStart = {
+                    ...columnStart,
+                    itemsIds: newStartItemsIds,
+                };
+                // Get all item ids in destination list
+                const newFinishItemsIds = Array.from(columnFinish.itemsIds);
 
-            // Insert the id of dragged item to the new position in destination list
-            newFinishItemsIds.splice(destination.index, 0, draggableId);
+                // Insert the id of dragged item to the new position in destination list
+                newFinishItemsIds.splice(destination.index, 0, draggableId);
 
-            // Create new, updated, object with data for destination column
-            const newColumnFinish = {
-                ...columnFinish,
-                itemsIds: newFinishItemsIds,
-            };
-            // Create new board state with updated data for both, source and destination columns
-            const newState = {
-                ...state,
-                columns: {
-                    ...state.columns,
-                    [newColumnStart.sessionId]: newColumnStart,
-                    [newColumnFinish.sessionId]: newColumnFinish,
-                },
-            };
-            // Update the board state with new data
-            setState(newState);
-            ChangeSessionSocket(draggableId, destination.droppableId);
+                // Create new, updated, object with data for destination column
+                const newColumnFinish = {
+                    ...columnFinish,
+                    itemsIds: newFinishItemsIds,
+                };
+                // Create new board state with updated data for both, source and destination columns
+                const newState = {
+                    ...state,
+                    columns: {
+                        ...state.columns,
+                        [newColumnStart.sessionId]: newColumnStart,
+                        [newColumnFinish.sessionId]: newColumnFinish,
+                    },
+                };
+                // Update the board state with new data
+                setState(newState);
+                ChangeSessionSocket(draggableId, destination.droppableId);
+            } else {
+                snackbarUtils.error('Sem permissão para mover tarefas');
+                return;
+            }
         }
     };
 
@@ -316,11 +381,35 @@ const Board: React.FC = () => {
                             )}
                         </Droppable>
                     </DragDropContext>
-                    <FabButton
-                        icon="plus"
-                        style={classes.fabButton}
-                        onClick={AddSessionSocket}
-                    />
+                    {company && department && (
+                        <CreateSessionModal
+                            isOpen={showCreateSessionModal}
+                            setIsOpen={setShowCreateSessionModal}
+                            departmentId={department.departmentId}
+                            projectId={projectId}
+                            companyId={company.companyId}
+                        />
+                    )}
+                    {permissions.session && (
+                        <FabButton
+                            icon="plus"
+                            title="Nova Coluna"
+                            style={classes.fabButton}
+                            // onClick={AddSessionSocket}
+                            onClick={() => setShowCreateSessionModal(true)}
+                        />
+                    )}
+                    {permissions.editProject && (
+                        <Link
+                            to={`/admin/${params.company}/departamentos/${params.department}/projeto/${params.project}/edicao`}
+                        >
+                            <FabButton
+                                icon="settings"
+                                title="Gerenciar Projeto"
+                                style={classes.fabButtonConfig}
+                            />
+                        </Link>
+                    )}
                 </Fragment>
             )}
         </Fragment>

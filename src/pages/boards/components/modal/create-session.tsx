@@ -4,7 +4,7 @@ import SubmitButton from '../../../../components/mainButton';
 import useStyles from './styles';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import { useForm } from 'react-hook-form';
-import { SubmitTaskType, taskApi } from '../../../../services';
+import { sessionType, sessionApi } from '../../../../services';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 
 type Props = {
@@ -18,24 +18,24 @@ type Props = {
 const NewTaskModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { isOpen, setIsOpen, departmentId, projectId, companyId } = props;
-    const { register, errors, handleSubmit } = useForm<SubmitTaskType>({});
+    const { register, errors, handleSubmit } = useForm<sessionType>({});
 
     const handleCloseModal = () => {
         setIsOpen(false);
     };
-    const onSubmit = (data: SubmitTaskType) => {
+    const onSubmit = (data: sessionType) => {
         data.departmentId = departmentId;
-        data.projectId = projectId;
+        data.companyId = companyId;
         console.log(data);
-        taskApi
-            .create(companyId, data)
+        sessionApi
+            .create(projectId, data)
             .then(response => {
                 // console.log(response);
                 handleCloseModal();
-                snackbarUtils.success('Nova tarefa criada com sucesso');
+                snackbarUtils.success('Nova coluna criada com sucesso');
             })
             .catch(error => {
-                snackbarUtils.error('Erro ao tentar criar tarefa');
+                snackbarUtils.error('Erro ao tentar criar nova coluna');
             });
     };
 
@@ -102,7 +102,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 justify="center"
                                 className={classes.submitButtonContainer}
                             >
-                                <SubmitButton text="Criar Tarefa" />
+                                <SubmitButton text="Criar Coluna" />
                             </Grid>
                         </Grid>
                     </form>

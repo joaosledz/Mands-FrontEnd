@@ -10,6 +10,7 @@ import MutableInput from '../multableInput/multableInput';
 import { BoardItem } from '../item/board-item';
 import Popover from '../popover/columnPopover';
 import CreateTaskModal from '../modal/create-task';
+import { Typography } from '@material-ui/core';
 
 // Define types for board column element properties
 type BoardColumnProps = {
@@ -62,7 +63,9 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const BoardColumn: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
-    const { DeleteColumn, setColumnTitle } = useContext(BoardContext);
+    const { DeleteColumn, setColumnTitle, permissions } = useContext(
+        BoardContext
+    );
     const { column, items, index, departmentId, projectId, companyId } = props;
     const [showCreateTaskModal, setShowCreateTaskModal] = useState(false);
 
@@ -83,18 +86,24 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 </div>
                             </Grid>
                             <Grid item xs={8} {...provided.dragHandleProps}>
-                                <MutableInput
-                                    type="column"
-                                    value={column.title}
-                                    valueSet={setColumnTitle}
-                                    id={column.sessionId}
-                                    departmentId={departmentId}
-                                    projectId={projectId}
-                                    companyId={companyId}
-                                />
+                                {permissions.session ? (
+                                    <MutableInput
+                                        type="column"
+                                        value={column.title}
+                                        valueSet={setColumnTitle}
+                                        id={column.sessionId}
+                                        departmentId={departmentId}
+                                        projectId={projectId}
+                                        companyId={companyId}
+                                    />
+                                ) : (
+                                    <Typography className={classes.title}>
+                                        {column.title}
+                                    </Typography>
+                                )}
                             </Grid>
                             <Grid item xs={1}>
-                                {index === 0 && (
+                                {index === 0 && permissions.task && (
                                     <AddIcon
                                         className={classes.icon}
                                         onClick={() =>
@@ -104,13 +113,15 @@ export const BoardColumn: React.FC<BoardColumnProps> = props => {
                                 )}
                             </Grid>
                             <Grid item xs={1}>
-                                <Popover
-                                    DeleteColumn={DeleteColumn}
-                                    columnID={column.sessionId}
-                                    departmentId={departmentId}
-                                    projectId={projectId}
-                                    companyId={companyId}
-                                />
+                                {permissions.session && (
+                                    <Popover
+                                        DeleteColumn={DeleteColumn}
+                                        columnID={column.sessionId}
+                                        departmentId={departmentId}
+                                        projectId={projectId}
+                                        companyId={companyId}
+                                    />
+                                )}
                             </Grid>
                         </Grid>
                         <Droppable droppableId={column.sessionId} type="task">

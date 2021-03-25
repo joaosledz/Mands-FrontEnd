@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
-// import { AddUser as AddUserIcon } from '@styled-icons/entypo';
+import { Delete as DeleteIcon } from '@styled-icons/typicons';
 import { Groups as TeamIcon } from '@styled-icons/material';
 import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 import useStyles from '../../styles';
@@ -27,20 +27,17 @@ const ChipsList: React.FC<Props> = (props: Props) => {
     const { taskId } = props;
     const history = useHistory();
     const classes = useStyles();
-    const { state /*setTaskFields*/ } = useContext(BoardContext);
+    const { state /*setTaskFields*/, permissions } = useContext(BoardContext);
     // const [showAddMember, setShowAddMember] = useState(false);
     // const [allEmployees] = useState(employeesData);
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
     //   const [editable, setEditable] = useState<boolean>(false);
     const handleDelete = async (index: number) => {
-        console.info('You clicked the delete icon.');
-
         //         if (department && company && params.project) {
         // try {
         //     const { data: response } = await taskApi.deleteResponsible(
         //         params.project
         //     );
-        //     console.log(response);
         //     }
         // } catch (error) {
         //     snackbarUtils.error(error.message);
@@ -60,22 +57,26 @@ const ChipsList: React.FC<Props> = (props: Props) => {
             >
                 Responsáveis
             </Grid>
-            <Grid
-                container
-                item
-                xs={4}
-                onClick={() => setShowTeamModal(true)}
-                className={classes.button}
-            >
-                <Grid item xs={9}>
-                    <Typography className={classes.subtitle}>
-                        Novo responsável
-                    </Typography>
+            {permissions.taskResponsible ? (
+                <Grid
+                    container
+                    item
+                    xs={4}
+                    onClick={() => setShowTeamModal(true)}
+                    className={classes.button}
+                >
+                    <Grid item xs={9}>
+                        <Typography className={classes.subtitle}>
+                            Novo responsável
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <AddIcon className={classes.icon} />
+                    </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                    <AddIcon className={classes.icon} />
-                </Grid>
-            </Grid>
+            ) : (
+                <Grid xs={4} />
+            )}
             {state.items[taskId].responsibles ? (
                 <div className={classes.root}>
                     {state.items[taskId].responsibles.map(
@@ -100,6 +101,13 @@ const ChipsList: React.FC<Props> = (props: Props) => {
                                 onClick={() => history.push('/perfil')}
                                 onDelete={() => handleDelete(index)}
                                 variant="outlined"
+                                deleteIcon={
+                                    permissions.taskResponsible ? (
+                                        <DeleteIcon />
+                                    ) : (
+                                        <React.Fragment />
+                                    )
+                                }
                             />
                         )
                     )}
@@ -111,7 +119,7 @@ const ChipsList: React.FC<Props> = (props: Props) => {
                         component={Typography}
                         className={classes.notFoundText}
                     >
-                        Ainda não há responsáveis por este card
+                        Ainda não há responsáveis por esta tarefa
                     </Grid>
                 </Grid>
             )}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect, Fragment, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import useStyles from './styles';
 import FabButton from '../../../../components/fabButton';
@@ -6,15 +6,15 @@ import BoardContext from '../../../../contexts/board';
 import authContext from '../../../../contexts/auth';
 import { BoardColumn } from '../column/board-column';
 import useCompany from '../../../../hooks/useCompany';
+import useDepartment from '../../../../hooks/useDepartment';
 import { useParams } from 'react-router-dom';
 import TypeParams from '../../../../models/params';
-import useDepartment from '../../../../hooks/useDepartment';
 import {
     SubmitChangeSession,
     taskApi,
     sessionApi,
     projectPermApi,
-    sessionType,
+    // sessionType,
     updateSessionPositionType,
     updateTaskPositionType,
     TypeMember,
@@ -23,6 +23,7 @@ import { TypeBoard } from '../../../../models/boardTypes';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
 import Backdrop from '../../../../components/backdrop';
 import { Link } from 'react-router-dom';
+import CreateSessionModal from '../modal/create-session';
 
 const Board: React.FC = () => {
     const classes = useStyles();
@@ -30,7 +31,7 @@ const Board: React.FC = () => {
     const {
         state,
         setState,
-        AddColumn,
+        // AddColumn,
         loading,
         setPermissions,
         permissions,
@@ -39,6 +40,7 @@ const Board: React.FC = () => {
     const { company } = useCompany();
     const params = useParams<TypeParams>();
     const { getDepartmentData, department, userPermDep } = useDepartment();
+    const [showCreateSessionModal, setShowCreateSessionModal] = useState(false);
     //Id do Projeto
     const projectId = parseInt(params.project!);
     const gerente = {
@@ -63,7 +65,6 @@ const Board: React.FC = () => {
         }
     };
     //Dados do departamento do projeto
-    // const [departmentId, setDepartmentId] = useState(1)
     useEffect(() => {
         const handleDepartment = async () => {
             if (!department)
@@ -122,31 +123,31 @@ const Board: React.FC = () => {
             );
     };
 
-    const AddSessionSocket = () => {
-        if (company && department) {
-            let data: sessionType = {
-                title: 'Título da nova coluna',
-                description: '',
-                companyId: company.companyId,
-                departmentId: department.departmentId,
-            };
-            sessionApi
-                .create(projectId, data)
-                .then(response => {
-                    snackbarUtils.success('Session criada com sucesso');
-                    AddColumn(
-                        response.data.sessionId.toString(),
-                        response.data.position
-                    );
-                })
-                .catch(error => {
-                    snackbarUtils.error('Erro ao tentar adicionar uma coluna');
-                });
-        } else
-            snackbarUtils.error(
-                'Dados incompletos de departamento e(ou) empresa'
-            );
-    };
+    // const AddSessionSocket = () => {
+    //     if (company && department) {
+    //         let data: sessionType = {
+    //             title: 'Título da nova coluna',
+    //             description: '',
+    //             companyId: company.companyId,
+    //             departmentId: department.departmentId,
+    //         };
+    //         sessionApi
+    //             .create(projectId, data)
+    //             .then(response => {
+    //                 snackbarUtils.success('Session criada com sucesso');
+    //                 AddColumn(
+    //                     response.data.sessionId.toString(),
+    //                     response.data.position
+    //                 );
+    //             })
+    //             .catch(error => {
+    //                 snackbarUtils.error('Erro ao tentar adicionar uma coluna');
+    //             });
+    //     } else
+    //         snackbarUtils.error(
+    //             'Dados incompletos de departamento e(ou) empresa'
+    //         );
+    // };
     const MoveColumnSocket = (newState: TypeBoard, oldState: TypeBoard) => {
         let data: updateSessionPositionType = [];
         newState.columnsOrder.map((columnId, index) => {
@@ -380,13 +381,22 @@ const Board: React.FC = () => {
                             )}
                         </Droppable>
                     </DragDropContext>
-
+                    {company && department && (
+                        <CreateSessionModal
+                            isOpen={showCreateSessionModal}
+                            setIsOpen={setShowCreateSessionModal}
+                            departmentId={department.departmentId}
+                            projectId={projectId}
+                            companyId={company.companyId}
+                        />
+                    )}
                     {permissions.session && (
                         <FabButton
                             icon="plus"
                             title="Nova Coluna"
                             style={classes.fabButton}
-                            onClick={AddSessionSocket}
+                            // onClick={AddSessionSocket}
+                            onClick={() => setShowCreateSessionModal(true)}
                         />
                     )}
                     {permissions.editProject && (

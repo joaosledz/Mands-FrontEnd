@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
             transition: 'all .1s',
 
+            '& img': {
+                borderRadius: 10,
+            },
+
             [theme.breakpoints.up('lg')]: {
                 '& img': {
                     maxWidth: '30%',
@@ -37,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.only('md')]: {
                 '& img': {
                     maxWidth: '30%',
+                    borderRadius: 6,
                 },
                 '& p': {
                     marginTop: '0.5rem',
@@ -49,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
             [theme.breakpoints.only('sm')]: {
                 '& img': {
-                    maxWidth: '10%',
+                    maxWidth: '30%',
                 },
                 '& p': {
                     marginTop: '0.5rem',
@@ -62,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
             [theme.breakpoints.only('xs')]: {
                 '& img': {
-                    maxWidth: '10%',
+                    maxWidth: '20%',
                 },
                 '& p': {
                     marginTop: '0.5rem',

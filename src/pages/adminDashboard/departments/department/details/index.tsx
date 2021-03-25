@@ -70,8 +70,7 @@ const Details: React.FC = () => {
                         department.departmentId
                     );
                     const projectResponse = projectApi.findByDepartment(
-                        company.username,
-                        department.name
+                        department.departmentId
                     );
 
                     const [members, projects] = await Promise.all([

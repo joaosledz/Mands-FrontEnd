@@ -82,7 +82,10 @@ const Edit: React.FC = () => {
                     company!.companyId,
                     department!.departmentId
                 );
-                const auxProject = { ...response, image: imageResponse!.path };
+                const auxProject = {
+                    ...response,
+                    image: { name: 'depIcon', path: imageResponse!.path },
+                };
                 updateProject(auxProject);
             } else updateProject(response);
 
@@ -126,7 +129,7 @@ const Edit: React.FC = () => {
                         <Grid item xs={12} md={4}>
                             <CropImageInput
                                 image={image}
-                                preview={project?.image}
+                                preview={project?.image?.path}
                                 setImage={setImage}
                                 styles={classes.cropImage}
                             />

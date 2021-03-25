@@ -41,7 +41,14 @@ const ProjectsCard: React.FC<Props> = ({ project }) => {
             className={classes.project}
             onClick={() => updateProject(project)}
         >
-            <img src={image || DefaultDepartmentIcon} alt="Ícone do Projeto" />
+            <img
+                src={
+                    image
+                        ? image.path || DefaultDepartmentIcon
+                        : DefaultDepartmentIcon
+                }
+                alt="Ícone do Projeto"
+            />
             <Typography>{name}</Typography>
         </Link>
     );

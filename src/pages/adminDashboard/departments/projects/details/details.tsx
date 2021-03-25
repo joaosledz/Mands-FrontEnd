@@ -56,7 +56,7 @@ const RegisterProject: React.FC = () => {
                     <Grid item xs={12} md={2}>
                         <CropImageInput
                             image={undefined}
-                            preview={project?.image}
+                            preview={project?.image?.path}
                             disabled
                             styles={classes.cropImage}
                         />

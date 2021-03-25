@@ -8,7 +8,12 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { DepartmentModel, departmentApi } from '../../../../../services';
+import {
+    DepartmentModel,
+    departmentApi,
+    TypeIcon,
+    imageApi,
+} from '../../../../../services';
 import TypeParams from '../../../../../models/params';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useCompany from '../../../../../hooks/useCompany';
@@ -32,7 +37,14 @@ const Edit: React.FC = () => {
     const { company } = useCompany();
     const { department, updateDepartment, setLoading } = useDepartment();
 
-    const [image, setImage] = useState<string | undefined>(department?.image);
+    const [image, setImage] = useState<TypeIcon | undefined>(
+        department?.image
+            ? {
+                  path: department.image.path,
+                  imageId: department.image.imageId,
+              }
+            : undefined
+    );
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const {
@@ -96,7 +108,14 @@ const Edit: React.FC = () => {
                 history.replace(
                     `/admin/${params.company}/departamentos/${data.name}/edicao`
                 );
-            // console.log(response.data);
+
+            if (image)
+                await imageApi.associateToDep(
+                    company!.companyId,
+                    department!.departmentId,
+                    image.imageId
+                );
+
             updateDepartment(response.data);
             snackbarUtils.success('Departamento editado com sucesso');
         } catch (error) {

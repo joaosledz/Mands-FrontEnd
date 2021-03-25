@@ -35,7 +35,11 @@ const Department: React.FC<Props> = ({ department }) => {
             className={classes.department}
         >
             <img
-                src={image || DefaultDepartmentIcon}
+                src={
+                    image
+                        ? image.path || DefaultDepartmentIcon
+                        : DefaultDepartmentIcon
+                }
                 alt="Ícone do Departamento"
             />
             <Typography>{name}</Typography>

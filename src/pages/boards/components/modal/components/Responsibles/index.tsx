@@ -33,14 +33,11 @@ const ChipsList: React.FC<Props> = (props: Props) => {
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
     //   const [editable, setEditable] = useState<boolean>(false);
     const handleDelete = async (index: number) => {
-        console.info('You clicked the delete icon.');
-
         //         if (department && company && params.project) {
         // try {
         //     const { data: response } = await taskApi.deleteResponsible(
         //         params.project
         //     );
-        //     console.log(response);
         //     }
         // } catch (error) {
         //     snackbarUtils.error(error.message);

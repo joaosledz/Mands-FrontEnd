@@ -44,9 +44,9 @@ const Header: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         const chechPermissions = async () => {
+            const userCompPerm = company?.userPermission?.department;
             try {
                 const departmentId = department.departmentId;
-                const userCompPerm = company?.userPermission?.department;
                 const {
                     data: { editDepartment, deleteUser, project },
                 } = await departmentPermApi.getUserPermissions(departmentId);
@@ -54,6 +54,7 @@ const Header: React.FC<Props> = (props: Props) => {
                 if (userCompPerm || editDepartment || deleteUser || project)
                     setEditPerm(true);
             } catch (err) {
+                if (userCompPerm) setEditPerm(true);
                 console.log(err);
             }
         };

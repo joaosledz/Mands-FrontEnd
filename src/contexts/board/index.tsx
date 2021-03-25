@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { projectApi } from '../../services';
+import { projectApi, TypeProjectPermModel } from '../../services';
 import {
     // initialBoardData3 as BoardData,
     newBoardData,
@@ -29,6 +29,8 @@ import {
 interface BoardContextData {
     state: TypeBoard;
     setState: Dispatch<SetStateAction<TypeBoard>>;
+    permissions: TypeProjectPermModel;
+    setPermissions: Dispatch<SetStateAction<TypeProjectPermModel>>;
     loading: boolean;
     AddTask: (columnID: keyof TypeColumn, task: TaskSocket) => void;
     UpdateTask: (itemID: keyof TypeItem, updatedItem: TypeItem) => void;
@@ -52,6 +54,15 @@ export const BoardProvider: React.FC = ({ children }) => {
         ConvertResponse(newBoardData)
     );
     const [loading, setLoading] = useState<boolean>(true);
+    const [permissions, setPermissions] = useState<TypeProjectPermModel>({
+        name: 'Nome da permissão',
+        editProject: false,
+        deleteProject: false,
+        session: false,
+        task: false,
+        taskResponsible: false,
+        createTemplate: false,
+    });
     const { user } = useAuth();
     const params = useParams<TypeParams>();
 
@@ -258,6 +269,8 @@ export const BoardProvider: React.FC = ({ children }) => {
                 DeleteColumn,
                 setColumnTitle,
                 setTaskFields,
+                permissions,
+                setPermissions,
             }}
         >
             {children}

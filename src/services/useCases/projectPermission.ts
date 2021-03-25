@@ -39,7 +39,7 @@ const projectPermApi = {
     list: (company_id: number, department_id: number, project_id: number) =>
         api.get(`${urls.list}/${company_id}/${department_id}/${project_id}`),
 
-    getUserPerm: (project_id: number) =>
+    getUserPerm: (project_id: number | string) =>
         api.get(`${urls.getUserPerm}/${project_id}`),
 
     changeUserPerm: (

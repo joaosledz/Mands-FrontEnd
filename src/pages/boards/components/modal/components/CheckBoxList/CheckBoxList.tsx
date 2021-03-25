@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,9 +12,10 @@ import MultableInput from '../../../multableInput/inputSubtask';
 import { UpdateSubtaskType } from '../../../../../../services/models/task';
 import { TypeSubTask } from '../../../../../../models/boardTypes';
 import BoardContext from '../../../../../../contexts/board';
-import { taskApi } from '../../../../../../services';
+import AuthContext from '../../../../../../contexts/auth';
+import { taskApi, TypeMember } from '../../../../../../services';
 import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
-// import company from '../../../../../company/selection/companySelection/company';
+import Typography from '@material-ui/core/Typography';
 
 type Props = {
     subtasks: Array<{
@@ -51,33 +52,37 @@ const useStyles = makeStyles((theme: Theme) =>
 const CheckBoxList: React.FC<Props> = (props: Props) => {
     const { projectId, departmentId, companyId, taskId, subtasks } = props;
     const classes = useStyles();
-    // const [subtasks, setSubTasks] = React.useState(props.subtasks);
-    // const [checked, setChecked] = React.useState([0]);
-    const { state, setState } = useContext(BoardContext);
-    // const handleToggle = (value: number) => () => {
-    //     console.log(value);
-    //     const currentIndex = checked.indexOf(value);
-    //     const newChecked = [...checked];
+    const { state, setState, permissions } = useContext(BoardContext);
+    const { user } = useContext(AuthContext);
+    const [edit, setEdit] = useState(false);
 
-    //     if (currentIndex === -1) {
-    //         newChecked.push(value);
-    //     } else {
-    //         newChecked.splice(currentIndex, 1);
-    //     }
-
-    //     setChecked(newChecked);
-    // };
+    const verifyResponsibles = () => {
+        if (user && state.items[taskId].responsibles) {
+            state.items[taskId].responsibles.forEach(
+                (responsible: TypeMember) => {
+                    console.log(responsible.username, user.username);
+                    if (responsible.username === user.username) setEdit(true);
+                }
+            );
+        }
+    };
+    useEffect(() => {
+        verifyResponsibles();
+        // eslint-disable-next-line
+    }, [user, state]);
     const handleToggle = (
         // value: number,
         index: number
     ) => {
-        let newState = { ...state };
-        newState.items[taskId].subtasks[index].completed = !newState.items[
-            taskId
-        ].subtasks[index].completed;
+        if (permissions.task || edit) {
+            let newState = { ...state };
+            newState.items[taskId].subtasks[index].completed = !newState.items[
+                taskId
+            ].subtasks[index].completed;
 
-        setState(newState);
-        updateSubtaskAPI(index);
+            setState(newState);
+            updateSubtaskAPI(index);
+        }
     };
     const handleChangeDescription = (description: string, index: number) => {
         const newState = { ...state };
@@ -137,6 +142,7 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                         <ListItemIcon onClick={() => handleToggle(index)}>
                             <Checkbox
                                 edge="start"
+                                disabled={!(permissions.task || edit)}
                                 // checked={checked.indexOf(index) !== -1}
                                 checked={
                                     state.items[taskId].subtasks[index]
@@ -148,28 +154,39 @@ const CheckBoxList: React.FC<Props> = (props: Props) => {
                                 inputProps={{ 'aria-labelledby': labelId }}
                             />
                         </ListItemIcon>
-                        <MultableInput
-                            index={index}
-                            value={
-                                state.items[taskId].subtasks[index].description
-                            }
-                            valueSet={handleChangeDescription}
-                            updateSubtaskAPI={updateSubtaskAPI}
-                            id={subtask.subtaskId}
-                            inputStyle={classes.taskTitle}
-                            // departmentId={departmentId}
-                            // projectId={projectId}
-                            // companyId={companyId}
-                        />
-
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments">
-                                <DeleteIcon
-                                    className={classes.icon}
-                                    onClick={() => deleteSubtask(index)}
-                                />
-                            </IconButton>
-                        </ListItemSecondaryAction>
+                        {permissions.task ? (
+                            <MultableInput
+                                index={index}
+                                value={
+                                    state.items[taskId].subtasks[index]
+                                        .description
+                                }
+                                valueSet={handleChangeDescription}
+                                updateSubtaskAPI={updateSubtaskAPI}
+                                id={subtask.subtaskId}
+                                inputStyle={classes.taskTitle}
+                                // departmentId={departmentId}
+                                // projectId={projectId}
+                                // companyId={companyId}
+                            />
+                        ) : (
+                            <Typography>
+                                {
+                                    state.items[taskId].subtasks[index]
+                                        .description
+                                }
+                            </Typography>
+                        )}
+                        {permissions.taskResponsible && (
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="comments">
+                                    <DeleteIcon
+                                        className={classes.icon}
+                                        onClick={() => deleteSubtask(index)}
+                                    />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        )}
                     </ListItem>
                 );
             })}

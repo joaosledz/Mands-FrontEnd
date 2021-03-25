@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
+import BoardContext from '../../../../contexts/board';
 import { UserAdd as UserAddIcon } from '@styled-icons/heroicons-solid';
 
 import Grid from '@material-ui/core/Grid';
@@ -64,7 +65,7 @@ export const BoardItem = (props: BoardItemProps) => {
     const handleOpenNewTaskModal = () => {
         setShowNewTaskModal(true);
     };
-
+    const { permissions } = useContext(BoardContext);
     // const handleCloseNewTaskModal = () => {
     //     setShowNewTaskModal(false);
     // };
@@ -112,13 +113,15 @@ export const BoardItem = (props: BoardItemProps) => {
                                         top: '5px',
                                     }}
                                 >
-                                    <Popover
-                                        itemID={item.taskId}
-                                        columnID={columnID}
-                                        departmentId={departmentId}
-                                        projectId={projectId}
-                                        companyId={companyId}
-                                    />
+                                    {permissions.task && (
+                                        <Popover
+                                            itemID={item.taskId}
+                                            columnID={columnID}
+                                            departmentId={departmentId}
+                                            projectId={projectId}
+                                            companyId={companyId}
+                                        />
+                                    )}
                                 </Grid>
                             </Grid>
                             <Grid

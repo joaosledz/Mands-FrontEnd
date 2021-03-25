@@ -6,6 +6,7 @@ const tasksUrls = {
     update: `${tasksUrl}/Update/`,
     delete: `${tasksUrl}/Delete/`,
     associateResponsible: `${tasksUrl}/AssociateResponsible/`,
+    deleteResponsible: `${tasksUrl}/DeleteResponsible/`,
     //Deslocamento
     changeSession: `${tasksUrl}/ChangeSession/`,
     updatePosition: `${tasksUrl}/UpdatePosition/`,

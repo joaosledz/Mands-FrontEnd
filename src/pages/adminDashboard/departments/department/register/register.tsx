@@ -10,7 +10,12 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { DepartmentModel, departmentApi } from '../../../../../services';
+import {
+    DepartmentModel,
+    departmentApi,
+    imageApi,
+    TypeIcon,
+} from '../../../../../services';
 import { validateDeparmentName } from '../validators/validateDepartmentName';
 import formatName from '../functions/formatName';
 import useCompany from '../../../../../hooks/useCompany';
@@ -26,7 +31,7 @@ import useStyles from './styles';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
-    const [image, setImage] = useState<string | undefined>('');
+    const [image, setImage] = useState<TypeIcon | undefined>();
     const [phone, setPhone] = useState<string>('');
     const { register, errors, handleSubmit, watch, reset, formState } = useForm<
         DepartmentModel
@@ -41,10 +46,18 @@ const NewDepartment: React.FC = () => {
 
     const onSubmit = async (data: DepartmentModel) => {
         try {
-            console.log(image);
             const auxData = { ...data, name: formatName(data.name) };
 
-            await departmentApi.create(company!.companyId, auxData);
+            const {
+                data: { departmentId },
+            } = await departmentApi.create(company!.companyId, auxData);
+
+            if (image)
+                await imageApi.associateToDep(
+                    company!.companyId,
+                    departmentId,
+                    image.imageId
+                );
 
             reset();
             setPhone('');

@@ -25,6 +25,8 @@ import Header from '../../components/header/header';
 import AssignGridItem from '../../components/assignGridItem';
 import useStyles from './styles';
 
+import DefaultDepartmentIcon from '../../../../../assets/selectableIcons/defaultDepartment.svg';
+
 type LocationProps = {
     department: TypeDepartment;
 };
@@ -97,7 +99,14 @@ const Details: React.FC = () => {
                 <Grid container spacing={3} className={classes.formContainer}>
                     <Grid item xs={12} md={2}>
                         <IconSelectionInput
-                            image={department?.image}
+                            image={
+                                department?.image
+                                    ? department?.image
+                                    : {
+                                          path: DefaultDepartmentIcon,
+                                          imageId: 0,
+                                      }
+                            }
                             disabled
                         />
                     </Grid>
@@ -175,7 +184,8 @@ const Details: React.FC = () => {
                         />
                     )}
                 </Grid>
-                {permissions?.editDepartment && (
+                {(permissions?.editDepartment ||
+                    company?.userPermission?.department) && (
                     <FabButton
                         title="Configurar"
                         icon="settings"

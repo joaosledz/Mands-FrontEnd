@@ -21,6 +21,15 @@ const imageApi = {
         else return api.post<ImageType>(imageUrls.associate, Image);
     },
 
+    associateToDep: (
+        company_id: number,
+        department_id: number,
+        image_id: number
+    ) =>
+        api.put(
+            `${imageUrls.associateToDep}/${company_id}/${department_id}/${image_id}`
+        ),
+
     postThirdParty: (image_url: string) => {
         return api.post(imageUrls.thirdParty, { path: image_url });
     },
@@ -29,6 +38,8 @@ const imageApi = {
         api.put(`${imageUrls.main}/${ImageId}`, Image),
 
     delete: (ImageId: number) => api.delete(`${imageUrls.main}/${ImageId}`),
+
+    listIcons: () => api.get(imageUrls.listIcons),
 };
 
 export default imageApi;

@@ -120,7 +120,12 @@ const Header: React.FC<Props> = (props: Props) => {
                 >
                     <Button onClick={handleOpen} className={classes.button}>
                         <img
-                            src={department.image || DefaultDepartmentImage}
+                            src={
+                                department.image
+                                    ? department.image.path ||
+                                      DefaultDepartmentImage
+                                    : DefaultDepartmentImage
+                            }
                             alt="ícone do departamento"
                         />
                         <Typography

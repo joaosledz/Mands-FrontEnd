@@ -29,13 +29,17 @@ import DangerZone from '../../../components/dangerZone/dangerZone';
 import DeleteModal from '../../../components/deleteModal/department';
 import useStyles from './styles';
 
+import DefaultDepartmentIcon from '../../../../../assets/selectableIcons/defaultDepartment.svg';
+import Backdrop from '../../../../../components/backdrop';
+
 const Edit: React.FC = () => {
     const classes = useStyles();
     // const location = useLocation<TypeDepartment>();
     const history = useHistory();
     const params = useParams<TypeParams>();
     const { company } = useCompany();
-    const { department, updateDepartment, setLoading } = useDepartment();
+    const { department, updateDepartment } = useDepartment();
+    const [loading, setLoading] = useState(false);
 
     const [image, setImage] = useState<TypeIcon | undefined>(
         department?.image
@@ -43,7 +47,10 @@ const Edit: React.FC = () => {
                   path: department.image.path,
                   imageId: department.image.imageId,
               }
-            : undefined
+            : {
+                  path: DefaultDepartmentIcon,
+                  imageId: 0,
+              }
     );
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -127,11 +134,12 @@ const Edit: React.FC = () => {
 
     return (
         <AdminLayout>
+            <Backdrop loading={loading} />
             {department && (
                 <Paper className={classes.container}>
                     <Header
                         departmentName={department!.name}
-                        message="Cancelar edição"
+                        message="Voltar"
                         page="edit"
                     />
                     <Grid
@@ -168,6 +176,7 @@ const Edit: React.FC = () => {
                                         <TextField
                                             name="name"
                                             label="Nome"
+                                            defaultValue={department.name}
                                             error={errors.name !== undefined}
                                             helperText={
                                                 errors.name
@@ -239,6 +248,7 @@ const Edit: React.FC = () => {
                                     <TextField
                                         name="email"
                                         label="Email"
+                                        defaultValue={department.email}
                                         error={errors.email !== undefined}
                                         helperText={
                                             errors.email
@@ -266,6 +276,7 @@ const Edit: React.FC = () => {
                                         rows={6}
                                         name="objective"
                                         label="Descrição"
+                                        defaultValue={department.objective}
                                         error={errors.objective !== undefined}
                                         helperText={
                                             errors.objective
@@ -290,7 +301,10 @@ const Edit: React.FC = () => {
                             >
                                 <SubmitButton
                                     type="submit"
-                                    disabled={!formState.isDirty}
+                                    disabled={
+                                        !formState.isDirty &&
+                                        image === department.image
+                                    }
                                     text="Salvar alterações"
                                 />
                             </Grid>

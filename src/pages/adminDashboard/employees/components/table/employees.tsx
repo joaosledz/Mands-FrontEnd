@@ -299,6 +299,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                     <HiringModal
                         isOpen={showHiringModal}
                         setIsOpen={setShowHiringModal}
+                        selectedValues={data}
                     />
                     <PermissionModal
                         isOpen={showPermissionModal}

@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import pt from 'date-fns/locale/pt-BR';
 import { withStyles } from '@material-ui/core/styles';
 import { Key as KeyIcon } from '@styled-icons/ionicons-sharp';
+import { Reload as ReloadIcon } from '@styled-icons/open-iconic';
 import { PersonRemove as RemoveUserIcon } from '@styled-icons/material';
 import { companyApi, TypeMember } from '../../../../../services';
 import { TypeEmployee } from '../../../../../models/department';
@@ -21,6 +22,7 @@ import useStyles from './styles';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import Avatar from '@material-ui/core/Avatar';
 import RemoveUserModal from '../removeUserModal';
+import Tooltip from '@material-ui/core/Tooltip';
 // import DeleteCupom from '../../components/Dialogs/DeleteCupom';
 
 type Props = {
@@ -44,6 +46,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     })(Switch);
     const { company } = useCompany();
     const [data, setData] = useState<TypeMember[]>();
+    const [dataChanged, setDataChanged] = useState<Boolean>(false);
     // const { data } = props;
     const tableRef = createRef();
     const [filter, setFilter] = useState<boolean>(false);
@@ -51,7 +54,10 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilter(!filter);
     };
-
+    //Atualizar dados
+    const reloadTable = () => {
+        setDataChanged(!dataChanged);
+    };
     //Hiring Modal
     const [showHiringModal, setShowHiringModal] = useState<boolean>(false);
     const handleOpenHiringModal = () => {
@@ -100,7 +106,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         getData();
         // eslint-disable-next-line
-    }, []);
+    }, [dataChanged]);
 
     return (
         <Fragment>
@@ -237,7 +243,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                             Meus Funcionários
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={5}>
+                                    <Grid item xs={4}>
                                         <FormControlLabel
                                             control={
                                                 <PurpleSwitch
@@ -259,6 +265,33 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                             Contratar Funcionário
                                         </Button>
                                     </Grid>
+                                    <Grid
+                                        container
+                                        item
+                                        xs={1}
+                                        alignItems="center"
+                                        justify="center"
+                                    >
+                                        <Tooltip
+                                            aria-label="Recarregar dados"
+                                            title="Recarregar dados"
+                                            arrow
+                                            placement="top"
+                                        >
+                                            <Grid item xs={6}>
+                                                <ReloadIcon
+                                                    className={
+                                                        classes.iconReload
+                                                    }
+                                                    onClick={() =>
+                                                        reloadTable()
+                                                    }
+                                                    size={'1.6rem'}
+                                                    color={'#B03E9F'}
+                                                />
+                                            </Grid>
+                                        </Tooltip>
+                                    </Grid>
                                 </Grid>
                             ),
                         }}
@@ -271,6 +304,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                         isOpen={showPermissionModal}
                         setIsOpen={setShowPermissionModal}
                         employee={selectedEmployee!}
+                        reloadTable={reloadTable}
                     />
                     <RemoveUserModal
                         company={company}

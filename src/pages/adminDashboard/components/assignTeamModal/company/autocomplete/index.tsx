@@ -60,7 +60,7 @@ const Autocompletar: React.FC<Props> = (props: Props) => {
                     setEmployees([response]);
                     // }
                 } catch (error) {
-                    snackbarUtils.error(error.message);
+                    // snackbarUtils.error(error.message);
                 }
             }
         };

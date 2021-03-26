@@ -32,14 +32,14 @@ const tasksApi = {
         ),
     deleteResponsible: (
         companyId: number,
-        taskId: number,
         departmentId: number,
-        userId: number,
-        projectId: number
+        projectId: number,
+        taskId: number,
+        userId: number
     ) =>
         api.delete(
             taskUrls.deleteResponsible +
-                `${companyId}/${taskId}/${departmentId}/${projectId}/${userId}`
+                `${companyId}/${departmentId}/${projectId}/${taskId}/${userId}`
         ),
     //Deslocamento
     changeSession: (

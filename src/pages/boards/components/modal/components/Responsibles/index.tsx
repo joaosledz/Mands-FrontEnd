@@ -10,9 +10,10 @@ import { Groups as TeamIcon } from '@styled-icons/material';
 import { Add as AddIcon } from '@styled-icons/ionicons-outline';
 import useStyles from '../../styles';
 import BoardContext from '../../../../../../contexts/board';
+
 // import employeesData from '../../../../../../utils/data/employees';
 import { TypeTeam } from '../../../../../../models/department';
-// import { taskApi } from '../../../../../../services';
+import { taskApi } from '../../../../../../services';
 import AssignTeamModal from './assignResponsible.tsx';
 import { TypeResponsible } from '../../../../../../models/boardTypes';
 // import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
@@ -21,28 +22,36 @@ type Props = {
     teamData: Array<TypeTeam>;
     setTeamData: any;
     taskId: string;
+    companyId: number;
+    projectId: number;
+    departmentId: number;
 };
 
 const ChipsList: React.FC<Props> = (props: Props) => {
-    const { taskId } = props;
+    const { taskId, companyId, projectId, departmentId } = props;
     const history = useHistory();
     const classes = useStyles();
     const { state /*setTaskFields*/, permissions } = useContext(BoardContext);
+
     // const [showAddMember, setShowAddMember] = useState(false);
     // const [allEmployees] = useState(employeesData);
     const [showTeamModal, setShowTeamModal] = useState<boolean>(false);
     //   const [editable, setEditable] = useState<boolean>(false);
+
+    const deleteResponsibleApi = async (index: number) => {
+        try {
+            await taskApi.deleteResponsible(
+                companyId,
+                departmentId,
+                projectId,
+                parseInt(taskId.replace('task_', '')),
+                state.items[taskId].responsibles[index].userId
+            );
+        } catch (error) {}
+    };
+
     const handleDelete = async (index: number) => {
-        //         if (department && company && params.project) {
-        // try {
-        //     const { data: response } = await taskApi.deleteResponsible(
-        //         params.project
-        //     );
-        //     }
-        // } catch (error) {
-        //     snackbarUtils.error(error.message);
-        // }
-        // }
+        deleteResponsibleApi(index);
     };
     return (
         <Grid container>

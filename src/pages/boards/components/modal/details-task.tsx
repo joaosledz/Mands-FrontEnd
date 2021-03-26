@@ -55,7 +55,6 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     const { /*UpdateTask,*/ state, setTaskFields, permissions } = useContext(
         BoardContext
     );
-
     const [teamData, setTeamData] = useState(employeesData);
     const [newSubtask, setNewSubtask] = useState<string>('');
     const [showCreateSubtask, setShowCreateSubtask] = useState(false);
@@ -265,24 +264,14 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                         </Grid>
                     )}
                     {/* LISTA DE RESPONSÁVEIS PELO ITEM */}
-
                     <Team
                         teamData={teamData}
                         setTeamData={setTeamData}
                         taskId={item.taskId}
+                        companyId={companyId}
+                        departmentId={departmentId}
+                        projectId={projectId}
                     />
-                    {/* </Grid> */}
-                    {/* <Grid
-                        container
-                        justify="center"
-                        className={classes.submitButton}
-                    >
-                        <SubmitButton
-                            text="Salvar alterações"
-                            // disabled={!itemChanged}
-                            onClick={handleSubmit}
-                        />
-                    </Grid> */}
                 </Grid>
             </>
         </Modal>

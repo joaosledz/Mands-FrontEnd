@@ -206,6 +206,7 @@ export const BoardProvider: React.FC = ({ children }) => {
         'TaskDeleted',
         'TaskUpdatePosition',
         'ResponsibleAssociated',
+        'ResponsibleDeleted',
         'SessionChanged',
         'SubtaskCreated',
         'SubtaskUpdated',

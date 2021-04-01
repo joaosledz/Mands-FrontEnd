@@ -24,13 +24,14 @@ const useStyles = makeStyles<Theme>(theme =>
         },
 
         iconsGridContainer: {
-            // marginTop: '2rem',
             padding: '2rem',
+            width: '100%',
         },
 
         iconGridItem: {
             maxWidth: 200,
-            margin: theme.spacing(0, 1, 3),
+            margin: theme.spacing(0, 1, 1),
+            //marginBottom: theme.spacing(3),
             boxShadow: theme.shadows[3],
             transition: 'background-color .2s',
             '&:hover': {

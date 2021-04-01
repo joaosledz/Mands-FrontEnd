@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: 'all .1s',
 
             '& img': {
+                borderRadius: 10,
                 maxWidth: '30%',
             },
 

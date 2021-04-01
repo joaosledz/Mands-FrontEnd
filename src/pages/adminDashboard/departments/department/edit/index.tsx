@@ -8,7 +8,12 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { DepartmentModel, departmentApi } from '../../../../../services';
+import {
+    DepartmentModel,
+    departmentApi,
+    TypeIcon,
+    imageApi,
+} from '../../../../../services';
 import TypeParams from '../../../../../models/params';
 import useDepartment from '../../../../../hooks/useDepartment';
 import useCompany from '../../../../../hooks/useCompany';
@@ -24,15 +29,29 @@ import DangerZone from '../../../components/dangerZone/dangerZone';
 import DeleteModal from '../../../components/deleteModal/department';
 import useStyles from './styles';
 
+import DefaultDepartmentIcon from '../../../../../assets/selectableIcons/defaultDepartment.svg';
+import Backdrop from '../../../../../components/backdrop';
+
 const Edit: React.FC = () => {
     const classes = useStyles();
     // const location = useLocation<TypeDepartment>();
     const history = useHistory();
     const params = useParams<TypeParams>();
     const { company } = useCompany();
-    const { department, updateDepartment, setLoading } = useDepartment();
+    const { department, updateDepartment } = useDepartment();
+    const [loading, setLoading] = useState(false);
 
-    const [image, setImage] = useState<string | undefined>(department?.image);
+    const [image, setImage] = useState<TypeIcon | undefined>(
+        department?.image
+            ? {
+                  path: department.image.path,
+                  imageId: department.image.imageId,
+              }
+            : {
+                  path: DefaultDepartmentIcon,
+                  imageId: 0,
+              }
+    );
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const {
@@ -96,7 +115,14 @@ const Edit: React.FC = () => {
                 history.replace(
                     `/admin/${params.company}/departamentos/${data.name}/edicao`
                 );
-            // console.log(response.data);
+
+            if (image)
+                await imageApi.associateToDep(
+                    company!.companyId,
+                    department!.departmentId,
+                    image.imageId
+                );
+
             updateDepartment(response.data);
             snackbarUtils.success('Departamento editado com sucesso');
         } catch (error) {
@@ -108,11 +134,12 @@ const Edit: React.FC = () => {
 
     return (
         <AdminLayout>
+            <Backdrop loading={loading} />
             {department && (
                 <Paper className={classes.container}>
                     <Header
                         departmentName={department!.name}
-                        message="Cancelar edição"
+                        message="Voltar"
                         page="edit"
                     />
                     <Grid
@@ -149,6 +176,7 @@ const Edit: React.FC = () => {
                                         <TextField
                                             name="name"
                                             label="Nome"
+                                            defaultValue={department.name}
                                             error={errors.name !== undefined}
                                             helperText={
                                                 errors.name
@@ -220,6 +248,7 @@ const Edit: React.FC = () => {
                                     <TextField
                                         name="email"
                                         label="Email"
+                                        defaultValue={department.email}
                                         error={errors.email !== undefined}
                                         helperText={
                                             errors.email
@@ -247,6 +276,7 @@ const Edit: React.FC = () => {
                                         rows={6}
                                         name="objective"
                                         label="Descrição"
+                                        defaultValue={department.objective}
                                         error={errors.objective !== undefined}
                                         helperText={
                                             errors.objective
@@ -271,7 +301,10 @@ const Edit: React.FC = () => {
                             >
                                 <SubmitButton
                                     type="submit"
-                                    disabled={!formState.isDirty}
+                                    disabled={
+                                        !formState.isDirty &&
+                                        image === department.image
+                                    }
                                     text="Salvar alterações"
                                 />
                             </Grid>

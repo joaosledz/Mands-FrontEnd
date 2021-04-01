@@ -23,9 +23,6 @@ const GlobalCss = withStyles({
                 background: 'rgba(170,170,170,0.5)',
             },
         },
-        '.makeStyles-root-62': {
-            top: '34px',
-        },
     },
 })(() => null);
 

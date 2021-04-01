@@ -38,6 +38,7 @@ export default {
     toast(msg: string, variant: VariantType = 'default') {
         useSnackbarRef.enqueueSnackbar(msg, {
             variant,
+            persist: true,
             action: key => (
                 <Button
                     style={{ color: 'white' }}

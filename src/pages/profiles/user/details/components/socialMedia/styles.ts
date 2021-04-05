@@ -45,6 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         graySocialIcon: {
             color: 'gray',
+            pointerEvents: 'none',
+            cursor: 'default',
         },
     })
 );

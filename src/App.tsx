@@ -16,7 +16,11 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <ThemeProvider theme={theme}>
-                <SnackbarProvider maxSnack={4} anchorOrigin={snackBarOptions}>
+                <SnackbarProvider
+                    maxSnack={4}
+                    anchorOrigin={snackBarOptions}
+                    style={{ top: '20px' }}
+                >
                     <SnackbarUtilsConfigurator />
                     <AppProviders>
                         <Routes />

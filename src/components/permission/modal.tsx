@@ -35,11 +35,12 @@ type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     employee: TypeMember;
+    reloadTable: () => void;
 };
 
 const HiringModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen, employee } = props;
+    const { isOpen, setIsOpen, employee, reloadTable } = props;
     const { company, updateCompany } = useCompany();
     // const history = useHistory();
 
@@ -63,6 +64,7 @@ const HiringModal: React.FC<Props> = (props: Props) => {
             );
 
             updateCompany({ ...company! });
+            reloadTable();
             snackbarUtils.success('Cargo Atualizado com sucesso');
         } catch (err) {
             if (err.response.status === 400) {

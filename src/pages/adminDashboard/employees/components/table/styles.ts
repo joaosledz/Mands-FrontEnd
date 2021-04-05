@@ -30,6 +30,15 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundColor: theme.palette.primary.main,
             },
         },
+        iconReload: {
+            cursor: 'pointer',
+            color: '#B03E9F',
+            alignSelf: 'center',
+            '&:hover': {
+                transform: 'scale(1.1)',
+                transitionDuration: '0.2s',
+            },
+        },
     })
 );
 

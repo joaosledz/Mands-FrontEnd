@@ -32,7 +32,7 @@ const CropImageInput: React.FC<Props> = (props: Props) => {
     );
 
     useEffect(() => {
-        setImagePreview(preview);
+        if (preview) setImagePreview(preview);
     }, [preview]);
 
     const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {

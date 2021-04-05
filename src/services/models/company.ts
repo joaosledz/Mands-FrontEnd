@@ -2,14 +2,13 @@ import { TypeCompanyPermission } from './companyPermission';
 import { TypeDepartment, TypeMember } from './department';
 
 export type CompanyModel = {
-    company: {
-        name: string;
-        username: string;
-        phone: string;
-        email: string;
-        cnpj?: string;
-    };
+    name: string;
+    username: string;
+    phone: string;
+    email: string;
+    cnpj?: string;
 };
+
 export type CompanyUpdateModel = {
     name: string;
     phone: string;

@@ -1,23 +1,11 @@
-import React, {
-    // useEffect,
-    Dispatch,
-    SetStateAction,
-    // memo,
-    // useContext,
-} from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { TextField, Paper, Modal, Grid } from '@material-ui/core';
 import SubmitButton from '../../../../components/mainButton';
 import useStyles from './styles';
-// import { Text as TextIcon } from '@styled-icons/entypo';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
-// import BoardContext from '../../../../contexts/board';
 import { useForm } from 'react-hook-form';
 import { SubmitTaskType, taskApi } from '../../../../services';
 import snackbarUtils from '../../../../utils/functions/snackbarUtils';
-// import useCompany from '../../../../hooks/useCompany';
-// import { useParams } from 'react-router-dom';
-// import TypeParams from '../../../../models/params';
-// import useDepartment from '../../../../hooks/useDepartment';
 
 type Props = {
     isOpen: boolean;
@@ -31,17 +19,6 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { isOpen, setIsOpen, departmentId, projectId, companyId } = props;
     const { register, errors, handleSubmit } = useForm<SubmitTaskType>({});
-    /*const { company } = useCompany();
-    const params = useParams<TypeParams>();
-    const { getDepartmentData, department } = useDepartment();
-
-    useEffect(() => {
-        const handleDepartment = async () => {
-            if (!department)
-                await getDepartmentData(params.company, params.department!);
-        };
-        handleDepartment();
-    }, [isOpen, department]);*/
 
     const handleCloseModal = () => {
         setIsOpen(false);
@@ -54,6 +31,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
             .create(companyId, data)
             .then(response => {
                 // console.log(response);
+                handleCloseModal();
                 snackbarUtils.success('Nova tarefa criada com sucesso');
             })
             .catch(error => {
@@ -108,7 +86,8 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                                 <Grid item xs={12}>
                                     <TextField
                                         multiline
-                                        rows={5}
+                                        rows={2}
+                                        rowsMax={5}
                                         // className={classes.textFieldGrid}
                                         name="description"
                                         label="Descrição"

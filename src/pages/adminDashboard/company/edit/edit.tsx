@@ -14,8 +14,9 @@ import TypeParams from '../../../../models/params';
 import { companyApi, imageApi } from '../../../../services';
 import useCompany from '../../../../hooks/useCompany';
 import SnackbarUtils from '../../../../utils/functions/snackbarUtils';
+import cnpjValidator from '../../../../validators/cnpjValidator';
 
-import AppLayout from '../../../../layout/appLayout';
+import AppLayout from '../../layout/companyLayout';
 import BackButton from '../../../../components/backButton';
 import CropImageInput from '../../../../components/cropImage/cropImageInput';
 import SubmitButton from '../../../../components/mainButton';
@@ -28,6 +29,7 @@ type CompanyModel = {
     name: string;
     phone: string;
     email: string;
+    cnpj: string;
 };
 
 const CompanyEdit: React.FC = () => {
@@ -36,7 +38,7 @@ const CompanyEdit: React.FC = () => {
     const { register, errors, handleSubmit, formState } = useForm<
         CompanyModel
     >();
-    const { company, updateCompany, loading: companyLoading } = useCompany();
+    const { company, updateCompany } = useCompany();
 
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState<File | undefined>(undefined);
@@ -46,11 +48,11 @@ const CompanyEdit: React.FC = () => {
         company
             ? (document.title = `Empresa - ${company?.name}`)
             : (document.title = 'Carregando...');
-        // console.log(company);
+        console.log(company);
     }, [company]);
 
     useEffect(() => {
-        console.log(formState.dirtyFields);
+        //console.log(formState.dirtyFields);
     }, [formState]);
 
     const handleEditImage = async (image: File, newData: CompanyModel) => {
@@ -60,7 +62,6 @@ const CompanyEdit: React.FC = () => {
             formData.append('imageData', image);
 
             await imageApi.post(formData, company!.companyId);
-            // console.log(data);
             handleEditCompany(newData);
             // SnackbarUtils.success('Imagem de perfil editada com sucesso');
         } catch (error) {
@@ -73,12 +74,12 @@ const CompanyEdit: React.FC = () => {
     const handleEditCompany = async (newData: CompanyModel) => {
         setLoading(true);
         try {
-            const response = await companyApi.update(
+            const { data } = await companyApi.update(
                 company!.companyId,
                 newData
             );
-            // console.log(response.data);
-            updateCompany(response.data);
+
+            updateCompany({ ...data, imagePath: data.image.path });
             SnackbarUtils.success('Empresa editada com sucesso');
         } catch (error) {
             SnackbarUtils.error('Não foi possível editar a empresa');
@@ -92,12 +93,20 @@ const CompanyEdit: React.FC = () => {
         else handleEditCompany(data);
     };
 
+    const validateCnpj = (value: string) => {
+        if (value.length > 0) {
+            if (cnpjValidator(value)) return true;
+            else return 'CNPJ inválido';
+        }
+        return true;
+    };
+
     return (
         <Fragment>
             <Backdrop className={classes.backdrop} open={loading}>
                 <CircularProgress color="inherit" />
             </Backdrop>
-            <AppLayout loading={companyLoading}>
+            <AppLayout>
                 <Paper elevation={3} className={classes.paper}>
                     <Grid
                         container
@@ -181,6 +190,7 @@ const CompanyEdit: React.FC = () => {
                                             data-cy="company-username"
                                             name="username"
                                             label="Nome de Usuário"
+                                            className={classes.textField}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -213,7 +223,7 @@ const CompanyEdit: React.FC = () => {
                                     <Grid item xs={12}>
                                         <ReactInputMask
                                             mask={'(99) 99999-9999'}
-                                            maskChar="_"
+                                            // maskChar="_"
                                             defaultValue={company.phone}
                                         >
                                             {() => (
@@ -240,19 +250,45 @@ const CompanyEdit: React.FC = () => {
                                                             message:
                                                                 'O número está incompleto',
                                                         },
+                                                        validate: value =>
+                                                            value.replaceAll(
+                                                                '_',
+                                                                ''
+                                                            ).length === 15 ||
+                                                            'O número está incompleto',
                                                     })}
                                                 />
                                             )}
                                         </ReactInputMask>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <TextField
+                                        <ReactInputMask
+                                            mask={'99.999.999/9999-99'}
+                                            maskChar="_"
                                             defaultValue={company.cnpj}
-                                            data-cy="company-cnpj"
-                                            name="cnpj"
-                                            label="CNPJ"
-                                            inputRef={register()}
-                                        />
+                                        >
+                                            {() => (
+                                                <TextField
+                                                    data-cy="company-cnpj"
+                                                    name="cnpj"
+                                                    label="CNPJ"
+                                                    error={
+                                                        errors.cnpj !==
+                                                        undefined
+                                                    }
+                                                    helperText={
+                                                        errors.cnpj
+                                                            ? '⚠ ' +
+                                                              errors?.cnpj
+                                                                  ?.message
+                                                            : ''
+                                                    }
+                                                    inputRef={register({
+                                                        validate: validateCnpj,
+                                                    })}
+                                                />
+                                            )}
+                                        </ReactInputMask>
                                     </Grid>
                                 </Grid>
                                 <Grid container justify="center">

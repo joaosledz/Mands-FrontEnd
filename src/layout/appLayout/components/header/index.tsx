@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import useAuth from '../../../../hooks/useAuth';
 
 import logo from '../../../../assets/logo/logo_branca.svg';
-import avatar from '../../../../assets/fakeDataImages/employees/anaTartari.png';
 import useStyles from './styles';
 
 const Header: React.FC = () => {
@@ -40,7 +39,7 @@ const Header: React.FC = () => {
             <Grid container item xs={4} className={classes.rightSide}>
                 <ButtonBase onClick={handleClick}>
                     <Avatar
-                        src={user?.image?.path || avatar}
+                        src={user?.image?.path || undefined}
                         alt={`${user?.name} avatar`}
                         className={classes.avatar}
                     />

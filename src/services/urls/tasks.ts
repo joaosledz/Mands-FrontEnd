@@ -6,6 +6,7 @@ const tasksUrls = {
     update: `${tasksUrl}/Update/`,
     delete: `${tasksUrl}/Delete/`,
     associateResponsible: `${tasksUrl}/AssociateResponsible/`,
+    deleteResponsible: `${tasksUrl}/DeleteResponsible/`,
     //Deslocamento
     changeSession: `${tasksUrl}/ChangeSession/`,
     updatePosition: `${tasksUrl}/UpdatePosition/`,
@@ -16,6 +17,7 @@ const tasksUrls = {
     createSubtask: `${tasksUrl}/CreateSubtask/`,
     updateSubtask: `${tasksUrl}/UpdateSubtask/`,
     deleteSubtask: `${tasksUrl}/DeleteSubtask/`,
+    updatePositionSubtask: `${tasksUrl}/UpdatePositionSubTask/`,
 };
 
 export default tasksUrls;

@@ -40,9 +40,14 @@ const Register: React.FC = () => {
     const history = useHistory();
     const { thirdPartyLogin } = useAuth();
     const location = useLocation<LocationType>();
-    const { register, errors, handleSubmit, formState, trigger } = useForm<
-        RegisterModel
-    >({
+    const {
+        register,
+        errors,
+        handleSubmit,
+        formState,
+        trigger,
+        setValue,
+    } = useForm<RegisterModel>({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
         defaultValues: {},
@@ -62,12 +67,14 @@ const Register: React.FC = () => {
 
     useEffect(() => {
         setUserData(location.state.data);
-    }, [location]);
+        setValue('name', location.state.data.givenName);
+        setValue('surname', location.state.data.familyName);
+    }, [location, setValue]);
 
     const onSubmit = async (data: RegisterModel) => {
         const registerData: RegisterModel = {
             ...data,
-            name: userData!.name,
+            name: userData!.givenName,
             email: userData!.email,
             surname: userData!.familyName,
             password: sha1(userData!.id),
@@ -124,8 +131,6 @@ const Register: React.FC = () => {
                             <Grid container item spacing={3}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        value={userData?.givenName}
-                                        disabled
                                         data-cy="user-firstName"
                                         name="name"
                                         autoFocus
@@ -149,8 +154,6 @@ const Register: React.FC = () => {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                        value={userData?.familyName}
-                                        disabled
                                         data-cy="user-lastName"
                                         name="surname"
                                         error={errors.surname !== undefined}

@@ -11,7 +11,6 @@ import { TypeMember, departmentApi } from '../../../../../../services';
 import useCompany from '../../../../../../hooks/useCompany';
 import useDepartment from '../../../../../../hooks/useDepartment';
 import snackbarUtils from '../../../../../../utils/functions/snackbarUtils';
-import userIcon from '../../../../../../assets/icons/usericon.svg';
 import Backdrop from '../../../../../../components/backdrop';
 import DeleteDialog from './deleteDialog';
 import PermissionModal from './permissionModal';
@@ -73,14 +72,16 @@ const TeamCard: React.FC<Props> = ({ teammate }) => {
                 container
                 item
                 xs={12}
-                sm
+                sm={6}
+                md={12}
+                lg={6}
                 className={classes.user}
                 component={Button}
                 onClick={handleOpenModal}
                 onMouseOver={showRemoveButton}
                 onMouseLeave={hideRemoveButton}
             >
-                <Avatar src={image?.path || userIcon} />
+                <Avatar src={image?.path || undefined} />
                 <Typography>
                     {name} {surname}
                 </Typography>

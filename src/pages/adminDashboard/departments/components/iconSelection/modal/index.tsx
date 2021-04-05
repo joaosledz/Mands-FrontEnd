@@ -1,23 +1,18 @@
-import React, { useState, Dispatch, SetStateAction } from 'react';
+import React, { useState, Dispatch, SetStateAction, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 
-import IconsData from '../../../../../../utils/data/icons';
+import { imageApi, TypeIcon } from '../../../../../../services';
 
 import useStyles from './styles';
-
-type TypeIcon = {
-    id: number;
-    path: string;
-};
 
 type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
-    setImage?: Dispatch<SetStateAction<string | undefined>>;
+    setImage?: Dispatch<SetStateAction<TypeIcon | undefined>>;
     setImagePreview: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
@@ -25,15 +20,28 @@ const IconSelection: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { isOpen, setIsOpen, setImage, setImagePreview } = props;
 
-    const [icons] = useState<Array<TypeIcon>>(IconsData);
+    const [icons, setIcons] = useState<Array<TypeIcon>>([]);
+
+    useEffect(() => {
+        const getIcons = async () => {
+            try {
+                const { data } = await imageApi.listIcons();
+                setIcons(data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getIcons();
+    }, []);
 
     const handleCloseModal = () => {
         setIsOpen(false);
     };
 
-    const handleSelectIcon = (icon: string) => {
+    const handleSelectIcon = (icon: TypeIcon) => {
         setImage!(icon);
-        setImagePreview(icon);
+        setImagePreview(icon.path);
+        handleCloseModal();
     };
 
     return (
@@ -48,14 +56,18 @@ const IconSelection: React.FC<Props> = (props: Props) => {
                 <Typography variant="h1" id="iconModal-title">
                     Selecione um ícone:
                 </Typography>
-                <Grid container className={classes.iconsGridContainer}>
+                <Grid
+                    container
+                    className={classes.iconsGridContainer}
+                    justify="center"
+                >
                     {icons.map(icon => (
                         <Grid
-                            key={icon.id}
+                            key={icon.imageId}
                             item
-                            xs={4}
+                            xs={3}
                             component={Button}
-                            onClick={() => handleSelectIcon(icon.path)}
+                            onClick={() => handleSelectIcon(icon)}
                             className={classes.iconGridItem}
                         >
                             <img src={icon.path} alt="ícone" />

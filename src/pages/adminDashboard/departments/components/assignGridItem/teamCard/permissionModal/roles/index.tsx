@@ -24,7 +24,7 @@ const ChooseRole: React.FC<Props> = (props: Props) => {
 
     return (
         <Fragment>
-            <Grid container style={{ paddingLeft: '2rem' }}>
+            <Grid container>
                 <FormLabel component="legend">Cargos</FormLabel>
             </Grid>
             {roles.length === 0 && (

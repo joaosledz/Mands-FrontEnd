@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams, Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
+import Button from '@material-ui/core/Button';
 
 import TypeParams from '../../../../../models/params';
 import { TypeProject } from '../../../../../services';
@@ -55,7 +56,7 @@ const RegisterProject: React.FC = () => {
                     <Grid item xs={12} md={2}>
                         <CropImageInput
                             image={undefined}
-                            preview={project?.image}
+                            preview={project?.image?.path}
                             disabled
                             styles={classes.cropImage}
                         />
@@ -69,6 +70,7 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -79,6 +81,7 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -90,6 +93,7 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -101,20 +105,38 @@ const RegisterProject: React.FC = () => {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                className={classes.textField}
                             />
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} md={4}>
-                        <TextField
-                            disabled
-                            multiline
-                            rows={5}
-                            label="Descrição"
-                            value={project?.description}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                    <Grid container item xs={12} md={4} spacing={3}>
+                        <Grid item xs={12}>
+                            <TextField
+                                disabled
+                                multiline
+                                rows={5}
+                                label="Descrição"
+                                value={project?.description}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                className={classes.textField}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        item
+                        xs={12}
+                        md={12}
+                        className={classes.seeCompanyContainer}
+                    >
+                        <Button
+                            component={Link}
+                            to={`/${params.company}/${params.department}/quadro/${params.project}`}
+                            className={classes.seeProjectBtn}
+                        >
+                            Ir para o projeto
+                        </Button>
                     </Grid>
                 </Grid>
             </Paper>

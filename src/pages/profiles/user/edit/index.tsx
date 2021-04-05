@@ -68,9 +68,26 @@ const UserProfile: React.FC = () => {
     console.log(formState.isDirty);
     const onSubmit = (data: updateModel) => {
         const dataAux = validLink(data);
+
         if (image) handleEditImage(image, dataAux);
         else if (formState.isDirty) handleEditUser(dataAux);
         else SnackbarUtils.info('Modifique algum campo.');
+    };
+
+    const validateLinkedin = (value: string) => {
+        if (value.length > 0) {
+            if (value.includes('linkedin.com/in/')) return true;
+            else return 'link inválido';
+        }
+        return true;
+    };
+
+    const validateGithub = (value: string) => {
+        if (value.length > 0) {
+            if (value.includes('github.com/')) return true;
+            else return 'link inválido';
+        }
+        return true;
     };
 
     return (
@@ -219,6 +236,7 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
+                                                validate: validateGithub,
                                             })}
                                         />
                                     </Grid>
@@ -243,6 +261,7 @@ const UserProfile: React.FC = () => {
                                                     value: 5,
                                                     message: 'Link muito curto',
                                                 },
+                                                validate: validateLinkedin,
                                             })}
                                         />
                                     </Grid>

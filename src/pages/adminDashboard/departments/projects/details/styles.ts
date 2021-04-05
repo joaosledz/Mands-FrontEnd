@@ -58,6 +58,45 @@ const useStyles = makeStyles((theme: Theme) =>
         submitButtonContainer: {
             marginTop: '6rem',
         },
+
+        seeProjectBtn: {
+            margin: '0 auto',
+            padding: '8px 1.5rem',
+
+            color: theme.palette.primary.contrastText,
+            textAlign: 'center',
+            textTransform: 'none',
+            backgroundColor: theme.palette.primary.light,
+            boxShadow: theme.shadows[2],
+
+            transition: 'background-color .2s',
+
+            '&:hover': {
+                backgroundColor: theme.palette.primary.main,
+            },
+        },
+
+        seeCompanyContainer: {
+            display: 'flex',
+            justifyContent: 'center',
+        },
+
+        textField: {
+            '& input:disabled': {
+                color: '#727273',
+            },
+            '& .MuiInputBase-inputMultiline:disabled': {
+                color: '#727273',
+            },
+            '& .MuiOutlinedInput-root': {
+                '&.Mui-disabled fieldset': {
+                    borderColor: '#727273',
+                },
+            },
+            '& label.Mui-disabled': {
+                color: '#727273',
+            },
+        },
     })
 );
 

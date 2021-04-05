@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { projectApi } from '../../services';
+import { projectApi, TypeProjectPermModel } from '../../services';
 import {
     // initialBoardData3 as BoardData,
     newBoardData,
@@ -29,12 +29,20 @@ import {
 interface BoardContextData {
     state: TypeBoard;
     setState: Dispatch<SetStateAction<TypeBoard>>;
+    permissions: TypeProjectPermModel;
+    setPermissions: Dispatch<SetStateAction<TypeProjectPermModel>>;
+    loading: boolean;
     AddTask: (columnID: keyof TypeColumn, task: TaskSocket) => void;
     UpdateTask: (itemID: keyof TypeItem, updatedItem: TypeItem) => void;
     DeleteTask: (itemID: keyof TypeItem, columnID: keyof TypeColumn) => void;
     AddColumn: (columnID: string, position: number) => void;
     DeleteColumn: (columnID: keyof TypeColumn) => void;
     setColumnTitle: (title: string, columnID: keyof TypeColumn) => void;
+    setTaskFields: (
+        title: string,
+        taskId: keyof TypeItem,
+        field: string
+    ) => void;
 }
 
 const BoardContext = createContext<BoardContextData>({} as BoardContextData);
@@ -45,6 +53,16 @@ export const BoardProvider: React.FC = ({ children }) => {
     const [state, setState] = useState<TypeBoard>(
         ConvertResponse(newBoardData)
     );
+    const [loading, setLoading] = useState<boolean>(true);
+    const [permissions, setPermissions] = useState<TypeProjectPermModel>({
+        name: 'Nome da permissão',
+        editProject: false,
+        deleteProject: false,
+        session: false,
+        task: false,
+        taskResponsible: false,
+        createTemplate: false,
+    });
     const { user } = useAuth();
     const params = useParams<TypeParams>();
 
@@ -95,6 +113,17 @@ export const BoardProvider: React.FC = ({ children }) => {
     const setColumnTitle = (title: string, columnID: keyof TypeColumn) => {
         const newState = { ...state };
         newState.columns[columnID].title = title;
+
+        setState(newState);
+    };
+
+    const setTaskFields = (
+        title: string,
+        taskId: keyof TypeItem,
+        field: string
+    ) => {
+        const newState = { ...state };
+        newState.items[taskId][field] = title;
 
         setState(newState);
     };
@@ -171,72 +200,34 @@ export const BoardProvider: React.FC = ({ children }) => {
         handleHubConnection();
         // eslint-disable-next-line
     }, [user]);
-
+    const channels = [
+        'TaskSent',
+        'TaskUpdated',
+        'TaskDeleted',
+        'TaskUpdatePosition',
+        'ResponsibleAssociated',
+        'ResponsibleDeleted',
+        'SessionChanged',
+        'SubtaskCreated',
+        'SubtaskUpdated',
+        'SubtaskDeleted',
+        'SessionCreated',
+        'SessionUpdated',
+        'SessionDeleted',
+        'SessionPosUpdated',
+        'SubTaskUpdatePosition',
+    ];
     useEffect(() => {
         const handleWebSocket = async () => {
             if (hubConnection) {
                 try {
                     console.log(params.project);
                     hubConnection.invoke('JoinGroup', params.project!);
-                    //Canais de /Task
-                    hubConnection.on('TaskSent', response => {
-                        console.log(response);
-                        // AddTask(task.sessionId, task.tasks[0]);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('TaskUpdated', response => {
-                        console.log(response);
-                    });
-                    hubConnection.on('TaskDeleted', response => {
-                        // console.log(response);
-                        // DeleteTask(
-                        //     'task_' + response.taskId,
-                        //     response.sourceSessionId
-                        // );
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('TaskUpdatePosition', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('ResponsibleAssociated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionChanged', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-
-                    // Canais de /Subtask
-                    hubConnection.on('SubtaskCreated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SubtaskUpdated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SubtaskDeleted', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    //Canais de /Session
-                    hubConnection.on('SessionCreated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionUpdated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionDeleted', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
-                    });
-                    hubConnection.on('SessionPosUpdated', response => {
-                        console.log(response);
-                        setState(ConvertResponse(response));
+                    channels.forEach(channel => {
+                        hubConnection.on(channel, response => {
+                            console.log(response);
+                            setState(ConvertResponse(response));
+                        });
                     });
                 } catch (error) {
                     console.log(error);
@@ -256,6 +247,7 @@ export const BoardProvider: React.FC = ({ children }) => {
                 );
                 console.log(response.data);
                 setState(ConvertResponse(response.data));
+                setLoading(false);
             } catch (error) {
                 snackbarUtils.error(error.message);
             }
@@ -270,12 +262,16 @@ export const BoardProvider: React.FC = ({ children }) => {
             value={{
                 state,
                 setState,
+                loading,
                 AddTask,
                 UpdateTask,
                 DeleteTask,
                 AddColumn,
                 DeleteColumn,
                 setColumnTitle,
+                setTaskFields,
+                permissions,
+                setPermissions,
             }}
         >
             {children}

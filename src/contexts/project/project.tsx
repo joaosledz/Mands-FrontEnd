@@ -1,8 +1,15 @@
 import React, { createContext, useState, useCallback } from 'react';
-import { TypeProject, projectApi, ProjectModel } from '../../services';
+import {
+    TypeProject,
+    projectApi,
+    ProjectModel,
+    TypeEmployee,
+    imageApi,
+} from '../../services';
 
 type TypeProjectData = {
     project: TypeProject | null;
+    employees: TypeEmployee[];
     loading: boolean;
     getProjectData: (project_id: number) => Promise<TypeProject>;
     updateProject: (data: TypeProject) => void;
@@ -13,6 +20,7 @@ type TypeProjectData = {
         department_id: number,
         image?: File
     ) => Promise<TypeProject>;
+    getEmployees: (project_id: number) => Promise<TypeEmployee[]>;
 };
 
 const ProjectContext = createContext<TypeProjectData>({} as TypeProjectData);
@@ -28,11 +36,11 @@ const getStoragedProject = () => {
 export const ProjectProvider: React.FC = ({ children }) => {
     const projectData = getStoragedProject();
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [project, setProject] = useState<TypeProject | null>(projectData);
+    const [employees, setEmployees] = useState<TypeEmployee[]>([]);
 
     const getProjectData = useCallback(async (project_id: number) => {
-        setLoading(true);
         try {
             const response = await projectApi.show(project_id);
             sessionStorage.setItem(
@@ -46,7 +54,6 @@ export const ProjectProvider: React.FC = ({ children }) => {
             console.log(error);
             return Promise.reject(error);
         } finally {
-            setLoading(false);
         }
     }, []);
 
@@ -72,12 +79,12 @@ export const ProjectProvider: React.FC = ({ children }) => {
 
                 const project: TypeProject = response.data.project;
 
-                // if (!image) return project;
+                if (!image) return project;
 
-                // const formData = new FormData();
-                // formData.append('imageData', image);
+                const formData = new FormData();
+                formData.append('imageData', image);
 
-                // await imageApi.post(formData, company_id, project.projectId);
+                await imageApi.post(formData, company_id, project.projectId);
 
                 return project;
             } catch (error) {
@@ -90,15 +97,29 @@ export const ProjectProvider: React.FC = ({ children }) => {
         []
     );
 
+    const getEmployees = useCallback(async (project_id: number) => {
+        try {
+            const { data } = await projectApi.getEmployees(project_id);
+            setEmployees(data);
+            return data;
+        } catch (err) {
+            console.log(err);
+            return Promise.reject(err);
+        } finally {
+        }
+    }, []);
+
     return (
         <ProjectContext.Provider
             value={{
                 project,
+                employees,
                 loading,
                 getProjectData,
                 setLoading,
                 updateProject,
                 createProject,
+                getEmployees,
             }}
         >
             {children}

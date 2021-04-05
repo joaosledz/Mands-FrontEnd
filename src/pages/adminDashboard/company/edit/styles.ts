@@ -37,6 +37,18 @@ const useStyles = makeStyles<Theme>(theme =>
             zIndex: theme.zIndex.drawer + 1,
             color: 'white',
         },
+
+        textField: {
+            '& input:disabled': {
+                color: '#727273',
+            },
+            '& .MuiInputBase-inputMultiline:disabled': {
+                color: '#727273',
+            },
+            '& label.Mui-disabled': {
+                color: '#727273',
+            },
+        },
     })
 );
 

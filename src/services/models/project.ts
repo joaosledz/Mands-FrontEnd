@@ -17,5 +17,13 @@ export type TypeProject = {
     finalDate: string;
     budget: number;
     imageId: number;
-    image: string;
+    image: {
+        name: string;
+        path: string;
+    };
+};
+
+export type TypeUserPerm = {
+    userId: number;
+    permissionId: number;
 };

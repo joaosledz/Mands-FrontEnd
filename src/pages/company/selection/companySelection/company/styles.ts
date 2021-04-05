@@ -3,25 +3,32 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            width: '100%',
-            maxWidth: 300,
-            padding: '1.2rem 1rem',
-
             textDecoration: 'none',
             borderRadius: 10,
             textAlign: 'center',
 
-            transition: 'all .1s',
-
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-around',
+
+            transition: 'all .1s',
+
+            backgroundColor: 'transparent',
 
             '&:hover': {
                 border: '1px solid white',
                 backgroundColor: 'rgba(0,0,0,.2)',
             },
+        },
+
+        content: {
+            width: '100%',
+
+            padding: '2.4rem 2rem',
+
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
         },
 
         companyLogo: {
@@ -37,6 +44,12 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '1.3rem',
             fontWeight: 300,
             textShadow: 'rgba(0,0,0,0.5) 2px 3px 6px',
+        },
+
+        quitButton: {
+            position: 'absolute',
+            alignSelf: 'flex-end',
+            margin: '0.5rem',
         },
     })
 );

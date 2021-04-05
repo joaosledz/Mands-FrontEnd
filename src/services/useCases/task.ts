@@ -4,8 +4,9 @@ import {
     SubmitResponsible,
     SubmitDeleteTask,
     SubmitChangeSession,
-    SubtaskType,
+    UpdateSubtaskType,
     updateTaskPositionType,
+    CreateSubtaskType,
 } from '../models/task';
 import taskUrls from '../urls/tasks';
 
@@ -29,6 +30,17 @@ const tasksApi = {
             taskUrls.associateResponsible + `${companyId}/${taskId}`,
             data
         ),
+    deleteResponsible: (
+        companyId: number,
+        departmentId: number,
+        projectId: number,
+        taskId: number,
+        userId: number
+    ) =>
+        api.delete(
+            taskUrls.deleteResponsible +
+                `${companyId}/${departmentId}/${projectId}/${taskId}/${userId}`
+        ),
     //Deslocamento
     changeSession: (
         taskId: number,
@@ -47,13 +59,24 @@ const tasksApi = {
     // deleteDependency: (companyId: number, dependencyId: string, taskId: string, departmentId: number, projectId: number )  =>
     // api.delete(taskUrls.deleteDependency + `${companyId}/${dependencyId}/${taskId}/${departmentId}/${projectId}`),
     //Subtasks
-    createSubtask: (companyId: number, taskId: string, data: SubtaskType) =>
-        api.post(taskUrls.createSubtask + `${companyId}/${taskId}`, data),
-    updateSubtask: (subtaskId: string, data: SubtaskType) =>
+    createSubtask: (
+        companyId: number,
+        taskId: string,
+        data: CreateSubtaskType
+    ) => api.post(taskUrls.createSubtask + `${companyId}/${taskId}`, data),
+    updateSubtask: (subtaskId: string, data: UpdateSubtaskType) =>
         api.put(taskUrls.updateSubtask + subtaskId, data),
     //Ainda tem que ser alterado na API
-    // deleteSubtask: (  subtaskId: string, companyId: number, departmentId: number, projectId: number) =>
-    // api.delete(taskUrls.updateSubtask + `${companyId}/${subtaskId}/${departmentId}/${projectId}`),
+    deleteSubtask: (
+        subtaskId: string,
+        companyId: number,
+        departmentId: number,
+        projectId: number
+    ) =>
+        api.delete(
+            taskUrls.deleteSubtask +
+                `${companyId}/${subtaskId}/${departmentId}/${projectId}`
+        ),
 };
 
 export default tasksApi;

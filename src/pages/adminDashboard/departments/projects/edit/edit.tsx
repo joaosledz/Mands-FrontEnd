@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -19,26 +20,34 @@ import SubmitButton from '../../../../../components/mainButton';
 import CropImageInput from '../../../../../components/cropImage/cropImageInput';
 import DeleteModal from '../../../components/deleteModal/project';
 import useStyles from './styles';
+import ManageUsersCard from './manageUsers';
+import TypeParams from '../../../../../models/params';
 
 const Edit: React.FC = () => {
     const classes = useStyles();
-    const {
-        register,
-        errors,
-        handleSubmit,
-        reset /*, formState */,
-    } = useForm();
-    /*<ProjectModel>*/
+    const { register, errors, handleSubmit, reset } = useForm();
+
+    const params = useParams<TypeParams>();
     const { company } = useCompany();
     const { department } = useDepartment();
-    const { project, updateProject } = useProject();
+    const { project, updateProject, employees, getEmployees } = useProject();
 
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [image, setImage] = useState<File | undefined>();
 
     useEffect(() => {
-        if (project) document.title = `${project.name} - Edição`;
-    }, [project]);
+        const action = async () => {
+            try {
+                await getEmployees(project!.projectId);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        if (project) {
+            document.title = `${project.name} - Edição`;
+            action();
+        }
+    }, [project, getEmployees]);
 
     const handleCreateImage = useCallback(
         async (image: File, company_id: number, project_id: number) => {
@@ -73,7 +82,10 @@ const Edit: React.FC = () => {
                     company!.companyId,
                     department!.departmentId
                 );
-                const auxProject = { ...response, image: imageResponse!.path };
+                const auxProject = {
+                    ...response,
+                    image: { name: 'depIcon', path: imageResponse!.path },
+                };
                 updateProject(auxProject);
             } else updateProject(response);
 
@@ -117,7 +129,7 @@ const Edit: React.FC = () => {
                         <Grid item xs={12} md={4}>
                             <CropImageInput
                                 image={image}
-                                preview={project?.image}
+                                preview={project?.image?.path}
                                 setImage={setImage}
                                 styles={classes.cropImage}
                             />
@@ -235,12 +247,40 @@ const Edit: React.FC = () => {
                         </Grid>
 
                         <Grid container justify="center">
-                            <SubmitButton
-                                type="submit"
-                                text="Salvar alterações"
-                                // disabled={!image || !formState.isDirty} verificar se o form ou uma imagem mudou, mas ta complexo
-                                mt={20}
-                            />
+                            <Grid
+                                container
+                                item
+                                sm={12}
+                                md={6}
+                                justify="center"
+                            >
+                                <SubmitButton
+                                    type="submit"
+                                    text="Salvar alterações"
+                                    // disabled={!image || !formState.isDirty} verificar se o form ou uma imagem mudou, mas ta complexo
+                                    mt={20}
+                                />
+                            </Grid>
+                            <Grid
+                                container
+                                item
+                                sm={12}
+                                md={6}
+                                justify="center"
+                            >
+                                <Button
+                                    component={Link}
+                                    to={`/${params.company}/${params.department}/quadro/${params.project}`}
+                                    className={[
+                                        classes.button,
+                                        classes.baseButton,
+                                    ].join(' ')}
+                                >
+                                    <Typography className={classes.buttonText}>
+                                        Ir para o projeto
+                                    </Typography>
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} md={5}>
@@ -250,7 +290,13 @@ const Edit: React.FC = () => {
                             justify="flex-end"
                             className={classes.rightSide}
                         >
-                            <Grid container component={Typography} variant="h2">
+                            <ManageUsersCard team={employees} />
+                            <Grid
+                                container
+                                component={Typography}
+                                variant="h2"
+                                id="danger-zone-title"
+                            >
                                 Área Perigosa
                             </Grid>
                             <Grid id="danger-zone-container" container>
@@ -276,6 +322,7 @@ const Edit: React.FC = () => {
                                     onClick={() =>
                                         setOpenDeleteModal(!openDeleteModal)
                                     }
+                                    className={classes.deleteButton}
                                 >
                                     Deletar este projeto
                                 </Grid>

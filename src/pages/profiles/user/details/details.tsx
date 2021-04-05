@@ -78,7 +78,11 @@ const UserProfile: React.FC = () => {
                             <Typography variant="h6" color="primary">
                                 Apresentação
                             </Typography>
-                            <Typography>{user!.biography}</Typography>
+                            <Typography>
+                                {user!.biography
+                                    ? user!.biography
+                                    : 'Ainda não há apresentação'}
+                            </Typography>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -62,9 +62,7 @@ const SocialMedia: React.FC<Props> = (props: Props) => {
                     alignItems="center"
                 >
                     <LinkedinIcon size={50} />
-                    <Typography className={classes.socialMedia}>
-                        Linkedin
-                    </Typography>
+                    <Typography>Linkedin</Typography>
                 </Grid>
             </a>
         </Grid>

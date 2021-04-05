@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Lottie from 'lottie-react';
 import InputMask from 'react-input-mask';
@@ -11,10 +10,14 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import { DepartmentModel, departmentApi } from '../../../../../services';
+import {
+    DepartmentModel,
+    departmentApi,
+    imageApi,
+    TypeIcon,
+} from '../../../../../services';
 import { validateDeparmentName } from '../validators/validateDepartmentName';
 import formatName from '../functions/formatName';
-import TypeParams from '../../../../../models/params';
 import useCompany from '../../../../../hooks/useCompany';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 
@@ -28,17 +31,11 @@ import useStyles from './styles';
 
 const NewDepartment: React.FC = () => {
     const classes = useStyles();
-    const params = useParams<TypeParams>();
-    const [image, setImage] = useState<string | undefined>('');
-    const {
-        register,
-        errors,
-        handleSubmit,
-        watch,
-        reset,
-        setValue,
-        formState,
-    } = useForm<DepartmentModel>({});
+    const [image, setImage] = useState<TypeIcon | undefined>();
+    const [phone, setPhone] = useState<string>('');
+    const { register, errors, handleSubmit, watch, reset, formState } = useForm<
+        DepartmentModel
+    >({});
     const { company } = useCompany();
 
     useEffect(() => {
@@ -47,20 +44,28 @@ const NewDepartment: React.FC = () => {
 
     const watchName = watch('name');
 
-    const onSubmit = (data: DepartmentModel) => {
-        console.log(image);
-        const auxData = { ...data, name: formatName(data.name) };
-        departmentApi
-            .create(company!.companyId, auxData)
-            .then(response => {
-                console.log(response);
-                snackbarUtils.success('Departamento criado com sucesso');
-                reset();
-                setValue('phone', '');
-            })
-            .catch(error => {
-                snackbarUtils.error('Erro ao tentar criar departamento');
-            });
+    const onSubmit = async (data: DepartmentModel) => {
+        try {
+            const auxData = { ...data, name: formatName(data.name) };
+
+            const {
+                data: { departmentId },
+            } = await departmentApi.create(company!.companyId, auxData);
+
+            if (image)
+                await imageApi.associateToDep(
+                    company!.companyId,
+                    departmentId,
+                    image.imageId
+                );
+
+            reset();
+            setPhone('');
+            setImage(undefined);
+            snackbarUtils.success('Sucesso ao cadastrar departamento');
+        } catch (err) {
+            snackbarUtils.error('Erro ao tentar criar departamento');
+        }
     };
     return (
         <Fragment>
@@ -77,10 +82,7 @@ const NewDepartment: React.FC = () => {
                             </Typography>
                         </Grid>
                         <Grid container item xs={12} md={4} justify="flex-end">
-                            <BackButton
-                                message="Voltar para os departamentos"
-                                redirect={`admin/${params.company}/departamentos`}
-                            />
+                            <BackButton message="Voltar" />
                         </Grid>
                     </Grid>
                     <Grid container xs={12} md={12}>
@@ -92,7 +94,10 @@ const NewDepartment: React.FC = () => {
                                     className={classes.formContainer}
                                 >
                                     <Grid item xs={12} md={3}>
-                                        <IconSelection setImage={setImage} />
+                                        <IconSelection
+                                            setImage={setImage}
+                                            image={image}
+                                        />
                                     </Grid>
 
                                     <Grid container item xs={12} md={9}>
@@ -184,35 +189,51 @@ const NewDepartment: React.FC = () => {
                                             <InputMask
                                                 mask={'(99) 99999-9999'}
                                                 maskChar="_"
+                                                value={phone}
+                                                onChange={value =>
+                                                    setPhone(value.target.value)
+                                                }
                                             >
-                                                {() => (
-                                                    <TextField
-                                                        data-cy="department-phone"
-                                                        name="phone"
-                                                        label="Telefone"
-                                                        error={
-                                                            errors.phone !==
-                                                            undefined
-                                                        }
-                                                        helperText={
-                                                            errors.phone
-                                                                ? '⚠' +
-                                                                  errors?.phone
-                                                                      ?.message
-                                                                : ''
-                                                        }
-                                                        className={
-                                                            classes.textFieldGrid
-                                                        }
-                                                        inputRef={register({
-                                                            minLength: {
-                                                                value: 15,
-                                                                message:
+                                                {
+                                                    //@ts-ignore
+                                                    inputProps => (
+                                                        <TextField
+                                                            {...inputProps}
+                                                            data-cy="department-phone"
+                                                            name="phone"
+                                                            label="Telefone"
+                                                            error={
+                                                                errors.phone !==
+                                                                undefined
+                                                            }
+                                                            helperText={
+                                                                errors.phone
+                                                                    ? '⚠' +
+                                                                      errors
+                                                                          ?.phone
+                                                                          ?.message
+                                                                    : ''
+                                                            }
+                                                            className={
+                                                                classes.textFieldGrid
+                                                            }
+                                                            inputRef={register({
+                                                                minLength: {
+                                                                    value: 15,
+                                                                    message:
+                                                                        'O número está incompleto',
+                                                                },
+                                                                validate: value =>
+                                                                    value.replaceAll(
+                                                                        '_',
+                                                                        ''
+                                                                    ).length ===
+                                                                        15 ||
                                                                     'O número está incompleto',
-                                                            },
-                                                        })}
-                                                    />
-                                                )}
+                                                            })}
+                                                        />
+                                                    )
+                                                }
                                             </InputMask>
                                         </Grid>
                                     </Grid>
@@ -250,7 +271,12 @@ const NewDepartment: React.FC = () => {
                                 </Grid>
                             </form>
                         </Grid>
-                        <Grid item xs={12} md={4}>
+                        <Grid
+                            item
+                            xs={12}
+                            md={4}
+                            className={classes.animationContainer}
+                        >
                             <Lottie animationData={departmentAnimation} />
                         </Grid>
                     </Grid>

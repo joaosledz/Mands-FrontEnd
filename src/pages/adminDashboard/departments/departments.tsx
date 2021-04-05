@@ -6,7 +6,7 @@ import useCompany from '../../../hooks/useCompany';
 import { departmentApi, TypeDepartment } from '../../../services';
 import snackbarUtils from '../../../utils/functions/snackbarUtils';
 
-import Layout from '../layout/departmentLayout';
+import Layout from '../layout/companyLayout';
 import DepartmentsContent from './components/departments/departments';
 import FabButton from '../../../components/fabButton';
 import useStyles from './styles';

@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import pt from 'date-fns/locale/pt-BR';
 import { withStyles } from '@material-ui/core/styles';
 import { Key as KeyIcon } from '@styled-icons/ionicons-sharp';
+import { Reload as ReloadIcon } from '@styled-icons/open-iconic';
 import { PersonRemove as RemoveUserIcon } from '@styled-icons/material';
 import { companyApi, TypeMember } from '../../../../../services';
 import { TypeEmployee } from '../../../../../models/department';
@@ -18,8 +19,10 @@ import useCompany from '../../../../../hooks/useCompany';
 import HiringModal from '../../../components/assignTeamModal/company';
 import PermissionModal from '../../../../../components/permission/modal';
 import useStyles from './styles';
-import userIcon from '../../../../../assets/icons/usericon.svg';
 import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
+import Avatar from '@material-ui/core/Avatar';
+import RemoveUserModal from '../removeUserModal';
+import Tooltip from '@material-ui/core/Tooltip';
 // import DeleteCupom from '../../components/Dialogs/DeleteCupom';
 
 type Props = {
@@ -43,6 +46,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     })(Switch);
     const { company } = useCompany();
     const [data, setData] = useState<TypeMember[]>();
+    const [dataChanged, setDataChanged] = useState<Boolean>(false);
     // const { data } = props;
     const tableRef = createRef();
     const [filter, setFilter] = useState<boolean>(false);
@@ -50,9 +54,9 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const handleChangeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFilter(!filter);
     };
-
-    const handleRemove = (id: number, name: string) => {
-        console.log(`Funcionário ${name} deletado (id: ${id})`);
+    //Atualizar dados
+    const reloadTable = () => {
+        setDataChanged(!dataChanged);
     };
     //Hiring Modal
     const [showHiringModal, setShowHiringModal] = useState<boolean>(false);
@@ -66,6 +70,21 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     const handleOpenPermissionModal = (rowData: TypeMember) => {
         setSelectedEmployee(rowData);
         setShowPermissionModal(true);
+    };
+    //Remove user modal
+    const [showRemoveModal, setShowRemoveModal] = useState<boolean>(false);
+    const handleOpenRemoveModal = (rowData: TypeMember) => {
+        setSelectedEmployee(rowData);
+        setShowRemoveModal(true);
+    };
+    const handleRemove = (member: TypeMember) => {
+        const aux: Array<TypeMember> = [];
+
+        data!.forEach(item => {
+            if (item.userId !== member.userId) aux.push(item);
+        });
+
+        setData(aux);
     };
 
     const getData = () => {
@@ -87,7 +106,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
     useEffect(() => {
         getData();
         // eslint-disable-next-line
-    }, []);
+    }, [dataChanged]);
 
     return (
         <Fragment>
@@ -123,12 +142,8 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                 sorting: false,
                                 filtering: false,
                                 render: data => (
-                                    <img
-                                        src={data.image?.path || userIcon}
-                                        style={{
-                                            width: 50,
-                                            borderRadius: '50%',
-                                        }}
+                                    <Avatar
+                                        src={data.image?.path || undefined}
                                         alt="Imagem"
                                     />
                                 ),
@@ -190,10 +205,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                     <Button
                                         className={classes.button}
                                         onClick={() =>
-                                            handleRemove(
-                                                rowData.userId,
-                                                rowData.name
-                                            )
+                                            handleOpenRemoveModal(rowData)
                                         }
                                     >
                                         <RemoveUserIcon
@@ -231,7 +243,7 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                             Meus Funcionários
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={5}>
+                                    <Grid item xs={4}>
                                         <FormControlLabel
                                             control={
                                                 <PurpleSwitch
@@ -253,6 +265,33 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                                             Contratar Funcionário
                                         </Button>
                                     </Grid>
+                                    <Grid
+                                        container
+                                        item
+                                        xs={1}
+                                        alignItems="center"
+                                        justify="center"
+                                    >
+                                        <Tooltip
+                                            aria-label="Recarregar dados"
+                                            title="Recarregar dados"
+                                            arrow
+                                            placement="top"
+                                        >
+                                            <Grid item xs={6}>
+                                                <ReloadIcon
+                                                    className={
+                                                        classes.iconReload
+                                                    }
+                                                    onClick={() =>
+                                                        reloadTable()
+                                                    }
+                                                    size={'1.6rem'}
+                                                    color={'#B03E9F'}
+                                                />
+                                            </Grid>
+                                        </Tooltip>
+                                    </Grid>
                                 </Grid>
                             ),
                         }}
@@ -260,11 +299,20 @@ const TableEmployees: React.FC<Props> = (props: Props) => {
                     <HiringModal
                         isOpen={showHiringModal}
                         setIsOpen={setShowHiringModal}
+                        selectedValues={data}
                     />
                     <PermissionModal
                         isOpen={showPermissionModal}
                         setIsOpen={setShowPermissionModal}
                         employee={selectedEmployee!}
+                        reloadTable={reloadTable}
+                    />
+                    <RemoveUserModal
+                        company={company}
+                        isOpen={showRemoveModal}
+                        member={selectedEmployee}
+                        onRemove={handleRemove}
+                        setIsOpen={setShowRemoveModal}
                     />
                 </Fragment>
             )}

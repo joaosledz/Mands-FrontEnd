@@ -27,19 +27,19 @@ export type TypeMember = {
     permissionId: number;
 };
 
-// export type TypeEmployee = {
-//     userId: number;
-//     name: string;
-//     surname: string;
-//     // imageId: number;
-//     image?: string;
-//     username: string;
-//     // email: string;
-//     cpf: string;
-//     // admission: null;
-//     permission: string;
-//     permissionId: number;
-// };
+export type TypeEmployee = {
+    userId: number;
+    name: string;
+    surname: string;
+    cpf: string;
+    // imageId: number;
+    image?: string;
+    // username: string;
+    // email: string;
+    // admission: null;
+    // permission: string;
+    permissionId: number;
+};
 
 export type TypeDepartment = {
     departmentId: number;
@@ -48,7 +48,7 @@ export type TypeDepartment = {
     email: string;
     phone: string;
     imageId: number;
-    image: string;
+    image: { imageId: number; path: string };
     members: Array<TypeMember>;
     projects?: Array<TypeProject>;
 };
@@ -56,4 +56,9 @@ export type TypeDepartment = {
 export type TypeDepAssociateModel = {
     permissionId: number;
     userId: number;
+};
+
+export type TypeIcon = {
+    imageId: number;
+    path: string;
 };

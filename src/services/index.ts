@@ -8,6 +8,7 @@ import companyPermApi from './useCases/companyPermission';
 import departmentApi from './useCases/department';
 import departmentPermApi from './useCases/departmentPermission';
 import projectApi from './useCases/project';
+import projectPermApi from './useCases/projectPermission';
 import imageApi from './useCases/image';
 import taskApi from './useCases/task';
 import sessionApi from './useCases/session';
@@ -18,6 +19,7 @@ export * from './models/companyPermission';
 export * from './models/department';
 export * from './models/departmentPermission';
 export * from './models/project';
+export * from './models/projectPermission';
 export * from './models/image';
 export * from './models/task';
 export * from './models/session';
@@ -31,6 +33,7 @@ export {
     departmentApi,
     departmentPermApi,
     projectApi,
+    projectPermApi,
     imageApi,
     taskApi,
     sessionApi,

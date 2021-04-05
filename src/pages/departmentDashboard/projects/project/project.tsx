@@ -26,7 +26,11 @@ const Project: React.FC<Props> = (props: Props) => {
             className={classes.project}
         >
             <img
-                src={project.image || DefaultDepartmentIcon}
+                src={
+                    project.image
+                        ? project.image.path || DefaultDepartmentIcon
+                        : DefaultDepartmentIcon
+                }
                 alt="Ícone do projeto"
             />
             <Typography>{project.name}</Typography>

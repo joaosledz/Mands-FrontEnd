@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
         rightSide: {
             marginBottom: 69,
 
-            '& h2': {
+            '& #danger-zone-title': {
                 marginBottom: '1rem',
                 fontSize: '1.8rem',
                 fontWeight: 400,
@@ -72,24 +72,68 @@ const useStyles = makeStyles((theme: Theme) =>
                 color: theme.palette.text.secondary,
             },
 
-            '& button': {
-                marginTop: '1rem',
-                textTransform: 'initial',
-                color: '#CD2A2A',
-                transition: 'all .2s',
-
-                '&:hover': {
-                    color: theme.palette.primary.contrastText,
-                    backgroundColor: '#CD2A2A',
-                },
-            },
-
             [theme.breakpoints.only('xs')]: {
                 margin: theme.spacing(8, 0, 1),
 
                 '& p': {
                     fontSize: '0.8rem',
                 },
+            },
+        },
+
+        baseButton: {
+            width: '100%',
+            height: 50,
+            maxWidth: 260,
+
+            padding: '10px',
+
+            borderRadius: '7px',
+
+            display: 'flex',
+            alignItems: 'center',
+            textAlign: 'center',
+            justifyContent: 'center',
+
+            [theme.breakpoints.up('sm')]: {
+                marginTop: 20,
+            },
+        },
+
+        button: {
+            color: 'white',
+            background:
+                'linear-gradient(90deg, rgba(210,91,197,1) 0%, rgba(197,71,150,1) 48%)',
+
+            transition: 'all .2s',
+
+            '&:hover': {
+                maxWidth: 300,
+                background: `linear-gradient(to bottom,${theme.palette.primary.main} ,${theme.palette.primary.main})`,
+            },
+        },
+
+        buttonDisabled: {
+            backgroundColor: '#9a9a9a',
+            '& p': {
+                color: '#ffffffba',
+            },
+        },
+
+        buttonText: {
+            fontSize: 16,
+            letterSpacing: 2.5,
+        },
+
+        deleteButton: {
+            marginTop: '1rem',
+            textTransform: 'initial',
+            color: '#CD2A2A',
+            transition: 'all .2s',
+
+            '&:hover': {
+                color: theme.palette.primary.contrastText,
+                backgroundColor: '#CD2A2A',
             },
         },
     })

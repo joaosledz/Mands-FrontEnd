@@ -8,9 +8,14 @@ import IconSelectionModal from '../modal';
 
 import useStyles from './styles';
 
+type TypeIcon = {
+    imageId: number;
+    path: string;
+};
+
 type Props = {
-    image?: string;
-    setImage?: React.Dispatch<React.SetStateAction<string | undefined>>;
+    image?: TypeIcon;
+    setImage?: React.Dispatch<React.SetStateAction<TypeIcon | undefined>>;
     disabled?: boolean;
     styles?: string;
 };
@@ -18,12 +23,14 @@ type Props = {
 const IconSelectionInput: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { image, setImage, disabled, styles } = props;
-    const [imagePreview, setImagePreview] = useState<string | undefined>(image);
+    const [imagePreview, setImagePreview] = useState<string | undefined>(
+        image?.path
+    );
 
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        setImagePreview(image);
+        setImagePreview(image?.path);
     }, [image]);
 
     const IconModal = useMemo(() => {

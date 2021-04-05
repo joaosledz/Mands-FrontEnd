@@ -25,7 +25,7 @@ const ProjectsCard: React.FC<Props> = ({ project }) => {
         if (baseURL.includes(pages[0])) baseURL = baseURL.split(pages[0])[0];
         else baseURL = baseURL.split(pages[1])[0];
 
-        const url = `${baseURL}/projeto/${projectId}/detalhes`;
+        const url = `${baseURL}/projeto/${projectId}/edicao`;
         return url;
     };
 
@@ -41,7 +41,14 @@ const ProjectsCard: React.FC<Props> = ({ project }) => {
             className={classes.project}
             onClick={() => updateProject(project)}
         >
-            <img src={image || DefaultDepartmentIcon} alt="Ícone do Projeto" />
+            <img
+                src={
+                    image
+                        ? image.path || DefaultDepartmentIcon
+                        : DefaultDepartmentIcon
+                }
+                alt="Ícone do Projeto"
+            />
             <Typography>{name}</Typography>
         </Link>
     );

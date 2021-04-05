@@ -49,7 +49,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
     } = props;
 
     const [showTeamModal, setShowTeamModal] = useState(false);
-
+    
     const handleAction = () => {
         // console.log('teamData: ', teamData);
         const handleProjectURL = () => {
@@ -83,7 +83,7 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
     const renderProject = () =>
         projectData!.length !== 0 ? (
             projectData!.map((item, index) => (
-                <Grid key={index} item xs={12} md={4}>
+                <Grid key={index} item xs={6} sm={4} md={4}>
                     <ProjectsCard project={item} />
                 </Grid>
             ))
@@ -107,8 +107,10 @@ const AssignGridItem: React.FC<Props> = (props: Props) => {
                 container
                 direction="column"
                 item
-                xs={12}
+                lg={5}
                 md={5}
+                sm={12}
+                xs={12}
                 spacing={3}
                 className={
                     styles

@@ -31,6 +31,8 @@ import GoogleLogin from 'react-google-login';
 import FacebookLogin from './components/facebookButton';
 import GithubLogin from './components/githubButton';
 
+import ReCAPTCHA from 'react-google-recaptcha';
+
 type TypeAuthModel = {
     credential: string;
     password: string;
@@ -53,6 +55,10 @@ const Login: React.FC = () => {
     const { register, errors, handleSubmit, formState, watch } = useForm<
         TypeAuthModel
     >();
+
+    const [recaptchaValue, setRecaptchaValue] = useState<string | null>();
+    const [recaptchaOn, setRecaptchaOn] = useState(true);
+    const recaptchaRef = React.createRef<ReCAPTCHA>();
 
     const [modalIsOpen, setModalIsOpen] = useState({
         confirm: false,
@@ -322,6 +328,19 @@ const Login: React.FC = () => {
                                     >
                                         Esqueceu a senha?
                                     </Link>
+
+                                    {recaptchaOn && (
+                                        <Box>
+                                            <Box style={{ height: 10 }} />
+
+                                            <ReCAPTCHA
+                                                ref={recaptchaRef}
+                                                sitekey="Your client site key"
+                                                onChange={setRecaptchaValue}
+                                            />
+                                        </Box>
+                                    )}
+
                                     <LogInButton mt={60} text="Entrar" />
                                 </Box>
                             </form>

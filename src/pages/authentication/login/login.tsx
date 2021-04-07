@@ -335,7 +335,7 @@ const Login: React.FC = () => {
 
                                             <ReCAPTCHA
                                                 ref={recaptchaRef}
-                                                sitekey="Your client site key"
+                                                sitekey="6LdHK6AaAAAAAF4Bh05Ry1xo8pjDFyeFkDhNEFIE"
                                                 onChange={setRecaptchaValue}
                                             />
                                         </Box>

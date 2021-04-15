@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: '#FFFFFF',
             height: '80vh',
         },
-        title: {
-            color: theme.palette.primary.contrastText,
-        },
     })
 );
 

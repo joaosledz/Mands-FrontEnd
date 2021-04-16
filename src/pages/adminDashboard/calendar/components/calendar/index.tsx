@@ -1,99 +1,76 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { TypeCalendarData } from '../../models';
+import { TypeCalendarData, TypeDays } from '../../models';
 import useStyles from './styles';
-// import FabButton from '../../../../../components/fabButton';
-import BoardContext from '../../../../../contexts/calendar';
-// import authContext from '../../../../../contexts/auth';
 import Day from '../Day';
-import useCompany from '../../../../../hooks/useCompany';
-import useDepartment from '../../../../../hooks/useDepartment';
-import { useParams } from 'react-router-dom';
-import TypeParams from '../../../../../models/params';
-import { SubmitChangeSession, taskApi } from '../../../../../services';
-import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
-import Backdrop from '../../../../../components/backdrop';
-// import { Link } from 'react-router-dom';
+// import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
+import moment from 'moment';
+import { Typography } from '@material-ui/core';
 type CalendarProps = {
     state: TypeCalendarData;
 };
 const Board: React.FC<CalendarProps> = props => {
-    const { state } = props;
+    // const { state } = props;
     const classes = useStyles();
-    // Initialize board state with board data
-    const { /*setState,*/ loading } = useContext(BoardContext);
-    // const { user } = useContext(authContext);
-    const { company } = useCompany();
-    const params = useParams<TypeParams>();
-    const { getDepartmentData, department /*, userPermDep*/ } = useDepartment();
-    // const [showCreateSessionModal, setShowCreateSessionModal] = useState(false);
-    //Id do Projeto
-    const projectId = parseInt(params.project!);
+    const weekdayshort = [
+        'Domingo',
+        'Segunda',
+        'Terça',
+        'Quarta',
+        'Quinta',
+        'Sexta',
+        'Sábado',
+    ];
 
-    //Dados do departamento do projeto
-    useEffect(() => {
-        const handleDepartment = async () => {
-            if (!department)
-                await getDepartmentData(params.company, params.department!);
-
-            // setDepartmentId(department.departmentId)
-        };
-        handleDepartment();
-        // eslint-disable-next-line
-    }, [department]);
-    // Handle drag & drop
-    //Get de Permissões
-    const ChangeSessionSocket = (itemId: string, sessionId: string) => {
-        if (company && department) {
-            let data: SubmitChangeSession = {
-                companyId: company.companyId,
-                departmentId: department.departmentId,
-                projectId,
-            };
-            taskApi
-                .changeSession(
-                    parseInt(itemId.replace('task_', '')),
-                    sessionId,
-                    data
-                )
-                .then(response => {
-                    // snackbarUtils.success('Tarefa deletada com sucesso');
-                })
-                .catch(error => {
-                    snackbarUtils.error('Erro ao tentar mover tarefa');
-                });
-        } else
-            snackbarUtils.error(
-                'Dados incompletos de departamento e(ou) empresa'
-            );
+    const [date, setDate] = useState(moment());
+    const [slots, setSlots] = useState<TypeDays>({});
+    const [slotsKeys, setSlotsKeys] = useState<Array<string>>([]);
+    const firstDayOfMonth = (): number => {
+        return parseInt(moment(date).startOf('month').format('d'));
     };
 
-    // const MoveTaskSocket = (
-    //     newState: TypeCalendarData,
-    //     oldState: TypeCalendarData,
-    //     droppableId: string
-    // ) => {
-    //     let data: updateTaskPositionType = [];
-    //     newState.days[droppableId].eventsIds.map(
-    //         (taskId: string, index: number) => {
-    //             data.push({
-    //                 taskId: parseInt(taskId.replace('task_', '')),
-    //                 position: index,
-    //             });
-    //             return data;
-    //         }
-    //     );
-    //     taskApi
-    //         .updatePosition(droppableId, projectId, data)
-    //         .then(response => {
-    //             snackbarUtils.success('Posição alterada com sucesso');
-    //             // AddColumn();
-    //         })
-    //         .catch(error => {
-    //             setState(oldState);
-    //             snackbarUtils.error('Erro ao tentar adicionar uma coluna');
-    //         });
-    // };
+    useEffect(() => {
+        const Keys: Array<string> = [];
+        let blanks: TypeDays = {};
+        for (let i = 0; i < firstDayOfMonth(); i++) {
+            Keys.push(`${i}`);
+            blanks = {
+                ...blanks,
+                [`${i}`]: {
+                    dayId: '',
+                    title: '',
+                    eventsIds: [],
+                },
+            };
+        }
+        let daysInMonth: TypeDays = {};
+        for (let d = 1; d <= date.daysInMonth(); d++) {
+            Keys.push(`${d}/${date.month}/${date.year}`);
+            daysInMonth = {
+                ...daysInMonth,
+                [`${d}/${date.month}/${date.year}`]: {
+                    dayId: `${d}/${date.month}/${date.year}`,
+                    title: d.toString(),
+                    eventsIds: [],
+                },
+            };
+        }
+        let endBlanks: TypeDays = {};
+        for (let i = Keys.length; i <= 35; i++) {
+            Keys.push(`${i}`);
+            endBlanks = {
+                ...endBlanks,
+                [`${i}`]: {
+                    dayId: '',
+                    title: '',
+                    eventsIds: [],
+                },
+            };
+        }
+        setSlotsKeys(Keys);
+        setSlots({ ...blanks, ...daysInMonth, ...endBlanks });
+    }, [date]);
+    // Initialize board state with board data
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId } = result;
@@ -109,10 +86,10 @@ const Board: React.FC<CalendarProps> = props => {
             return;
         }
         // Find column from which the item was dragged from
-        const columnStart = (state.days as any)[source.droppableId];
+        const columnStart = (slots.days as any)[source.droppableId];
 
         // Find column in which the item was dropped
-        const columnFinish = (state.days as any)[destination.droppableId];
+        const columnFinish = (slots.days as any)[destination.droppableId];
 
         // Moving events in the same list
         if (columnStart === columnFinish) {
@@ -173,67 +150,61 @@ const Board: React.FC<CalendarProps> = props => {
             // };
             // Update the board state with new data
             // setState(newState);
-            ChangeSessionSocket(draggableId, destination.droppableId);
         }
     };
 
     return (
         <Fragment>
-            {loading ? (
-                <Backdrop loading={loading} />
-            ) : (
-                <Fragment>
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable
-                            droppableId="all-days"
-                            direction="horizontal"
-                            type="column"
-                            key="all-days"
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable
+                    droppableId="all-days"
+                    direction="horizontal"
+                    type="column"
+                    key="all-days"
+                >
+                    {provided => (
+                        <div
+                            className={classes.container}
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
                         >
-                            {provided => (
-                                <div
-                                    className={classes.boardElements}
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                >
-                                    {/* Get all days in the order specified in 'board-initial-data.ts' */}
-                                    {state.allDaysIds.map((dayId, index) => {
-                                        // Get id of the current column
-                                        const day = state.days[dayId];
-
-                                        // Get items belonging to the current column
-                                        const events = day.eventsIds.map(
-                                            (eventId: string) =>
-                                                state.events[eventId]
-                                        );
-
-                                        // Render the BoardColumn component
-                                        return (
-                                            <React.Fragment key={day.dayId}>
-                                                <Day
-                                                    key={day.dayId}
-                                                    column={day}
-                                                    events={events}
-                                                    index={index}
-                                                />
-                                            </React.Fragment>
-                                        );
-                                    })}
+                            {weekdayshort.map((item, index) => (
+                                <div>
+                                    <Typography
+                                        className={classes.dayName}
+                                        variant="h6"
+                                    >
+                                        {item}
+                                    </Typography>
                                 </div>
-                            )}
-                        </Droppable>
-                    </DragDropContext>
-                    {/* {permissions.session && (
-                        <FabButton
-                            icon="plus"
-                            title="Nova Coluna"
-                            style={classes.fabButton}
-                            // onClick={AddSessionSocket}
-                            onClick={() => setShowCreateSessionModal(true)}
-                        />
-                    )} */}
-                </Fragment>
-            )}
+                            ))}
+                            {/* Get all days in the order specified in 'board-initial-data.ts' */}
+                            {slotsKeys.map((dayId, index) => {
+                                // Get id of the current column
+                                const day = slots[dayId];
+
+                                // Get items belonging to the current column
+                                // const events = day.eventsIds.map(
+                                //     (eventId: string) =>
+                                //         state.events[eventId]
+                                // );
+
+                                // Render the BoardColumn component
+                                return (
+                                    <React.Fragment>
+                                        <Day
+                                            key={day.dayId}
+                                            day={day}
+                                            events={[]}
+                                            index={index}
+                                        />
+                                    </React.Fragment>
+                                );
+                            })}
+                        </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
         </Fragment>
     );
 };

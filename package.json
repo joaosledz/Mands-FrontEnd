@@ -19,6 +19,7 @@
         "lottie-react": "^2.1.0",
         "material-table": "^1.69.1",
         "md5": "^2.3.0",
+        "moment": "^2.29.1",
         "notistack": "^1.0.1",
         "react": "^16.13.1",
         "react-beautiful-dnd": "^13.0.0",

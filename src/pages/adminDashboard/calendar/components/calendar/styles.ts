@@ -32,15 +32,16 @@ const useStyles = makeStyles((theme: Theme) =>
                 background: 'rgba(170,170,170,0.5)',
             },
         },
-        fabButton: {
-            [theme.breakpoints.up('md')]: {
-                right: '4rem',
-            },
+        dayName: {
+            textAlign: 'center',
         },
-        fabButtonConfig: {
-            [theme.breakpoints.up('md')]: {
-                right: '8rem',
-            },
+        container: {
+            width: '100%',
+            height: '100%',
+            padding: theme.spacing(1),
+            display: 'grid',
+            gridTemplateColumns: 'repeat(7, 1fr)',
+            gridTemplateRows: '1fr 3fr 3fr 3fr 3fr 3fr',
         },
     })
 );

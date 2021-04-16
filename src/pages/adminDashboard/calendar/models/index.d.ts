@@ -1,17 +1,7 @@
 export type TypeCalendarData = {
-    events: TypeEvents;
-    days: {
-        [key: string]: {
-            dayId: string;
-            title: string;
-            eventsIds: Array<string>;
-        };
-    };
+    events: { [key: string]: TypeEvent };
+    days: TypeDays;
     allDaysIds: Array<string>;
-};
-
-export type TypeEvents = {
-    [key: string]: TypeEvent;
 };
 
 export type TypeEvent = {
@@ -19,6 +9,14 @@ export type TypeEvent = {
     title: string;
     description: string;
     color: string;
+};
+export type TypeDays = {
+    [key: string]: TypeDay;
+};
+export type TypeDay = {
+    dayId: string;
+    title: string;
+    eventsIds: Array<string>;
 };
 
 export type TypeMenuItem = {

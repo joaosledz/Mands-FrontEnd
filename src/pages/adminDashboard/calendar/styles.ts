@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         calendar: {
             backgroundColor: '#FFFFFF',
-            height: '80vh',
+            height: '86.3vh',
         },
     })
 );

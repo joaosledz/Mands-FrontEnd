@@ -8,16 +8,12 @@ import Layout from '../../../layout/appLayout';
 import { state } from './Data/state';
 import Menu from './components/menu';
 
-type ListItemType = {
-    name: string;
-    id: number;
-    color: string;
-};
+import { TypeMenuItem } from './models';
 
 const Calendar: React.FC = () => {
     const classes = useStyles();
 
-    const departments: ListItemType[] = [
+    const departments: TypeMenuItem[] = [
         {
             name: 'Desenvolvedores',
             id: 0,
@@ -34,7 +30,7 @@ const Calendar: React.FC = () => {
             color: 'orange',
         },
     ];
-    const projects: ListItemType[] = [
+    const projects: TypeMenuItem[] = [
         {
             name: 'projeto 1',
             id: 0,
@@ -51,7 +47,7 @@ const Calendar: React.FC = () => {
             color: 'purple',
         },
     ];
-    const company: ListItemType = {
+    const company: TypeMenuItem = {
         id: 0,
         name: 'Empresa X',
         color: 'red',
@@ -66,6 +62,7 @@ const Calendar: React.FC = () => {
                             departments={departments}
                             projects={projects}
                             company={company}
+                            onFilterChange={data => console.log(data)}
                         />
                     </Grid>
                     <Grid item lg={10}>

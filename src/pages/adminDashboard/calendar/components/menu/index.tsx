@@ -15,25 +15,26 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import useStyles from './styles';
 
-type ListItemType = {
-    name: string;
-    id: number;
-    selected?: boolean;
-    color: string;
-};
+import { TypeMenuItem, TypeMenuValues, TypeFilter } from '../../models';
 
 type PropTypes = {
-    departments: Array<ListItemType>;
-    projects: Array<ListItemType>;
-    company: ListItemType;
+    departments: Array<TypeMenuItem>;
+    projects: Array<TypeMenuItem>;
+    company: TypeMenuItem;
+    onFilterChange(filter: TypeFilter): void;
 };
 
-const Index: React.FC<PropTypes> = ({ departments, projects, company }) => {
+const Index: React.FC<PropTypes> = ({
+    departments,
+    projects,
+    company,
+    onFilterChange,
+}) => {
     const classes = useStyles();
 
     const [depSession, setDepSession] = useState(true);
     const [projSession, setProjSession] = useState(true);
-    const [listValues, setListValues] = useState<PropTypes>();
+    const [listValues, setListValues] = useState<TypeMenuValues | undefined>();
 
     useEffect(() => {
         const departmentsAux = departments.map(item => ({
@@ -53,6 +54,59 @@ const Index: React.FC<PropTypes> = ({ departments, projects, company }) => {
         });
     }, [departments, projects, company]);
 
+    useEffect(() => {
+        if (!listValues) return;
+
+        const filteredDeps: number[] = [];
+        listValues.departments.forEach(item => {
+            if (item.selected) filteredDeps.push(item.id);
+        });
+        const filteredProjs: number[] = [];
+        listValues.projects.forEach(item => {
+            if (item.selected) filteredProjs.push(item.id);
+        });
+        const filteredCompany: number[] = [];
+        if (listValues.company.selected)
+            filteredCompany.push(listValues.company.id);
+
+        const filter: TypeFilter = {
+            filteredDeps,
+            filteredProjs,
+            filteredCompany,
+        };
+
+        onFilterChange(filter);
+    }, [listValues, onFilterChange]);
+
+    const handleClick = (type: string, id: number) => {
+        if (!listValues) return;
+        let aux: any;
+        switch (type) {
+            case 'department':
+                aux = listValues.departments.map(item => ({
+                    ...item,
+                    selected: item.id === id ? !item.selected : item.selected,
+                }));
+                setListValues({ ...listValues, departments: aux });
+                break;
+
+            case 'project':
+                aux = listValues.projects.map(item => ({
+                    ...item,
+                    selected: item.id === id ? !item.selected : item.selected,
+                }));
+                setListValues({ ...listValues, projects: aux });
+                break;
+
+            case 'company':
+                aux = {
+                    ...listValues.company,
+                    selected: !listValues.company.selected,
+                };
+                setListValues({ ...listValues, company: aux });
+        }
+    };
+
     return (
         <Paper className={classes.container}>
             <Typography variant="h6" className={classes.lblHeader}>
@@ -60,7 +114,13 @@ const Index: React.FC<PropTypes> = ({ departments, projects, company }) => {
             </Typography>
             <List component="nav" aria-labelledby="nested-list-subheader">
                 {listValues?.company && (
-                    <ListItem dense button>
+                    <ListItem
+                        dense
+                        button
+                        onClick={() =>
+                            handleClick('company', listValues!.company.id)
+                        }
+                    >
                         <ListItemIcon>
                             <Checkbox
                                 edge="start"
@@ -89,7 +149,13 @@ const Index: React.FC<PropTypes> = ({ departments, projects, company }) => {
                 <Collapse in={depSession} timeout="auto">
                     <List component="div" disablePadding>
                         {listValues?.departments.map((item, index) => (
-                            <ListItem dense button>
+                            <ListItem
+                                dense
+                                button
+                                onClick={() =>
+                                    handleClick('department', item.id)
+                                }
+                            >
                                 <ListItemIcon>
                                     <Checkbox
                                         edge="start"
@@ -118,7 +184,11 @@ const Index: React.FC<PropTypes> = ({ departments, projects, company }) => {
                 <Collapse in={projSession} timeout="auto">
                     <List component="div" disablePadding>
                         {listValues?.projects.map((item, index) => (
-                            <ListItem dense button>
+                            <ListItem
+                                dense
+                                button
+                                onClick={() => handleClick('project', item.id)}
+                            >
                                 <ListItemIcon>
                                     <Checkbox
                                         edge="start"

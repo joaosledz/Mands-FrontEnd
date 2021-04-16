@@ -20,3 +20,22 @@ export type TypeEvent = {
     description: string;
     color: string;
 };
+
+export type TypeMenuItem = {
+    name: string;
+    id: number;
+    selected?: boolean;
+    color: string;
+};
+
+export type TypeMenuValues = {
+    departments: Array<TypeMenuItem>;
+    projects: Array<TypeMenuItem>;
+    company: TypeMenuItem;
+};
+
+export type TypeFilter = {
+    filteredDeps: number[];
+    filteredProjs: number[];
+    filteredCompany: number[];
+};

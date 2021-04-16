@@ -3,11 +3,11 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-
+// import Typography from '@material-ui/core/Typography';
+import CalendarGrid from './components/calendar';
 import useStyles from './styles';
 import Layout from '../../../layout/appLayout';
-
+import { state } from './Data/state';
 import Menu from './components/menu';
 
 const Calendar: React.FC = () => {
@@ -21,7 +21,9 @@ const Calendar: React.FC = () => {
                         <Menu />
                     </Grid>
                     <Grid item lg={10}>
-                        <Paper className={classes.calendar}>xs=12 sm=6</Paper>
+                        <Paper className={classes.calendar}>
+                            <CalendarGrid state={state} />
+                        </Paper>
                     </Grid>
                 </Grid>
             </Box>

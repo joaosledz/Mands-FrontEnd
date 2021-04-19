@@ -1,4 +1,5 @@
-import { TypeCalendarData } from '../models';
+import { TypeCalendarData, TypeMenuValues } from '../models';
+
 export const state: TypeCalendarData = {
     events: {
         'item-1': {
@@ -144,4 +145,48 @@ export const state: TypeCalendarData = {
         '19/04/2021',
         '20/04/2021',
     ],
+};
+
+export const menuItems: TypeMenuValues = {
+    departments: [
+        {
+            name: 'Desenvolvedores',
+            id: 0,
+            color: 'yellow',
+        },
+        {
+            name: 'Designers',
+            id: 1,
+            color: 'green',
+        },
+        {
+            name: 'Recursos Humanos',
+            id: 2,
+            color: 'orange',
+        },
+    ],
+
+    projects: [
+        {
+            name: 'projeto 1',
+            id: 0,
+            color: 'blue',
+        },
+        {
+            name: 'projeto 2',
+            id: 1,
+            color: 'gray',
+        },
+        {
+            name: 'projeto 3',
+            id: 2,
+            color: 'purple',
+        },
+    ],
+
+    company: {
+        id: 0,
+        name: 'Empresa X',
+        color: 'red',
+    },
 };

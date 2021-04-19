@@ -1,18 +1,21 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { TypeCalendarData, TypeDays } from '../../models';
+import { TypeDays } from '../../models';
 import useStyles from './styles';
 import Day from './components/Day';
 // import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import moment from 'moment';
 import { Typography } from '@material-ui/core';
+
 type CalendarProps = {
-    state: TypeCalendarData;
+    date: moment.Moment;
 };
+
 const Board: React.FC<CalendarProps> = props => {
-    // const { state } = props;
+    const { date } = props;
+
     const classes = useStyles();
-    const weekdayshort = [
+    const weekDays = [
         'Domingo',
         'Segunda',
         'Terça',
@@ -22,55 +25,80 @@ const Board: React.FC<CalendarProps> = props => {
         'Sábado',
     ];
 
-    const [date, setDate] = useState(moment());
     const [slots, setSlots] = useState<TypeDays>({});
-    const [slotsKeys, setSlotsKeys] = useState<Array<string>>([]);
+    const [slotsIds, setSlotsIds] = useState<Array<string>>([]);
+
+    //Primeiro dia do mês
     const firstDayOfMonth = (): number => {
         return parseInt(moment(date).startOf('month').format('d'));
     };
 
+    //Pega os dias do mês
     useEffect(() => {
-        const Keys: Array<string> = [];
-        let blanks: TypeDays = {};
-        for (let i = 0; i < firstDayOfMonth(); i++) {
-            Keys.push(`${i}`);
-            blanks = {
-                ...blanks,
-                [`${i}`]: {
-                    dayId: '',
-                    title: '',
+        if (!date) return;
+        const auxDate = date;
+        const ids: Array<string> = [];
+
+        const previousMonth = auxDate.clone();
+        previousMonth.subtract(1, 'month');
+        const previousMonthDays = previousMonth.daysInMonth();
+        let daysInPreviousMonth: TypeDays = {};
+        for (
+            let i = previousMonthDays - firstDayOfMonth() + 1;
+            i <= previousMonthDays;
+            i++
+        ) {
+            ids.push(
+                `${i}/${previousMonth.month() + 1}/${previousMonth.year()}`
+            );
+            daysInPreviousMonth = {
+                ...daysInPreviousMonth,
+                [`${i}/${previousMonth.month() + 1}/${previousMonth.year()}`]: {
+                    dayId: `${i}/${
+                        previousMonth.month() + 1
+                    }/${previousMonth.year()}`,
+                    title: i.toString(),
                     eventsIds: [],
                 },
             };
         }
+
         let daysInMonth: TypeDays = {};
-        for (let d = 1; d <= date.daysInMonth(); d++) {
-            Keys.push(`${d}/${date.month}/${date.year}`);
+        for (let d = 1; d <= auxDate.daysInMonth(); d++) {
+            ids.push(`${d}/${auxDate.month() + 1}/${auxDate.year()}`);
             daysInMonth = {
                 ...daysInMonth,
-                [`${d}/${date.month}/${date.year}`]: {
-                    dayId: `${d}/${date.month}/${date.year}`,
+                [`${d}/${auxDate.month() + 1}/${auxDate.year()}`]: {
+                    dayId: `${d}/${auxDate.month() + 1}/${auxDate.year()}`,
                     title: d.toString(),
                     eventsIds: [],
                 },
             };
         }
-        let endBlanks: TypeDays = {};
-        for (let i = Keys.length; i < 35; i++) {
-            Keys.push(`${i}`);
-            endBlanks = {
-                ...endBlanks,
-                [`${i}`]: {
-                    dayId: '',
-                    title: '',
+
+        const nextMonth = auxDate.clone();
+        nextMonth.add(1, 'month');
+        let daysInNextMonth: TypeDays = {};
+        const idsLength = ids.length;
+        for (let i = 1; i < 43 - idsLength; i++) {
+            ids.push(`${i}/${nextMonth.month() + 1}/${nextMonth.year()}`);
+            daysInNextMonth = {
+                ...daysInNextMonth,
+                [`${i}/${nextMonth.month() + 1}/${nextMonth.year()}`]: {
+                    dayId: `${i}/${nextMonth.month() + 1}/${nextMonth.year()}`,
+                    title: i.toString(),
                     eventsIds: [],
                 },
             };
         }
-        setSlotsKeys(Keys);
-        setSlots({ ...blanks, ...daysInMonth, ...endBlanks });
+
+        setSlotsIds(ids);
+        setSlots({
+            ...daysInPreviousMonth,
+            ...daysInMonth,
+            ...daysInNextMonth,
+        });
     }, [date]);
-    // Initialize board state with board data
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId } = result;
@@ -168,39 +196,41 @@ const Board: React.FC<CalendarProps> = props => {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
-                            {weekdayshort.map((item, index) => (
-                                <div>
-                                    <Typography
-                                        className={classes.dayName}
-                                        variant="h6"
-                                    >
-                                        {item}
-                                    </Typography>
-                                </div>
-                            ))}
-                            {/* Get all days in the order specified in 'board-initial-data.ts' */}
-                            {slotsKeys.map((dayId, index) => {
-                                // Get id of the current column
-                                const day = slots[dayId];
+                            <div className={classes.calendarGrid}>
+                                {weekDays.map((item, index) => (
+                                    <div key={index}>
+                                        <Typography
+                                            className={classes.dayName}
+                                            variant="h6"
+                                        >
+                                            {item}
+                                        </Typography>
+                                    </div>
+                                ))}
+                                {/* Get all days in the order specified in 'board-initial-data.ts' */}
+                                {slotsIds.map((dayId, index) => {
+                                    // Get id of the current column
+                                    const day = slots[dayId];
 
-                                // Get items belonging to the current column
-                                // const events = day.eventsIds.map(
-                                //     (eventId: string) =>
-                                //         state.events[eventId]
-                                // );
+                                    // Get items belonging to the current column
+                                    // const events = day.eventsIds.map(
+                                    //     (eventId: string) =>
+                                    //         state.events[eventId]
+                                    // );
 
-                                // Render the BoardColumn component
-                                return (
-                                    <React.Fragment>
-                                        <Day
-                                            key={day.dayId}
-                                            day={day}
-                                            events={[]}
-                                            index={index}
-                                        />
-                                    </React.Fragment>
-                                );
-                            })}
+                                    // Render the BoardColumn component
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <Day
+                                                key={day.dayId}
+                                                day={day}
+                                                events={[]}
+                                                index={index}
+                                            />
+                                        </React.Fragment>
+                                    );
+                                })}
+                            </div>
                         </div>
                     )}
                 </Droppable>

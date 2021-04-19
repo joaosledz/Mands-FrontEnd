@@ -42,9 +42,13 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             height: '100%',
             padding: theme.spacing(1),
+            display: 'flex',
+        },
+        calendarGrid: {
+            flex: 1,
             display: 'grid',
             gridTemplateColumns: 'repeat(7, 1fr)',
-            gridTemplateRows: '1fr 3fr 3fr 3fr 3fr 3fr',
+            gridTemplateRows: '1fr 3fr 3fr 3fr 3fr 3fr 3fr',
         },
     })
 );

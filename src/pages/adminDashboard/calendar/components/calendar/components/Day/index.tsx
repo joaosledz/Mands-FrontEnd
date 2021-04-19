@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import useStyles from './styles';
-import { TypeEvent, TypeDay } from '../../models';
+import { TypeEvent, TypeDay } from '../../../../models';
 import { Typography } from '@material-ui/core';
 
 // Define types for board column element properties

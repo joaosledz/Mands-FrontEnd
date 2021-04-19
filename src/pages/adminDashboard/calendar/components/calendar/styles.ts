@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         dayName: {
             textAlign: 'center',
+            fontWeight: 700,
+            color: theme.palette.primary.main,
+            marginTop: theme.spacing(1),
         },
         container: {
             width: '100%',

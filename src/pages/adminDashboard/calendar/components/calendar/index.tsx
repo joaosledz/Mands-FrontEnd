@@ -2,7 +2,7 @@ import React, { useEffect, Fragment, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { TypeCalendarData, TypeDays } from '../../models';
 import useStyles from './styles';
-import Day from '../Day';
+import Day from './components/Day';
 // import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import moment from 'moment';
 import { Typography } from '@material-ui/core';
@@ -56,7 +56,7 @@ const Board: React.FC<CalendarProps> = props => {
             };
         }
         let endBlanks: TypeDays = {};
-        for (let i = Keys.length; i <= 35; i++) {
+        for (let i = Keys.length; i < 35; i++) {
             Keys.push(`${i}`);
             endBlanks = {
                 ...endBlanks,

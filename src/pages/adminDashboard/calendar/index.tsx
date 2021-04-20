@@ -8,12 +8,17 @@ import Layout from '../../../layout/appLayout';
 import { state, menuItems } from './Data/state';
 import Menu from './components/menu';
 import moment from 'moment';
+import { TypeDay, TypeEvent } from './models';
 
 const Calendar: React.FC = () => {
     const classes = useStyles();
 
     const [date, setDate] = useState(moment());
-
+    const onEventChange = (
+        dayStart: TypeDay,
+        dayFinish: TypeDay,
+        eventId: string
+    ) => {};
     return (
         <Layout>
             <Box className={classes.container}>
@@ -34,6 +39,7 @@ const Calendar: React.FC = () => {
                                 date={date}
                                 events={state.events}
                                 days={state.days}
+                                onEventChange={onEventChange}
                             />
                         </Paper>
                     </Grid>

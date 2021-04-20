@@ -1,7 +1,11 @@
 export type TypeCalendarData = {
-    events: { [key: string]: TypeEvent };
+    events: TypeEvents;
     days: TypeDays;
     allDaysIds: Array<string>;
+};
+
+export type TypeEvents = {
+    [key: string]: TypeEvent;
 };
 
 export type TypeEvent = {
@@ -10,9 +14,11 @@ export type TypeEvent = {
     description: string;
     color: string;
 };
+
 export type TypeDays = {
     [key: string]: TypeDay;
 };
+
 export type TypeDay = {
     dayId: string;
     title: string;

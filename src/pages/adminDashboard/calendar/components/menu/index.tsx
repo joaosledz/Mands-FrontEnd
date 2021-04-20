@@ -15,6 +15,8 @@ import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 
+import UncheckedIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckedIcon from '@material-ui/icons/CheckBox';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -324,15 +326,15 @@ const Index: React.FC<PropTypes> = ({
                                 }
                             >
                                 <ListItemIcon>
-                                    <Checkbox
-                                        edge="start"
-                                        checked={item.selected}
-                                        tabIndex={index}
-                                        disableRipple
-                                        inputProps={{
-                                            'aria-labelledby': `item-${item.id}`,
-                                        }}
-                                    />
+                                    {item.selected ? (
+                                        <CheckedIcon
+                                            style={{ color: item.color }}
+                                        />
+                                    ) : (
+                                        <UncheckedIcon
+                                            style={{ color: item.color }}
+                                        />
+                                    )}
                                 </ListItemIcon>
                                 <ListItemText
                                     id={item.id.toString()}
@@ -358,15 +360,15 @@ const Index: React.FC<PropTypes> = ({
                                 onClick={() => handleClick('project', item.id)}
                             >
                                 <ListItemIcon>
-                                    <Checkbox
-                                        edge="start"
-                                        checked={item.selected}
-                                        tabIndex={index}
-                                        disableRipple
-                                        inputProps={{
-                                            'aria-labelledby': `item-${item.id}`,
-                                        }}
-                                    />
+                                    {item.selected ? (
+                                        <CheckedIcon
+                                            style={{ color: item.color }}
+                                        />
+                                    ) : (
+                                        <UncheckedIcon
+                                            style={{ color: item.color }}
+                                        />
+                                    )}
                                 </ListItemIcon>
                                 <ListItemText
                                     id={item.id.toString()}

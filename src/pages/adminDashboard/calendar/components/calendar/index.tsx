@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { TypeDays } from '../../models';
+import { TypeDays, TypeEvents, TypeEvent } from '../../models';
 import useStyles from './styles';
 import Day from './components/Day';
 // import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
@@ -9,10 +9,12 @@ import { Typography } from '@material-ui/core';
 
 type CalendarProps = {
     date: moment.Moment;
+    events: TypeEvents;
+    days: TypeDays;
 };
 
 const Board: React.FC<CalendarProps> = props => {
-    const { date } = props;
+    const { date, events, days } = props;
 
     const classes = useStyles();
     const weekDays = [
@@ -48,30 +50,30 @@ const Board: React.FC<CalendarProps> = props => {
             i <= previousMonthDays;
             i++
         ) {
-            ids.push(
-                `${i}/${previousMonth.month() + 1}/${previousMonth.year()}`
-            );
+            const dayId = `${i}/${
+                previousMonth.month() + 1
+            }/${previousMonth.year()}`;
+            ids.push(dayId);
             daysInPreviousMonth = {
                 ...daysInPreviousMonth,
-                [`${i}/${previousMonth.month() + 1}/${previousMonth.year()}`]: {
-                    dayId: `${i}/${
-                        previousMonth.month() + 1
-                    }/${previousMonth.year()}`,
+                [dayId]: {
+                    dayId: dayId,
                     title: i.toString(),
-                    eventsIds: [],
+                    eventsIds: days[dayId] ? days[dayId].eventsIds : [],
                 },
             };
         }
 
         let daysInMonth: TypeDays = {};
         for (let d = 1; d <= auxDate.daysInMonth(); d++) {
-            ids.push(`${d}/${auxDate.month() + 1}/${auxDate.year()}`);
+            const dayId = `${d}/${auxDate.month() + 1}/${auxDate.year()}`;
+            ids.push(dayId);
             daysInMonth = {
                 ...daysInMonth,
-                [`${d}/${auxDate.month() + 1}/${auxDate.year()}`]: {
-                    dayId: `${d}/${auxDate.month() + 1}/${auxDate.year()}`,
+                [dayId]: {
+                    dayId: dayId,
                     title: d.toString(),
-                    eventsIds: [],
+                    eventsIds: days[dayId] ? days[dayId].eventsIds : [],
                 },
             };
         }
@@ -81,13 +83,14 @@ const Board: React.FC<CalendarProps> = props => {
         let daysInNextMonth: TypeDays = {};
         const idsLength = ids.length;
         for (let i = 1; i < 43 - idsLength; i++) {
-            ids.push(`${i}/${nextMonth.month() + 1}/${nextMonth.year()}`);
+            const dayId = `${i}/${nextMonth.month() + 1}/${nextMonth.year()}`;
+            ids.push(dayId);
             daysInNextMonth = {
                 ...daysInNextMonth,
-                [`${i}/${nextMonth.month() + 1}/${nextMonth.year()}`]: {
-                    dayId: `${i}/${nextMonth.month() + 1}/${nextMonth.year()}`,
+                [dayId]: {
+                    dayId: dayId,
                     title: i.toString(),
-                    eventsIds: [],
+                    eventsIds: days[dayId] ? days[dayId].eventsIds : [],
                 },
             };
         }
@@ -213,10 +216,9 @@ const Board: React.FC<CalendarProps> = props => {
                                     const day = slots[dayId];
 
                                     // Get items belonging to the current column
-                                    // const events = day.eventsIds.map(
-                                    //     (eventId: string) =>
-                                    //         state.events[eventId]
-                                    // );
+                                    const dayEvents: TypeEvent[] = day.eventsIds.map(
+                                        (eventId: string) => events[eventId]
+                                    );
 
                                     // Render the BoardColumn component
                                     return (
@@ -224,7 +226,7 @@ const Board: React.FC<CalendarProps> = props => {
                                             <Day
                                                 key={day.dayId}
                                                 day={day}
-                                                events={[]}
+                                                events={dayEvents}
                                                 index={index}
                                             />
                                         </React.Fragment>

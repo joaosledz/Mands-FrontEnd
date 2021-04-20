@@ -1,10 +1,11 @@
 import React from 'react';
-// import BoardContext from '../../../../../contexts/calendar';
 import { Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
-import useStyles from './styles';
 import { TypeEvent, TypeDay } from '../../../../models';
+import Event from '../event';
+
+import useStyles from './styles';
+
 import { Typography } from '@material-ui/core';
 
 // Define types for board column element properties
@@ -55,15 +56,13 @@ const BoardColumnContent = styled.div<BoardColumnContentStylesProps>`
 // Create and export the BoardColumn component
 export const Day: React.FC<BoardColumnProps> = props => {
     const classes = useStyles();
-    const { day } = props;
+    const { day, events } = props;
 
     return (
         <>
             <Droppable droppableId={day.dayId} type="task">
                 {(provided, snapshot) => (
                     <div className={classes.container} ref={provided.innerRef}>
-                        {/* Title of the column */}
-
                         <Typography className={classes.title}>
                             {day.title}
                         </Typography>
@@ -71,18 +70,16 @@ export const Day: React.FC<BoardColumnProps> = props => {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                             isDraggingOver={snapshot.isDraggingOver}
+                            className={classes.eventsList}
                         >
-                            {/* {items.map((item: any, index: number) => (
-                                        <BoardItem
-                                            key={item.taskId}
-                                            item={item}
-                                            index={index}
-                                            columnID={column.sessionId}
-                                            departmentId={departmentId}
-                                            projectId={projectId}
-                                            companyId={companyId}
-                                        />
-                                    ))} */}
+                            {events.map((item: TypeEvent, index: number) => (
+                                <Event
+                                    key={item.eventId}
+                                    event={item}
+                                    index={index}
+                                    dayId={day.dayId}
+                                />
+                            ))}
                         </BoardColumnContent>
                     </div>
                 )}

@@ -30,7 +30,11 @@ const Calendar: React.FC = () => {
                     </Grid>
                     <Grid item lg={10} md={9}>
                         <Paper className={classes.calendar}>
-                            <CalendarGrid date={date} />
+                            <CalendarGrid
+                                date={date}
+                                events={state.events}
+                                days={state.days}
+                            />
                         </Paper>
                     </Grid>
                 </Grid>

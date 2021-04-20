@@ -3,7 +3,6 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { TypeDays, TypeDay, TypeEvents, TypeEvent } from '../../models';
 import useStyles from './styles';
 import Day from './components/Day';
-// import snackbarUtils from '../../../../../utils/functions/snackbarUtils';
 import moment from 'moment';
 import { Typography } from '@material-ui/core';
 
@@ -35,15 +34,12 @@ const Board: React.FC<CalendarProps> = props => {
     const [slots, setSlots] = useState<TypeDays>({});
     const [slotsIds, setSlotsIds] = useState<Array<string>>([]);
 
-    useEffect(() => {
-        console.log(slots);
-    }, [slots]);
     //First day of the month
     const firstDayOfMonth = (): number => {
         return parseInt(moment(date).startOf('month').format('d'));
     };
 
-    //Get day of the month
+    //Update Grid
     useEffect(() => {
         if (!date) return;
         const auxDate = date;
@@ -114,9 +110,6 @@ const Board: React.FC<CalendarProps> = props => {
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId } = result;
-        console.log('source: ', source);
-        console.log('Destination: ', destination);
-        console.log('EventId: ', draggableId);
         // Do nothing if event is dropped outside the list
         if (!destination) {
             return;
@@ -129,7 +122,6 @@ const Board: React.FC<CalendarProps> = props => {
             return;
         }
         // Find day from which the event was dragged from
-        console.log(slots);
         const dayStart = (slots as any)[source.droppableId];
 
         // Find day in which the event was dropped

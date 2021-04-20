@@ -14,11 +14,23 @@ const Calendar: React.FC = () => {
     const classes = useStyles();
 
     const [date, setDate] = useState(moment());
+    const [data, setData] = useState(state);
+
     const onEventChange = (
         dayStart: TypeDay,
         dayFinish: TypeDay,
         eventId: string
-    ) => {};
+    ) => {
+        setData({
+            ...state,
+            days: {
+                ...data.days,
+                [dayStart.dayId]: dayStart,
+                [dayFinish.dayId]: dayFinish,
+            },
+        });
+    };
+
     return (
         <Layout>
             <Box className={classes.container}>
@@ -37,8 +49,8 @@ const Calendar: React.FC = () => {
                         <Paper className={classes.calendar}>
                             <CalendarGrid
                                 date={date}
-                                events={state.events}
-                                days={state.days}
+                                events={data.events}
+                                days={data.days}
                                 onEventChange={onEventChange}
                             />
                         </Paper>

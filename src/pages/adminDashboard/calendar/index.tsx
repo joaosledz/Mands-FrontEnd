@@ -8,7 +8,7 @@ import Layout from '../../../layout/appLayout';
 import { state, menuItems } from './Data/state';
 import Menu from './components/menu';
 import moment from 'moment';
-import { TypeDay, TypeEvent } from './models';
+import { TypeDay } from './models';
 
 const Calendar: React.FC = () => {
     const classes = useStyles();

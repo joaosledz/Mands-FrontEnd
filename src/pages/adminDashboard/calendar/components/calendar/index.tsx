@@ -38,12 +38,12 @@ const Board: React.FC<CalendarProps> = props => {
     useEffect(() => {
         console.log(slots);
     }, [slots]);
-    //Primeiro dia do mês
+    //First day of the month
     const firstDayOfMonth = (): number => {
         return parseInt(moment(date).startOf('month').format('d'));
     };
 
-    //Pega os dias do mês
+    //Get day of the month
     useEffect(() => {
         if (!date) return;
         const auxDate = date;
@@ -109,6 +109,7 @@ const Board: React.FC<CalendarProps> = props => {
             ...daysInMonth,
             ...daysInNextMonth,
         });
+        // eslint-disable-next-line
     }, [date]);
 
     const onDragEnd = (result: any) => {
@@ -116,54 +117,33 @@ const Board: React.FC<CalendarProps> = props => {
         console.log('source: ', source);
         console.log('Destination: ', destination);
         console.log('EventId: ', draggableId);
-        // Do nothing if item is dropped outside the list
+        // Do nothing if event is dropped outside the list
         if (!destination) {
             return;
         }
-        // Do nothing if the item is dropped into the same place
+        // Do nothing if the event is dropped into the same place
         if (
             destination.droppableId === source.droppableId &&
             destination.index === source.index
         ) {
             return;
         }
-        // Find day from which the item was dragged from
+        // Find day from which the event was dragged from
         console.log(slots);
         const dayStart = (slots as any)[source.droppableId];
 
-        // Find day in which the item was dropped
+        // Find day in which the event was dropped
         const dayFinish = (slots as any)[destination.droppableId];
 
         // Moving events in the same list
         if (dayStart === dayFinish) {
-            // Get all item ids in currently active list
-            const neweventsIds = Array.from(dayStart.eventsIds);
-            // Remove the id of dragged item from its original position
-            neweventsIds.splice(source.index, 1);
-            // Insert the id of dragged item to the new position
-            neweventsIds.splice(destination.index, 0, draggableId);
-            // Create new, updated, object with data for days
-            // const newDayStart = {
-            //     ...dayStart,
-            //     eventsIds: neweventsIds,
-            // };
-            // Create new board state with updated data for days
-            // const newState = {
-            //     ...state,
-            //     days: {
-            //         ...state.days,
-            //         [newDayStart.sessionId]: newDayStart,
-            //     },
-            // };
-            // Update the board state with new data
-            // setState(newState);
-            // MoveTaskSocket(newState, state, destination.droppableId);
+            return;
         } else {
             // Moving events from one list to another
-            // Get all item ids in source list
+            // Get all event ids in source list
             const newStarteventsIds = Array.from(dayStart.eventsIds);
 
-            // Remove the id of dragged item from its original position
+            // Remove the id of dragged event from its original position
             newStarteventsIds.splice(source.index, 1);
 
             // Create new, updated, object with data for source day
@@ -171,10 +151,10 @@ const Board: React.FC<CalendarProps> = props => {
                 ...dayStart,
                 eventsIds: newStarteventsIds,
             };
-            // Get all item ids in destination list
+            // Get all event ids in destination list
             const newFinisheventsIds = Array.from(dayFinish.eventsIds);
 
-            // Insert the id of dragged item to the new position in destination list
+            // Insert the id of dragged event to the new position in destination list
             newFinisheventsIds.splice(destination.index, 0, draggableId);
 
             // Create new, updated, object with data for destination day
@@ -210,27 +190,27 @@ const Board: React.FC<CalendarProps> = props => {
                             ref={provided.innerRef}
                         >
                             <div className={classes.calendarGrid}>
-                                {weekDays.map((item, index) => (
+                                {weekDays.map((event, index) => (
                                     <div key={index}>
                                         <Typography
                                             className={classes.dayName}
                                             variant="h6"
                                         >
-                                            {item}
+                                            {event}
                                         </Typography>
                                     </div>
                                 ))}
-                                {/* Get all days in the order specified in 'board-initial-data.ts' */}
+                                {/* Get all days in the order specified in slots' */}
                                 {slotsIds.map((dayId, index) => {
                                     // Get id of the current day
                                     const day = slots[dayId];
 
-                                    // Get items belonging to the current day
+                                    // Get events belonging to the current day
                                     const dayEvents: TypeEvent[] = day.eventsIds.map(
                                         (eventId: string) => events[eventId]
                                     );
 
-                                    // Render the BoardDay component
+                                    // Render the CalendarDay component
                                     return (
                                         <React.Fragment key={index}>
                                             <Day

@@ -5,24 +5,22 @@ import styled from 'styled-components';
 import useStyles from './styles';
 
 import { TypeEvent } from '../../../../models';
-
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-// Define types for board item element properties
+// Define types for calendar event element properties
 type BoardItemProps = {
     index: number;
     dayId: string;
     event: TypeEvent;
 };
 
-// Define types for board item element style properties
+// Define types for calendar event element style properties
 // This is necessary for TypeScript to accept the 'isDragging' prop.
 type BoardItemStylesProps = {
     isDragging: boolean;
 };
 
-// Create style for board item element
+// Create style for calendar event element
 const BoardItemEl = styled.div<BoardItemStylesProps>`
     position: relative;
     padding: 5px;
@@ -39,9 +37,9 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
     }
 `;
 
-// Create and export the BoardItem component
+// Create and export the Calendar Event component
 export const Event = (props: BoardItemProps) => {
-    const { event, index, dayId } = props;
+    const { event, index /*dayId*/ } = props;
     const classes = useStyles();
 
     return (

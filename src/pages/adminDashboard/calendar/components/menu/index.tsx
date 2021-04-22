@@ -7,7 +7,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
 import Collapse from '@material-ui/core/Collapse';
 import Divider from '@material-ui/core/Divider';
 import Popper from '@material-ui/core/Popper';
@@ -24,7 +23,7 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 
 import useStyles from './styles';
 
-import { TypeMenuItem, TypeMenuValues, TypeFilter } from '../../models';
+import { TypeSchedule, TypeFilter, TypeMenuValues } from '../../models';
 
 const months = [
     'Janeiro',
@@ -43,9 +42,7 @@ const months = [
 
 type PropTypes = {
     date: moment.Moment;
-    departments: Array<TypeMenuItem>;
-    projects: Array<TypeMenuItem>;
-    company: TypeMenuItem;
+    schedules: TypeSchedule[];
     onFilterChange(filter: TypeFilter): void;
     onDateChange(newDate: moment.Moment): void;
 };
@@ -57,9 +54,7 @@ type TypePopper = {
 };
 
 const Index: React.FC<PropTypes> = ({
-    departments,
-    projects,
-    company,
+    schedules,
     onFilterChange,
     date,
     onDateChange,
@@ -73,43 +68,43 @@ const Index: React.FC<PropTypes> = ({
     const [listValues, setListValues] = useState<TypeMenuValues | undefined>();
 
     useEffect(() => {
-        const departmentsAux = departments.map(item => ({
-            ...item,
-            selected: true,
-        }));
-        const projectsAux = projects.map(item => ({
-            ...item,
-            selected: true,
-        }));
-        const companyAux = { ...company, selected: true };
+        const departments: TypeSchedule[] = [];
+        const projects: TypeSchedule[] = [];
+        let company: TypeSchedule;
+
+        schedules.forEach(schedule => {
+            switch (schedule.type) {
+                case 'department':
+                    departments.push({ ...schedule, selected: true });
+                    break;
+                case 'project':
+                    projects.push({ ...schedule, selected: true });
+                    break;
+                case 'company':
+                    company = { ...schedule, selected: true };
+                    break;
+            }
+        });
 
         setListValues({
-            departments: departmentsAux,
-            projects: projectsAux,
-            company: companyAux,
+            departments: departments,
+            projects: projects,
+            company: company!,
         });
-    }, [departments, projects, company]);
+    }, [schedules]);
 
     useEffect(() => {
         if (!listValues) return;
 
-        const filteredDeps: number[] = [];
-        listValues.departments.forEach(item => {
-            if (item.selected) filteredDeps.push(item.id);
-        });
-        const filteredProjs: number[] = [];
-        listValues.projects.forEach(item => {
-            if (item.selected) filteredProjs.push(item.id);
-        });
-        const filteredCompany: number[] = [];
-        if (listValues.company.selected)
-            filteredCompany.push(listValues.company.id);
+        const filter: TypeFilter = [];
 
-        const filter: TypeFilter = {
-            filteredDeps,
-            filteredProjs,
-            filteredCompany,
-        };
+        listValues.departments.forEach(item => {
+            if (item.selected) filter.push(item.id);
+        });
+        listValues.projects.forEach(item => {
+            if (item.selected) filter.push(item.id);
+        });
+        if (listValues.company.selected) filter.push(listValues.company.id);
 
         onFilterChange(filter);
     }, [listValues, onFilterChange]);
@@ -290,17 +285,15 @@ const Index: React.FC<PropTypes> = ({
                         }
                     >
                         <ListItemIcon>
-                            <Checkbox
-                                edge="start"
-                                checked={listValues!.company.selected}
-                                tabIndex={listValues!.company.id}
-                                disableRipple
-                                inputProps={{
-                                    'aria-labelledby': `item-${
-                                        listValues!.company.id
-                                    }`,
-                                }}
-                            />
+                            {listValues.company.selected ? (
+                                <CheckedIcon
+                                    style={{ color: listValues.company.color }}
+                                />
+                            ) : (
+                                <UncheckedIcon
+                                    style={{ color: listValues.company.color }}
+                                />
+                            )}
                         </ListItemIcon>
                         <ListItemText
                             id={listValues!.company.id.toString()}

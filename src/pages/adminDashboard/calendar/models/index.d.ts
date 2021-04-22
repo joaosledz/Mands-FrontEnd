@@ -1,7 +1,6 @@
 export type TypeCalendarData = {
     events: TypeEvents;
     days: TypeDays;
-    allDaysIds: Array<string>;
 };
 
 export type TypeEvents = {
@@ -9,6 +8,7 @@ export type TypeEvents = {
 };
 
 export type TypeEvent = {
+    scheduleId: number;
     eventId: string;
     title: string;
     description: string;
@@ -25,25 +25,21 @@ export type TypeDays = {
 
 export type TypeDay = {
     dayId: string;
-    title: string;
     eventsIds: Array<string>;
 };
 
-export type TypeMenuItem = {
+export type TypeSchedule = {
     name: string;
     id: number;
     selected?: boolean;
     color: string;
+    type: string;
 };
 
 export type TypeMenuValues = {
-    departments: Array<TypeMenuItem>;
-    projects: Array<TypeMenuItem>;
-    company: TypeMenuItem;
+    departments: TypeSchedule[];
+    projects: TypeSchedule[];
+    company: TypeSchedule;
 };
 
-export type TypeFilter = {
-    filteredDeps: number[];
-    filteredProjs: number[];
-    filteredCompany: number[];
-};
+export type TypeFilter = number[];

@@ -10,6 +10,7 @@ type CalendarProps = {
     date: moment.Moment;
     events: TypeEvents;
     days: TypeDays;
+    filter: number[];
     onEventChange: (
         dayStart: TypeDay,
         dayFinish: TypeDay,
@@ -18,7 +19,7 @@ type CalendarProps = {
 };
 
 const Board: React.FC<CalendarProps> = props => {
-    const { date, events, days, onEventChange } = props;
+    const { date, events, days, filter, onEventChange } = props;
 
     const classes = useStyles();
     const weekDays = [
@@ -62,7 +63,6 @@ const Board: React.FC<CalendarProps> = props => {
                 ...daysInPreviousMonth,
                 [dayId]: {
                     dayId: dayId,
-                    title: i.toString(),
                     eventsIds: days[dayId] ? days[dayId].eventsIds : [],
                 },
             };
@@ -76,7 +76,6 @@ const Board: React.FC<CalendarProps> = props => {
                 ...daysInMonth,
                 [dayId]: {
                     dayId: dayId,
-                    title: d.toString(),
                     eventsIds: days[dayId] ? days[dayId].eventsIds : [],
                 },
             };
@@ -93,7 +92,6 @@ const Board: React.FC<CalendarProps> = props => {
                 ...daysInNextMonth,
                 [dayId]: {
                     dayId: dayId,
-                    title: i.toString(),
                     eventsIds: days[dayId] ? days[dayId].eventsIds : [],
                 },
             };
@@ -198,9 +196,15 @@ const Board: React.FC<CalendarProps> = props => {
                                     const day = slots[dayId];
 
                                     // Get events belonging to the current day
-                                    const dayEvents: TypeEvent[] = day.eventsIds.map(
-                                        (eventId: string) => events[eventId]
-                                    );
+                                    const dayEvents: TypeEvent[] = [];
+                                    day.eventsIds.forEach(eventId => {
+                                        if (
+                                            filter.includes(
+                                                events[eventId].scheduleId
+                                            )
+                                        )
+                                            dayEvents.push(events[eventId]);
+                                    });
 
                                     // Render the CalendarDay component
                                     return (

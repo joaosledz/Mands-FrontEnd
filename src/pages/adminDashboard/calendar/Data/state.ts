@@ -1,14 +1,15 @@
-import { TypeCalendarData, TypeMenuValues } from '../models';
+import { TypeCalendarData, TypeSchedule } from '../models';
 
 export const state: TypeCalendarData = {
     events: {
         'item-1': {
+            scheduleId: 0,
             eventId: 'item-1',
             title: 'Relatório Financeiro',
             description: 'Atividades referentes ao financeiro',
             startTime: '17:00',
             endTime: '18:00',
-            color: 'green',
+            color: 'black',
             department: 'Desenvolvedores',
             project: 'Mands',
         },
@@ -18,11 +19,13 @@ export const state: TypeCalendarData = {
             description: 'Atividades referentes ao admin',
             startTime: '16:00',
             endTime: '17:00',
-            color: 'blue',
+            color: 'black',
             department: 'Desenvolvedores',
             project: 'Mands',
+            scheduleId: 0,
         },
         'item-3': {
+            scheduleId: 2,
             eventId: 'item-3',
             title: 'Andamento Alvenaria',
             description: 'Atividades referentes ao marketing',
@@ -33,6 +36,7 @@ export const state: TypeCalendarData = {
             project: 'Seu Zé',
         },
         'item-4': {
+            scheduleId: 2,
             eventId: 'item-4',
             title: 'Andamento Alvenaria',
             description: 'Atividades referentes ao marketing',
@@ -42,173 +46,113 @@ export const state: TypeCalendarData = {
             department: 'Financeiro',
             project: 'Seu Zé',
         },
+        'item-5': {
+            scheduleId: 3,
+            eventId: 'item-5',
+            title: 'Seu zé Backlog',
+            description: 'Fazer backlog do seu zé',
+            startTime: '15:00',
+            endTime: '19:00',
+            color: 'blue',
+            department: 'Desenvolvedores',
+            project: 'Seu Zé',
+        },
+        'item-6': {
+            scheduleId: 5,
+            eventId: 'item-6',
+            title: 'Template eCommerce',
+            description: 'Prazo para finalização do template',
+            startTime: '15:00',
+            endTime: '19:00',
+            color: 'purple',
+            department: 'Desenvolvedores',
+            project: 'eCommerce',
+        },
+        'item-7': {
+            scheduleId: 4,
+            eventId: 'item-7',
+            title: 'Calendário interativo',
+            description: 'Prazo para finalização do calendário',
+            startTime: '15:00',
+            endTime: '19:00',
+            color: 'gray',
+            department: 'Desenvolvedores',
+            project: 'Mands',
+        },
+        'item-8': {
+            scheduleId: 6,
+            eventId: 'item-8',
+            title: 'Evento Global',
+            description: 'Evento global da empresa',
+            startTime: '15:00',
+            endTime: '19:00',
+            color: 'red',
+            department: null,
+            project: null,
+        },
     },
     days: {
         '1/4/2021': {
             dayId: '1/4/2021',
-            title: '1',
-            eventsIds: ['item-1', 'item-2', 'item-3', 'item-4'],
+            eventsIds: ['item-1', 'item-2', 'item-3'],
         },
         '2/4/2021': {
             dayId: '2/4/2021',
-            title: '2',
-            eventsIds: [],
-        },
-        '3/4/2021': {
-            dayId: '3/4/2021',
-            title: '3',
-            eventsIds: [],
-        },
-        '4/4/2021': {
-            dayId: '4/4/2021',
-            title: '4',
-            eventsIds: [],
-        },
-        '5/4/2021': {
-            dayId: '5/4/2021',
-            title: '5',
-            eventsIds: [],
-        },
-        '6/4/2021': {
-            dayId: '6/4/2021',
-            title: '6',
-            eventsIds: [],
-        },
-        '7/4/2021': {
-            dayId: '7/4/2021',
-            title: '7',
-            eventsIds: [],
-        },
-        '8/4/2021': {
-            dayId: '8/4/2021',
-            title: '8',
-            eventsIds: [],
-        },
-        '9/4/2021': {
-            dayId: '9/4/2021',
-            title: '9',
-            eventsIds: [],
+            eventsIds: ['item-4', 'item-5'],
         },
         '10/4/2021': {
             dayId: '10/4/2021',
-            title: '1',
-            eventsIds: [],
+            eventsIds: ['item-7', 'item-8'],
         },
-        '11/4/2021': {
-            dayId: '11/4/2021',
-            title: '11',
-            eventsIds: [],
-        },
-        '12/4/2021': {
-            dayId: '12/4/2021',
-            title: '12',
-            eventsIds: [],
-        },
+
         '13/4/2021': {
             dayId: '13/4/2021',
-            title: '13',
-            eventsIds: [],
-        },
-        '14/4/2021': {
-            dayId: '14/4/2021',
-            title: '14',
-            eventsIds: [],
-        },
-        '15/4/2021': {
-            dayId: '15/4/2021',
-            title: '15',
-            eventsIds: [],
-        },
-        '16/4/2021': {
-            dayId: '16/4/2021',
-            title: '16',
-            eventsIds: [],
-        },
-        '17/4/2021': {
-            dayId: '17/4/2021',
-            title: '17',
-            eventsIds: [],
-        },
-        '18/4/2021': {
-            dayId: '18/4/2021',
-            title: '18',
-            eventsIds: [],
-        },
-        '19/4/2021': {
-            dayId: '19/4/2021',
-            title: '19',
-            eventsIds: [],
-        },
-        '20/4/2021': {
-            dayId: '20/4/2021',
-            title: '2',
-            eventsIds: [],
+            eventsIds: ['item-6'],
         },
     },
-    allDaysIds: [
-        '1/4/2021',
-        '2/4/2021',
-        '3/4/2021',
-        '4/4/2021',
-        '5/4/2021',
-        '6/4/2021',
-        '7/4/2021',
-        '8/4/2021',
-        '9/4/2021',
-        '1/4/2021',
-        '11/4/2021',
-        '12/4/2021',
-        '13/4/2021',
-        '14/4/2021',
-        '15/4/2021',
-        '16/4/2021',
-        '17/4/2021',
-        '18/4/2021',
-        '19/4/2021',
-        '2/4/2021',
-    ],
 };
 
-export const menuItems: TypeMenuValues = {
-    departments: [
-        {
-            name: 'Desenvolvedores',
-            id: 0,
-            color: 'cian',
-        },
-        {
-            name: 'Designers',
-            id: 1,
-            color: 'green',
-        },
-        {
-            name: 'Recursos Humanos',
-            id: 2,
-            color: 'orange',
-        },
-    ],
-
-    projects: [
-        {
-            name: 'projeto 1',
-            id: 0,
-            color: 'blue',
-        },
-        {
-            name: 'projeto 2',
-            id: 1,
-            color: 'gray',
-        },
-        {
-            name: 'projeto 3',
-            id: 2,
-            color: 'purple',
-        },
-    ],
-
-    company: {
+export const schedules: TypeSchedule[] = [
+    {
+        name: 'Desenvolvedores',
         id: 0,
-        name: 'Empresa X',
-        color: 'red',
+        color: 'black',
+        type: 'department',
     },
-};
+    {
+        name: 'Designers',
+        id: 1,
+        color: 'green',
+        type: 'department',
+    },
+    {
+        name: 'Financeiro',
+        id: 2,
+        color: 'orange',
+        type: 'department',
+    },
+    {
+        name: 'Seu Zé',
+        id: 3,
+        color: 'blue',
+        type: 'project',
+    },
+    {
+        name: 'Mands',
+        id: 4,
+        color: 'gray',
+        type: 'project',
+    },
+    {
+        name: 'eCommerce',
+        id: 5,
+        color: 'purple',
+        type: 'project',
+    },
+    {
+        id: 6,
+        name: 'Empreza Azeda',
+        color: 'red',
+        type: 'company',
+    },
+];

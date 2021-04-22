@@ -64,7 +64,7 @@ export const Day: React.FC<BoardColumnProps> = props => {
                 {(provided, snapshot) => (
                     <div className={classes.container} ref={provided.innerRef}>
                         <Typography className={classes.title}>
-                            {day.title}
+                            {day.dayId.split('/')[0]}
                         </Typography>
                         <BoardColumnContent
                             {...provided.droppableProps}

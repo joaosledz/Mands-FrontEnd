@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 
@@ -6,7 +6,7 @@ import useStyles from './styles';
 
 import { TypeEvent } from '../../../../models';
 import Typography from '@material-ui/core/Typography';
-
+import DetailsModal from './components/modal';
 // Define types for calendar event element properties
 type BoardItemProps = {
     index: number;
@@ -41,7 +41,10 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
 export const Event = (props: BoardItemProps) => {
     const { event, index /*dayId*/ } = props;
     const classes = useStyles();
-
+    const [showDetails, setShowDetails] = useState<boolean>(false);
+    const handleOpenDetails = () => {
+        setShowDetails(true);
+    };
     return (
         <>
             <Draggable draggableId={event.eventId} index={index}>
@@ -52,6 +55,7 @@ export const Event = (props: BoardItemProps) => {
                         ref={provided.innerRef}
                         isDragging={snapshot.isDragging}
                         color={event.color}
+                        onClick={handleOpenDetails}
                     >
                         <Typography variant="body1" className={classes.title}>
                             {event.title}
@@ -59,6 +63,11 @@ export const Event = (props: BoardItemProps) => {
                     </BoardItemEl>
                 )}
             </Draggable>
+            <DetailsModal
+                isOpen={showDetails}
+                setIsOpen={setShowDetails}
+                event={event}
+            />
         </>
     );
 };

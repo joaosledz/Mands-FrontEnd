@@ -13,6 +13,10 @@ export type TypeEvent = {
     title: string;
     description: string;
     color: string;
+    startTime: string;
+    endTime: string;
+    department: string | null;
+    project: string | null;
 };
 
 export type TypeDays = {

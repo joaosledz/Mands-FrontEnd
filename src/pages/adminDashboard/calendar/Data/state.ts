@@ -1,6 +1,6 @@
 import { TypeCalendarData, TypeSchedule } from '../models';
 
-export const state: TypeCalendarData = {
+export const testData: TypeCalendarData = {
     events: {
         'item-1': {
             scheduleId: 0,

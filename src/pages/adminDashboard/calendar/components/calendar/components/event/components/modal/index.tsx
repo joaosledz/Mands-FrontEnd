@@ -1,4 +1,11 @@
-import React, { useEffect, Dispatch, SetStateAction, memo } from 'react';
+import React, {
+    useEffect,
+    Dispatch,
+    SetStateAction,
+    memo,
+    useContext,
+} from 'react';
+import calendarContext from '../../../../../../context';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
@@ -6,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from './styles';
 import { Close as CloseIcon } from '@styled-icons/evaicons-solid';
 import { Edit as EditIcon } from '@styled-icons/material';
+import { Delete as DeleteIcon } from '@styled-icons/material';
 import { Text as TextIcon } from '@styled-icons/entypo';
 import { Clock as ClockIcon } from '@styled-icons/fa-regular';
 import { Groups as GroupsIcon } from '@styled-icons/material';
@@ -16,17 +24,22 @@ type Props = {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     event: TypeEvent;
+    dayId: string;
 };
 
 const NewTaskModal: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { isOpen, setIsOpen, event } = props;
+    const { isOpen, setIsOpen, event, dayId } = props;
+    const { onEventDelete } = useContext(calendarContext);
     useEffect(() => {}, [isOpen]);
 
     const handleCloseModal = () => {
         setIsOpen(false);
     };
-
+    const handleEventDelete = () => {
+        onEventDelete(event.eventId, dayId);
+        handleCloseModal();
+    };
     return (
         <Modal
             className={classes.modal}
@@ -42,7 +55,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                     className={classes.paper}
                     spacing={1}
                 >
-                    <Grid container justify="flex-end">
+                    <Grid container justify="flex-end" spacing={1}>
                         <Grid item>
                             <Tooltip title="Editar" arrow>
                                 <EditIcon
@@ -52,6 +65,14 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
                             </Tooltip>
                         </Grid>
                         <Grid item>
+                            <Tooltip title="Deletar" arrow>
+                                <DeleteIcon
+                                    className={classes.headerIcon}
+                                    onClick={handleEventDelete}
+                                />
+                            </Tooltip>
+                        </Grid>
+                        <Grid item style={{ marginLeft: '0.5rem' }}>
                             <Tooltip title="Fechar" arrow>
                                 <CloseIcon
                                     className={classes.headerIcon}

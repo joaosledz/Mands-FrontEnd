@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
+import calendarContext from '../../context';
 
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -43,7 +44,7 @@ const months = [
 type PropTypes = {
     date: moment.Moment;
     schedules: TypeSchedule[];
-    onFilterChange(filter: TypeFilter): void;
+
     onDateChange(newDate: moment.Moment): void;
 };
 
@@ -53,14 +54,10 @@ type TypePopper = {
     type?: string;
 };
 
-const Index: React.FC<PropTypes> = ({
-    schedules,
-    onFilterChange,
-    date,
-    onDateChange,
-}) => {
+const Index: React.FC<PropTypes> = ({ schedules, date, onDateChange }) => {
     const classes = useStyles();
 
+    const { setFilter } = useContext(calendarContext);
     const [popper, setPopper] = useState<TypePopper>({ open: false });
     const [popperData, setPopperData] = useState<string[]>([]);
     const [depSession, setDepSession] = useState(true);
@@ -106,8 +103,8 @@ const Index: React.FC<PropTypes> = ({
         });
         if (listValues.company.selected) filter.push(listValues.company.id);
 
-        onFilterChange(filter);
-    }, [listValues, onFilterChange]);
+        setFilter(filter);
+    }, [listValues, setFilter]);
 
     const handleClick = (type: string, id: number) => {
         if (!listValues) return;

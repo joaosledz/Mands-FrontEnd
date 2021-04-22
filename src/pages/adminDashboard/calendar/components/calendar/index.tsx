@@ -1,6 +1,7 @@
-import React, { useEffect, Fragment, useState } from 'react';
+import React, { useEffect, Fragment, useState, useContext } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { TypeDays, TypeDay, TypeEvents, TypeEvent } from '../../models';
+import calendarContext from '../../context';
+import { TypeDays, TypeEvent } from '../../models';
 import useStyles from './styles';
 import Day from './components/Day';
 import moment from 'moment';
@@ -8,19 +9,15 @@ import { Typography } from '@material-ui/core';
 
 type CalendarProps = {
     date: moment.Moment;
-    events: TypeEvents;
-    days: TypeDays;
-    filter: number[];
-    onEventChange: (
-        dayStart: TypeDay,
-        dayFinish: TypeDay,
-        eventId: string
-    ) => void;
 };
 
 const Board: React.FC<CalendarProps> = props => {
-    const { date, events, days, filter, onEventChange } = props;
-
+    const { date } = props;
+    const {
+        onEventChange,
+        state: { events, days },
+        filter,
+    } = useContext(calendarContext);
     const classes = useStyles();
     const weekDays = [
         'Domingo',
@@ -31,7 +28,6 @@ const Board: React.FC<CalendarProps> = props => {
         'Sexta',
         'Sábado',
     ];
-
     const [slots, setSlots] = useState<TypeDays>({});
     const [slotsIds, setSlotsIds] = useState<Array<string>>([]);
 
@@ -104,7 +100,7 @@ const Board: React.FC<CalendarProps> = props => {
             ...daysInNextMonth,
         });
         // eslint-disable-next-line
-    }, [date]);
+    }, [date, days]);
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId } = result;

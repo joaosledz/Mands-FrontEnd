@@ -39,7 +39,7 @@ const BoardItemEl = styled.div<BoardItemStylesProps>`
 
 // Create and export the Calendar Event component
 export const Event = (props: BoardItemProps) => {
-    const { event, index /*dayId*/ } = props;
+    const { event, index, dayId } = props;
     const classes = useStyles();
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const handleOpenDetails = () => {
@@ -67,6 +67,7 @@ export const Event = (props: BoardItemProps) => {
                 isOpen={showDetails}
                 setIsOpen={setShowDetails}
                 event={event}
+                dayId={dayId}
             />
         </>
     );

@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
+            borderRadius: '10px',
             padding: '1.5rem 5%',
             backgroundColor: theme.palette.background.default,
             // [theme.breakpoints.down('sm')]: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         departmentsContainer: {
+            borderRadius: '10px',
             margin: '2rem auto 1rem',
             maxHeight: '40vh',
             overflow: 'auto',

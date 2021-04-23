@@ -10,7 +10,7 @@ import {
     TypeCalendarData,
     TypeDay,
     // TypeDays,
-    // TypeEvent,
+    TypeEvent,
     // TypeEvents,
     // TypeFilter,
     // TypeMenuValues,
@@ -28,6 +28,7 @@ interface CalendarContextData {
         dayFinish: TypeDay,
         eventId: string
     ) => void;
+    onEventCreate: (event: TypeEvent, dayId: string) => void;
     onEventDelete: (eventId: string, dayId: string) => void;
 }
 
@@ -54,6 +55,22 @@ export const CalendarProvider: React.FC = ({ children }) => {
             },
         });
     };
+    const onEventCreate = (event: TypeEvent, dayId: string) => {
+        console.log(event, dayId);
+        let newEventsIds = state.days[dayId].eventsIds;
+        newEventsIds.push(event.eventId);
+        setState({
+            ...state,
+            events: { ...state.events, [event.eventId]: event },
+            days: {
+                ...state.days,
+                [event.eventId]: {
+                    ...state.days[dayId],
+                    eventsIds: newEventsIds,
+                },
+            },
+        });
+    };
     const onEventDelete = (eventId: string, dayId: string) => {
         setState({
             ...state,
@@ -75,6 +92,7 @@ export const CalendarProvider: React.FC = ({ children }) => {
                 setState,
                 loading,
                 onEventChange,
+                onEventCreate,
                 onEventDelete,
                 filter,
                 setFilter,

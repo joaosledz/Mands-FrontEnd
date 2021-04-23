@@ -6,7 +6,7 @@ import useStyles from './styles';
 
 import { TypeEvent } from '../../../../models';
 import Typography from '@material-ui/core/Typography';
-import DetailsModal from './components/modal';
+import DetailsModal from './components/modal/eventDetails';
 // Define types for calendar event element properties
 type BoardItemProps = {
     index: number;

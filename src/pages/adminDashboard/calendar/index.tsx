@@ -10,10 +10,19 @@ import Layout from '../../../layout/appLayout';
 import { schedules } from './Data/state';
 import Menu from './components/menu';
 import moment from 'moment';
+import CreateEventModal from './components/calendar/components/modal/createEvent';
+
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 const Calendar: React.FC = () => {
     const classes = useStyles();
-
+    const [showCreateEventModal, setShowCreateEventModal] = useState<boolean>(
+        false
+    );
+    const handleOpenEventCreate = () => {
+        setShowCreateEventModal(true);
+    };
     const [date, setDate] = useState(moment());
 
     return (
@@ -35,6 +44,18 @@ const Calendar: React.FC = () => {
                         </Grid>
                     </Grid>
                 </Box>
+                <Fab
+                    style={{ position: 'fixed', right: '2rem', bottom: '2rem' }}
+                    color="primary"
+                    aria-label="add"
+                    onClick={handleOpenEventCreate}
+                >
+                    <AddIcon />
+                </Fab>
+                <CreateEventModal
+                    isOpen={showCreateEventModal}
+                    setIsOpen={setShowCreateEventModal}
+                />
             </CalendarProvider>
         </Layout>
     );

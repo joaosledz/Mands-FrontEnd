@@ -35,6 +35,10 @@ const Board: React.FC<CalendarProps> = props => {
     const firstDayOfMonth = (): number => {
         return parseInt(moment(date).startOf('month').format('d'));
     };
+    useEffect(() => {
+        console.log(events);
+        console.log(days);
+    }, [days, events]);
 
     //Update Grid
     useEffect(() => {
@@ -100,7 +104,7 @@ const Board: React.FC<CalendarProps> = props => {
             ...daysInNextMonth,
         });
         // eslint-disable-next-line
-    }, [date, days]);
+    }, [date, days, events]);
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId } = result;

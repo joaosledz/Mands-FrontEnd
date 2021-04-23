@@ -4,22 +4,24 @@ import React, {
     Dispatch,
     SetStateAction,
 } from 'react';
-import { testData } from './Data/state';
+import { v4 as uuidv4 } from 'uuid';
+import { testData, schedules } from './Data/state';
 // import snackbarUtils from '../../../utils/functions/snackbarUtils';
 import {
     TypeCalendarData,
     TypeDay,
     // TypeDays,
     TypeEvent,
+    TypeSchedule,
     // TypeEvents,
     // TypeFilter,
     // TypeMenuValues,
-    // TypeSchedule,
 } from './models';
 
 interface CalendarContextData {
     state: TypeCalendarData;
     setState: Dispatch<SetStateAction<TypeCalendarData>>;
+    schedules: TypeSchedule[];
     filter: Array<number>;
     setFilter: Dispatch<SetStateAction<Array<number>>>;
     loading: boolean;
@@ -56,17 +58,19 @@ export const CalendarProvider: React.FC = ({ children }) => {
         });
     };
     const onEventCreate = (event: TypeEvent, dayId: string) => {
-        console.log(event, dayId);
-        let newEventsIds = state.days[dayId].eventsIds;
-        newEventsIds.push(event.eventId);
+        const eventId = uuidv4();
+        const newEvent: TypeEvent = { ...event, eventId: eventId };
+
         setState({
             ...state,
-            events: { ...state.events, [event.eventId]: event },
+            events: { ...state.events, [eventId]: newEvent },
             days: {
                 ...state.days,
-                [event.eventId]: {
-                    ...state.days[dayId],
-                    eventsIds: newEventsIds,
+                [dayId]: {
+                    dayId: dayId,
+                    eventsIds: state.days[dayId]
+                        ? [...state.days[dayId].eventsIds, eventId]
+                        : [eventId],
                 },
             },
         });
@@ -96,6 +100,7 @@ export const CalendarProvider: React.FC = ({ children }) => {
                 onEventDelete,
                 filter,
                 setFilter,
+                schedules,
             }}
         >
             {children}

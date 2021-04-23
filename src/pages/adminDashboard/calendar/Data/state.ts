@@ -92,21 +92,20 @@ export const testData: TypeCalendarData = {
         },
     },
     days: {
-        '1/4/2021': {
-            dayId: '1/4/2021',
+        '01/04/2021': {
+            dayId: '01/04/2021',
             eventsIds: ['item-1', 'item-2', 'item-3'],
         },
-        '2/4/2021': {
-            dayId: '2/4/2021',
+        '02/04/2021': {
+            dayId: '02/04/2021',
             eventsIds: ['item-4', 'item-5'],
         },
-        '10/4/2021': {
-            dayId: '10/4/2021',
+        '10/04/2021': {
+            dayId: '10/04/2021',
             eventsIds: ['item-7', 'item-8'],
         },
-
-        '13/4/2021': {
-            dayId: '13/4/2021',
+        '13/04/2021': {
+            dayId: '13/04/2021',
             eventsIds: ['item-6'],
         },
     },

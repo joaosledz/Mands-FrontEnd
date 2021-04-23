@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             color: '#FFFFFF',
             fontSize: '0.8rem',
+            fontFamily: 'Roboto Slab',
         },
     })
 );

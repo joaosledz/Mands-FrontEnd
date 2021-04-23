@@ -4,6 +4,8 @@ const useStyles = makeStyles<Theme>(theme =>
     createStyles({
         modal: {
             // Scroll
+            marginTop: 50,
+            paddingTop: 10,
             top: '0px',
             position: 'fixed',
             height: '100%',

@@ -35,10 +35,6 @@ const Board: React.FC<CalendarProps> = props => {
     const firstDayOfMonth = (): number => {
         return parseInt(moment(date).startOf('month').format('d'));
     };
-    useEffect(() => {
-        console.log(events);
-        console.log(days);
-    }, [days, events]);
 
     //Update Grid
     useEffect(() => {
@@ -51,12 +47,14 @@ const Board: React.FC<CalendarProps> = props => {
         const previousMonthDays = previousMonth.daysInMonth();
         let daysInPreviousMonth: TypeDays = {};
         for (
-            let i = previousMonthDays - firstDayOfMonth() + 1;
-            i <= previousMonthDays;
-            i++
+            let d = previousMonthDays - firstDayOfMonth() + 1;
+            d <= previousMonthDays;
+            d++
         ) {
-            const dayId = `${i}/${
-                previousMonth.month() + 1
+            const dayId = `${d > 9 ? d : `0${d}`}/${
+                previousMonth.month() + 1 > 9
+                    ? previousMonth.month() + 1
+                    : `0${previousMonth.month() + 1}`
             }/${previousMonth.year()}`;
             ids.push(dayId);
             daysInPreviousMonth = {
@@ -70,7 +68,11 @@ const Board: React.FC<CalendarProps> = props => {
 
         let daysInMonth: TypeDays = {};
         for (let d = 1; d <= auxDate.daysInMonth(); d++) {
-            const dayId = `${d}/${auxDate.month() + 1}/${auxDate.year()}`;
+            const dayId = `${d > 9 ? d : `0${d}`}/${
+                auxDate.month() + 1 > 9
+                    ? auxDate.month() + 1
+                    : `0${auxDate.month() + 1}`
+            }/${auxDate.year()}`;
             ids.push(dayId);
             daysInMonth = {
                 ...daysInMonth,
@@ -85,8 +87,12 @@ const Board: React.FC<CalendarProps> = props => {
         nextMonth.add(1, 'month');
         let daysInNextMonth: TypeDays = {};
         const idsLength = ids.length;
-        for (let i = 1; i < 43 - idsLength; i++) {
-            const dayId = `${i}/${nextMonth.month() + 1}/${nextMonth.year()}`;
+        for (let d = 1; d < 43 - idsLength; d++) {
+            const dayId = `${d > 9 ? d : `0${d}`}/${
+                nextMonth.month() + 1 > 9
+                    ? nextMonth.month() + 1
+                    : `0${nextMonth.month() + 1}`
+            }/${nextMonth.year()}`;
             ids.push(dayId);
             daysInNextMonth = {
                 ...daysInNextMonth,

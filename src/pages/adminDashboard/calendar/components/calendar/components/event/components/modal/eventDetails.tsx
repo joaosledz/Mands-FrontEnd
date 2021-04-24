@@ -44,7 +44,7 @@ const NewTaskModal: React.FC<Props> = (props: Props) => {
         let auxValues: any = event;
         auxValues.date = dayId;
         setDefaultValues(auxValues);
-    }, [isOpen]);
+    }, [isOpen, dayId, event]);
 
     const handleCloseModal = () => {
         setIsOpen(false);

@@ -12,7 +12,7 @@ import { Clock as ClockIcon } from '@styled-icons/fa-regular';
 import { Groups as GroupsIcon } from '@styled-icons/material';
 import { DateRange as ScheduleIcon } from '@styled-icons/material';
 
-import { TypeEvent, TypeSchedule } from '../../../../models';
+import { TypeSchedule } from '../../../../models';
 
 type Props = {
     onSubmit: (data: TypeFormEvent) => void;

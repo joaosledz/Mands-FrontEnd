@@ -36,6 +36,19 @@ export type TypeSchedule = {
     type: string;
 };
 
+export type TypeFormEvent = {
+    scheduleId: number;
+    eventId: string;
+    title: string;
+    description: string;
+    color: string;
+    startTime: string;
+    endTime: string;
+    department?: string;
+    project?: string;
+    date: string;
+};
+
 export type TypeMenuValues = {
     departments: TypeSchedule[];
     projects: TypeSchedule[];

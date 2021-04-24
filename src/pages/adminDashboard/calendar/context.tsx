@@ -31,6 +31,7 @@ interface CalendarContextData {
         eventId: string
     ) => void;
     onEventCreate: (event: TypeEvent, dayId: string) => void;
+    onEventEdit: (updatedEvent: TypeEvent) => void;
     onEventDelete: (eventId: string, dayId: string) => void;
 }
 
@@ -57,6 +58,30 @@ export const CalendarProvider: React.FC = ({ children }) => {
             },
         });
     };
+    // const onDateChange = (dayStart: string, dayFinish: string, eventId:string) =>{
+    //         let auxState = state;
+    //         const newStarteventsIds = Array.from(auxState.days[dayStart].eventsIds);
+
+    //         // Remove the id of dragged event from its original position
+    //         newStarteventsIds.splice(eventId, 1);
+
+    //         // Create new, updated, object with data for source day
+    //         const newDayStart = {
+    //             ...dayStart,
+    //             eventsIds: newStarteventsIds,
+    //         };
+    //         // Get all event ids in destination list
+    //         const newFinisheventsIds = Array.from(dayFinish.eventsIds);
+
+    //         // Insert the id of dragged event to the new position in destination list
+    //         newFinisheventsIds.splice(destination.index, 0, draggableId);
+
+    //         // Create new, updated, object with data for destination day
+    //         const newDayFinish = {
+    //             ...dayFinish,
+    //             eventsIds: newFinisheventsIds,
+    //         };
+    // }
     const onEventCreate = (event: TypeEvent, dayId: string) => {
         const eventId = uuidv4();
         const newEvent: TypeEvent = { ...event, eventId: eventId };
@@ -74,6 +99,12 @@ export const CalendarProvider: React.FC = ({ children }) => {
                 },
             },
         });
+    };
+    const onEventEdit = (updatedEvent: TypeEvent) => {
+        console.log(updatedEvent.eventId);
+        let auxState = state;
+        auxState.events[updatedEvent.eventId] = updatedEvent;
+        setState(auxState);
     };
     const onEventDelete = (eventId: string, dayId: string) => {
         setState({
@@ -96,6 +127,7 @@ export const CalendarProvider: React.FC = ({ children }) => {
                 setState,
                 loading,
                 onEventChange,
+                onEventEdit,
                 onEventCreate,
                 onEventDelete,
                 filter,

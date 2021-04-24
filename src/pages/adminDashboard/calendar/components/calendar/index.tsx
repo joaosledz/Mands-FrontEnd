@@ -16,6 +16,7 @@ const Board: React.FC<CalendarProps> = props => {
     const {
         onEventChange,
         state: { events, days },
+        state,
         filter,
     } = useContext(calendarContext);
     const classes = useStyles();
@@ -31,6 +32,9 @@ const Board: React.FC<CalendarProps> = props => {
     const [slots, setSlots] = useState<TypeDays>({});
     const [slotsIds, setSlotsIds] = useState<Array<string>>([]);
 
+    useEffect(() => {
+        console.log(state);
+    }, [state]);
     //First day of the month
     const firstDayOfMonth = (): number => {
         return parseInt(moment(date).startOf('month').format('d'));
@@ -110,7 +114,7 @@ const Board: React.FC<CalendarProps> = props => {
             ...daysInNextMonth,
         });
         // eslint-disable-next-line
-    }, [date, days, events]);
+    }, [date, days, events, state]);
 
     const onDragEnd = (result: any) => {
         const { source, destination, draggableId } = result;

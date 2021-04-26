@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme: Theme) =>
             alignSelf: 'center',
             color: 'white',
             fontWeight: 'bold',
-            margin: '10px auto',
         },
         boardElements: {
             position: 'relative',

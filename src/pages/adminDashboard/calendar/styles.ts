@@ -2,14 +2,17 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {
-            padding: theme.spacing(2),
-            height: '95vh',
+        root: {
+            height: '100vh',
+            backgroundColor: theme.palette.primary.light,
+            display: 'flex',
+            flexDirection: 'column',
         },
-        menu: {
-            backgroundColor: '#FFFFFF',
-            borderRadius: 6,
-            height: '100%',
+        container: {
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+            paddingTop: theme.spacing(2),
+            flex: 1,
         },
         calendar: {
             backgroundColor: '#FFFFFF',

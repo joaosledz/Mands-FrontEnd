@@ -4,6 +4,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
             backgroundColor: '#FFFFFF',
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
         },

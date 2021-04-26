@@ -42,9 +42,7 @@ const CalendarContext = createContext<CalendarContextData>(
 export const CalendarProvider: React.FC = ({ children }) => {
     const [state, setState] = useState<TypeCalendarData>(testData);
     const [loading /*, setLoading*/] = useState<boolean>(false);
-    const [filter, setFilter] = useState<number[]>(
-        schedules.map(item => item.id)
-    );
+    const [filter, setFilter] = useState<number[]>([]);
 
     const onEventChange = (
         dayStart: TypeDay,
